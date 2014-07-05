@@ -1,4 +1,17 @@
 
+n.n.n / 2014-07-05
+==================
+
+ * Updated jscs to 1.5.8
+ * Changed where modifiers and delimiters are placed (on prototype vs on function)
+ * Mentioned supported scripts/alphabets, fixed grammar mistakes
+ * Fixed an error in the documentation, since the changes in 594e234
+ * Updated benchmark
+ * Added better docs and performce wins
+ * Removed extraneous debugger messages
+ * Removed a lot of the English-only functionality
+ * Renamed the project to parse-latin
+
 0.1.0-rc.2 / 2014-07-04
 ==================
 
