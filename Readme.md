@@ -13,6 +13,10 @@ Note: This project is **not** an object model for natural languages, or an exten
 * For a pluggable system for analysing and manipulating natural language, see [retext](https://github.com/wooorm/retext "Retext").
 * For an object model, see [TextOM](https://github.com/wooorm/textom "TextOM").
 
+Whether Old-English (“þā gewearþ þǣm hlāforde and þǣm hȳrigmannum wiþ ānum penninge”), Icelandic (“Hvað er að frétta”), French (“Où sont les toilettes?”), this parser does a pretty good job at tokenising it.
+
+Note also that it seems to parse other scripts, such as Cyrillic (“Добро пожаловать!”), Georgian (“როგორა ხარ?”), Armenian (“Շատ հաճելի է”), pretty well!
+
 ## Installation
 
 NPM:
@@ -73,7 +77,7 @@ new Parser().tokenizeRoot('A simple sentence.');
  */
 ```
 
-Tokenize a given document into paragraphs, sentences, words, white space, and punctionation.
+Tokenise a given document into paragraphs, sentences, words, white space, and punctuation.
 
 - `source` (`null`, `undefined`, or `String`): The latin document to parse.
 
@@ -94,7 +98,7 @@ new Parser().tokenizeParagraph('A simple sentence.');
  */
 ```
 
-Tokenize a given paragraph into sentences, words, white space, and punctionation.
+Tokenise a given paragraph into sentences, words, white space, and punctuation.
 
 - `source` (`null`, `undefined`, or `String`): The latin paragraph to parse.
 
@@ -147,7 +151,7 @@ new Parser().tokenizeSentence('A simple sentence.');
  */
 ```
 
-Tokenize a given sentence into words, white space, and punctionation.
+Tokenise a given sentence into words, white space, and punctuation.
 
 - `source` (`null`, `undefined`, or `String`): The latin sentence to parse.
 
