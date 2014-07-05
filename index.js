@@ -386,6 +386,15 @@ EXPRESSION_LOWER_INITIAL_EXCEPTION = new RegExp(
     ']'
 );
 
+/**
+ * `modify` gets called after a tokenizer tokenizes a string, and calls all
+ * modifiers on the resulting tokens.
+ *
+ * @param {Function[]} modifiers - The modifiers to apply
+ * @param {Object} parent - The parent token.
+ * @global
+ * @private
+ */
 function modify(modifiers, parent) {
     var length = modifiers.length,
         iterator = -1,
@@ -407,34 +416,46 @@ function modify(modifiers, parent) {
             result = modifier(child, pointer, parent);
 
             /*
-             * If the modifier returned a number, move the pointer over to
+             * If the modifier returns a number, move the pointer over to
              * that child.
              */
             if (typeof result === 'number') {
                 pointer = result - 1;
             }
         }
-
         /*eslint-enable no-cond-assign */
     }
 }
 
+/**
+ * `tokenToString` returns the value of all `TextNode` objects inside token.
+ *
+ * @param {Object} token - The token to stringify.
+ * @return {string} - The stringified token.
+ * @global
+ * @private
+ */
 function tokenToString(token) {
     var value = '',
         iterator, children;
 
-    if ('children' in token) {
-        iterator = -1;
-        children = token.children;
-
-        while (children[++iterator]) {
-            value += tokenToString(children[iterator]);
-        }
-
-        return value;
+    if (token.value) {
+        return token.value;
     }
 
-    return token.value;
+    iterator = -1;
+    children = token.children;
+
+    /* Shortcut: This is pretty common, and a small performance win. */
+    if (children.length === 1 && children[0].type === 'TextNode') {
+        return children[0].value;
+    }
+
+    while (children[++iterator]) {
+        value += tokenToString(children[iterator]);
+    }
+
+    return value;
 }
 
 /**
@@ -454,38 +475,39 @@ function tokenToString(token) {
 function tokenizerFactory(options) {
     function tokenizer(value) {
         var delimiter = tokenizer.delimiter,
-            child, children, iterator, length, root, start, stem, tokens;
+            lastIndex, children, iterator, length, root, start, stem, tokens;
 
         root = {
-            'type' : options.type
+            'type' : options.type,
+            'children' : []
         };
 
-        children = [];
+        children = root.children;
 
         stem = this[options.tokenizer](value);
         tokens = stem.children;
 
         length = tokens.length;
+        lastIndex = length - 1;
         iterator = -1;
         start = 0;
 
         while (++iterator < length) {
             if (
-                iterator === length - 1 ||
-                (delimiter.test(tokenToString(tokens[iterator])))
+                iterator !== lastIndex &&
+                !delimiter.test(tokenToString(tokens[iterator]))
             ) {
-                child = {
-                    'type' : stem.type
-                };
-
-                child.children = tokens.slice(start, iterator + 1);
-                children.push(child);
-                start = iterator + 1;
+                continue;
             }
+
+            children.push({
+                'type' : stem.type,
+                'children' : tokens.slice(start, iterator + 1)
+            });
+
+            start = iterator + 1;
         }
-
-        root.children = children;
-
+        // console.log('length', length);
         modify(tokenizer.modifiers, root);
 
         return root;
@@ -497,14 +519,21 @@ function tokenizerFactory(options) {
     return tokenizer;
 }
 
+/**
+ * `mergeInnerWordPunctuation` merges two words surrounding certain
+ * punctuation marks.
+ *
+ * @param {Object} child - The child token.
+ * @param {number} index - The index at which the token lives inside parent.
+ * @param {Object} parent - The parent in which the token lives.
+ * @return {number?} - Either void, or the next index to iterate over.
+ * @global
+ * @private
+ */
 function mergeInnerWordPunctuation(child, index, parent) {
     var children, prev, next;
 
     if (index === 0 || child.type !== 'PunctuationNode') {
-        return;
-    }
-
-    if (!EXPRESSION_INNER_WORD_PUNCTUATION.test(tokenToString(child))) {
         return;
     }
 
@@ -516,8 +545,12 @@ function mergeInnerWordPunctuation(child, index, parent) {
         return;
     }
 
+    if (!EXPRESSION_INNER_WORD_PUNCTUATION.test(child.children[0].value)) {
+        return;
+    }
+
     /* Remove `child` and `next` from parent. */
-    parent.children.splice(index, 2);
+    children.splice(index, 2);
 
     /* Add child and next.children to prev.children. */
     prev.children = prev.children.concat(child, next.children);
@@ -525,6 +558,17 @@ function mergeInnerWordPunctuation(child, index, parent) {
     return index - 1;
 }
 
+/**
+ * `mergePrefixExceptions` merges a sentence into its next sentence, when
+ * the sentence ends with a certain word.
+ *
+ * @param {Object} child - The child token.
+ * @param {number} index - The index at which the token lives inside parent.
+ * @param {Object} parent - The parent in which the token lives.
+ * @return {number?} - Either void, or the next index to iterate over.
+ * @global
+ * @private
+ */
 function mergePrefixExceptions(child, index, parent) {
     var children = child.children,
         node;
@@ -541,7 +585,7 @@ function mergePrefixExceptions(child, index, parent) {
 
     if (
         !node || node.type !== 'PunctuationNode' ||
-        tokenToString(node) !== '.'
+        node.children[0].value !== '.'
     ) {
         return;
     }
@@ -551,7 +595,7 @@ function mergePrefixExceptions(child, index, parent) {
     if (!node ||
         node.type !== 'WordNode' ||
         !EXPRESSION_ABBREVIATION_PREFIX.test(
-            tokenToString(node).toLowerCase()
+            node.children[0].value.toLowerCase()
         )
     ) {
         return;
@@ -566,6 +610,17 @@ function mergePrefixExceptions(child, index, parent) {
     return index > 0 ? index - 1 : 0;
 }
 
+/**
+ * `mergeAffixExceptions` merges a sentence into its previous sentence, when
+ * the sentence starts with a comma.
+ *
+ * @param {Object} child - The child token.
+ * @param {number} index - The index at which the token lives inside parent.
+ * @param {Object} parent - The parent in which the token lives.
+ * @return {number?} - Either void, or the next index to iterate over.
+ * @global
+ * @private
+ */
 function mergeAffixExceptions(child, index, parent) {
     var children = child.children,
         node, iterator, previousChild;
@@ -591,7 +646,7 @@ function mergeAffixExceptions(child, index, parent) {
     if (
         !node ||
         node.type !== 'PunctuationNode' ||
-        tokenToString(node) !== ','
+        node.children[0].value !== ','
     ) {
         return;
     }
@@ -607,35 +662,61 @@ function mergeAffixExceptions(child, index, parent) {
     return index - 1;
 }
 
+/**
+ * `makeInitialWhiteSpaceSiblings` moves white space starting a sentence up,
+ * so they are the siblings of sentences.
+ *
+ * @param {Object} child - The child token.
+ * @param {number} index - The index at which the token lives inside parent.
+ * @param {Object} parent - The parent in which the token lives.
+ * @return {number?} - Either void, or the next index to iterate over.
+ * @global
+ * @private
+ */
 function makeInitialWhiteSpaceSiblings(child, index, parent) {
-    var node;
-
-    if (!child.children || !child.children.length) {
-        return;
-    }
-
-    node = child.children[0];
-
-    if (node.type !== 'WhiteSpaceNode') {
+    if (
+        !child.children ||
+        !child.children.length ||
+        child.children[0].type !== 'WhiteSpaceNode'
+    ) {
         return;
     }
 
     parent.children.splice(index, 0, child.children.shift());
 }
 
+/**
+ * `makeFinalWhiteSpaceSiblings` moves white space ending a paragraph up,
+ * so they are the siblings of paragraphs.
+ *
+ * @param {Object} child - The child token.
+ * @param {number} index - The index at which the token lives inside parent.
+ * @param {Object} parent - The parent in which the token lives.
+ * @return {number?} - Either void, or the next index to iterate over.
+ * @global
+ * @private
+ */
 function makeFinalWhiteSpaceSiblings(child, index, parent) {
-    var children = child.children,
-        node;
+    var children = child.children;
 
-    node = children[children.length - 1];
-
-    if (node.type !== 'WhiteSpaceNode') {
+    if (children[children.length - 1].type !== 'WhiteSpaceNode') {
         return;
     }
 
     parent.children.splice(index + 1, 0, child.children.pop());
 }
 
+/**
+ * `mergeInitialLowerCaseLetterSentences` merges a sentence into its previous
+ * sentence, when the sentence starts with a lower case letter.
+ *
+ * @param {Object} child - The child token.
+ * @param {number} index - The index at which the token lives inside parent.
+ * @param {Object} parent - The parent in which the token lives.
+ * @return {number?} - Either void, or the next index to iterate over.
+ * @global
+ * @private
+ */
 function mergeInitialLowerCaseLetterSentences(child, index, parent) {
     var node, children, iterator, previousChild;
 
@@ -653,31 +734,40 @@ function mergeInitialLowerCaseLetterSentences(child, index, parent) {
         if (node.type === 'PunctuationNode') {
             return;
         } else if (node.type === 'WordNode') {
-            break;
+            if (
+                !EXPRESSION_LOWER_INITIAL_EXCEPTION.test(
+                    node.children[0].value
+                )
+            ) {
+                return;
+            }
+
+            previousChild = parent.children[index - 1];
+
+            previousChild.children = previousChild.children.concat(
+                children
+            );
+
+            parent.children.splice(index, 1);
+
+            return index - 1;
         }
     }
-
-    if (!node || node.type !== 'WordNode') {
-        return;
-    }
-
-    if (!EXPRESSION_LOWER_INITIAL_EXCEPTION.test(tokenToString(node))) {
-        return;
-    }
-
-    previousChild = parent.children[index - 1];
-
-    previousChild.children = previousChild.children.concat(
-        children
-    );
-
-    parent.children.splice(index, 1);
-
-    return index - 1;
 }
 
+/**
+ * `mergeNonWordSentences` merges a sentence into the following
+ * sentence, when the sentence does not contain word tokens.
+ *
+ * @param {Object} child - The child token.
+ * @param {number} index - The index at which the token lives inside parent.
+ * @param {Object} parent - The parent in which the token lives.
+ * @return {number?} - Either void, or the next index to iterate over.
+ * @global
+ * @private
+ */
 function mergeNonWordSentences(child, index, parent) {
-    var children, node, iterator, nextChild;
+    var children, iterator, nextChild;
 
     children = child.children;
 
@@ -691,8 +781,7 @@ function mergeNonWordSentences(child, index, parent) {
     iterator = -1;
 
     while (children[++iterator]) {
-        node = children[iterator];
-        if (node.type === 'WordNode') {
+        if (children[iterator].type === 'WordNode') {
             return;
         }
     }
@@ -707,6 +796,17 @@ function mergeNonWordSentences(child, index, parent) {
     return 0;
 }
 
+/**
+ * `mergeAffixPunctuation` moves certain punctuation following a terminal
+ * marker (thus in the next sentence) to the previous sentence.
+ *
+ * @param {Object} child - The child token.
+ * @param {number} index - The index at which the token lives inside parent.
+ * @param {Object} parent - The parent in which the token lives.
+ * @return {number?} - Either void, or the next index to iterate over.
+ * @global
+ * @private
+ */
 function mergeAffixPunctuation(child, index, parent) {
     var children = child.children;
 
@@ -716,7 +816,7 @@ function mergeAffixPunctuation(child, index, parent) {
 
     if (
         children[0].type !== 'PunctuationNode' ||
-        !EXPRESSION_AFFIX_PUNCTUATION.test(tokenToString(children[0]))
+        !EXPRESSION_AFFIX_PUNCTUATION.test(children[0].children[0].value)
     ) {
         return;
     }
@@ -726,6 +826,16 @@ function mergeAffixPunctuation(child, index, parent) {
     return index - 1;
 }
 
+/**
+ * `removeEmptyNodes` removes empty children.
+ *
+ * @param {Object} child - The child token.
+ * @param {number} index - The index at which the token lives inside parent.
+ * @param {Object} parent - The parent in which the token lives.
+ * @return {number?} - Either void, or the next index to iterate over.
+ * @global
+ * @private
+ */
 function removeEmptyNodes(child, index, parent) {
     if ('children' in child && !child.children.length) {
         parent.children.splice(index, 1);
@@ -837,15 +947,6 @@ parserPrototype.tokenize = function (value) {
          */
         tokens.push(self.classifier(value.substring(start, end)));
 
-        /*
-         * The delimiter may also match $ (end-of-string), which keeps on
-         * matching in global state, thus we detect it here and exit the
-         * loop.
-         */
-        if (delimiter.lastIndex === value.length) {
-            break;
-        }
-
         start = end;
     }
     /*eslint-enable no-cond-assign */
@@ -855,6 +956,12 @@ parserPrototype.tokenize = function (value) {
 
 /*eslint-enable no-cond-assign */
 
+/**
+ * @param {String} value - The value to classify.
+ * @return {Object} - A classified tokens.
+ * @global
+ * @private
+ */
 parserPrototype.classifier = function (value) {
     var type;
 
