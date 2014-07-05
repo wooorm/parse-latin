@@ -110,22 +110,40 @@ new Parser().tokenizeSentence('A simple sentence.');
  * └─ children: Array[6]
  *    ├─ 0: Object
  *    |     ├─ type: "WordNode"
- *    |     └─ value: "A"
+ *    |     └─ children: Array[1]
+ *    |        └─ 0: Object
+ *    |              ├─ type: "TextNode"
+ *    |              └─ value: "A"
  *    ├─ 1: Object
  *    |     ├─ type: "WhiteSpaceNode"
- *    |     └─ value: " "
+ *    |     └─ children: Array[1]
+ *    |        └─ 0: Object
+ *    |              ├─ type: "TextNode"
+ *    |              └─ value: " "
  *    ├─ 2: Object
  *    |     ├─ type: "WordNode"
- *    |     └─ value: "simple"
+ *    |     └─ children: Array[1]
+ *    |        └─ 0: Object
+ *    |              ├─ type: "TextNode"
+ *    |              └─ value: "simple"
  *    ├─ 3: Object
  *    |     ├─ type: "WhiteSpaceNode"
- *    |     └─ value: " "
+ *    |     └─ children: Array[1]
+ *    |        └─ 0: Object
+ *    |              ├─ type: "TextNode"
+ *    |              └─ value: " "
  *    ├─ 4: Object
  *    |     ├─ type: "WordNode"
- *    |     └─ value: "sentence"
+ *    |     └─ children: Array[1]
+ *    |        └─ 0: Object
+ *    |              ├─ type: "TextNode"
+ *    |              └─ value: "sentence"
  *    └─ 5: Object
  *          ├─ type: "PunctuationNode"
- *          └─ value: "."
+ *          └─ children: Array[1]
+ *             └─ 0: Object
+ *                   ├─ type: "TextNode"
+ *                   └─ value: "."
  */
 ```
 
