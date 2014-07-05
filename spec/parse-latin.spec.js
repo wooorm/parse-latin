@@ -55,7 +55,7 @@ describe('Root: Given two paragraphs', function () {
     var source = 'A paragraph (from the Greek paragraphos, “to write ' +
         'beside” or “written beside”) is a self-contained unit of a ' +
         'discourse in writing dealing with a particular point or idea. A ' +
-        'paragraph has 5 types (Br. Anton Heitman).\n\nA paragraph ' +
+        'paragraph has 5 types (Anton Heitman).\n\nA paragraph ' +
         'consists of one or more sentences. Though not required by the ' +
         'syntax of any language, paragraphs are usually an expected part ' +
         'of formal writing, used to organize longer prose.';
@@ -762,33 +762,6 @@ describe('Root: Given two paragraphs', function () {
                                         {
                                             'type' : 'TextNode',
                                             'value' : '('
-                                        }
-                                    ]
-                                },
-                                {
-                                    'type' : 'WordNode',
-                                    'children' : [
-                                        {
-                                            'type' : 'TextNode',
-                                            'value' : 'Br'
-                                        }
-                                    ]
-                                },
-                                {
-                                    'type' : 'PunctuationNode',
-                                    'children' : [
-                                        {
-                                            'type' : 'TextNode',
-                                            'value' : '.'
-                                        }
-                                    ]
-                                },
-                                {
-                                    'type' : 'WhiteSpaceNode',
-                                    'children' : [
-                                        {
-                                            'type' : 'TextNode',
-                                            'value' : ' '
                                         }
                                     ]
                                 },
@@ -1528,570 +1501,183 @@ describe('Sentence: Without a value', function () {
     );
 });
 
-/*
- * Summarised from the first paragraph of: http://en.wikipedia.org/wiki/Ms.
-*/
-describe('Sentence: Abbreviations followed by a full-stop', function () {
+describe('Sentence: Starting with a latin exception', function () {
     it('should equal the test AST', function () {
-        var root = parser.tokenizeParagraph('Like Miss and Mrs. the term ' +
-            'Ms. has its origins in English title once used for all women. ' +
-            'Various plural forms used are Mss., Mses. and Mmes.');
+        var root = parser.tokenizeParagraph(
+            'A sentence. Cap. 553, Electronic Transactions Ordinance.'
+        );
 
-        assert(JSON.stringify(root) === JSON.stringify({
-            'type' : 'ParagraphNode',
-            'children' : [
-                {
-                    'type' : 'SentenceNode',
-                    'children' : [
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : 'Like'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WhiteSpaceNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : ' '
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : 'Miss'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WhiteSpaceNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : ' '
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : 'and'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WhiteSpaceNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : ' '
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : 'Mrs'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'PunctuationNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : '.'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WhiteSpaceNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : ' '
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : 'the'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WhiteSpaceNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : ' '
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : 'term'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WhiteSpaceNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : ' '
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : 'Ms'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'PunctuationNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : '.'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WhiteSpaceNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : ' '
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : 'has'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WhiteSpaceNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : ' '
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : 'its'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WhiteSpaceNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : ' '
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : 'origins'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WhiteSpaceNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : ' '
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : 'in'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WhiteSpaceNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : ' '
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : 'English'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WhiteSpaceNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : ' '
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : 'title'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WhiteSpaceNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : ' '
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : 'once'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WhiteSpaceNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : ' '
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : 'used'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WhiteSpaceNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : ' '
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : 'for'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WhiteSpaceNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : ' '
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : 'all'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WhiteSpaceNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : ' '
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : 'women'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'PunctuationNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : '.'
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    'type' : 'WhiteSpaceNode',
-                    'children' : [
-                        {
-                            'type' : 'TextNode',
-                            'value' : ' '
-                        }
-                    ]
-                },
-                {
-                    'type' : 'SentenceNode',
-                    'children' : [
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : 'Various'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WhiteSpaceNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : ' '
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : 'plural'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WhiteSpaceNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : ' '
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : 'forms'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WhiteSpaceNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : ' '
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : 'used'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WhiteSpaceNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : ' '
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : 'are'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WhiteSpaceNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : ' '
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : 'Mss'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'PunctuationNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : '.'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'PunctuationNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : ','
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WhiteSpaceNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : ' '
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : 'Mses'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'PunctuationNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : '.'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WhiteSpaceNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : ' '
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : 'and'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WhiteSpaceNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : ' '
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : 'Mmes'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'PunctuationNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : '.'
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        }));
+        assert(
+            JSON.stringify(root) ===
+            JSON.stringify({
+                'type' : 'ParagraphNode',
+                'children' : [
+                    {
+                        'type' : 'SentenceNode',
+                        'children' : [
+                            {
+                                'type' : 'WordNode',
+                                'children' : [
+                                    {
+                                        'type' : 'TextNode',
+                                        'value' : 'A'
+                                    }
+                                ]
+                            },
+                            {
+                                'type' : 'WhiteSpaceNode',
+                                'children' : [
+                                    {
+                                        'type' : 'TextNode',
+                                        'value' : ' '
+                                    }
+                                ]
+                            },
+                            {
+                                'type' : 'WordNode',
+                                'children' : [
+                                    {
+                                        'type' : 'TextNode',
+                                        'value' : 'sentence'
+                                    }
+                                ]
+                            },
+                            {
+                                'type' : 'PunctuationNode',
+                                'children' : [
+                                    {
+                                        'type' : 'TextNode',
+                                        'value' : '.'
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        'type' : 'WhiteSpaceNode',
+                        'children' : [
+                            {
+                                'type' : 'TextNode',
+                                'value' : ' '
+                            }
+                        ]
+                    },
+                    {
+                        'type' : 'SentenceNode',
+                        'children' : [
+                            {
+                                'type' : 'WordNode',
+                                'children' : [
+                                    {
+                                        'type' : 'TextNode',
+                                        'value' : 'Cap'
+                                    }
+                                ]
+                            },
+                            {
+                                'type' : 'PunctuationNode',
+                                'children' : [
+                                    {
+                                        'type' : 'TextNode',
+                                        'value' : '.'
+                                    }
+                                ]
+                            },
+                            {
+                                'type' : 'WhiteSpaceNode',
+                                'children' : [
+                                    {
+                                        'type' : 'TextNode',
+                                        'value' : ' '
+                                    }
+                                ]
+                            },
+                            {
+                                'type' : 'WordNode',
+                                'children' : [
+                                    {
+                                        'type' : 'TextNode',
+                                        'value' : '553'
+                                    }
+                                ]
+                            },
+                            {
+                                'type' : 'PunctuationNode',
+                                'children' : [
+                                    {
+                                        'type' : 'TextNode',
+                                        'value' : ','
+                                    }
+                                ]
+                            },
+                            {
+                                'type' : 'WhiteSpaceNode',
+                                'children' : [
+                                    {
+                                        'type' : 'TextNode',
+                                        'value' : ' '
+                                    }
+                                ]
+                            },
+                            {
+                                'type' : 'WordNode',
+                                'children' : [
+                                    {
+                                        'type' : 'TextNode',
+                                        'value' : 'Electronic'
+                                    }
+                                ]
+                            },
+                            {
+                                'type' : 'WhiteSpaceNode',
+                                'children' : [
+                                    {
+                                        'type' : 'TextNode',
+                                        'value' : ' '
+                                    }
+                                ]
+                            },
+                            {
+                                'type' : 'WordNode',
+                                'children' : [
+                                    {
+                                        'type' : 'TextNode',
+                                        'value' : 'Transactions'
+                                    }
+                                ]
+                            },
+                            {
+                                'type' : 'WhiteSpaceNode',
+                                'children' : [
+                                    {
+                                        'type' : 'TextNode',
+                                        'value' : ' '
+                                    }
+                                ]
+                            },
+                            {
+                                'type' : 'WordNode',
+                                'children' : [
+                                    {
+                                        'type' : 'TextNode',
+                                        'value' : 'Ordinance'
+                                    }
+                                ]
+                            },
+                            {
+                                'type' : 'PunctuationNode',
+                                'children' : [
+                                    {
+                                        'type' : 'TextNode',
+                                        'value' : '.'
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            })
+        );
     });
 });
 
@@ -2323,10 +1909,10 @@ describe('Sentence: Abbreviations with dot characters', function () {
 /*
  * Modified first sentence of: http://en.wikipedia.org/wiki/Park_Ave.
 */
-describe('Sentence: common abbreviations suffixed by a dot', function () {
+describe('Sentence: abbreviations followed by lowercase', function () {
     it('should equal the test AST', function () {
         var root = parser.tokenizeParagraph('Park Ave. was an indie pop ' +
-            'band which started in January 1996 in Nebr. (Omaha).');
+            'band which started in January 1996 in Nebraska (Omaha).');
 
         assert(JSON.stringify(root.children[0]) === JSON.stringify({
             'type' : 'SentenceNode',
@@ -2579,16 +2165,7 @@ describe('Sentence: common abbreviations suffixed by a dot', function () {
                     'children' : [
                         {
                             'type' : 'TextNode',
-                            'value' : 'Nebr'
-                        }
-                    ]
-                },
-                {
-                    'type' : 'PunctuationNode',
-                    'children' : [
-                        {
-                            'type' : 'TextNode',
-                            'value' : '.'
+                            'value' : 'Nebraska'
                         }
                     ]
                 },
@@ -24756,9 +24333,7 @@ describe('Abbreviations: TLD abbreviations', function () {
 describe('Terminal markers', function () {
     it('should break sentences ending in a full stop/period', function () {
         var root = parser.tokenizeParagraph(
-            'Like Miss and Mrs. the term Ms. has its origins in English ' +
-            'title once used for all women. Various plural forms used ' +
-            'are Mss., Mses. and Mmes.'
+            'A sentence. Another sentence.'
         );
 
         assert(JSON.stringify(root) === JSON.stringify({
@@ -24772,7 +24347,7 @@ describe('Terminal markers', function () {
                             'children' : [
                                 {
                                     'type' : 'TextNode',
-                                    'value' : 'Like'
+                                    'value' : 'A'
                                 }
                             ]
                         },
@@ -24790,313 +24365,7 @@ describe('Terminal markers', function () {
                             'children' : [
                                 {
                                     'type' : 'TextNode',
-                                    'value' : 'Miss'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WhiteSpaceNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : ' '
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : 'and'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WhiteSpaceNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : ' '
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : 'Mrs'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'PunctuationNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : '.'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WhiteSpaceNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : ' '
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : 'the'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WhiteSpaceNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : ' '
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : 'term'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WhiteSpaceNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : ' '
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : 'Ms'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'PunctuationNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : '.'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WhiteSpaceNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : ' '
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : 'has'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WhiteSpaceNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : ' '
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : 'its'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WhiteSpaceNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : ' '
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : 'origins'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WhiteSpaceNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : ' '
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : 'in'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WhiteSpaceNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : ' '
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : 'English'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WhiteSpaceNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : ' '
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : 'title'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WhiteSpaceNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : ' '
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : 'once'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WhiteSpaceNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : ' '
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : 'used'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WhiteSpaceNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : ' '
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : 'for'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WhiteSpaceNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : ' '
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : 'all'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WhiteSpaceNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : ' '
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : 'women'
+                                    'value' : 'sentence'
                                 }
                             ]
                         },
@@ -25128,7 +24397,7 @@ describe('Terminal markers', function () {
                             'children' : [
                                 {
                                     'type' : 'TextNode',
-                                    'value' : 'Various'
+                                    'value' : 'Another'
                                 }
                             ]
                         },
@@ -25146,160 +24415,7 @@ describe('Terminal markers', function () {
                             'children' : [
                                 {
                                     'type' : 'TextNode',
-                                    'value' : 'plural'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WhiteSpaceNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : ' '
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : 'forms'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WhiteSpaceNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : ' '
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : 'used'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WhiteSpaceNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : ' '
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : 'are'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WhiteSpaceNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : ' '
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : 'Mss'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'PunctuationNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : '.'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'PunctuationNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : ','
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WhiteSpaceNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : ' '
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : 'Mses'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'PunctuationNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : '.'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WhiteSpaceNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : ' '
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : 'and'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WhiteSpaceNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : ' '
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : 'Mmes'
+                                    'value' : 'sentence'
                                 }
                             ]
                         },
