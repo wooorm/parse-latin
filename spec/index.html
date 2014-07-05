@@ -12,10 +12,8 @@
     </script>
     <script src="browser.spec.js" onload="window.scriptDidLoad=true;void 0"></script>
     <script>
-    console.log('run', 'scriptDidLoad' in window);
       mocha.run();
       window.setTimeout(function () {
-        console.log('timeout', 'scriptDidLoad' in window);
         if (!('scriptDidLoad' in window)) {
           document.getElementById('mocha').innerHTML = '<h1>' + 
             'Woops, an error occured!</h1>' +
@@ -30,7 +28,6 @@
             '</p>'
         }
       }, 100);
-      console.log('scriptDidLoad', 'scriptDidLoad' in window);
     </script>
   </body>
 </html>
