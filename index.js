@@ -461,7 +461,9 @@ function tokenToString(token) {
 /**
  * `tokenizerFactory` creates a (modifiable) tokenizer.
  *
+ * @param {Object} context               - The class to attach to.
  * @param {Object} options               - The settings to use.
+ * @param {string} options.name          - The name of the method.
  * @param {string} options.type          - The type of parent node to create.
  * @param {string} options.tokenizer     - The property where the child
  *                                         tokenizer lives
@@ -472,9 +474,14 @@ function tokenToString(token) {
  * @global
  * @private
  */
-function tokenizerFactory(options) {
-    function tokenizer(value) {
-        var delimiter = tokenizer.delimiter,
+function tokenizerFactory(context, options) {
+    var name = options.name;
+
+    context.prototype[name + 'Modifiers'] = options.modifiers;
+    context.prototype[name + 'Delimiter'] = options.delimiter;
+
+    return function (value) {
+        var delimiter = this[name + 'Delimiter'],
             lastIndex, children, iterator, length, root, start, stem, tokens;
 
         root = {
@@ -507,16 +514,11 @@ function tokenizerFactory(options) {
 
             start = iterator + 1;
         }
-        // console.log('length', length);
-        modify(tokenizer.modifiers, root);
+
+        modify(this[name + 'Modifiers'], root);
 
         return root;
-    }
-
-    tokenizer.modifiers = options.modifiers;
-    tokenizer.delimiter = options.delimiter;
-
-    return tokenizer;
+    };
 }
 
 /**
@@ -1002,7 +1004,7 @@ parserPrototype.tokenizeSentence = function (value) {
         'children' : this.tokenize(value)
     };
 
-    modify(this.tokenizeSentence.modifiers, root);
+    modify(this.tokenizeSentenceModifiers, root);
 
     /*
      * Return a sentence token, with its children set to the result of
@@ -1011,9 +1013,10 @@ parserPrototype.tokenizeSentence = function (value) {
     return root;
 };
 
-parserPrototype.tokenizeSentence.modifiers = [mergeInnerWordPunctuation];
+parserPrototype.tokenizeSentenceModifiers = [mergeInnerWordPunctuation];
 
-parserPrototype.tokenizeParagraph = tokenizerFactory({
+parserPrototype.tokenizeParagraph = tokenizerFactory(Parser, {
+    'name' : 'tokenizeParagraph',
     'tokenizer' : 'tokenizeSentence',
     'type' : 'ParagraphNode',
     'delimiter' : new RegExp('^([' + GROUP_TERMINAL_MARKER + ']+)$'),
@@ -1028,7 +1031,8 @@ parserPrototype.tokenizeParagraph = tokenizerFactory({
     ]
 });
 
-parserPrototype.tokenizeRoot = tokenizerFactory({
+parserPrototype.tokenizeRoot = tokenizerFactory(Parser, {
+    'name' : 'tokenizeRoot',
     'tokenizer' : 'tokenizeParagraph',
     'type' : 'RootNode',
     'delimiter' : /^(\r?\n|\r)+$/,
