@@ -1,10 +1,11 @@
 {
-  "name": "parse-english",
-  "repository": "wooorm/parse-english",
-  "description": "English (natural language) parser",
+  "name": "parse-latin",
+  "repository": "wooorm/parse-latin",
+  "description": "Latin-script (natural language) parser",
   "version": "0.1.0-rc.2",
   "keywords": [
-    "english",
+    "latin",
+    "script",
     "natural",
     "language",
     "parser"

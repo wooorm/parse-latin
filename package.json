@@ -1,9 +1,10 @@
 {
-  "name": "parse-english",
+  "name": "parse-latin",
   "version": "0.1.0-rc.2",
-  "description": "English (natural language) parser",
+  "description": "Latin-script (natural language) parser",
   "keywords": [
-    "english",
+    "latin",
+    "script",
     "natural",
     "language",
     "parser"
@@ -19,24 +20,24 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/wooorm/parse-english.git"
+    "url": "https://github.com/wooorm/parse-latin.git"
   },
   "scripts": {
-    "test": "node_modules/.bin/_mocha --reporter spec --check-leaks -u exports spec/parse-english.spec.js",
-    "test-travis": "node_modules/.bin/istanbul cover node_modules/.bin/_mocha --report lcovonly -- --reporter spec --check-leaks -u exports spec/parse-english.spec.js",
+    "test": "node_modules/.bin/_mocha --reporter spec --check-leaks -u exports spec/parse-latin.spec.js",
+    "test-travis": "node_modules/.bin/istanbul cover node_modules/.bin/_mocha --report lcovonly -- --reporter spec --check-leaks -u exports spec/parse-latin.spec.js",
     "lint": "npm run-script lint-api && npm run-script lint-test && npm run-script lint-benchmark && npm run-script lint-style",
     "lint-api": "node_modules/.bin/eslint index.js --env node --env browser --rule 'quotes: [2, single], consistent-return: false'",
-    "lint-test": "node_modules/.bin/eslint spec/parse-english.spec.js --env node --env mocha --rule 'quotes: [2, single], no-loop-func: false'",
+    "lint-test": "node_modules/.bin/eslint spec/parse-latin.spec.js --env node --env mocha --rule 'quotes: [2, single], no-loop-func: false'",
     "lint-benchmark": "node_modules/.bin/eslint benchmark/index.js --env node --global suite,set,bench --rule 'quotes: [2, single]'",
-    "lint-style": "node_modules/.bin/jscs index.js spec/parse-english.spec.js --reporter=inline",
+    "lint-style": "node_modules/.bin/jscs index.js spec/parse-latin.spec.js --reporter=inline",
     "install-browser-test": "npm install browserify",
-    "build-browser-test": "node_modules/.bin/browserify spec/parse-english.spec.js -o spec/browser.spec.js",
-    "coverage": "node_modules/.bin/istanbul cover node_modules/.bin/_mocha -- -- spec/parse-english.spec.js",
+    "build-browser-test": "node_modules/.bin/browserify spec/parse-latin.spec.js -o spec/browser.spec.js",
+    "coverage": "node_modules/.bin/istanbul cover node_modules/.bin/_mocha -- -- spec/parse-latin.spec.js",
     "benchmark" : "node_modules/.bin/matcha",
     "make": "npm run-script lint && npm run-script coverage"
   },
   "testling": {
-    "files": "spec/parse-english.spec.js",
+    "files": "spec/parse-latin.spec.js",
     "harness": "mocha",
     "browsers": [
       "iexplore/latest",

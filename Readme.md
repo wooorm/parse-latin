@@ -1,12 +1,12 @@
-# parse-english [![Build Status](https://travis-ci.org/wooorm/parse-english.svg?branch=master)](https://travis-ci.org/wooorm/parse-english) [![Coverage Status](https://img.shields.io/coveralls/wooorm/parse-english.svg)](https://coveralls.io/r/wooorm/parse-english?branch=master)
+# parse-latin [![Build Status](https://travis-ci.org/wooorm/parse-latin.svg?branch=master)](https://travis-ci.org/wooorm/parse-latin) [![Coverage Status](https://img.shields.io/coveralls/wooorm/parse-latin.svg)](https://coveralls.io/r/wooorm/parse-latin?branch=master)
 
-[![browser support](https://ci.testling.com/wooorm/parse-english.png) ](https://ci.testling.com/wooorm/parse-english)
+[![browser support](https://ci.testling.com/wooorm/parse-latin.png) ](https://ci.testling.com/wooorm/parse-latin)
 
 See [Browser Support](#browser-support) for more information (a.k.a. don’t worry about those grey icons above).
 
 ---
 
-**parse-english** is an English language parser in JavaScript. NodeJS, and the browser. Lots of tests (330+), including 630+ assertions. 100% coverage.
+**parse-latin** is an Latin-script language parser in JavaScript. NodeJS, and the browser. Lots of tests (330+), including 630+ assertions. 100% coverage.
 
 Note: This project is **not** an object model for natural languages, or an extensible system for analysing and manipulating natural language, its an algorithm that transforms plain-text natural language into an AST. If you need the above-mentioned functionalities, use the following projects.
 
@@ -17,23 +17,23 @@ Note: This project is **not** an object model for natural languages, or an exten
 
 NPM:
 ```sh
-$ npm install parse-english
+$ npm install parse-latin
 ```
 
 Component.js:
 ```sh
-$ component install wooorm/parse-english
+$ component install wooorm/parse-latin
 ```
 
 ## Usage
 
 ````js
-var Parser = require('parse-english'),
+var Parser = require('parse-latin'),
     parser = new Parser(),
     root;
 
 /* Simple sentence: */
-parser.tokenizeRoot('A simple, english sentence.');
+parser.tokenizeRoot('A simple sentence.');
 /*
  * ˅ Object
  *    ˃ children: Array[1]
@@ -53,10 +53,10 @@ parser.tokenizeRoot('The \xC5 symbol invented by A. J. A\u030Angstro\u0308m (181
 
 ## API
 
-### parseEnglish.tokenizeRoot(source?)
+### parseLatin.tokenizeRoot(source?)
 
 ```js
-var Parser = require('parse-english');
+var Parser = require('parse-latin');
 
 new Parser().tokenizeRoot('A simple sentence.');
 /*
@@ -75,12 +75,12 @@ new Parser().tokenizeRoot('A simple sentence.');
 
 Tokenize a given document into paragraphs, sentences, words, white space, and punctionation.
 
-- `source` (`null`, `undefined`, or `String`): The english document to parse.
+- `source` (`null`, `undefined`, or `String`): The latin document to parse.
 
-### parseEnglish.tokenizeParagraph(source?)
+### parseLatin.tokenizeParagraph(source?)
 
 ```js
-var Parser = require('parse-english');
+var Parser = require('parse-latin');
 
 new Parser().tokenizeParagraph('A simple sentence.');
 /*
@@ -96,12 +96,12 @@ new Parser().tokenizeParagraph('A simple sentence.');
 
 Tokenize a given paragraph into sentences, words, white space, and punctionation.
 
-- `source` (`null`, `undefined`, or `String`): The english paragraph to parse.
+- `source` (`null`, `undefined`, or `String`): The latin paragraph to parse.
 
-### parseEnglish.tokenizeSentence(source?)
+### parseLatin.tokenizeSentence(source?)
 
 ```js
-var Parser = require('parse-english');
+var Parser = require('parse-latin');
 
 new Parser().tokenizeSentence('A simple sentence.');
 /*
@@ -131,10 +131,10 @@ new Parser().tokenizeSentence('A simple sentence.');
 
 Tokenize a given sentence into words, white space, and punctionation.
 
-- `source` (`null`, `undefined`, or `String`): The english sentence to parse.
+- `source` (`null`, `undefined`, or `String`): The latin sentence to parse.
 
 ## Browser Support
-Pretty much every browser (available through browserstack) runs all parse-english unit tests.
+Pretty much every browser (available through browserstack) runs all parse-latin unit tests.
 
 ## Benchmark
 

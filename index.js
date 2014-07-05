@@ -817,8 +817,8 @@ function removeEmptyNodes(child, index, parent) {
 }
 
 /**
- * `Parser` contains the functions needed to tokenize english natural
- * language into an AST.
+ * `Parser` contains the functions needed to tokenize natural Latin-script
+ * languages into an AST.
  *
  * @constructor
  * @api public

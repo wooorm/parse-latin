@@ -6,7 +6,7 @@ Parser = require('..');
 assert = require('assert');
 parser = new Parser();
 
-describe('ParseEnglish', function () {
+describe('ParseLatin', function () {
     it('should be a function', function () {
         assert(typeof Parser === 'function');
     });
@@ -19,7 +19,7 @@ describe('ParseEnglish', function () {
     );
 });
 
-describe('new ParseEnglish()', function () {
+describe('new ParseLatin()', function () {
     it('should have a `tokenizeRoot` method', function () {
         assert(typeof parser.tokenizeRoot === 'function');
     });
