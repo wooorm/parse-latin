@@ -360,6 +360,7 @@ EXPRESSION_AFFIX_PUNCTUATION = new RegExp(
  * Included:
  * - Hyphen-minus;
  * - full-stop;
+ * - colon;
  * - Dumb single quote;
  * - Right single quote;
  * - Soft hyphen;
@@ -372,7 +373,7 @@ EXPRESSION_AFFIX_PUNCTUATION = new RegExp(
  * @private
  * @constant
  */
-EXPRESSION_INNER_WORD_PUNCTUATION = /^[-.'’\u00AD\u00B7\u2010\2011\u2027]$/;
+EXPRESSION_INNER_WORD_PUNCTUATION = /^[-.:'’\u00AD\u00B7\u2010\2011\u2027]$/;
 
 /**
  * `EXPRESSION_LOWER_INITIAL_EXCEPTION` matches an initial lower case letter.

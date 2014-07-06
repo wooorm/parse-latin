@@ -23762,21 +23762,16 @@ describe('Abbreviations: Time references', function () {
                                 {
                                     'type' : 'TextNode',
                                     'value' : '10'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'PunctuationNode',
-                            'children' : [
+                                },
                                 {
-                                    'type' : 'TextNode',
-                                    'value' : ':'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
+                                    'type' : 'PunctuationNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : ':'
+                                        }
+                                    ]
+                                },
                                 {
                                     'type' : 'TextNode',
                                     'value' : '00'
