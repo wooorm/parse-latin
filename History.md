@@ -1,4 +1,10 @@
 
+n.n.n / 2014-07-06
+==================
+
+ * Added functionality to merge a colon surrounded by words (fixes #3)
+ * Added functionality to merge full-stops surrounded by words, or in initialisms (fixes #2)
+
 0.1.0-rc.3 / 2014-07-05
 ==================
 
