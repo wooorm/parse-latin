@@ -1790,33 +1790,28 @@ describe('Sentence: Abbreviations with dot characters', function () {
                         {
                             'type' : 'TextNode',
                             'value' : 'L'
-                        }
-                    ]
-                },
-                {
-                    'type' : 'PunctuationNode',
-                    'children' : [
+                        },
                         {
-                            'type' : 'TextNode',
-                            'value' : '.'
-                        }
-                    ]
-                },
-                {
-                    'type' : 'WordNode',
-                    'children' : [
+                            'type' : 'PunctuationNode',
+                            'children' : [
+                                {
+                                    'type' : 'TextNode',
+                                    'value' : '.'
+                                }
+                            ]
+                        },
                         {
                             'type' : 'TextNode',
                             'value' : 'L'
-                        }
-                    ]
-                },
-                {
-                    'type' : 'PunctuationNode',
-                    'children' : [
+                        },
                         {
-                            'type' : 'TextNode',
-                            'value' : '.'
+                            'type' : 'PunctuationNode',
+                            'children' : [
+                                {
+                                    'type' : 'TextNode',
+                                    'value' : '.'
+                                }
+                            ]
                         }
                     ]
                 },
@@ -4118,33 +4113,28 @@ describe('Simple sentences testing for tie characters', function () {
                                 {
                                     'type' : 'TextNode',
                                     'value' : 'e'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'PunctuationNode',
-                            'children' : [
+                                },
                                 {
-                                    'type' : 'TextNode',
-                                    'value' : '.'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
+                                    'type' : 'PunctuationNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : '.'
+                                        }
+                                    ]
+                                },
                                 {
                                     'type' : 'TextNode',
                                     'value' : 'g'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'PunctuationNode',
-                            'children' : [
+                                },
                                 {
-                                    'type' : 'TextNode',
-                                    'value' : '.'
+                                    'type' : 'PunctuationNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : '.'
+                                        }
+                                    ]
                                 }
                             ]
                         },
@@ -4268,33 +4258,28 @@ describe('Simple sentences testing for tie characters', function () {
                                 {
                                     'type' : 'TextNode',
                                     'value' : 'e'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'PunctuationNode',
-                            'children' : [
+                                },
                                 {
-                                    'type' : 'TextNode',
-                                    'value' : '.'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
+                                    'type' : 'PunctuationNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : '.'
+                                        }
+                                    ]
+                                },
                                 {
                                     'type' : 'TextNode',
                                     'value' : 'g'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'PunctuationNode',
-                            'children' : [
+                                },
                                 {
-                                    'type' : 'TextNode',
-                                    'value' : '.'
+                                    'type' : 'PunctuationNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : '.'
+                                        }
+                                    ]
                                 }
                             ]
                         },
@@ -4443,33 +4428,28 @@ describe('Simple sentences testing for tie characters', function () {
                                 {
                                     'type' : 'TextNode',
                                     'value' : 'e'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'PunctuationNode',
-                            'children' : [
+                                },
                                 {
-                                    'type' : 'TextNode',
-                                    'value' : '.'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
+                                    'type' : 'PunctuationNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : '.'
+                                        }
+                                    ]
+                                },
                                 {
                                     'type' : 'TextNode',
                                     'value' : 'g'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'PunctuationNode',
-                            'children' : [
+                                },
                                 {
-                                    'type' : 'TextNode',
-                                    'value' : '.'
+                                    'type' : 'PunctuationNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : '.'
+                                        }
+                                    ]
                                 }
                             ]
                         },
@@ -4618,33 +4598,28 @@ describe('Simple sentences testing for tie characters', function () {
                                 {
                                     'type' : 'TextNode',
                                     'value' : 'e'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'PunctuationNode',
-                            'children' : [
+                                },
                                 {
-                                    'type' : 'TextNode',
-                                    'value' : '.'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
+                                    'type' : 'PunctuationNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : '.'
+                                        }
+                                    ]
+                                },
                                 {
                                     'type' : 'TextNode',
                                     'value' : 'g'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'PunctuationNode',
-                            'children' : [
+                                },
                                 {
-                                    'type' : 'TextNode',
-                                    'value' : '.'
+                                    'type' : 'PunctuationNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : '.'
+                                        }
+                                    ]
                                 }
                             ]
                         },
@@ -4757,33 +4732,28 @@ describe('Simple sentences testing for tie characters', function () {
                                 {
                                     'type' : 'TextNode',
                                     'value' : 'e'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'PunctuationNode',
-                            'children' : [
+                                },
                                 {
-                                    'type' : 'TextNode',
-                                    'value' : '.'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
+                                    'type' : 'PunctuationNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : '.'
+                                        }
+                                    ]
+                                },
                                 {
                                     'type' : 'TextNode',
                                     'value' : 'g'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'PunctuationNode',
-                            'children' : [
+                                },
                                 {
-                                    'type' : 'TextNode',
-                                    'value' : '.'
+                                    'type' : 'PunctuationNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : '.'
+                                        }
+                                    ]
                                 }
                             ]
                         },
@@ -4896,33 +4866,28 @@ describe('Simple sentences testing for tie characters', function () {
                                 {
                                     'type' : 'TextNode',
                                     'value' : 'e'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'PunctuationNode',
-                            'children' : [
+                                },
                                 {
-                                    'type' : 'TextNode',
-                                    'value' : '.'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
+                                    'type' : 'PunctuationNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : '.'
+                                        }
+                                    ]
+                                },
                                 {
                                     'type' : 'TextNode',
                                     'value' : 'g'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'PunctuationNode',
-                            'children' : [
+                                },
                                 {
-                                    'type' : 'TextNode',
-                                    'value' : '.'
+                                    'type' : 'PunctuationNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : '.'
+                                        }
+                                    ]
                                 }
                             ]
                         },
@@ -7907,33 +7872,28 @@ describe('Abbreviations: Geographic', function () {
                             {
                                 'type' : 'TextNode',
                                 'value' : 'U'
-                            }
-                        ]
-                    },
-                    {
-                        'type' : 'PunctuationNode',
-                        'children' : [
+                            },
                             {
-                                'type' : 'TextNode',
-                                'value' : '.'
-                            }
-                        ]
-                    },
-                    {
-                        'type' : 'WordNode',
-                        'children' : [
+                                'type' : 'PunctuationNode',
+                                'children' : [
+                                    {
+                                        'type' : 'TextNode',
+                                        'value' : '.'
+                                    }
+                                ]
+                            },
                             {
                                 'type' : 'TextNode',
                                 'value' : 'S'
-                            }
-                        ]
-                    },
-                    {
-                        'type' : 'PunctuationNode',
-                        'children' : [
+                            },
                             {
-                                'type' : 'TextNode',
-                                'value' : '.'
+                                'type' : 'PunctuationNode',
+                                'children' : [
+                                    {
+                                        'type' : 'TextNode',
+                                        'value' : '.'
+                                    }
+                                ]
                             }
                         ]
                     },
@@ -8110,33 +8070,28 @@ describe('Abbreviations: Geographic', function () {
                             {
                                 'type' : 'TextNode',
                                 'value' : 'U'
-                            }
-                        ]
-                    },
-                    {
-                        'type' : 'PunctuationNode',
-                        'children' : [
+                            },
                             {
-                                'type' : 'TextNode',
-                                'value' : '.'
-                            }
-                        ]
-                    },
-                    {
-                        'type' : 'WordNode',
-                        'children' : [
+                                'type' : 'PunctuationNode',
+                                'children' : [
+                                    {
+                                        'type' : 'TextNode',
+                                        'value' : '.'
+                                    }
+                                ]
+                            },
                             {
                                 'type' : 'TextNode',
                                 'value' : 'S'
-                            }
-                        ]
-                    },
-                    {
-                        'type' : 'PunctuationNode',
-                        'children' : [
+                            },
                             {
-                                'type' : 'TextNode',
-                                'value' : '.'
+                                'type' : 'PunctuationNode',
+                                'children' : [
+                                    {
+                                        'type' : 'TextNode',
+                                        'value' : '.'
+                                    }
+                                ]
                             }
                         ]
                     },
@@ -9051,33 +9006,28 @@ describe('Abbreviations: Geographic', function () {
                             {
                                 'type' : 'TextNode',
                                 'value' : 'L'
-                            }
-                        ]
-                    },
-                    {
-                        'type' : 'PunctuationNode',
-                        'children' : [
+                            },
                             {
-                                'type' : 'TextNode',
-                                'value' : '.'
-                            }
-                        ]
-                    },
-                    {
-                        'type' : 'WordNode',
-                        'children' : [
+                                'type' : 'PunctuationNode',
+                                'children' : [
+                                    {
+                                        'type' : 'TextNode',
+                                        'value' : '.'
+                                    }
+                                ]
+                            },
                             {
                                 'type' : 'TextNode',
                                 'value' : 'A'
-                            }
-                        ]
-                    },
-                    {
-                        'type' : 'PunctuationNode',
-                        'children' : [
+                            },
                             {
-                                'type' : 'TextNode',
-                                'value' : '.'
+                                'type' : 'PunctuationNode',
+                                'children' : [
+                                    {
+                                        'type' : 'TextNode',
+                                        'value' : '.'
+                                    }
+                                ]
                             }
                         ]
                     },
@@ -17376,33 +17326,28 @@ describe('Abbreviations: Latin', function () {
                             {
                                 'type' : 'TextNode',
                                 'value' : 'p'
-                            }
-                        ]
-                    },
-                    {
-                        'type' : 'PunctuationNode',
-                        'children' : [
+                            },
                             {
-                                'type' : 'TextNode',
-                                'value' : '.'
-                            }
-                        ]
-                    },
-                    {
-                        'type' : 'WordNode',
-                        'children' : [
+                                'type' : 'PunctuationNode',
+                                'children' : [
+                                    {
+                                        'type' : 'TextNode',
+                                        'value' : '.'
+                                    }
+                                ]
+                            },
                             {
                                 'type' : 'TextNode',
                                 'value' : 'p'
-                            }
-                        ]
-                    },
-                    {
-                        'type' : 'PunctuationNode',
-                        'children' : [
+                            },
                             {
-                                'type' : 'TextNode',
-                                'value' : '.'
+                                'type' : 'PunctuationNode',
+                                'children' : [
+                                    {
+                                        'type' : 'TextNode',
+                                        'value' : '.'
+                                    }
+                                ]
                             }
                         ]
                     }
@@ -19858,21 +19803,16 @@ describe('Abbreviations: English unit abbreviations', function () {
                             {
                                 'type' : 'TextNode',
                                 'value' : '60'
-                            }
-                        ]
-                    },
-                    {
-                        'type' : 'PunctuationNode',
-                        'children' : [
+                            },
                             {
-                                'type' : 'TextNode',
-                                'value' : '.'
-                            }
-                        ]
-                    },
-                    {
-                        'type' : 'WordNode',
-                        'children' : [
+                                'type' : 'PunctuationNode',
+                                'children' : [
+                                    {
+                                        'type' : 'TextNode',
+                                        'value' : '.'
+                                    }
+                                ]
+                            },
                             {
                                 'type' : 'TextNode',
                                 'value' : '96'
@@ -21153,21 +21093,16 @@ describe('Abbreviations: English unit abbreviations', function () {
                             {
                                 'type' : 'TextNode',
                                 'value' : '0'
-                            }
-                        ]
-                    },
-                    {
-                        'type' : 'PunctuationNode',
-                        'children' : [
+                            },
                             {
-                                'type' : 'TextNode',
-                                'value' : '.'
-                            }
-                        ]
-                    },
-                    {
-                        'type' : 'WordNode',
-                        'children' : [
+                                'type' : 'PunctuationNode',
+                                'children' : [
+                                    {
+                                        'type' : 'TextNode',
+                                        'value' : '.'
+                                    }
+                                ]
+                            },
                             {
                                 'type' : 'TextNode',
                                 'value' : '45359237'
@@ -25679,5 +25614,127 @@ describe('Terminal markers', function () {
                 }
             ]
         }));
+    });
+});
+
+describe('Abbreviations: Initialisms', function () {
+    it('Should merge full-stops in initialisms', function () {
+        var root = parser.tokenizeSentence(
+            'Something C.I.A. something.'
+        ).children[2];
+
+        assert(JSON.stringify(root) === JSON.stringify({
+            'type' : 'WordNode',
+            'children' : [
+                {
+                    'type' : 'TextNode',
+                    'value' : 'C'
+                },
+                {
+                    'type' : 'PunctuationNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : '.'
+                        }
+                    ]
+                },
+                {
+                    'type' : 'TextNode',
+                    'value' : 'I'
+                },
+                {
+                    'type' : 'PunctuationNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : '.'
+                        }
+                    ]
+                },
+                {
+                    'type' : 'TextNode',
+                    'value' : 'A'
+                },
+                {
+                    'type' : 'PunctuationNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : '.'
+                        }
+                    ]
+                }
+            ]
+        }));
+    });
+
+    it('Should merge full-stops surrounded by words', function () {
+        var root = parser.tokenizeSentence(
+            'You will need to arrive by 14.30'
+        ).children[12];
+
+        assert(JSON.stringify(root) === JSON.stringify({
+            'type' : 'WordNode',
+            'children' : [
+                {
+                    'type' : 'TextNode',
+                    'value' : '14'
+                },
+                {
+                    'type' : 'PunctuationNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : '.'
+                        }
+                    ]
+                },
+                {
+                    'type' : 'TextNode',
+                    'value' : '30'
+                }
+            ]
+        }));
+    });
+
+    it('Should merge a full-stop following a merged word', function () {
+        var root = parser.tokenizeSentence(
+            'Self-contained.'
+        ).children;
+
+        assert(JSON.stringify(root) === JSON.stringify([
+            {
+                'type' : 'WordNode',
+                'children' : [
+                    {
+                        'type' : 'TextNode',
+                        'value' : 'Self'
+                    },
+                    {
+                        'type' : 'PunctuationNode',
+                        'children' : [
+                            {
+                                'type' : 'TextNode',
+                                'value' : '-'
+                            }
+                        ]
+                    },
+                    {
+                        'type' : 'TextNode',
+                        'value' : 'contained'
+                    }
+                ]
+            },
+            {
+                'type' : 'PunctuationNode',
+                'children' : [
+                    {
+                        'type' : 'TextNode',
+                        'value' : '.'
+                    }
+                ]
+            }
+        ]));
     });
 });

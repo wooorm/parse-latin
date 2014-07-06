@@ -359,6 +359,7 @@ EXPRESSION_AFFIX_PUNCTUATION = new RegExp(
  *
  * Included:
  * - Hyphen-minus;
+ * - full-stop;
  * - Dumb single quote;
  * - Right single quote;
  * - Soft hyphen;
@@ -371,7 +372,7 @@ EXPRESSION_AFFIX_PUNCTUATION = new RegExp(
  * @private
  * @constant
  */
-EXPRESSION_INNER_WORD_PUNCTUATION = /^[-'’\u00AD\u00B7\u2010\2011\u2027]$/;
+EXPRESSION_INNER_WORD_PUNCTUATION = /^[-.'’\u00AD\u00B7\u2010\2011\u2027]$/;
 
 /**
  * `EXPRESSION_LOWER_INITIAL_EXCEPTION` matches an initial lower case letter.
@@ -561,6 +562,58 @@ function mergeInnerWordPunctuation(child, index, parent) {
 }
 
 /**
+ * `mergeInitialisms` merges initialisms.
+ *
+ * @param {Object} child - The child token.
+ * @param {number} index - The index at which the token lives inside parent.
+ * @param {Object} parent - The parent in which the token lives.
+ * @return {number?} - Either void, or the next index to iterate over.
+ * @global
+ * @private
+ */
+function mergeInitialisms(child, index, parent) {
+    var prev, children, length, iterator;
+
+    if (
+        index === 0 || child.type !== 'PunctuationNode' ||
+        child.children[0].value !== '.'
+    ) {
+        return;
+    }
+
+    prev = parent.children[index - 1];
+    children = prev.children;
+    length = children.length;
+
+    if (prev.type !== 'WordNode' || length === 1 || length % 2 === 0) {
+        return;
+    }
+
+    iterator = -1;
+
+    while (children[++iterator]) {
+        if (iterator % 2 === 0) {
+            /* istanbul ignore if: TOSPEC: Currently not spec-able, but
+             * future-friendly */
+            if (children[iterator].type !== 'TextNode') {
+                return;
+            }
+        } else if (
+            children[iterator].type !== 'PunctuationNode' ||
+            children[iterator].children[0].value !== '.'
+        ) {
+            return;
+        }
+    }
+
+    /* Remove `child` from parent. */
+    parent.children.splice(index, 1);
+
+    /* Add child and next.children to prev.children. */
+    prev.children = children.concat(child);
+}
+
+/**
  * `mergePrefixExceptions` merges a sentence into its next sentence, when
  * the sentence ends with a certain word.
  *
@@ -609,7 +662,7 @@ function mergePrefixExceptions(child, index, parent) {
 
     parent.children.splice(index + 1, 1);
 
-    return index > 0 ? index - 1 : 0;
+    return index - 1;
 }
 
 /**
@@ -1013,7 +1066,10 @@ parserPrototype.tokenizeSentence = function (value) {
     return root;
 };
 
-parserPrototype.tokenizeSentenceModifiers = [mergeInnerWordPunctuation];
+parserPrototype.tokenizeSentenceModifiers = [
+    mergeInnerWordPunctuation,
+    mergeInitialisms
+];
 
 parserPrototype.tokenizeParagraph = tokenizerFactory(Parser, {
     'name' : 'tokenizeParagraph',
