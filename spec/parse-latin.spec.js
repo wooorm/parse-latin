@@ -3342,6 +3342,108 @@ describe('Sentence: Starting with ellipsis containing spaces', function () {
     });
 });
 
+describe('Sentence: Ending with ellipsis containing spaces', function () {
+    it('should equal the test AST', function () {
+        var root = parser.tokenizeParagraph('To be continued. . .');
+
+        assert(JSON.stringify(root.children[0]) === JSON.stringify({
+            'type' : 'SentenceNode',
+            'children' : [
+                {
+                    'type' : 'WordNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : 'To'
+                        }
+                    ]
+                },
+                {
+                    'type' : 'WhiteSpaceNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : ' '
+                        }
+                    ]
+                },
+                {
+                    'type' : 'WordNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : 'be'
+                        }
+                    ]
+                },
+                {
+                    'type' : 'WhiteSpaceNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : ' '
+                        }
+                    ]
+                },
+                {
+                    'type' : 'WordNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : 'continued'
+                        }
+                    ]
+                },
+                {
+                    'type' : 'PunctuationNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : '.'
+                        }
+                    ]
+                },
+                {
+                    'type' : 'WhiteSpaceNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : ' '
+                        }
+                    ]
+                },
+                {
+                    'type' : 'PunctuationNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : '.'
+                        }
+                    ]
+                },
+                {
+                    'type' : 'WhiteSpaceNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : ' '
+                        }
+                    ]
+                },
+                {
+                    'type' : 'PunctuationNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : '.'
+                        }
+                    ]
+                }
+            ]
+        }));
+    });
+});
+
 describe('Sentence: Starting with ellipsis without spaces', function () {
     it('should equal the test AST', function () {
         var root = parser.tokenizeParagraph('...To be continued.');

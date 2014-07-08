@@ -755,7 +755,10 @@ function makeInitialWhiteSpaceSiblings(child, index, parent) {
 function makeFinalWhiteSpaceSiblings(child, index, parent) {
     var children = child.children;
 
-    if (children[children.length - 1].type !== 'WhiteSpaceNode') {
+    if (
+        children.length < 1 ||
+        children[children.length - 1].type !== 'WhiteSpaceNode'
+    ) {
         return;
     }
 
@@ -823,17 +826,9 @@ function mergeInitialLowerCaseLetterSentences(child, index, parent) {
  * @private
  */
 function mergeNonWordSentences(child, index, parent) {
-    var children, iterator, nextChild;
+    var children, iterator, otherChild;
 
     children = child.children;
-
-    if (
-        !children || !children.length || index !== 0 ||
-        index === parent.children.length - 1
-    ) {
-        return;
-    }
-
     iterator = -1;
 
     while (children[++iterator]) {
@@ -842,14 +837,27 @@ function mergeNonWordSentences(child, index, parent) {
         }
     }
 
-    nextChild = parent.children[index + 1];
+    otherChild = parent.children[index + 1];
 
-    nextChild.children = children.concat(nextChild.children);
+    if (otherChild) {
+        otherChild.children = children.concat(otherChild.children);
 
-    /* Remove the child. */
-    parent.children.splice(index, 1);
+        /* Remove the child. */
+        parent.children.splice(index, 1);
 
-    return 0;
+        return index > 1 ? index - 1 : 0;
+    }
+
+    otherChild = parent.children[index - 1];
+
+    if (otherChild) {
+        otherChild.children = otherChild.children.concat(children);
+
+        /* Remove the child. */
+        parent.children.splice(index, 1);
+
+        return index - 1;
+    }
 }
 
 /**
@@ -1084,6 +1092,7 @@ parserPrototype.tokenizeParagraph = tokenizerFactory(Parser, {
         mergeAffixPunctuation,
         mergeInitialLowerCaseLetterSentences,
         makeInitialWhiteSpaceSiblings,
+        makeFinalWhiteSpaceSiblings,
         removeEmptyNodes
     ]
 });
