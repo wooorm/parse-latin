@@ -1,5 +1,5 @@
 
-n.n.n / 2014-07-08
+0.1.0-rc.5 / 2014-07-08
 ==================
 
  * Fixed parsing of non-word sentences, not at the beginning (a sentence ending with ellipsis containing spaces)
