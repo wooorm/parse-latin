@@ -827,17 +827,6 @@ function mergeNonWordSentences(child, index, parent) {
         }
     }
 
-    otherChild = parent.children[index + 1];
-
-    if (otherChild) {
-        otherChild.children = children.concat(otherChild.children);
-
-        /* Remove the child. */
-        parent.children.splice(index, 1);
-
-        return index > 1 ? index - 1 : 0;
-    }
-
     otherChild = parent.children[index - 1];
 
     if (otherChild) {
@@ -847,6 +836,17 @@ function mergeNonWordSentences(child, index, parent) {
         parent.children.splice(index, 1);
 
         return index - 1;
+    }
+
+    otherChild = parent.children[index + 1];
+
+    if (otherChild) {
+        otherChild.children = children.concat(otherChild.children);
+
+        /* Remove the child. */
+        parent.children.splice(index, 1);
+
+        return 0;
     }
 }
 
