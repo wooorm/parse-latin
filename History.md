@@ -1,5 +1,5 @@
 
-n.n.n / 2014-07-11
+0.1.0-rc.6 / 2014-07-11
 ==================
 
  * mergeNonWordSentences now gives precedence to preceding, rather than following, children (fixes #4)
