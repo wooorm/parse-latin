@@ -1,4 +1,13 @@
 
+n.n.n / 2014-07-11
+==================
+
+ * mergeNonWordSentences now gives precedence to preceding, rather than following, children (fixes #4)
+ * Added eslint comments around a unit test
+ * Added a forgotten `new` token
+ * Removed an unused variable
+ * Updated eslint, istanbul
+
 0.1.0-rc.5 / 2014-07-08
 ==================
 
