@@ -970,7 +970,7 @@ parserPrototype.tokenize = function (value) {
 
     if (typeof value !== 'string') {
         throw new TypeError('Illegal invocation: \'' + value +
-            '\' is not a valid argument for \'ParseEnglish\'');
+            '\' is not a valid argument for \'ParseLatin\'');
     }
 
     self = this;
