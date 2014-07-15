@@ -1,6 +1,6 @@
 'use strict';
 
-var EXPRESSION_ABBREVIATION_PREFIX,
+var EXPRESSION_ABBREVIATION_PREFIX, EXPRESSION_NEW_LINE,
     EXPRESSION_AFFIX_PUNCTUATION, EXPRESSION_INNER_WORD_PUNCTUATION,
     EXPRESSION_LOWER_INITIAL_EXCEPTION,
     GROUP_ALPHABETIC, GROUP_ASTRAL, GROUP_CLOSING_PUNCTUATION,
@@ -342,6 +342,16 @@ EXPRESSION_AFFIX_PUNCTUATION = new RegExp(
         GROUP_TERMINAL_MARKER +
     '])\\1*$'
 );
+
+/**
+ * `EXPRESSION_NEW_LINE` matches a string consisting of one or more new line
+ * characters.
+ *
+ * @global
+ * @private
+ * @constant
+ */
+EXPRESSION_NEW_LINE = /^(\r?\n|\r)+$/;
 
 /**
  * `EXPRESSION_INNER_WORD_PUNCTUATION` matches punctuation which can be
@@ -709,8 +719,8 @@ function mergeAffixExceptions(child, index, parent) {
 }
 
 /**
- * `makeInitialWhiteSpaceSiblings` moves white space starting a sentence up,
- * so they are the siblings of sentences.
+ * `makeInitialWhiteSpaceAndSourceSiblings` moves white space starting a
+ * sentence up, so they are the siblings of sentences.
  *
  * @param {Object} child - The child token.
  * @param {number} index - The index at which the token lives inside parent.
@@ -719,21 +729,26 @@ function mergeAffixExceptions(child, index, parent) {
  * @global
  * @private
  */
-function makeInitialWhiteSpaceSiblings(child, index, parent) {
+function makeInitialWhiteSpaceAndSourceSiblings(child, index, parent) {
+    var children = child.children;
+
     if (
-        !child.children ||
-        !child.children.length ||
-        child.children[0].type !== 'WhiteSpaceNode'
+        !children ||
+        !children.length ||
+        (
+            children[0].type !== 'WhiteSpaceNode' &&
+            children[0].type !== 'SourceNode'
+        )
     ) {
         return;
     }
 
-    parent.children.splice(index, 0, child.children.shift());
+    parent.children.splice(index, 0, children.shift());
 }
 
 /**
- * `makeFinalWhiteSpaceSiblings` moves white space ending a paragraph up,
- * so they are the siblings of paragraphs.
+ * `makeFinalWhiteSpaceAndSourceSiblings` moves white space ending a
+ * paragraph up, so they are the siblings of paragraphs.
  *
  * @param {Object} child - The child token.
  * @param {number} index - The index at which the token lives inside parent.
@@ -742,12 +757,16 @@ function makeInitialWhiteSpaceSiblings(child, index, parent) {
  * @global
  * @private
  */
-function makeFinalWhiteSpaceSiblings(child, index, parent) {
+function makeFinalWhiteSpaceAndSourceSiblings(child, index, parent) {
     var children = child.children;
 
     if (
+        !children ||
         children.length < 1 ||
-        children[children.length - 1].type !== 'WhiteSpaceNode'
+        (
+            children[children.length - 1].type !== 'WhiteSpaceNode' &&
+            children[children.length - 1].type !== 'SourceNode'
+        )
     ) {
         return;
     }
@@ -848,6 +867,61 @@ function mergeNonWordSentences(child, index, parent) {
 
         return 0;
     }
+}
+
+/**
+ * `mergeSourceLines` merges punctuation- and whitespace-only between two
+ * line breaks into a source node.
+ *
+ * @param {Object} child - The child token.
+ * @param {number} index - The index at which the token lives inside parent.
+ * @param {Object} parent - The parent in which the token lives.
+ * @return {number?} - Either void, or the next index to iterate over.
+ * @global
+ * @private
+ */
+function mergeSourceLines(child, index, parent) {
+    var iterator, siblings, sibling, value;
+
+    if (
+        !child ||
+        child.type !== 'WhiteSpaceNode' ||
+        !EXPRESSION_NEW_LINE.test(child.children[0].value)
+    ) {
+        return;
+    }
+
+    siblings = parent.children;
+    iterator = index;
+    value = '';
+
+    while (siblings[--iterator]) {
+        sibling = siblings[iterator];
+
+        if (sibling.type === 'WordNode') {
+            return;
+        }
+
+        if (
+            sibling.type === 'WhiteSpaceNode' &&
+            EXPRESSION_NEW_LINE.test(sibling.children[0].value)
+        ) {
+            break;
+        }
+
+        value = sibling.children[0].value + value;
+    }
+
+    if (!value) {
+        return;
+    }
+
+    siblings.splice(iterator + 1, index - iterator - 1, {
+        'type' : 'SourceNode',
+        'value' : value
+    });
+
+    return iterator + 3;
 }
 
 /**
@@ -1067,6 +1141,7 @@ parserPrototype.tokenizeSentence = function (value) {
 
 parserPrototype.tokenizeSentenceModifiers = [
     mergeInnerWordPunctuation,
+    mergeSourceLines,
     mergeInitialisms
 ];
 
@@ -1081,8 +1156,8 @@ parserPrototype.tokenizeParagraph = tokenizerFactory(Parser, {
         mergeNonWordSentences,
         mergeAffixPunctuation,
         mergeInitialLowerCaseLetterSentences,
-        makeInitialWhiteSpaceSiblings,
-        makeFinalWhiteSpaceSiblings,
+        makeInitialWhiteSpaceAndSourceSiblings,
+        makeFinalWhiteSpaceAndSourceSiblings,
         removeEmptyNodes
     ]
 });
@@ -1091,8 +1166,8 @@ parserPrototype.tokenizeRoot = tokenizerFactory(Parser, {
     'name' : 'tokenizeRoot',
     'tokenizer' : 'tokenizeParagraph',
     'type' : 'RootNode',
-    'delimiter' : /^(\r?\n|\r)+$/,
-    'modifiers' : [makeFinalWhiteSpaceSiblings, removeEmptyNodes]
+    'delimiter' : EXPRESSION_NEW_LINE,
+    'modifiers' : [makeFinalWhiteSpaceAndSourceSiblings, removeEmptyNodes]
 });
 
 module.exports = Parser;

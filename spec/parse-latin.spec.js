@@ -14936,3 +14936,765 @@ describe('Abbreviations: Initialisms', function () {
         ]));
     });
 });
+
+describe('Source', function () {
+    it('Should merge a source node when in a document', function () {
+        var root = parser.tokenizeRoot(
+            '# Some Sentence.\n' +
+            '=================\n\n' +
+            'Another sentence.'
+        );
+
+        assert(JSON.stringify(root) === JSON.stringify({
+            'type' : 'RootNode',
+            'children' : [
+                {
+                    'type' : 'ParagraphNode',
+                    'children' : [
+                        {
+                            'type' : 'SentenceNode',
+                            'children' : [
+                                {
+                                    'type' : 'PunctuationNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : '#'
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'WhiteSpaceNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : ' '
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'WordNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : 'Some'
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'WhiteSpaceNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : ' '
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'WordNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : 'Sentence'
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'PunctuationNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : '.'
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    'type' : 'WhiteSpaceNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : '\n'
+                        }
+                    ]
+                },
+                {
+                    'type' : 'ParagraphNode',
+                    'children' : [
+                        {
+                            'type' : 'SourceNode',
+                            'value' : '================='
+                        }
+                    ]
+                },
+                {
+                    'type' : 'WhiteSpaceNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : '\n\n'
+                        }
+                    ]
+                },
+                {
+                    'type' : 'ParagraphNode',
+                    'children' : [
+                        {
+                            'type' : 'SentenceNode',
+                            'children' : [
+                                {
+                                    'type' : 'WordNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : 'Another'
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'WhiteSpaceNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : ' '
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'WordNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : 'sentence'
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'PunctuationNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : '.'
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }));
+    });
+
+    it('Should merge multiple source nodes in a document', function () {
+        var root = parser.tokenizeRoot(
+            '# Some Sentence.\n' +
+            '=================\n' +
+            '-----------------\n\n' +
+            'Another sentence.'
+        );
+
+        assert(JSON.stringify(root) === JSON.stringify({
+            'type' : 'RootNode',
+            'children' : [
+                {
+                    'type' : 'ParagraphNode',
+                    'children' : [
+                        {
+                            'type' : 'SentenceNode',
+                            'children' : [
+                                {
+                                    'type' : 'PunctuationNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : '#'
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'WhiteSpaceNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : ' '
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'WordNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : 'Some'
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'WhiteSpaceNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : ' '
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'WordNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : 'Sentence'
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'PunctuationNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : '.'
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    'type' : 'WhiteSpaceNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : '\n'
+                        }
+                    ]
+                },
+                {
+                    'type' : 'ParagraphNode',
+                    'children' : [
+                        {
+                            'type' : 'SourceNode',
+                            'value' : '================='
+                        }
+                    ]
+                },
+                {
+                    'type' : 'WhiteSpaceNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : '\n'
+                        }
+                    ]
+                },
+                {
+                    'type' : 'ParagraphNode',
+                    'children' : [
+                        {
+                            'type' : 'SourceNode',
+                            'value' : '-----------------'
+                        }
+                    ]
+                },
+                {
+                    'type' : 'WhiteSpaceNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : '\n\n'
+                        }
+                    ]
+                },
+                {
+                    'type' : 'ParagraphNode',
+                    'children' : [
+                        {
+                            'type' : 'SentenceNode',
+                            'children' : [
+                                {
+                                    'type' : 'WordNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : 'Another'
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'WhiteSpaceNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : ' '
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'WordNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : 'sentence'
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'PunctuationNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : '.'
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }));
+    });
+
+    it('Should merge a source node when before a document', function () {
+        var root = parser.tokenizeRoot(
+            '\n|:------:|:-------:|:----:|:---------------:|\n' +
+            '| github | unicode | name | escaped unicode |'
+        );
+
+        assert(JSON.stringify(root) === JSON.stringify({
+            'type' : 'RootNode',
+            'children' : [
+                {
+                    'type' : 'WhiteSpaceNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : '\n'
+                        }
+                    ]
+                },
+                {
+                    'type' : 'ParagraphNode',
+                    'children' : [
+                        {
+                            'type' : 'SourceNode',
+                            'value' : '|:------:|:-------:|:----:' +
+                                '|:---------------:|'
+                        }
+                    ]
+                },
+                {
+                    'type' : 'WhiteSpaceNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : '\n'
+                        }
+                    ]
+                },
+                {
+                    'type' : 'ParagraphNode',
+                    'children' : [
+                        {
+                            'type' : 'SentenceNode',
+                            'children' : [
+                                {
+                                    'type' : 'PunctuationNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : '|'
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'WhiteSpaceNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : ' '
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'WordNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : 'github'
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'WhiteSpaceNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : ' '
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'PunctuationNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : '|'
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'WhiteSpaceNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : ' '
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'WordNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : 'unicode'
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'WhiteSpaceNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : ' '
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'PunctuationNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : '|'
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'WhiteSpaceNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : ' '
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'WordNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : 'name'
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'WhiteSpaceNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : ' '
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'PunctuationNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : '|'
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'WhiteSpaceNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : ' '
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'WordNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : 'escaped'
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'WhiteSpaceNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : ' '
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'WordNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : 'unicode'
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'WhiteSpaceNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : ' '
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'PunctuationNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : '|'
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }));
+    });
+
+    it('Should merge a source node when after a document', function () {
+        var root = parser.tokenizeRoot(
+            '| github | unicode | name | escaped unicode |\n' +
+            '|--------|---------|------|-----------------|\n'
+        );
+
+        assert(JSON.stringify(root) === JSON.stringify({
+            'type' : 'RootNode',
+            'children' : [
+                {
+                    'type' : 'ParagraphNode',
+                    'children' : [
+                        {
+                            'type' : 'SentenceNode',
+                            'children' : [
+                                {
+                                    'type' : 'PunctuationNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : '|'
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'WhiteSpaceNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : ' '
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'WordNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : 'github'
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'WhiteSpaceNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : ' '
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'PunctuationNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : '|'
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'WhiteSpaceNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : ' '
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'WordNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : 'unicode'
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'WhiteSpaceNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : ' '
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'PunctuationNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : '|'
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'WhiteSpaceNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : ' '
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'WordNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : 'name'
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'WhiteSpaceNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : ' '
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'PunctuationNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : '|'
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'WhiteSpaceNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : ' '
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'WordNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : 'escaped'
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'WhiteSpaceNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : ' '
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'WordNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : 'unicode'
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'WhiteSpaceNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : ' '
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'PunctuationNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : '|'
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'WhiteSpaceNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : '\n'
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'SourceNode',
+                                    'value' : '|--------|---------|------' +
+                                        '|-----------------|'
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    'type' : 'WhiteSpaceNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : '\n'
+                        }
+                    ]
+                }
+            ]
+        }));
+    });
+});
