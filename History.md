@@ -1,4 +1,11 @@
 
+n.n.n / 2014-07-15
+==================
+
+ * Add support for basic Source detection (fixes #1)
+ * Removed some English-only unit tests
+ * Fixed a typo (fixes #5)
+
 0.1.0-rc.6 / 2014-07-11
 ==================
 
