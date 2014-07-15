@@ -1,5 +1,5 @@
 
-n.n.n / 2014-07-15
+0.1.0-rc.7 / 2014-07-15
 ==================
 
  * Add support for basic Source detection (fixes #1)
