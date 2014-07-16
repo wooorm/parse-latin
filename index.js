@@ -584,9 +584,15 @@ function mergeInitialisms(child, index, parent) {
 
     prev = parent.children[index - 1];
     children = prev.children;
-    length = children.length;
+    /* istanbul ignore else: TOSPEC: Currently not spec-able, but
+     * future-friendly */
+    if (children) {
+        length = children.length;
+    } else {
+        length = 0;
+    }
 
-    if (prev.type !== 'WordNode' || length === 1 || length % 2 === 0) {
+    if (prev.type !== 'WordNode' || length < 2 || length % 2 === 0) {
         return;
     }
 
