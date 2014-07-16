@@ -1,4 +1,9 @@
 
+n.n.n / 2014-07-16
+==================
+
+ * Fixed a bug where the mergeInitialisms choked on source nodes
+
 0.1.0-rc.7 / 2014-07-15
 ==================
 
