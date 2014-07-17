@@ -1,5 +1,5 @@
 
-n.n.n / 2014-07-17
+0.1.0-rc.10 / 2014-07-17
 ==================
 
  * Added auto-deployment to NPM with Travis
