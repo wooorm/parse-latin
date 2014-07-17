@@ -13,7 +13,7 @@ var EXPRESSION_ABBREVIATION_PREFIX, EXPRESSION_NEW_LINE,
  * Expose `expand`. Expands a list of Unicode code points and ranges to
  * be usable in a regex character class.
  *
- * “Borrowed” from XRegexp.
+ * "Borrowed" from XRegexp.
  *
  * @param {String} value
  * @return {String}
@@ -26,7 +26,7 @@ function expand(value) {
 /**
  * Expose `GROUP_NUMERICAL`. Unicode Number Range (Nd, Nl, and No).
  *
- * “Borrowed” from XRegexp.
+ * "Borrowed" from XRegexp.
  *
  * @global
  * @private
@@ -64,7 +64,7 @@ GROUP_NUMERICAL = expand(
  * Expose `GROUP_LETTER_LOWER`. Unicode Alphabetic category Ll (Letter,
  * lowercase).
  *
- * “Borrowed” from XRegexp.
+ * "Borrowed" from XRegexp.
  *
  * @global
  * @private
@@ -115,7 +115,7 @@ GROUP_LETTER_LOWER = expand('0061-007A00B500DF-00F600F8-00FF010101030105' +
  * Expose `GROUP_ALPHABETIC`. Unicode Alphabetic Range: Contains
  * Lu (Letter, uppercase), Ll (Letter, lowercase), and Lo (Letter, other).
  *
- * “Borrowed” from XRegexp.
+ * "Borrowed" from XRegexp.
  *
  * @global
  * @private
@@ -180,7 +180,7 @@ GROUP_ALPHABETIC = expand('0041-005A0061-007A00AA00B500BA00C0-00D6' +
 /**
  * Expose `GROUP_WHITE_SPACE`. Unicode White Space Range.
  *
- * “Borrowed” from XRegexp.
+ * "Borrowed" from XRegexp.
  *
  * @global
  * @private
@@ -269,7 +269,7 @@ GROUP_TERMINAL_MARKER = '\\.\\u203D?!';
  * Expose `GROUP_CLOSING_PUNCTUATION`. Unicode Pe (Punctuation, Close)
  * category.
  *
- * “Borrowed” from XRegexp.
+ * "Borrowed" from XRegexp.
  *
  * @global
  * @private
@@ -286,7 +286,7 @@ GROUP_CLOSING_PUNCTUATION = expand('0029005D007D0F3B0F3D169C2046' +
  * Expose `GROUP_FINAL_PUNCTUATION`. Unicode
  * Pf (Punctuation, Final) category.
  *
- * “Borrowed” from XRegexp.
+ * "Borrowed" from XRegexp.
  *
  * @global
  * @private
@@ -298,7 +298,7 @@ GROUP_FINAL_PUNCTUATION = expand('00BB2019201D203A2E032E052E0A2E0D2E1D2E21');
  * `EXPRESSION_ABBREVIATION_PREFIX` holds a blacklist of full stop
  * characters that should not be treated as terminal sentence markers:
  *
- * A “word” boundry,
+ * A "word" boundry,
  * followed by a case-insensitive abbreviation,
  * followed by full stop.
  *
@@ -373,7 +373,8 @@ EXPRESSION_NEW_LINE = /^(\r?\n|\r)+$/;
  * @private
  * @constant
  */
-EXPRESSION_INNER_WORD_PUNCTUATION = /^[-.:'’\u00AD\u00B7\u2010\2011\u2027]$/;
+EXPRESSION_INNER_WORD_PUNCTUATION =
+    /^[-.:'\2019\u00AD\u00B7\u2010\2011\u2027]$/;
 
 /**
  * `EXPRESSION_LOWER_INITIAL_EXCEPTION` matches an initial lower case letter.
