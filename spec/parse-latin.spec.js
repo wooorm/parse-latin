@@ -14816,7 +14816,7 @@ describe('Terminal markers', function () {
 });
 
 describe('Abbreviations: Initialisms', function () {
-    it('Should merge full-stops in initialisms', function () {
+    it('should merge full-stops in initialisms', function () {
         var root = parser.tokenizeSentence(
             'Something C.I.A. something.'
         ).children[2];
@@ -14867,7 +14867,7 @@ describe('Abbreviations: Initialisms', function () {
         }));
     });
 
-    it('Should merge full-stops surrounded by words', function () {
+    it('should merge full-stops surrounded by words', function () {
         var root = parser.tokenizeSentence(
             'You will need to arrive by 14.30'
         ).children[12];
@@ -14896,7 +14896,7 @@ describe('Abbreviations: Initialisms', function () {
         }));
     });
 
-    it('Should merge a full-stop following a merged word', function () {
+    it('should NOT merge a full-stop following a merged word', function () {
         var root = parser.tokenizeSentence(
             'Self-contained.'
         ).children;
@@ -14935,10 +14935,356 @@ describe('Abbreviations: Initialisms', function () {
             }
         ]));
     });
+
+    it('should merge pluralized single letters', function () {
+        var ast = parser.tokenizeParagraph(
+            'What about A\'s and Bs?'
+        ).children[0];
+
+        assert(JSON.stringify(ast.children[4]) === JSON.stringify({
+            'type' : 'WordNode',
+            'children' : [
+                {
+                    'type' : 'TextNode',
+                    'value' : 'A'
+                },
+                {
+                    'type' : 'PunctuationNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : '\''
+                        }
+                    ]
+                },
+                {
+                    'type' : 'TextNode',
+                    'value' : 's'
+                }
+            ]
+        }));
+
+        assert(JSON.stringify(ast.children[8]) === JSON.stringify({
+            'type' : 'WordNode',
+            'children' : [
+                {
+                    'type' : 'TextNode',
+                    'value' : 'Bs'
+                }
+            ]
+        }));
+    });
+
+    it('should merge pluralized initialisms', function () {
+        var ast = parser.tokenizeParagraph(
+            'What about C.D.\'s, C.D.s, or CDs? SOS\'s or SOSes? ' +
+            'G.I.\'s or G.I\'s?'
+        ).children;
+
+        assert(JSON.stringify(ast[0].children[4]) === JSON.stringify({
+            'type' : 'WordNode',
+            'children' : [
+                {
+                    'type' : 'TextNode',
+                    'value' : 'C'
+                },
+                {
+                    'type' : 'PunctuationNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : '.'
+                        }
+                    ]
+                },
+                {
+                    'type' : 'TextNode',
+                    'value' : 'D'
+                },
+                {
+                    'type' : 'PunctuationNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : '.'
+                        }
+                    ]
+                },
+                {
+                    'type' : 'PunctuationNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : '\''
+                        }
+                    ]
+                },
+                {
+                    'type' : 'TextNode',
+                    'value' : 's'
+                }
+            ]
+        }));
+
+        assert(JSON.stringify(ast[0].children[7]) === JSON.stringify({
+            'type' : 'WordNode',
+            'children' : [
+                {
+                    'type' : 'TextNode',
+                    'value' : 'C'
+                },
+                {
+                    'type' : 'PunctuationNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : '.'
+                        }
+                    ]
+                },
+                {
+                    'type' : 'TextNode',
+                    'value' : 'D'
+                },
+                {
+                    'type' : 'PunctuationNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : '.'
+                        }
+                    ]
+                },
+                {
+                    'type' : 'TextNode',
+                    'value' : 's'
+                }
+            ]
+        }));
+
+        assert(JSON.stringify(ast[0].children[12]) === JSON.stringify({
+            'type' : 'WordNode',
+            'children' : [
+                {
+                    'type' : 'TextNode',
+                    'value' : 'CDs'
+                }
+            ]
+        }));
+
+        assert(JSON.stringify(ast[2].children[0]) === JSON.stringify({
+            'type' : 'WordNode',
+            'children' : [
+                {
+                    'type' : 'TextNode',
+                    'value' : 'SOS'
+                },
+                {
+                    'type' : 'PunctuationNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : '\''
+                        }
+                    ]
+                },
+                {
+                    'type' : 'TextNode',
+                    'value' : 's'
+                }
+            ]
+        }));
+
+        assert(JSON.stringify(ast[2].children[4]) === JSON.stringify({
+            'type' : 'WordNode',
+            'children' : [
+                {
+                    'type' : 'TextNode',
+                    'value' : 'SOSes'
+                }
+            ]
+        }));
+
+        assert(JSON.stringify(ast[4].children[0]) === JSON.stringify({
+            'type' : 'WordNode',
+            'children' : [
+                {
+                    'type' : 'TextNode',
+                    'value' : 'G'
+                },
+                {
+                    'type' : 'PunctuationNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : '.'
+                        }
+                    ]
+                },
+                {
+                    'type' : 'TextNode',
+                    'value' : 'I'
+                },
+                {
+                    'type' : 'PunctuationNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : '.'
+                        }
+                    ]
+                },
+                {
+                    'type' : 'PunctuationNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : '\''
+                        }
+                    ]
+                },
+                {
+                    'type' : 'TextNode',
+                    'value' : 's'
+                }
+            ]
+        }));
+
+        assert(JSON.stringify(ast[4].children[4]) === JSON.stringify({
+            'type' : 'WordNode',
+            'children' : [
+                {
+                    'type' : 'TextNode',
+                    'value' : 'G'
+                },
+                {
+                    'type' : 'PunctuationNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : '.'
+                        }
+                    ]
+                },
+                {
+                    'type' : 'TextNode',
+                    'value' : 'I'
+                },
+                {
+                    'type' : 'PunctuationNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : '\''
+                        }
+                    ]
+                },
+                {
+                    'type' : 'TextNode',
+                    'value' : 's'
+                }
+            ]
+        }));
+    });
+
+    it('should not merge initialisms consisting of more than one ' +
+        'character each', function () {
+            var ast = parser.tokenizeParagraph(
+                'Lets meet this Friday at 16.00.'
+            ).children[0].children[10];
+
+            assert(JSON.stringify(ast) === JSON.stringify({
+                'type' : 'WordNode',
+                'children' : [
+                    {
+                        'type' : 'TextNode',
+                        'value' : '16'
+                    },
+                    {
+                        'type' : 'PunctuationNode',
+                        'children' : [
+                            {
+                                'type' : 'TextNode',
+                                'value' : '.'
+                            }
+                        ]
+                    },
+                    {
+                        'type' : 'TextNode',
+                        'value' : '00'
+                    }
+                ]
+            }));
+        }
+    );
+
+    it('should merge initialisms with other merged words', function () {
+        var ast = parser.tokenizeParagraph(
+            'In the pre-C.I.A. era.'
+        ).children[0];
+
+        assert(JSON.stringify(ast.children[4]) === JSON.stringify({
+            'type' : 'WordNode',
+            'children' : [
+                {
+                    'type' : 'TextNode',
+                    'value' : 'pre'
+                },
+                {
+                    'type' : 'PunctuationNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : '-'
+                        }
+                    ]
+                },
+                {
+                    'type' : 'TextNode',
+                    'value' : 'C'
+                },
+                {
+                    'type' : 'PunctuationNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : '.'
+                        }
+                    ]
+                },
+                {
+                    'type' : 'TextNode',
+                    'value' : 'I'
+                },
+                {
+                    'type' : 'PunctuationNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : '.'
+                        }
+                    ]
+                },
+                {
+                    'type' : 'TextNode',
+                    'value' : 'A'
+                },
+                {
+                    'type' : 'PunctuationNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : '.'
+                        }
+                    ]
+                }
+            ]
+        }));
+    });
 });
 
 describe('Source', function () {
-    it('Should merge a source node when in a document', function () {
+    it('should merge a source node when in a document', function () {
         var root = parser.tokenizeRoot(
             '# Some Sentence.\n' +
             '=================\n\n' +
@@ -15089,7 +15435,7 @@ describe('Source', function () {
         }));
     });
 
-    it('Should merge multiple source nodes in a document', function () {
+    it('should merge multiple source nodes in a document', function () {
         var root = parser.tokenizeRoot(
             '# Some Sentence.\n' +
             '=================\n' +
@@ -15259,7 +15605,7 @@ describe('Source', function () {
         }));
     });
 
-    it('Should merge a source node when before a document', function () {
+    it('should merge a source node when before a document', function () {
         var root = parser.tokenizeRoot(
             '\n|:------:|:-------:|:----:|:---------------:|\n' +
             '| github | unicode | name | escaped unicode |'
@@ -15481,7 +15827,7 @@ describe('Source', function () {
         }));
     });
 
-    it('Should merge a source node when after a document', function () {
+    it('should merge a source node when after a document', function () {
         var root = parser.tokenizeRoot(
             '| github | unicode | name | escaped unicode |\n' +
             '|--------|---------|------|-----------------|\n'
