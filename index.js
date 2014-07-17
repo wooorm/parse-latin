@@ -401,7 +401,7 @@ EXPRESSION_LOWER_INITIAL_EXCEPTION = new RegExp(
 function modify(modifiers, parent) {
     var length = modifiers.length,
         iterator = -1,
-        modifier, pointer, child, result, children;
+        modifier, pointer, result, children;
 
     /* Iterate over all modifiers... */
     while (++iterator < length) {
