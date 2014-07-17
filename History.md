@@ -1,4 +1,12 @@
 
+n.n.n / 2014-07-17
+==================
+
+ * Removed unused variable
+ * Added parse-dutch and parse-english to Related
+ * Replaced assignments with conditional expressions in two loops
+ * Replaced unicode charachters in API with their ASCII equivalent
+
 0.1.0-rc.8 / 2014-07-16
 ==================
 
