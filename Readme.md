@@ -187,6 +187,8 @@ On a MacBook Air, it parser about 3 large books, 70 big articles, or 7,803 parag
 
   * [retext](https://github.com/wooorm/retext "Retext")
   * [textom](https://github.com/wooorm/textom "TextOM")
+  * [parse-dutch](https://github.com/wooorm/parse-dutch "Parse Dutch")
+  * [parse-english](https://github.com/wooorm/parse-english "Parse English")
 
 ## License
 
