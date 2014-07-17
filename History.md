@@ -1,4 +1,11 @@
 
+n.n.n / 2014-07-17
+==================
+
+ * Added auto-deployment to NPM with Travis
+ * Added support for pluralised initialisms; fixed bug where times were classified as initialisms (e.g., 16.00.)
+ * Added unit tests for pluralised initialisms
+
 0.1.0-rc.9 / 2014-07-17
 ==================
 
