@@ -2,7 +2,7 @@
   "name": "parse-latin",
   "repository": "wooorm/parse-latin",
   "description": "Latin-script (natural language) parser",
-  "version": "0.1.0-rc.8",
+  "version": "0.1.0-rc.9",
   "keywords": [
     "latin",
     "script",
