@@ -545,12 +545,36 @@ function mergeInnerWordPunctuation(child, index, parent) {
     prev = children[index - 1];
     next = children[index + 1];
 
-    if (prev.type !== 'WordNode' || !next || next.type !== 'WordNode') {
+    if (
+        prev.type !== 'WordNode' || !next ||
+        (
+            next.type !== 'WordNode' &&
+            next.type !== 'PunctuationNode'
+        )
+    ) {
         return;
     }
 
     if (!EXPRESSION_INNER_WORD_PUNCTUATION.test(child.children[0].value)) {
         return;
+    }
+
+    /* e.g., C.I.A{.}\'s, where in curly brackets the child is depicted. */
+    if (next.type === 'PunctuationNode') {
+        if (
+            child.children[0].value !== '.' ||
+            !EXPRESSION_INNER_WORD_PUNCTUATION.test(next.children[0].value)
+        ) {
+            return;
+        }
+
+        /* Remove `child` from parent. */
+        children.splice(index, 1);
+
+        /* Add child to prev.children. */
+        prev.children = prev.children.concat(child);
+
+        return index - 1;
     }
 
     /* Remove `child` and `next` from parent. */
@@ -596,20 +620,29 @@ function mergeInitialisms(child, index, parent) {
         return;
     }
 
-    iterator = -1;
+    iterator = length;
 
-    while (children[++iterator]) {
+    while (children[--iterator]) {
         if (iterator % 2 === 0) {
             /* istanbul ignore if: TOSPEC: Currently not spec-able, but
              * future-friendly */
             if (children[iterator].type !== 'TextNode') {
                 return;
             }
+
+            if (children[iterator].value.length > 1) {
+                return;
+            }
         } else if (
             children[iterator].type !== 'PunctuationNode' ||
             children[iterator].children[0].value !== '.'
         ) {
-            return;
+            /* istanbul ignore else: TOSPEC */
+            if (iterator < length - 2) {
+                break;
+            } else {
+                return;
+            }
         }
     }
 
