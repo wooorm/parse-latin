@@ -401,7 +401,7 @@ EXPRESSION_LOWER_INITIAL_EXCEPTION = new RegExp(
 function modify(modifiers, parent) {
     var length = modifiers.length,
         iterator = -1,
-        modifier, pointer, child, result;
+        modifier, pointer, child, result, children;
 
     /* Iterate over all modifiers... */
     while (++iterator < length) {
@@ -412,11 +412,11 @@ function modify(modifiers, parent) {
          * We allow conditional assignment here, because the length of the
          * parent's children will probably change.
          */
-        /*eslint-disable no-cond-assign */
+        children = parent.children;
 
         /* Iterate over all children... */
-        while (child = parent.children[++pointer]) {
-            result = modifier(child, pointer, parent);
+        while (children[++pointer]) {
+            result = modifier(children[pointer], pointer, parent);
 
             /*
              * If the modifier returns a number, move the pointer over to
@@ -426,7 +426,6 @@ function modify(modifiers, parent) {
                 pointer = result - 1;
             }
         }
-        /*eslint-enable no-cond-assign */
     }
 }
 
@@ -1066,11 +1065,10 @@ parserPrototype.tokenize = function (value) {
 
     delimiter.lastIndex = 0;
     start = 0;
-
-    /*eslint-disable no-cond-assign */
+    match = delimiter.exec(value);
 
     /* for every match of the token delimiter expression... */
-    while (match = delimiter.exec(value)) {
+    while (match) {
         /*
          * Move the pointer over to after its last character.
          */
@@ -1082,9 +1080,9 @@ parserPrototype.tokenize = function (value) {
          */
         tokens.push(self.classifier(value.substring(start, end)));
 
+        match = delimiter.exec(value);
         start = end;
     }
-    /*eslint-enable no-cond-assign */
 
     return tokens;
 };
