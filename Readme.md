@@ -8,7 +8,7 @@ See [Browser Support](#browser-support) for more information (a.k.a. don’t wor
 
 **parse-latin** is an Latin-script language parser in JavaScript. NodeJS, and the browser. Lots of tests (330+), including 630+ assertions. 100% coverage.
 
-Note: This project is **not** an object model for natural languages, or an extensible system for analysing and manipulating natural language, its an algorithm that transforms plain-text natural language into an AST. If you need the above-mentioned functionalities, use the following projects.
+Note: This project is **not** an object model for natural languages, or an extensible system for analysing and manipulating natural language, its an algorithm that transforms plain-text natural language into an AST (Abstract Syntax Tree). If you need the above-mentioned functionalities, use the following projects.
 
 * For a pluggable system for analysing and manipulating natural language, see [retext](https://github.com/wooorm/retext "Retext").
 * For an object model, see [TextOM](https://github.com/wooorm/textom "TextOM").
