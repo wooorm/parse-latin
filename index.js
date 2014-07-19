@@ -1208,4 +1208,6 @@ parserPrototype.tokenizeRoot = tokenizerFactory(Parser, {
     'modifiers' : [makeFinalWhiteSpaceAndSourceSiblings, removeEmptyNodes]
 });
 
+parserPrototype.parse = parserPrototype.tokenizeRoot;
+
 module.exports = Parser;
