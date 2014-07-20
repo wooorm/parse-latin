@@ -1253,6 +1253,19 @@ parserPrototype.tokenizeRoot = tokenizerFactory(Parser, {
 });
 
 /**
+ * Tokenize natural Latin-script language into a syntax tree.
+ *
+ * @param {string?} value
+ * @return {Object[]} - The tokenized document.
+ *
+ * @api public
+ * @memberof Parser#
+ */
+parserPrototype.parse = function (value) {
+    return this.tokenizeRoot(value);
+};
+
+/**
  * Export ParseLatin.
  */
 module.exports = Parser;

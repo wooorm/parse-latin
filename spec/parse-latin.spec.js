@@ -22,6 +22,10 @@ describe('ParseLatin', function () {
 });
 
 describe('new ParseLatin()', function () {
+    it('should have a `parse` method', function () {
+        assert(typeof parser.parse === 'function');
+    });
+
     it('should have a `tokenizeRoot` method', function () {
         assert(typeof parser.tokenizeRoot === 'function');
     });
@@ -33,13 +37,17 @@ describe('new ParseLatin()', function () {
     it('should have a `tokenizeSentence` method', function () {
         assert(typeof parser.tokenizeSentence === 'function');
     });
+
+    it('should have a `tokenize` method', function () {
+        assert(typeof parser.tokenize === 'function');
+    });
 });
 
 describe('Root: Without a value', function () {
     it('should return an empty RootNode when invoked without value',
         function () {
             assert(
-                JSON.stringify(parser.tokenizeRoot()) ===
+                JSON.stringify(parser.parse()) ===
                 JSON.stringify({
                     'type' : 'RootNode',
                     'children' : []
@@ -1456,7 +1464,7 @@ describe('Root: Given any other value', function () {
 
 describe('A whitespace only document', function () {
     it('should equal the test AST', function () {
-        var root = parser.tokenizeRoot('\n\n');
+        var root = parser.parse('\n\n');
 
         assert(JSON.stringify(root) === JSON.stringify({
             'type' : 'RootNode',
@@ -14432,7 +14440,7 @@ describe('Terminal markers', function () {
     });
 
     it('should break sentences ending in an ellipsis', function () {
-        var root = parser.tokenizeRoot(
+        var root = parser.parse(
             'This is rather straightforward... most of the time... ' +
             'She said that you should end a sentence with an ellipsis.'
         );
