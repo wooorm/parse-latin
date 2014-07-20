@@ -13,7 +13,7 @@ var EXPRESSION_ABBREVIATION_PREFIX, EXPRESSION_NEW_LINE,
     GROUP_COMBINING_DIACRITICAL_MARK, GROUP_COMBINING_NONSPACING_MARK,
     GROUP_FINAL_PUNCTUATION, GROUP_LETTER_LOWER, GROUP_NUMERICAL,
     GROUP_TERMINAL_MARKER, GROUP_WHITE_SPACE, GROUP_WORD,
-    parserPrototype;
+    parseLatinPrototype;
 
 /**
  * Expands a list of Unicode code points and ranges to be usable in an
@@ -1020,23 +1020,23 @@ function removeEmptyNodes(child, index, parent) {
 }
 
 /**
- * `Parser` contains the functions needed to tokenize natural Latin-script
+ * `ParseLatin` contains the functions needed to tokenize natural Latin-script
  * language into a syntax tree.
  *
  * @constructor
  * @api public
  */
-function Parser() {
+function ParseLatin() {
     /*
      * TODO: This should later be removed (when this change bubbles
      * through to dependants)
      */
-    if (!(this instanceof Parser)) {
-        return new Parser();
+    if (!(this instanceof ParseLatin)) {
+        return new ParseLatin();
     }
 }
 
-parserPrototype = Parser.prototype;
+parseLatinPrototype = ParseLatin.prototype;
 
 /**
  * Matches all tokens:
@@ -1046,9 +1046,9 @@ parserPrototype = Parser.prototype;
  * - One or more of the same character;
  *
  * @api private
- * @memberof Parser#
+ * @memberof ParseLatin#
  */
-parserPrototype.EXPRESSION_TOKEN = new RegExp(
+parseLatinPrototype.EXPRESSION_TOKEN = new RegExp(
     '[' + GROUP_WORD + ']+|' +
     '[' + GROUP_WHITE_SPACE + ']+|' +
     '[' + GROUP_ASTRAL + ']+|' +
@@ -1060,9 +1060,9 @@ parserPrototype.EXPRESSION_TOKEN = new RegExp(
  * Matches a word.
  *
  * @api private
- * @memberof Parser#
+ * @memberof ParseLatin#
  */
-parserPrototype.EXPRESSION_WORD = new RegExp(
+parseLatinPrototype.EXPRESSION_WORD = new RegExp(
     '^[' + GROUP_WORD + ']+$'
 );
 
@@ -1070,9 +1070,9 @@ parserPrototype.EXPRESSION_WORD = new RegExp(
  * Matches a string containing ONLY white space.
  *
  * @api private
- * @memberof Parser#
+ * @memberof ParseLatin#
  */
-parserPrototype.EXPRESSION_WHITE_SPACE = new RegExp(
+parseLatinPrototype.EXPRESSION_WHITE_SPACE = new RegExp(
     '^[' + GROUP_WHITE_SPACE + ']+$'
 );
 
@@ -1084,9 +1084,9 @@ parserPrototype.EXPRESSION_WHITE_SPACE = new RegExp(
  * @return {Object[]} - An array of tokens.
  *
  * @api public
- * @memberof Parser#
+ * @memberof ParseLatin#
  */
-parserPrototype.tokenize = function (value) {
+parseLatinPrototype.tokenize = function (value) {
     var self, tokens, delimiter, start, end, match;
 
     if (value === null || value === undefined) {
@@ -1143,9 +1143,9 @@ parserPrototype.tokenize = function (value) {
  * @return {Object} - A classified token.
  *
  * @api private
- * @memberof Parser#
+ * @memberof ParseLatin#
  */
-parserPrototype.classifier = function (value) {
+parseLatinPrototype.classifier = function (value) {
     var type;
 
     /*
@@ -1186,9 +1186,9 @@ parserPrototype.classifier = function (value) {
  * @return {Object[]} - A sentence token.
  *
  * @api private
- * @memberof Parser#
+ * @memberof ParseLatin#
  */
-parserPrototype.tokenizeSentence = function (value) {
+parseLatinPrototype.tokenizeSentence = function (value) {
     var root = {
         'type' : 'SentenceNode',
         'children' : this.tokenize(value)
@@ -1203,7 +1203,7 @@ parserPrototype.tokenizeSentence = function (value) {
     return root;
 };
 
-parserPrototype.tokenizeSentenceModifiers = [
+parseLatinPrototype.tokenizeSentenceModifiers = [
     mergeInnerWordPunctuation,
     mergeSourceLines,
     mergeInitialisms
@@ -1216,9 +1216,9 @@ parserPrototype.tokenizeSentenceModifiers = [
  * @return {Object[]} - A paragraph token.
  *
  * @api private
- * @memberof Parser#
+ * @memberof ParseLatin#
  */
-parserPrototype.tokenizeParagraph = tokenizerFactory(Parser, {
+parseLatinPrototype.tokenizeParagraph = tokenizerFactory(ParseLatin, {
     'name' : 'tokenizeParagraph',
     'tokenizer' : 'tokenizeSentence',
     'type' : 'ParagraphNode',
@@ -1242,9 +1242,9 @@ parserPrototype.tokenizeParagraph = tokenizerFactory(Parser, {
  * @return {Object[]} - A root token.
  *
  * @api private
- * @memberof Parser#
+ * @memberof ParseLatin#
  */
-parserPrototype.tokenizeRoot = tokenizerFactory(Parser, {
+parseLatinPrototype.tokenizeRoot = tokenizerFactory(ParseLatin, {
     'name' : 'tokenizeRoot',
     'tokenizer' : 'tokenizeParagraph',
     'type' : 'RootNode',
@@ -1259,13 +1259,13 @@ parserPrototype.tokenizeRoot = tokenizerFactory(Parser, {
  * @return {Object[]} - The tokenized document.
  *
  * @api public
- * @memberof Parser#
+ * @memberof ParseLatin#
  */
-parserPrototype.parse = function (value) {
+parseLatinPrototype.parse = function (value) {
     return this.tokenizeRoot(value);
 };
 
 /**
  * Export ParseLatin.
  */
-module.exports = Parser;
+module.exports = ParseLatin;

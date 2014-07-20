@@ -1,21 +1,21 @@
 'use strict';
 
-var Parser, assert, parser;
+var ParseLatin, assert, parseLatin;
 
-Parser = require('..');
+ParseLatin = require('..');
 assert = require('assert');
-parser = new Parser();
+parseLatin = new ParseLatin();
 
 describe('ParseLatin', function () {
     it('should be a function', function () {
-        assert(typeof Parser === 'function');
+        assert(typeof ParseLatin === 'function');
     });
 
-    it('should return a newly initialized `Parser` object, when invoked',
+    it('should return a newly initialized `ParseLatin` object, when invoked',
         function () {
-            assert(new Parser() instanceof Parser);
+            assert(new ParseLatin() instanceof ParseLatin);
             /*eslint-disable new-cap */
-            assert(Parser() instanceof Parser);
+            assert(ParseLatin() instanceof ParseLatin);
             /*eslint-enable new-cap */
         }
     );
@@ -23,23 +23,23 @@ describe('ParseLatin', function () {
 
 describe('new ParseLatin()', function () {
     it('should have a `parse` method', function () {
-        assert(typeof parser.parse === 'function');
+        assert(typeof parseLatin.parse === 'function');
     });
 
     it('should have a `tokenizeRoot` method', function () {
-        assert(typeof parser.tokenizeRoot === 'function');
+        assert(typeof parseLatin.tokenizeRoot === 'function');
     });
 
     it('should have a `tokenizeParagraph` method', function () {
-        assert(typeof parser.tokenizeParagraph === 'function');
+        assert(typeof parseLatin.tokenizeParagraph === 'function');
     });
 
     it('should have a `tokenizeSentence` method', function () {
-        assert(typeof parser.tokenizeSentence === 'function');
+        assert(typeof parseLatin.tokenizeSentence === 'function');
     });
 
     it('should have a `tokenize` method', function () {
-        assert(typeof parser.tokenize === 'function');
+        assert(typeof parseLatin.tokenize === 'function');
     });
 });
 
@@ -47,7 +47,7 @@ describe('Root: Without a value', function () {
     it('should return an empty RootNode when invoked without value',
         function () {
             assert(
-                JSON.stringify(parser.parse()) ===
+                JSON.stringify(parseLatin.parse()) ===
                 JSON.stringify({
                     'type' : 'RootNode',
                     'children' : []
@@ -71,7 +71,7 @@ describe('Root: Given two paragraphs', function () {
         'of formal writing, used to organize longer prose.';
 
     it('should equal the test AST', function () {
-        var root = parser.tokenizeRoot(source);
+        var root = parseLatin.tokenizeRoot(source);
 
         assert(JSON.stringify(root) === JSON.stringify({
             'type' : 'RootNode',
@@ -1444,8 +1444,12 @@ describe('Root: Given a String object', function () {
             var source = 'Test.';
             /*eslint-disable no-new-wrappers */
             assert(
-                JSON.stringify(parser.tokenizeRoot(new String(source))) ===
-                JSON.stringify(parser.tokenizeRoot(source))
+                JSON.stringify(
+                    parseLatin.tokenizeRoot(new String(source))
+                ) ===
+                JSON.stringify(
+                    parseLatin.tokenizeRoot(source)
+                )
             );
             /*eslint-enable no-new-wrappers */
         }
@@ -1456,7 +1460,7 @@ describe('Root: Given any other value', function () {
     it('should throw when the object is neither null, undefined, string, ' +
         'nor String object', function () {
             assert.throws(function () {
-                parser.tokenizeRoot({});
+                parseLatin.tokenizeRoot({});
             });
         }
     );
@@ -1464,7 +1468,7 @@ describe('Root: Given any other value', function () {
 
 describe('A whitespace only document', function () {
     it('should equal the test AST', function () {
-        var root = parser.parse('\n\n');
+        var root = parseLatin.parse('\n\n');
 
         assert(JSON.stringify(root) === JSON.stringify({
             'type' : 'RootNode',
@@ -1487,7 +1491,7 @@ describe('Paragraph: Without a value', function () {
     it('should return an empty ParagraphNode when invoked without value',
         function () {
             assert(
-                JSON.stringify(parser.tokenizeParagraph()) ===
+                JSON.stringify(parseLatin.tokenizeParagraph()) ===
                 JSON.stringify({
                     'type' : 'ParagraphNode',
                     'children' : []
@@ -1501,7 +1505,7 @@ describe('Sentence: Without a value', function () {
     it('should return an empty SentenceNode when invoked without value',
         function () {
             assert(
-                JSON.stringify(parser.tokenizeSentence()) ===
+                JSON.stringify(parseLatin.tokenizeSentence()) ===
                 JSON.stringify({
                     'type' : 'SentenceNode',
                     'children' : []
@@ -1513,7 +1517,7 @@ describe('Sentence: Without a value', function () {
 
 describe('Sentence: Starting with a latin exception', function () {
     it('should equal the test AST', function () {
-        var root = parser.tokenizeParagraph(
+        var root = parseLatin.tokenizeParagraph(
             'A sentence. Cap. 553, Electronic Transactions Ordinance.'
         );
 
@@ -1698,7 +1702,7 @@ describe('Sentence: Starting with a latin exception', function () {
 */
 describe('Sentence: Abbreviations with dot characters', function () {
     it('should equal the test AST', function () {
-        var root = parser.tokenizeParagraph('Esperanto was selectively ' +
+        var root = parseLatin.tokenizeParagraph('Esperanto was selectively ' +
             'designed by L.L. Zamenhof from natural languages.');
 
         assert(JSON.stringify(root.children[0]) === JSON.stringify({
@@ -1916,8 +1920,10 @@ describe('Sentence: Abbreviations with dot characters', function () {
 */
 describe('Sentence: abbreviations followed by lowercase', function () {
     it('should equal the test AST', function () {
-        var root = parser.tokenizeParagraph('Park Ave. was an indie pop ' +
-            'band which started in January 1996 in Nebraska (Omaha).');
+        var root = parseLatin.tokenizeParagraph(
+            'Park Ave. was an indie pop band which started in January ' +
+            '1996 in Nebraska (Omaha).'
+        );
 
         assert(JSON.stringify(root.children[0]) === JSON.stringify({
             'type' : 'SentenceNode',
@@ -2229,7 +2235,7 @@ describe('Sentence: abbreviations followed by lowercase', function () {
 */
 describe('Sentence: common abbreviations preceded by a dot', function () {
     it('should equal the test AST', function () {
-        var root = parser.tokenizeParagraph('However, eventually the ' +
+        var root = parseLatin.tokenizeParagraph('However, eventually the ' +
             'distinction was lost when .com, .org and .net were opened ' +
             'for unrestricted registration.');
 
@@ -2583,7 +2589,7 @@ describe('Sentence: A terminal marker before a closing quote or parenthesis',
             var source = '“However,” says my Grade 8 teacher, “the ' +
                 'period goes inside quotes.” This is another sentence';
 
-            assert(JSON.stringify(parser.tokenizeParagraph(source)) ===
+            assert(JSON.stringify(parseLatin.tokenizeParagraph(source)) ===
                 JSON.stringify({
                     'type' : 'ParagraphNode',
                     'children' : [
@@ -2934,7 +2940,7 @@ describe('Sentence: A terminal marker before a closing quote or parenthesis',
 describe('Sentence: Abbreviations followed by a dot, optional white ' +
     'space, and a comma', function () {
         it('should equal the test AST', function () {
-            var root = parser.tokenizeParagraph('Wikipedia® is a ' +
+            var root = parseLatin.tokenizeParagraph('Wikipedia® is a ' +
                 'registered trademark of the Wikimedia Foundation, Inc., a ' +
                 'non-profit organization.');
 
@@ -3234,7 +3240,7 @@ describe('Sentence: Abbreviations followed by a dot, optional white ' +
 
 describe('Sentence: Starting with ellipsis containing spaces', function () {
     it('should equal the test AST', function () {
-        var root = parser.tokenizeParagraph('. . . to be continued.');
+        var root = parseLatin.tokenizeParagraph('. . . to be continued.');
 
         assert(JSON.stringify(root.children[0]) === JSON.stringify({
             'type' : 'SentenceNode',
@@ -3354,7 +3360,7 @@ describe('Sentence: Starting with ellipsis containing spaces', function () {
 
 describe('Sentence: Ending with ellipsis containing spaces', function () {
     it('should equal the test AST', function () {
-        var root = parser.tokenizeParagraph('To be continued. . .');
+        var root = parseLatin.tokenizeParagraph('To be continued. . .');
 
         assert(JSON.stringify(root.children[0]) === JSON.stringify({
             'type' : 'SentenceNode',
@@ -3456,7 +3462,7 @@ describe('Sentence: Ending with ellipsis containing spaces', function () {
 
 describe('Sentence: Starting with ellipsis without spaces', function () {
     it('should equal the test AST', function () {
-        var root = parser.tokenizeParagraph('...To be continued.');
+        var root = parseLatin.tokenizeParagraph('...To be continued.');
         assert(JSON.stringify(root.children[0]) === JSON.stringify({
             'type' : 'SentenceNode',
             'children' : [
@@ -3530,7 +3536,7 @@ describe('Sentence: Starting with ellipsis without spaces', function () {
 
 describe('Sentence: With trailing white space', function () {
     it('should equal the test AST', function () {
-        var root = parser.tokenizeParagraph('A sentence. ');
+        var root = parseLatin.tokenizeParagraph('A sentence. ');
 
         assert(JSON.stringify(root) === JSON.stringify({
             'type' : 'ParagraphNode',
@@ -3592,7 +3598,7 @@ describe('Sentence: With trailing white space', function () {
 
 describe('Sentence: Without terminal marker', function () {
     it('should equal the test AST', function () {
-        var root = parser.tokenizeParagraph('A sentence');
+        var root = parseLatin.tokenizeParagraph('A sentence');
         assert(JSON.stringify(root.children[0]) === JSON.stringify({
             'type' : 'SentenceNode',
             'children' : [
@@ -3630,7 +3636,7 @@ describe('Sentence: Without terminal marker', function () {
 
 describe('Sentence: Without alphabetic content', function () {
     it('should equal the test AST', function () {
-        var root = parser.tokenizeParagraph('\uD83D\uDC38.');
+        var root = parseLatin.tokenizeParagraph('\uD83D\uDC38.');
         assert(JSON.stringify(root.children[0]) === JSON.stringify({
             'type' : 'SentenceNode',
             'children' : [
@@ -3699,7 +3705,7 @@ describe('White space characters', function () {
         it('should equal the test AST when using `' + character + '`',
             function () {
                 assert(
-                    JSON.stringify(parser.tokenizeSentence(source)) ===
+                    JSON.stringify(parseLatin.tokenizeSentence(source)) ===
                     JSON.stringify({
                         'type' : 'SentenceNode',
                         'children' : [
@@ -3754,7 +3760,7 @@ describe('A simple sentence testing for astral-plane characters',
     function () {
         var source = 'The unicode character \uD83D\uDCA9 is pile of poo.';
         it('should equal the test AST', function () {
-            assert(JSON.stringify(parser.tokenizeSentence(source)) ===
+            assert(JSON.stringify(parseLatin.tokenizeSentence(source)) ===
                 JSON.stringify({
                     'type' : 'SentenceNode',
                     'children' : [
@@ -3915,7 +3921,9 @@ describe('A simple sentence testing for astral-plane characters',
  */
 describe('Double combining marks', function () {
     it('should equal the test AST', function () {
-        var root = parser.tokenizeSentence('He scored 0\uFE0F\u20E3 points.');
+        var root = parseLatin.tokenizeSentence(
+            'He scored 0\uFE0F\u20E3 points.'
+        );
 
         assert(JSON.stringify(root) === JSON.stringify({
             'type' : 'SentenceNode',
@@ -4123,7 +4131,9 @@ describe('A simple sentence testing for combining diacritical marks',
             it('should equal the test AST when using \u25CC' + diacritic,
                 function () {
                     assert(
-                        JSON.stringify(parser.tokenizeSentence(source)) ===
+                        JSON.stringify(
+                            parseLatin.tokenizeSentence(source)
+                        ) ===
                         JSON.stringify({
                             'type' : 'SentenceNode',
                             'children' : [
@@ -4215,7 +4225,7 @@ describe('Simple sentences testing for tie characters', function () {
     it('should equal the test AST, when using the combinding double ' +
         'breve \u25CC\u035D\u25CC', function () {
             var source = 'e.g. the combining double breve o\u035Do.';
-            assert(JSON.stringify(parser.tokenizeSentence(source)) ===
+            assert(JSON.stringify(parseLatin.tokenizeSentence(source)) ===
                 JSON.stringify({
                     'type' : 'SentenceNode',
                     'children' : [
@@ -4360,7 +4370,7 @@ describe('Simple sentences testing for tie characters', function () {
             var source =
                 'e.g. the combining double inverted breve /k\u0361p/';
 
-            assert(JSON.stringify(parser.tokenizeSentence(source)) ===
+            assert(JSON.stringify(parseLatin.tokenizeSentence(source)) ===
                 JSON.stringify({
                     'type' : 'SentenceNode',
                     'children' : [
@@ -4530,7 +4540,7 @@ describe('Simple sentences testing for tie characters', function () {
     it('should equal the test AST, when using the combinding double breve ' +
         'below \u25CC\u035C\u25CC', function () {
             var source = 'e.g. the combining double breve below /k\u035Cp/';
-            assert(JSON.stringify(parser.tokenizeSentence(source)) ===
+            assert(JSON.stringify(parseLatin.tokenizeSentence(source)) ===
                 JSON.stringify({
                     'type' : 'SentenceNode',
                     'children' : [
@@ -4700,7 +4710,7 @@ describe('Simple sentences testing for tie characters', function () {
     it('should equal the test AST, when using the undertie \u203F',
         function () {
             var source = 'e.g. the undertie /vuz\u203Fave/';
-            assert(JSON.stringify(parser.tokenizeSentence(source)) ===
+            assert(JSON.stringify(parseLatin.tokenizeSentence(source)) ===
                 JSON.stringify({
                     'type' : 'SentenceNode',
                     'children' : [
@@ -4834,7 +4844,7 @@ describe('Simple sentences testing for tie characters', function () {
     it('should equal the test AST, when using the character tie \u2040',
         function () {
             var source = 'e.g. the character tie s\u2040t';
-            assert(JSON.stringify(parser.tokenizeSentence(source)) ===
+            assert(JSON.stringify(parseLatin.tokenizeSentence(source)) ===
                 JSON.stringify({
                     'type' : 'SentenceNode',
                     'children' : [
@@ -4968,7 +4978,7 @@ describe('Simple sentences testing for tie characters', function () {
     it('should equal the test AST, when using the inverted undertie \u2054',
         function () {
             var source = 'e.g. the inverted undertie o\u2054o';
-            assert(JSON.stringify(parser.tokenizeSentence(source)) ===
+            assert(JSON.stringify(parseLatin.tokenizeSentence(source)) ===
                 JSON.stringify({
                     'type' : 'SentenceNode',
                     'children' : [
@@ -5104,7 +5114,7 @@ describe('Intelectual property marks', function () {
     it('should equal the test AST, when using the copyright symbol \u00A9',
         function () {
             var source = '\u00A9 2011 John Smith';
-            assert(JSON.stringify(parser.tokenizeSentence(source)) ===
+            assert(JSON.stringify(parseLatin.tokenizeSentence(source)) ===
                 JSON.stringify({
                     'type' : 'SentenceNode',
                     'children' : [
@@ -5182,7 +5192,7 @@ describe('Intelectual property marks', function () {
             var source = 'Designated by \u2117, the sound recording ' +
                 'copyright symbol.';
 
-            assert(JSON.stringify(parser.tokenizeSentence(source)) ===
+            assert(JSON.stringify(parseLatin.tokenizeSentence(source)) ===
                 JSON.stringify({
                     'type' : 'SentenceNode',
                     'children' : [
@@ -5348,7 +5358,7 @@ describe('Intelectual property marks', function () {
     it('should equal the test AST, when using the registered trademark ' +
         'symbol \u00AE', function () {
             var source = 'Wikipedia\u00AE is a registered trademark.';
-            assert(JSON.stringify(parser.tokenizeSentence(source)) ===
+            assert(JSON.stringify(parseLatin.tokenizeSentence(source)) ===
                 JSON.stringify({
                     'type' : 'SentenceNode',
                     'children' : [
@@ -5460,7 +5470,7 @@ describe('Intelectual property marks', function () {
     it('should equal the test AST, when using the service mark symbol \u2120',
         function () {
             var source = 'ABC Law\u2120 legal services.';
-            assert(JSON.stringify(parser.tokenizeSentence(source)) ===
+            assert(JSON.stringify(parseLatin.tokenizeSentence(source)) ===
                 JSON.stringify({
                     'type' : 'SentenceNode',
                     'children' : [
@@ -5553,7 +5563,7 @@ describe('Intelectual property marks', function () {
 
     it('should equal the test AST, when using the trademark symbol \u2122',
         function () {
-            var root = parser.tokenizeSentence(
+            var root = parseLatin.tokenizeSentence(
                 'Mytrademark\u2122 is a trademark.'
             );
 
@@ -5654,7 +5664,7 @@ describe('A simple sentence testing for digit-letters', function () {
     var source = 'iPhone 5S is a high-end smartphone developed by Apple.';
 
     it('should equal the test AST', function () {
-        var root = parser.tokenizeSentence(source);
+        var root = parseLatin.tokenizeSentence(source);
 
         assert(JSON.stringify(root) === JSON.stringify({
             'type' : 'SentenceNode',
@@ -5849,7 +5859,7 @@ describe('A simple sentence testing for grapheme clusters', function () {
         'symbols.';
 
     it('should equal the test AST', function () {
-        var root = parser.tokenizeSentence(source);
+        var root = parseLatin.tokenizeSentence(source);
 
         assert(JSON.stringify(root) === JSON.stringify({
             'type' : 'SentenceNode',
@@ -6202,7 +6212,7 @@ describe('Unicode parsing', function () {
         '10\u207B\xB9\u2070 m.';
 
     it('should equal the test AST', function () {
-        var root = parser.tokenizeSentence(source);
+        var root = parseLatin.tokenizeSentence(source);
 
         assert(JSON.stringify(root) === JSON.stringify({
             'type' : 'SentenceNode',
@@ -6607,7 +6617,10 @@ describe('Abbreviations: Decimals (affixed by a full-stop)', function () {
 
             while (digits[++iterator]) {
                 digit = digits[iterator];
-                root = parser.tokenizeSentence('See § ' + digit + '. ¶ 2.');
+                root = parseLatin.tokenizeSentence(
+                    'See § ' + digit + '. ¶ 2.'
+                );
+
                 assert(JSON.stringify(root) === JSON.stringify({
                     'type' : 'SentenceNode',
                     'children' : [
@@ -6731,7 +6744,7 @@ describe('Abbreviations: Alphabetical', function () {
 
             while (alphabet[++iterator]) {
                 character = alphabet[iterator];
-                root = parser.tokenizeSentence(
+                root = parseLatin.tokenizeSentence(
                     'Thomas ' + character + '. Swift'
                 );
 
@@ -6802,7 +6815,7 @@ describe('Abbreviations: Alphabetical', function () {
 describe('Abbreviations: Latin', function () {
     it('should *not* treat the dot-character succeeding `ca` (abbreviation ' +
         'for `circa`), as a terminal marker', function () {
-            var root = parser.tokenizeSentence(
+            var root = parseLatin.tokenizeSentence(
                 'The antique clock is from ca. 1900.'
             );
 
@@ -6951,7 +6964,7 @@ describe('Abbreviations: Latin', function () {
 
     it('should *not* treat the dot-character succeeding `cap` ' +
         '(abbreviation for `chapter`), as a terminal marker', function () {
-            var root = parser.tokenizeSentence(
+            var root = parseLatin.tokenizeSentence(
                 'Electronic Transactions Ordinance (Cap. 553)'
             );
 
@@ -7073,7 +7086,7 @@ describe('Abbreviations: Latin', function () {
 
     it('should *not* treat the dot-character succeeding `cf` (abbreviation ' +
         'for `bring together`), as a terminal marker', function () {
-            var root = parser.tokenizeSentence(
+            var root = parseLatin.tokenizeSentence(
                 'These results were similar to those obtained using ' +
                 'different techniques (cf. Wilson, 1999 and Ansmann, 1992)'
             );
@@ -7412,7 +7425,7 @@ describe('Abbreviations: Latin', function () {
 
     it('should *not* treat the dot-character succeeding `cp` (abbreviation ' +
         'for `compare`), as a terminal marker', function () {
-            var root = parser.tokenizeSentence(
+            var root = parseLatin.tokenizeSentence(
                 'These results were similar to those obtained using ' +
                 'different techniques (cf. Wilson, 1999 and Ansmann, 1992).'
             );
@@ -7761,7 +7774,7 @@ describe('Abbreviations: Latin', function () {
     it('should *not* treat the dot-character succeeding `cwt` ' +
         '(abbreviation for `centum weight`), as a terminal marker',
         function () {
-            var root = parser.tokenizeSentence(
+            var root = parseLatin.tokenizeSentence(
                 'Hundredweight is abbreviated as cwt. because \'C\' is ' +
                 'the Roman symbol for 100.'
             );
@@ -8037,7 +8050,7 @@ describe('Abbreviations: Latin', function () {
 
     it('should *not* treat the dot-character succeeding `ead` ' +
         '(abbreviation for `eadem`), as a terminal marker', function () {
-            var root = parser.tokenizeSentence(
+            var root = parseLatin.tokenizeSentence(
                 'When quoting a female author, use the feminine form ' +
                 'of idem, ead. (eadem).'
             );
@@ -8331,7 +8344,7 @@ describe('Abbreviations: Latin', function () {
 
     it('should *not* treat the dot-character succeeding `al` ' +
         '(abbreviation for `(et) alii`), as a terminal marker', function () {
-            var root = parser.tokenizeSentence(
+            var root = parseLatin.tokenizeSentence(
                 'These results agree with the ones published by ' +
                 'Pelon et al. (2002).'
             );
@@ -8589,7 +8602,7 @@ describe('Abbreviations: Latin', function () {
 
     it('should *not* treat the dot-character succeeding `etc` ' +
         '(abbreviation for `et cetera`), as a terminal marker', function () {
-            var root = parser.tokenizeSentence(
+            var root = parseLatin.tokenizeSentence(
                 'Et cetera (abbreviated as etc. or &c.) is a Latin ' +
                 'expression that means “and other things”, or “and so ' +
                 'forth.”'
@@ -9055,7 +9068,7 @@ describe('Abbreviations: Latin', function () {
 
     it('should *not* treat the dot-character succeeding `fl` (abbreviation ' +
         'for `floruit`), as a terminal marker', function () {
-            var root = parser.tokenizeSentence(
+            var root = parseLatin.tokenizeSentence(
                 'The great author Joseph Someone (fl. 2050-75) was ' +
                 'renowned for his erudition.'
             );
@@ -9326,7 +9339,7 @@ describe('Abbreviations: Latin', function () {
 
     it('should *not* treat the dot-character succeeding `ff` ' +
         '(abbreviation for `foliis`), as a terminal marker', function () {
-            var root = parser.tokenizeSentence(
+            var root = parseLatin.tokenizeSentence(
                 'As such, Hornblower 258f. would refer to pages 258–259 ' +
                 'while 258ff. would refer to an undetermined number of ' +
                 'pages following page 258.'
@@ -9783,7 +9796,7 @@ describe('Abbreviations: Latin', function () {
 
     it('should *not* treat the dot-character succeeding `ibid` ' +
         '(abbreviation for `ibidem`), as a terminal marker', function () {
-            var root = parser.tokenizeSentence(
+            var root = parseLatin.tokenizeSentence(
                 'Ibid. (Latin, short for ibidem, meaning “in the same ' +
                 'place”) is the term used to provide an endnote or ' +
                 'footnote citation or reference for a source that was ' +
@@ -10493,7 +10506,7 @@ describe('Abbreviations: Latin', function () {
 
     it('should *not* treat the dot-character succeeding `id` (abbreviation ' +
         'for `idem`), as a terminal marker', function () {
-            var root = parser.tokenizeSentence(
+            var root = parseLatin.tokenizeSentence(
                 'Id. is particularly used in legal citations.'
             );
 
@@ -10643,7 +10656,7 @@ describe('Abbreviations: Latin', function () {
     it('should *not* treat the dot-character succeeding `nem` and `con` ' +
         '(in `nem. con.`, abbreviation for `nemine contradicente`), as a ' +
         'terminal marker', function () {
-            var root = parser.tokenizeSentence(
+            var root = parseLatin.tokenizeSentence(
                 'The meaning of nemine contradicente is distinct from ' +
                 '“unanimously”; nem. con. simply means that nobody voted ' +
                 'against.'
@@ -11011,7 +11024,7 @@ describe('Abbreviations: Latin', function () {
     it('should *not* treat the dot-character succeeding `op` and `cit` ' +
         '(in `op. cit.`, abbreviation for `opere (citato)`), as a terminal ' +
         'marker', function () {
-            var root = parser.tokenizeSentence(
+            var root = parseLatin.tokenizeSentence(
                 'As usual with foreign words and phrases, op. cit. is ' +
                 'typically given in italics.'
             );
@@ -11305,7 +11318,7 @@ describe('Abbreviations: Latin', function () {
 
     it('should *not* treat the dot-character succeeding `cent` ' +
         '(abbreviation for `(per) cent`), as a terminal marker', function () {
-            var root = parser.tokenizeSentence(
+            var root = parseLatin.tokenizeSentence(
                 'The form per cent. is still in use as a part of highly ' +
                 'formal language.'
             );
@@ -11600,7 +11613,7 @@ describe('Abbreviations: Latin', function () {
     it('should *not* treat the dot-character succeeding `pro` ' +
         '(abbreviation for `(per) procurationem`), as a terminal marker',
         function () {
-            var root = parser.tokenizeSentence(
+            var root = parseLatin.tokenizeSentence(
                 'Procuration (per procurationem), or shortly per pro., ' +
                 'or simply p.p.'
             );
@@ -11854,7 +11867,7 @@ describe('Abbreviations: Latin', function () {
     it('should *not* treat the dot-character succeeding `tem` ' +
         '(abbreviation for `(pro) tempore`), as a terminal marker',
         function () {
-            var root = parser.tokenizeSentence(
+            var root = parseLatin.tokenizeSentence(
                 'Legislative bodies can have one or more pro tem. for ' +
                 'the presiding officer.'
             );
@@ -12113,7 +12126,7 @@ describe('Abbreviations: Latin', function () {
     it('should *not* treat the dot-character succeeding `sic` ' +
         '(abbreviation for `sic erat scriptum`), as a terminal marker',
         function () {
-            var root = parser.tokenizeSentence(
+            var root = parseLatin.tokenizeSentence(
                 'Sic., or sic erat scriptum, is Latin for “Thus it ' +
                 'was written.”'
             );
@@ -12390,7 +12403,7 @@ describe('Abbreviations: Latin', function () {
     it('should *not* treat the dot-character succeeding `seq` ' +
         '(abbreviation for `(et) sequentia`), as a terminal marker',
         function () {
-            var root = parser.tokenizeSentence(
+            var root = parseLatin.tokenizeSentence(
                 'The phrase et seq. is used to indicate that ' +
                 'the information is continued on the denoted ' +
                 'pages or sections.'
@@ -12757,7 +12770,7 @@ describe('Abbreviations: Latin', function () {
 
     it('should *not* treat the dot-character succeeding `stat` ' +
         '(abbreviation for `statim`), as a terminal marker', function () {
-            var root = parser.tokenizeSentence(
+            var root = parseLatin.tokenizeSentence(
                 'That patient needs attention, stat.!'
             );
 
@@ -12879,7 +12892,7 @@ describe('Abbreviations: Latin', function () {
 
     it('should *not* treat the dot-character succeeding `viz` ' +
         '(abbreviation for `videlicet`), as a terminal marker', function () {
-            var root = parser.tokenizeSentence(
+            var root = parseLatin.tokenizeSentence(
                 'The noble gases, viz. helium, neon, argon, xenon, ' +
                 'krypton and radon, show a non-expected behaviour when ' +
                 'exposed to this new element.'
@@ -13358,7 +13371,7 @@ describe('Abbreviations: Decimals (prefixed by a full-stop)', function () {
             while (digits[++iterator]) {
                 digit = digits[iterator];
 
-                var root = parser.tokenizeSentence(
+                var root = parseLatin.tokenizeSentence(
                     'See § .' + digit + ' ¶ 2.'
                 );
 
@@ -13473,7 +13486,7 @@ describe('Abbreviations: Decimals (prefixed by a full-stop)', function () {
 
 describe('Terminal markers', function () {
     it('should break sentences ending in a full stop/period', function () {
-        var root = parser.tokenizeParagraph(
+        var root = parseLatin.tokenizeParagraph(
             'A sentence. Another sentence.'
         );
 
@@ -13576,7 +13589,7 @@ describe('Terminal markers', function () {
     });
 
     it('should break sentences ending in a question mark', function () {
-        var root = parser.tokenizeParagraph(
+        var root = parseLatin.tokenizeParagraph(
             'Is it good in form? style? meaning? He responded with yes.'
         );
 
@@ -13823,7 +13836,7 @@ describe('Terminal markers', function () {
     });
 
     it('should break sentences ending in an exclamation mark', function () {
-        var root = parser.tokenizeParagraph(
+        var root = parseLatin.tokenizeParagraph(
             '“No!” he yelled. “Buy it now!” They have some really(!) ' +
             'low-priced rugs on sale this week.'
         );
@@ -14242,7 +14255,7 @@ describe('Terminal markers', function () {
     });
 
     it('should break sentences ending in an interrobang', function () {
-        var root = parser.tokenizeParagraph(
+        var root = parseLatin.tokenizeParagraph(
             'Say what‽ She\'s pregnant?! Realy!? Wow.'
         );
 
@@ -14440,7 +14453,7 @@ describe('Terminal markers', function () {
     });
 
     it('should break sentences ending in an ellipsis', function () {
-        var root = parser.parse(
+        var root = parseLatin.parse(
             'This is rather straightforward... most of the time... ' +
             'She said that you should end a sentence with an ellipsis.'
         );
@@ -14825,7 +14838,7 @@ describe('Terminal markers', function () {
 
 describe('Abbreviations: Initialisms', function () {
     it('should merge full-stops in initialisms', function () {
-        var root = parser.tokenizeSentence(
+        var root = parseLatin.tokenizeSentence(
             'Something C.I.A. something.'
         ).children[2];
 
@@ -14876,7 +14889,7 @@ describe('Abbreviations: Initialisms', function () {
     });
 
     it('should merge full-stops surrounded by words', function () {
-        var root = parser.tokenizeSentence(
+        var root = parseLatin.tokenizeSentence(
             'You will need to arrive by 14.30'
         ).children[12];
 
@@ -14905,7 +14918,7 @@ describe('Abbreviations: Initialisms', function () {
     });
 
     it('should NOT merge a full-stop following a merged word', function () {
-        var root = parser.tokenizeSentence(
+        var root = parseLatin.tokenizeSentence(
             'Self-contained.'
         ).children;
 
@@ -14945,7 +14958,7 @@ describe('Abbreviations: Initialisms', function () {
     });
 
     it('should merge pluralized single letters', function () {
-        var ast = parser.tokenizeParagraph(
+        var ast = parseLatin.tokenizeParagraph(
             'What about A\'s and Bs?'
         ).children[0];
 
@@ -14984,7 +14997,7 @@ describe('Abbreviations: Initialisms', function () {
     });
 
     it('should merge pluralized initialisms', function () {
-        var ast = parser.tokenizeParagraph(
+        var ast = parseLatin.tokenizeParagraph(
             'What about C.D.\'s, C.D.s, or CDs? SOS\'s or SOSes? ' +
             'G.I.\'s or G.I\'s?'
         ).children;
@@ -15197,7 +15210,7 @@ describe('Abbreviations: Initialisms', function () {
 
     it('should not merge initialisms consisting of more than one ' +
         'character each', function () {
-            var ast = parser.tokenizeParagraph(
+            var ast = parseLatin.tokenizeParagraph(
                 'Lets meet this Friday at 16.00.'
             ).children[0].children[10];
 
@@ -15227,7 +15240,7 @@ describe('Abbreviations: Initialisms', function () {
     );
 
     it('should merge initialisms with other merged words', function () {
-        var ast = parser.tokenizeParagraph(
+        var ast = parseLatin.tokenizeParagraph(
             'In the pre-C.I.A. era.'
         ).children[0];
 
@@ -15293,7 +15306,7 @@ describe('Abbreviations: Initialisms', function () {
 
 describe('Source', function () {
     it('should merge a source node when in a document', function () {
-        var root = parser.tokenizeRoot(
+        var root = parseLatin.tokenizeRoot(
             '# Some Sentence.\n' +
             '=================\n\n' +
             'Another sentence.'
@@ -15444,7 +15457,7 @@ describe('Source', function () {
     });
 
     it('should merge multiple source nodes in a document', function () {
-        var root = parser.tokenizeRoot(
+        var root = parseLatin.tokenizeRoot(
             '# Some Sentence.\n' +
             '=================\n' +
             '-----------------\n\n' +
@@ -15614,7 +15627,7 @@ describe('Source', function () {
     });
 
     it('should merge a source node when before a document', function () {
-        var root = parser.tokenizeRoot(
+        var root = parseLatin.tokenizeRoot(
             '\n|:------:|:-------:|:----:|:---------------:|\n' +
             '| github | unicode | name | escaped unicode |'
         );
@@ -15836,7 +15849,7 @@ describe('Source', function () {
     });
 
     it('should merge a source node when after a document', function () {
-        var root = parser.tokenizeRoot(
+        var root = parseLatin.tokenizeRoot(
             '| github | unicode | name | escaped unicode |\n' +
             '|--------|---------|------|-----------------|\n'
         );

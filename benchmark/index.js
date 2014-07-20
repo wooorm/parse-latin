@@ -1,8 +1,8 @@
 'use strict';
 
-var Parser, sentence, paragraph, section, article, book;
+var ParseLatin, sentence, paragraph, section, article, book;
 
-Parser = require('..');
+ParseLatin = require('..');
 
 /* Test data */
 
@@ -32,33 +32,33 @@ article = section + Array(10).join('\n\n' + section);
 book = article + Array(10).join('\n\n' + article);
 
 /* Benchmarks */
-suite('parser.parse(source);', function () {
-    var parser = new Parser();
+suite('parseLatin.parse(source);', function () {
+    var parseLatin = new ParseLatin();
 
     set('mintime', 100);
 
     bench('A paragraph (5 sentences, 100 words)', function (next) {
-        parser.parse(paragraph);
+        parseLatin.parse(paragraph);
         next();
     });
 
     bench('A section (10 paragraphs, 50 sentences, 1,000 words)',
         function (next) {
-            parser.parse(section);
+            parseLatin.parse(section);
             next();
         }
     );
 
     bench('An article (100 paragraphs, 500 sentences, 10,000 words)',
         function (next) {
-            parser.parse(article);
+            parseLatin.parse(article);
             next();
         }
     );
 
     bench('A (large) book (1,000 paragraphs, 5,000 sentences, 100,000 words)',
         function (next) {
-            parser.parse(book);
+            parseLatin.parse(book);
             next();
         }
     );
