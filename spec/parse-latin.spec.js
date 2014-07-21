@@ -13484,6 +13484,60 @@ describe('Abbreviations: Decimals (prefixed by a full-stop)', function () {
     );
 });
 
+describe('Inner-word punctuation', function () {
+    it('should merge a slash in between two words', function () {
+        var ast = parseLatin.tokenizeParagraph(
+            'N/A or n/a is a common abbreviation for not applicable.'
+        ).children[0];
+
+        assert(JSON.stringify(ast.children[0]) === JSON.stringify({
+            'type' : 'WordNode',
+            'children' : [
+                {
+                    'type' : 'TextNode',
+                    'value' : 'N'
+                },
+                {
+                    'type' : 'PunctuationNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : '/'
+                        }
+                    ]
+                },
+                {
+                    'type' : 'TextNode',
+                    'value' : 'A'
+                }
+            ]
+        }));
+
+        assert(JSON.stringify(ast.children[4]) === JSON.stringify({
+            'type' : 'WordNode',
+            'children' : [
+                {
+                    'type' : 'TextNode',
+                    'value' : 'n'
+                },
+                {
+                    'type' : 'PunctuationNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : '/'
+                        }
+                    ]
+                },
+                {
+                    'type' : 'TextNode',
+                    'value' : 'a'
+                }
+            ]
+        }));
+    });
+});
+
 describe('Terminal markers', function () {
     it('should break sentences ending in a full stop/period', function () {
         var root = parseLatin.tokenizeParagraph(
