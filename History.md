@@ -1,5 +1,5 @@
 
-n.n.n / 2014-07-21
+0.1.0-rc.11 / 2014-07-21
 ==================
 
  * Added the slash character to inner word punctuation marks (fixes #7)
