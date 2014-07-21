@@ -374,7 +374,7 @@ EXPRESSION_NEW_LINE = /^(\r?\n|\r)+$/;
  * @constant
  */
 EXPRESSION_INNER_WORD_PUNCTUATION =
-    /^[-.:'\2019\u00AD\u00B7\u2010\2011\u2027]$/;
+    /^[-.:'\u2019\u00AD\u00B7\u2010\2011\u2027]$/;
 
 /**
  * Matches an initial lower case letter.

@@ -14256,7 +14256,7 @@ describe('Terminal markers', function () {
 
     it('should break sentences ending in an interrobang', function () {
         var root = parseLatin.tokenizeParagraph(
-            'Say what‽ She\'s pregnant?! Realy!? Wow.'
+            'Say what‽ She\u2019s pregnant?! Realy!? Wow.'
         );
 
         assert(JSON.stringify(root) === JSON.stringify({
@@ -14327,7 +14327,7 @@ describe('Terminal markers', function () {
                                     'children' : [
                                         {
                                             'type' : 'TextNode',
-                                            'value' : '\''
+                                            'value' : '\u2019'
                                         }
                                     ]
                                 },
