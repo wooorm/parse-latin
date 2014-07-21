@@ -57,7 +57,7 @@ parseLatin.parse('The \xC5 symbol invented by A. J. A\u030Angstro\u0308m (1814, 
 
 The output of the [parser’s](#api) is the syntax tree formatted in [JSON](http://www.json.org) (read more about the syntax tree in the following section, [Syntax Tree](#syntaxtreeformat)).
 
-It's also possible to just tokenise the given document, rather than transforming it into a tree, using [parse-latin#tokenize()](#parselatintokenizevaluestring))
+It's also possible to just tokenize the given document, rather than transforming it into a tree, using [parse-latin#tokenize()](#parselatintokenizevaluestring))
 
 ## API
 
@@ -130,7 +130,11 @@ new ParseLatin().parse('A simple sentence.'); /*
 
 ## Syntax Tree Format
 
-Basically, parse-latin splits text into white space, word, and punctuation tokens. parse-latin start out with a pretty easy definition, one that most other tokenisers use:
+**Note!** The easiest way to see **how parse-latin tokenizes and parses**, is by using the [online parser demo](https://wooorm.github.io/parse-latin), which shows the syntax tree corresponding to the typed code.
+
+---
+
+Basically, parse-latin splits text into white space, word, and punctuation tokens. parse-latin start out with a pretty easy definition, one that most other tokenizers use:
 
 - A “word” is one or more letter or number characters;
 - A “white space” is one or more white space characters;
