@@ -1,4 +1,17 @@
 
+n.n.n / 2014-07-21
+==================
+
+ * Added the slash character to inner word punctuation marks (fixes #7)
+ * Fixed typo; apostrophes were never classified as inner-word punctuation (fixes #8)
+ * Renamed the internally used name (Parser -> ParseLatin)
+ * Refactored documentation
+ * Changed benchmark to only run the new parse method
+ * Added a ParseLatin#parse method
+ * Refactor JSDoc comments
+ * Added `#parse` method, the method most everyone should use
+ * Added explanaition of AST
+
 0.1.0-rc.10 / 2014-07-17
 ==================
 
