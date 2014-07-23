@@ -554,15 +554,15 @@ function mergeInnerWordPunctuation(child, index, parent) {
         return;
     }
 
-    if (!EXPRESSION_INNER_WORD_PUNCTUATION.test(child.children[0].value)) {
+    if (!EXPRESSION_INNER_WORD_PUNCTUATION.test(tokenToString(child))) {
         return;
     }
 
     /* e.g., C.I.A{.}\'s, where in curly brackets the child is depicted. */
     if (next.type === 'PunctuationNode') {
         if (
-            child.children[0].value !== '.' ||
-            !EXPRESSION_INNER_WORD_PUNCTUATION.test(next.children[0].value)
+            tokenToString(child) !== '.' ||
+            !EXPRESSION_INNER_WORD_PUNCTUATION.test(tokenToString(next))
         ) {
             return;
         }
@@ -600,7 +600,7 @@ function mergeInitialisms(child, index, parent) {
 
     if (
         index === 0 || child.type !== 'PunctuationNode' ||
-        child.children[0].value !== '.'
+        tokenToString(child) !== '.'
     ) {
         return;
     }
@@ -635,7 +635,7 @@ function mergeInitialisms(child, index, parent) {
             }
         } else if (
             children[iterator].type !== 'PunctuationNode' ||
-            children[iterator].children[0].value !== '.'
+            tokenToString(children[iterator]) !== '.'
         ) {
             /* istanbul ignore else: TOSPEC */
             if (iterator < length - 2) {
@@ -681,7 +681,7 @@ function mergePrefixExceptions(child, index, parent) {
 
     if (
         !node || node.type !== 'PunctuationNode' ||
-        node.children[0].value !== '.'
+        tokenToString(node) !== '.'
     ) {
         return;
     }
@@ -691,7 +691,7 @@ function mergePrefixExceptions(child, index, parent) {
     if (!node ||
         node.type !== 'WordNode' ||
         !EXPRESSION_ABBREVIATION_PREFIX.test(
-            node.children[0].value.toLowerCase()
+            tokenToString(node).toLowerCase()
         )
     ) {
         return;
@@ -743,7 +743,7 @@ function mergeAffixExceptions(child, index, parent) {
     if (
         !node ||
         node.type !== 'PunctuationNode' ||
-        node.children[0].value !== ','
+        tokenToString(node) !== ','
     ) {
         return;
     }
@@ -847,9 +847,7 @@ function mergeInitialLowerCaseLetterSentences(child, index, parent) {
             return;
         } else if (node.type === 'WordNode') {
             if (
-                !EXPRESSION_LOWER_INITIAL_EXCEPTION.test(
-                    node.children[0].value
-                )
+                !EXPRESSION_LOWER_INITIAL_EXCEPTION.test(tokenToString(node))
             ) {
                 return;
             }
@@ -932,7 +930,7 @@ function mergeSourceLines(child, index, parent) {
     if (
         !child ||
         child.type !== 'WhiteSpaceNode' ||
-        !EXPRESSION_NEW_LINE.test(child.children[0].value)
+        !EXPRESSION_NEW_LINE.test(tokenToString(child))
     ) {
         return;
     }
@@ -950,12 +948,12 @@ function mergeSourceLines(child, index, parent) {
 
         if (
             sibling.type === 'WhiteSpaceNode' &&
-            EXPRESSION_NEW_LINE.test(sibling.children[0].value)
+            EXPRESSION_NEW_LINE.test(tokenToString(sibling))
         ) {
             break;
         }
 
-        value = sibling.children[0].value + value;
+        value = tokenToString(sibling) + value;
     }
 
     if (!value) {
@@ -991,7 +989,7 @@ function mergeAffixPunctuation(child, index, parent) {
 
     if (
         children[0].type !== 'PunctuationNode' ||
-        !EXPRESSION_AFFIX_PUNCTUATION.test(children[0].children[0].value)
+        !EXPRESSION_AFFIX_PUNCTUATION.test(tokenToString(children[0]))
     ) {
         return;
     }
