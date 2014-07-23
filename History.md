@@ -1,5 +1,5 @@
 
-n.n.n / 2014-07-23
+0.1.0-rc.12 / 2014-07-23
 ==================
 
  * Fix incorrect JSDoc comments
