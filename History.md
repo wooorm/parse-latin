@@ -1,4 +1,11 @@
 
+n.n.n / 2014-07-23
+==================
+
+ * Fix incorrect JSDoc comments
+ * Fix future-proofing by using tokenToString rather than property checking
+ * Mentioned the only demo parser
+
 0.1.0-rc.11 / 2014-07-21
 ==================
 
