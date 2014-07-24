@@ -1,4 +1,5 @@
 node_modules
+spec/browser.spec.js
 components
 .DS_Store
 coverage
