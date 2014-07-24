@@ -1,4 +1,13 @@
 
+n.n.n / 2014-07-24
+==================
+
+ * Add benchmark/index.js to lint-style
+ * Update assertion and unit test count
+ * Add spec/browser.spec.js to gitignore
+ * Add components to gitignore
+ * Update mocha
+
 0.1.0-rc.12 / 2014-07-23
 ==================
 
