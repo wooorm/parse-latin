@@ -7427,7 +7427,7 @@ describe('Abbreviations: Latin', function () {
         'for `compare`), as a terminal marker', function () {
             var root = parseLatin.tokenizeSentence(
                 'These results were similar to those obtained using ' +
-                'different techniques (cf. Wilson, 1999 and Ansmann, 1992).'
+                'different techniques (cp. Wilson, 1999 and Ansmann, 1992).'
             );
 
             assert(JSON.stringify(root) === JSON.stringify({
@@ -7627,7 +7627,7 @@ describe('Abbreviations: Latin', function () {
                         'children' : [
                             {
                                 'type' : 'TextNode',
-                                'value' : 'cf'
+                                'value' : 'cp'
                             }
                         ]
                     },
