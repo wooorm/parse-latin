@@ -130,7 +130,7 @@ new ParseLatin().parse('A simple sentence.'); /*
 
 ## Syntax Tree Format
 
-**Note!** The easiest way to see **how parse-latin tokenizes and parses**, is by using the [online parser demo](https://wooorm.github.io/parse-latin), which shows the syntax tree corresponding to the typed code.
+**Note!** The easiest way to see **how parse-latin tokenizes and parses**, is by using the [online parser demo](https://wooorm.github.io/parse-latin), which shows the syntax tree corresponding to the typed text.
 
 ---
 
