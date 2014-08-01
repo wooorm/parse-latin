@@ -134,7 +134,7 @@ new ParseLatin().parse('A simple sentence.'); /*
 
 ---
 
-Basically, parse-latin splits text into white space, word, and punctuation tokens. parse-latin start out with a pretty easy definition, one that most other tokenizers use:
+Basically, parse-latin splits text into white space, word, and punctuation tokens. parse-latin starts out with a pretty easy definition, one that most other tokenizers use:
 
 - A “word” is one or more letter or number characters;
 - A “white space” is one or more white space characters;
