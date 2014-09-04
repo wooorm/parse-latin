@@ -142,7 +142,7 @@ Basically, parse-latin splits text into white space, word, and punctuation token
 
 Then, it manipulates and merges those tokens into a syntax tree, adding sentences and paragraphs where needed.
 
-- Some punctuation marks are part of the word they occur in, e.g., `non-profit`, `she\'s`, `G.I.`, `11:00`, `N/A`;
+- Some punctuation marks are part of the word they occur in, e.g., `non-profit`, `she\'s`, `G.I.`, `11:00`, `N/A`, `&c`, `nineteenth- and...`;
 - Some full-stops do not mark a sentence end, e.g., `1.`, `e.g.`, `id.`;
 - Although full-stops, question marks, and exclamation marks (sometimes) end a sentence, that end might not occur directly after the mark, e.g., `.)`, `."`;
 
