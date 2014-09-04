@@ -1,4 +1,14 @@
 
+n.n.n / 2014-09-04
+==================
+
+ * Add functionality for pre- and suffix punctuation in words
+ * Add docs for pre- and suffix punctuation in words
+ * Add spec for pre- and suffix punctuation in words
+ * Fix typo in docs (start > starts)
+ * Fix typo in docs (code > text)
+ * Fix typo in unit tests (fixes #10)
+
 0.1.1 / 2014-07-25
 ==================
 
