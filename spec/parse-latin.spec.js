@@ -8738,17 +8738,17 @@ describe('Abbreviations: Latin', function () {
                         ]
                     },
                     {
-                        'type' : 'PunctuationNode',
-                        'children' : [
-                            {
-                                'type' : 'TextNode',
-                                'value' : '&'
-                            }
-                        ]
-                    },
-                    {
                         'type' : 'WordNode',
                         'children' : [
+                            {
+                                'type' : 'PunctuationNode',
+                                'children' : [
+                                    {
+                                        'type' : 'TextNode',
+                                        'value' : '&'
+                                    }
+                                ]
+                            },
                             {
                                 'type' : 'TextNode',
                                 'value' : 'c'
@@ -13532,6 +13532,151 @@ describe('Inner-word punctuation', function () {
                 {
                     'type' : 'TextNode',
                     'value' : 'a'
+                }
+            ]
+        }));
+    });
+
+    it('should merge an ampersand between two words', function () {
+        var ast = parseLatin.tokenizeParagraph(
+            'AT&T\'s R&D, &c.'
+        ).children[0];
+
+        assert(JSON.stringify(ast.children[0]) === JSON.stringify({
+            'type' : 'WordNode',
+            'children' : [
+                {
+                    'type' : 'TextNode',
+                    'value' : 'AT'
+                },
+                {
+                    'type' : 'PunctuationNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : '&'
+                        }
+                    ]
+                },
+                {
+                    'type' : 'TextNode',
+                    'value' : 'T'
+                },
+                {
+                    'type' : 'PunctuationNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : '\''
+                        }
+                    ]
+                },
+                {
+                    'type' : 'TextNode',
+                    'value' : 's'
+                }
+            ]
+        }));
+
+        assert(JSON.stringify(ast.children[2]) === JSON.stringify({
+            'type' : 'WordNode',
+            'children' : [
+                {
+                    'type' : 'TextNode',
+                    'value' : 'R'
+                },
+                {
+                    'type' : 'PunctuationNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : '&'
+                        }
+                    ]
+                },
+                {
+                    'type' : 'TextNode',
+                    'value' : 'D'
+                }
+            ]
+        }));
+
+        assert(JSON.stringify(ast.children[5]) === JSON.stringify({
+            'type' : 'WordNode',
+            'children' : [
+                {
+                    'type' : 'PunctuationNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : '&'
+                        }
+                    ]
+                },
+                {
+                    'type' : 'TextNode',
+                    'value' : 'c'
+                }
+            ]
+        }));
+    });
+
+    it('should merge a suffixing hyphen into the previous word', function () {
+        var ast = parseLatin.tokenizeParagraph(
+            'Nineteenth- and twentieth-century writers.'
+        ).children[0];
+
+        assert(JSON.stringify(ast.children[0]) === JSON.stringify({
+            'type' : 'WordNode',
+            'children' : [
+                {
+                    'type' : 'TextNode',
+                    'value' : 'Nineteenth'
+                },
+                {
+                    'type' : 'PunctuationNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : '-'
+                        }
+                    ]
+                }
+            ]
+        }));
+
+        ast = parseLatin.tokenizeParagraph(
+            'Object-oriented-, and functional programming.'
+        ).children[0];
+
+        assert(JSON.stringify(ast.children[0]) === JSON.stringify({
+            'type' : 'WordNode',
+            'children' : [
+                {
+                    'type' : 'TextNode',
+                    'value' : 'Object'
+                },
+                {
+                    'type' : 'PunctuationNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : '-'
+                        }
+                    ]
+                },
+                {
+                    'type' : 'TextNode',
+                    'value' : 'oriented'
+                },
+                {
+                    'type' : 'PunctuationNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : '-'
+                        }
+                    ]
                 }
             ]
         }));
