@@ -1,5 +1,5 @@
 
-n.n.n / 2014-09-04
+0.1.2 / 2014-09-04
 ==================
 
  * Add functionality for pre- and suffix punctuation in words
