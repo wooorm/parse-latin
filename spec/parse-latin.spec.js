@@ -13621,6 +13621,220 @@ describe('Inner-word punctuation', function () {
         }));
     });
 
+    it('should merge an underscore between words', function () {
+        var ast = parseLatin.tokenizeParagraph(
+            'Some file_name.json. Another sentence.'
+        ).children;
+
+        /* Assert that two sentences were created. */
+        assert(ast.length === 3);
+
+        /* Assert that `file_name.json` is marked as a word (not including
+         * the full stop).
+         */
+        assert(JSON.stringify(ast[0].children[2]) === JSON.stringify({
+            'type' : 'WordNode',
+            'children' : [
+                {
+                    'type' : 'TextNode',
+                    'value' : 'file'
+                },
+                {
+                    'type' : 'PunctuationNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : '_'
+                        }
+                    ]
+                },
+                {
+                    'type' : 'TextNode',
+                    'value' : 'name'
+                },
+                {
+                    'type' : 'PunctuationNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : '.'
+                        }
+                    ]
+                },
+                {
+                    'type' : 'TextNode',
+                    'value' : 'json'
+                }
+            ]
+        }));
+    });
+
+    it('should merge other common URL symbols (`?`, `=`)', function () {
+        var ast = parseLatin.tokenizeParagraph(
+            'Like http://example.com/?foo=1&bar=2. Another sentence'
+        ).children;
+
+        /* Assert that two sentences were created. */
+        assert(ast.length === 3);
+
+        /* Assert that `http://example.com/?foo=1&bar=2` is marked as a word
+         * (not including the full stop).
+         */
+        assert(JSON.stringify(ast[0].children[2]) === JSON.stringify({
+            'type' : 'WordNode',
+            'children' : [
+                {
+                    'type' : 'TextNode',
+                    'value' : 'http'
+                },
+                {
+                    'type' : 'PunctuationNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : ':'
+                        }
+                    ]
+                },
+                {
+                    'type' : 'PunctuationNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : '//'
+                        }
+                    ]
+                },
+                {
+                    'type' : 'TextNode',
+                    'value' : 'example'
+                },
+                {
+                    'type' : 'PunctuationNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : '.'
+                        }
+                    ]
+                },
+                {
+                    'type' : 'TextNode',
+                    'value' : 'com'
+                },
+                {
+                    'type' : 'PunctuationNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : '/'
+                        }
+                    ]
+                },
+                {
+                    'type' : 'PunctuationNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : '?'
+                        }
+                    ]
+                },
+                {
+                    'type' : 'TextNode',
+                    'value' : 'foo'
+                },
+                {
+                    'type' : 'PunctuationNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : '='
+                        }
+                    ]
+                },
+                {
+                    'type' : 'TextNode',
+                    'value' : '1'
+                },
+                {
+                    'type' : 'PunctuationNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : '&'
+                        }
+                    ]
+                },
+                {
+                    'type' : 'TextNode',
+                    'value' : 'bar'
+                },
+                {
+                    'type' : 'PunctuationNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : '='
+                        }
+                    ]
+                },
+                {
+                    'type' : 'TextNode',
+                    'value' : '2'
+                }
+            ]
+        }));
+    });
+
+    it('should merge an at sign between words', function () {
+        var ast = parseLatin.tokenizeParagraph(
+            'Some name@example.com. Another sentence.'
+        ).children;
+
+        /* Assert that two sentences were created. */
+        assert(ast.length === 3);
+
+        /* Assert that `name@example.com` is marked as a word (not including
+         * the full stop).
+         */
+        assert(JSON.stringify(ast[0].children[2]) === JSON.stringify({
+            'type' : 'WordNode',
+            'children' : [
+                {
+                    'type' : 'TextNode',
+                    'value' : 'name'
+                },
+                {
+                    'type' : 'PunctuationNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : '@'
+                        }
+                    ]
+                },
+                {
+                    'type' : 'TextNode',
+                    'value' : 'example'
+                },
+                {
+                    'type' : 'PunctuationNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : '.'
+                        }
+                    ]
+                },
+                {
+                    'type' : 'TextNode',
+                    'value' : 'com'
+                }
+            ]
+        }));
+    });
+
     it('should merge a suffixing hyphen into the previous word', function () {
         var ast = parseLatin.tokenizeParagraph(
             'Nineteenth- and twentieth-century writers.'
