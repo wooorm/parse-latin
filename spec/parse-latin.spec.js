@@ -13661,6 +13661,31 @@ describe('Abbreviations: Decimals (prefixed by a full-stop)', function () {
 });
 
 describe('Inner-word punctuation', function () {
+    it('should merge a non-terminal full stop following a word', function () {
+        var ast = parseLatin.tokenizeParagraph(
+            'Burnside St. in April of 1959'
+        ).children[0];
+
+        assert(JSON.stringify(ast.children[2]) === JSON.stringify({
+            'type' : 'WordNode',
+            'children' : [
+                {
+                    'type' : 'TextNode',
+                    'value' : 'St'
+                },
+                {
+                    'type' : 'PunctuationNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : '.'
+                        }
+                    ]
+                }
+            ]
+        }));
+    });
+
     it('should merge a slash in between words', function () {
         var ast = parseLatin.tokenizeParagraph(
             'N/A or n/a is a common abbreviation for not applicable.'
