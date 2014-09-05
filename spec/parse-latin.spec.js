@@ -15652,6 +15652,56 @@ describe('Abbreviations: Initialisms', function () {
         }
     );
 
+    it('should not merge a final full stop when an initialism constists' +
+        'of digits only', function () {
+            var ast = parseLatin.tokenizeParagraph(
+                'Version 0.1.2. Another sentence.'
+            ).children;
+
+            /* Assert that two sentences were created. */
+            assert(ast.length === 3);
+
+            /* Assert that `file_name.json` is marked as a word (not including
+             * the full stop).
+             */
+            assert(JSON.stringify(ast[0].children[2]) === JSON.stringify({
+                'type' : 'WordNode',
+                'children' : [
+                    {
+                        'type' : 'TextNode',
+                        'value' : '0'
+                    },
+                    {
+                        'type' : 'PunctuationNode',
+                        'children' : [
+                            {
+                                'type' : 'TextNode',
+                                'value' : '.'
+                            }
+                        ]
+                    },
+                    {
+                        'type' : 'TextNode',
+                        'value' : '1'
+                    },
+                    {
+                        'type' : 'PunctuationNode',
+                        'children' : [
+                            {
+                                'type' : 'TextNode',
+                                'value' : '.'
+                            }
+                        ]
+                    },
+                    {
+                        'type' : 'TextNode',
+                        'value' : '2'
+                    }
+                ]
+            }));
+        }
+    );
+
     it('should merge initialisms with other merged words', function () {
         var ast = parseLatin.tokenizeParagraph(
             'In the pre-C.I.A. era.'
