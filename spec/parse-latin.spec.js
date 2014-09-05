@@ -1761,15 +1761,15 @@ describe('Sentence: Starting with a latin exception', function () {
                                     {
                                         'type' : 'TextNode',
                                         'value' : 'Cap'
-                                    }
-                                ]
-                            },
-                            {
-                                'type' : 'PunctuationNode',
-                                'children' : [
+                                    },
                                     {
-                                        'type' : 'TextNode',
-                                        'value' : '.'
+                                        'type' : 'PunctuationNode',
+                                        'children' : [
+                                            {
+                                                'type' : 'TextNode',
+                                                'value' : '.'
+                                            }
+                                        ]
                                     }
                                 ]
                             },
@@ -2128,15 +2128,15 @@ describe('Sentence: abbreviations followed by lowercase', function () {
                         {
                             'type' : 'TextNode',
                             'value' : 'Ave'
-                        }
-                    ]
-                },
-                {
-                    'type' : 'PunctuationNode',
-                    'children' : [
+                        },
                         {
-                            'type' : 'TextNode',
-                            'value' : '.'
+                            'type' : 'PunctuationNode',
+                            'children' : [
+                                {
+                                    'type' : 'TextNode',
+                                    'value' : '.'
+                                }
+                            ]
                         }
                     ]
                 },
@@ -2554,17 +2554,17 @@ describe('Sentence: common abbreviations preceded by a dot', function () {
                     ]
                 },
                 {
-                    'type' : 'PunctuationNode',
-                    'children' : [
-                        {
-                            'type' : 'TextNode',
-                            'value' : '.'
-                        }
-                    ]
-                },
-                {
                     'type' : 'WordNode',
                     'children' : [
+                        {
+                            'type' : 'PunctuationNode',
+                            'children' : [
+                                {
+                                    'type' : 'TextNode',
+                                    'value' : '.'
+                                }
+                            ]
+                        },
                         {
                             'type' : 'TextNode',
                             'value' : 'com'
@@ -2590,17 +2590,17 @@ describe('Sentence: common abbreviations preceded by a dot', function () {
                     ]
                 },
                 {
-                    'type' : 'PunctuationNode',
-                    'children' : [
-                        {
-                            'type' : 'TextNode',
-                            'value' : '.'
-                        }
-                    ]
-                },
-                {
                     'type' : 'WordNode',
                     'children' : [
+                        {
+                            'type' : 'PunctuationNode',
+                            'children' : [
+                                {
+                                    'type' : 'TextNode',
+                                    'value' : '.'
+                                }
+                            ]
+                        },
                         {
                             'type' : 'TextNode',
                             'value' : 'org'
@@ -2635,17 +2635,17 @@ describe('Sentence: common abbreviations preceded by a dot', function () {
                     ]
                 },
                 {
-                    'type' : 'PunctuationNode',
-                    'children' : [
-                        {
-                            'type' : 'TextNode',
-                            'value' : '.'
-                        }
-                    ]
-                },
-                {
                     'type' : 'WordNode',
                     'children' : [
+                        {
+                            'type' : 'PunctuationNode',
+                            'children' : [
+                                {
+                                    'type' : 'TextNode',
+                                    'value' : '.'
+                                }
+                            ]
+                        },
                         {
                             'type' : 'TextNode',
                             'value' : 'net'
@@ -3310,15 +3310,15 @@ describe('Sentence: Abbreviations followed by a dot, optional white ' +
                                 {
                                     'type' : 'TextNode',
                                     'value' : 'Inc'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'PunctuationNode',
-                            'children' : [
+                                },
                                 {
-                                    'type' : 'TextNode',
-                                    'value' : '.'
+                                    'type' : 'PunctuationNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : '.'
+                                        }
+                                    ]
                                 }
                             ]
                         },
