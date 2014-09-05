@@ -13485,7 +13485,7 @@ describe('Abbreviations: Decimals (prefixed by a full-stop)', function () {
 });
 
 describe('Inner-word punctuation', function () {
-    it('should merge a slash in between two words', function () {
+    it('should merge a slash in between words', function () {
         var ast = parseLatin.tokenizeParagraph(
             'N/A or n/a is a common abbreviation for not applicable.'
         ).children[0];
@@ -13537,7 +13537,7 @@ describe('Inner-word punctuation', function () {
         }));
     });
 
-    it('should merge an ampersand between two words', function () {
+    it('should merge an ampersand between words', function () {
         var ast = parseLatin.tokenizeParagraph(
             'AT&T\'s R&D, &c.'
         ).children[0];
