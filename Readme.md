@@ -159,6 +159,8 @@ $ npm run benchmark
 
 On a MacBook Air, it parser about 3 large books, 70 big articles, or 7,803 paragraphs per second.
 
+To put things into perspective, Shakespeare’s works contain 884,647 words. I have not tested it, but in theory **parse-latin** should parse these works in (slightly under) three seconds.
+
 ```
               parser.parse(source);
    6,124 op/s » A paragraph (5 sentences, 100 words)
