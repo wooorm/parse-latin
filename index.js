@@ -1001,6 +1001,11 @@ function mergeRemainingFullStops(child, index) {
         grandchild = children[iterator];
 
         if (grandchild.type !== 'PunctuationNode') {
+            /* This is a sentence without terminal marker, so we 'fool' the
+             * code to make it think we have found one. */
+            if (grandchild.type === 'WordNode') {
+                hasFoundDelimiter = true;
+            }
             continue;
         }
 
