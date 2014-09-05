@@ -1,4 +1,31 @@
 
+n.n.n / 2014-09-05
+==================
+
+ * Fix redirect to next item to iterate over in breakImplicitSentences
+ * Add JSDoc and descriptions to recently added functions
+ * Add functionality for implicit sentences
+ * Add spec for implicit sentences, through two or more new lines
+ * Add functionality for semicolons following (non) terminal markers
+ * Add spec for semicolons following (non) terminal markers
+ * Add functionality for denying a comma as first token in sentence (closes #15)
+ * Add spec for functionality to deny comma as first token in sentence
+ * Add functionality for unicode ellipses as sentence terminal marker
+ * Add spec for unicode ellipses as terminal marker
+ * Fix comments in spec; line comments > block comments
+ * Fix detection of non-terminal markers in sentences without terminal marker
+ * Add spec for fix of some non-terminal full stops
+ * Add functionality to merge non-terminal full stops with adjacent words
+ * Add spec for merging all non-terminal full stops into adjacent words
+ * Add functionality for tokenizing inner-sentence nodes
+ * Add spec for functionality to tokenize inner sentence nodes
+ * Add section on Shakespeare to docs
+ * Update benchmark results
+ * Add functionality for better inner word punctuation and sentence parsing
+ * Add spec for a trailing full stop after version number
+ * Add spec for better inner word punctuation classfication.
+ * Fix description of two unit tests
+
 0.1.2 / 2014-09-04
 ==================
 
