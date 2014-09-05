@@ -10,7 +10,7 @@ var EXPRESSION_ABBREVIATION_PREFIX, EXPRESSION_NEW_LINE,
     EXPRESSION_AFFIX_PUNCTUATION, EXPRESSION_INNER_WORD_PUNCTUATION,
     EXPRESSION_INITIAL_WORD_PUNCTUATION, EXPRESSION_FINAL_WORD_PUNCTUATION,
     EXPRESSION_LOWER_INITIAL_EXCEPTION,
-    EXPRESSION_NUMERICAL,
+    EXPRESSION_NUMERICAL, EXPRESSION_TERMINAL_MARKER,
     GROUP_ALPHABETIC, GROUP_ASTRAL, GROUP_CLOSING_PUNCTUATION,
     GROUP_COMBINING_DIACRITICAL_MARK, GROUP_COMBINING_NONSPACING_MARK,
     GROUP_FINAL_PUNCTUATION, GROUP_LETTER_LOWER, GROUP_NUMERICAL,
@@ -355,6 +355,22 @@ EXPRESSION_AFFIX_PUNCTUATION = new RegExp(
  * @constant
  */
 EXPRESSION_NEW_LINE = /^(\r?\n|\r)+$/;
+
+/**
+ * Matches a sentence terminal marker, one or more of the following:
+ *
+ * - Full stop;
+ * - Interrobang;
+ * - Question mark;
+ * - Exclamation mark.
+ *
+ * @global
+ * @private
+ * @constant
+ */
+EXPRESSION_TERMINAL_MARKER = new RegExp(
+    '^([' + GROUP_TERMINAL_MARKER + ']+)$'
+);
 
 /**
  * Matches punctuation part of the surrounding words.
@@ -974,6 +990,69 @@ function makeFinalWhiteSpaceAndSourceSiblings(child, index, parent) {
     parent.children.splice(index + 1, 0, child.children.pop());
 }
 
+function mergeRemainingFullStops(child, index) {
+    var children = child.children,
+        iterator = children.length,
+        grandchild, prev, next, hasFoundDelimiter;
+
+    hasFoundDelimiter = false;
+
+    while (children[--iterator]) {
+        grandchild = children[iterator];
+
+        if (grandchild.type !== 'PunctuationNode') {
+            continue;
+        }
+
+        /* Exit when this token is not a terminal marker. */
+        if (!EXPRESSION_TERMINAL_MARKER.test(tokenToString(grandchild))) {
+            continue;
+        }
+
+        /* Exit when this is the first terminal marker found (starting at the
+         * end), so it should not be merged. */
+        if (!hasFoundDelimiter) {
+            hasFoundDelimiter = true;
+            continue;
+        }
+
+        /* Only merge a single full stop. */
+        if (tokenToString(grandchild) !== '.') {
+            continue;
+        }
+
+        prev = children[iterator - 1];
+        next = children[iterator + 1];
+
+        if (prev && prev.type === 'WordNode') {
+            /* Exit when the full stop is followed by a space and another,
+             * full stop, such as: `{.} .` */
+            if (
+                next && next.type === 'WhiteSpaceNode' &&
+                children[iterator + 2] &&
+                children[iterator + 2].type === 'PunctuationNode' &&
+                tokenToString(children[iterator + 2]) === '.'
+            ) {
+                continue;
+            }
+
+            /* Remove `child` from parent. */
+            children.splice(iterator, 1);
+
+            /* Add the punctuation mark at the end of the previous node. */
+            prev.children.push(grandchild);
+
+            iterator--;
+        } else if (next && next.type === 'WordNode') {
+            /* Remove `child` from parent. */
+            children.splice(iterator, 1);
+
+            /* Add the punctuation mark at the start of the next node. */
+            next.children.unshift(grandchild);
+        }
+    }
+}
+
 /**
  * Merges a sentence into its previous sentence, when the sentence starts
  * with a lower case letter.
@@ -1470,13 +1549,14 @@ parseLatinPrototype.tokenizeParagraph = tokenizerFactory(ParseLatin, {
     'name' : 'tokenizeParagraph',
     'tokenizer' : 'tokenizeSentence',
     'type' : 'ParagraphNode',
-    'delimiter' : new RegExp('^([' + GROUP_TERMINAL_MARKER + ']+)$'),
+    'delimiter' : EXPRESSION_TERMINAL_MARKER,
     'modifiers' : [
         mergePrefixExceptions,
         mergeAffixExceptions,
         mergeNonWordSentences,
         mergeAffixPunctuation,
         mergeInitialLowerCaseLetterSentences,
+        mergeRemainingFullStops,
         makeInitialWhiteSpaceAndSourceSiblings,
         makeFinalWhiteSpaceAndSourceSiblings,
         removeEmptyNodes
