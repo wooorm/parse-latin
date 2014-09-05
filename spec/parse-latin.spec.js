@@ -15863,6 +15863,249 @@ describe('Terminal markers', function () {
             }));
         }
     );
+
+    it('should not break sentences ending in an otherwise ' +
+        'terminal-marker, but (indirectly) followed by a semicolon',
+        function () {
+            var root = parseLatin.parse(
+                'Such as the unicode Question Mark (?); Exclamation ' +
+                'Point (!). Another sentence.'
+            ).children[0];
+
+            assert(root.children.length === 3);
+
+            assert(JSON.stringify(root.children[0]) === JSON.stringify({
+                'type' : 'SentenceNode',
+                'children' : [
+                    {
+                        'type' : 'WordNode',
+                        'children' : [
+                            {
+                                'type' : 'TextNode',
+                                'value' : 'Such'
+                            }
+                        ]
+                    },
+                    {
+                        'type' : 'WhiteSpaceNode',
+                        'children' : [
+                            {
+                                'type' : 'TextNode',
+                                'value' : ' '
+                            }
+                        ]
+                    },
+                    {
+                        'type' : 'WordNode',
+                        'children' : [
+                            {
+                                'type' : 'TextNode',
+                                'value' : 'as'
+                            }
+                        ]
+                    },
+                    {
+                        'type' : 'WhiteSpaceNode',
+                        'children' : [
+                            {
+                                'type' : 'TextNode',
+                                'value' : ' '
+                            }
+                        ]
+                    },
+                    {
+                        'type' : 'WordNode',
+                        'children' : [
+                            {
+                                'type' : 'TextNode',
+                                'value' : 'the'
+                            }
+                        ]
+                    },
+                    {
+                        'type' : 'WhiteSpaceNode',
+                        'children' : [
+                            {
+                                'type' : 'TextNode',
+                                'value' : ' '
+                            }
+                        ]
+                    },
+                    {
+                        'type' : 'WordNode',
+                        'children' : [
+                            {
+                                'type' : 'TextNode',
+                                'value' : 'unicode'
+                            }
+                        ]
+                    },
+                    {
+                        'type' : 'WhiteSpaceNode',
+                        'children' : [
+                            {
+                                'type' : 'TextNode',
+                                'value' : ' '
+                            }
+                        ]
+                    },
+                    {
+                        'type' : 'WordNode',
+                        'children' : [
+                            {
+                                'type' : 'TextNode',
+                                'value' : 'Question'
+                            }
+                        ]
+                    },
+                    {
+                        'type' : 'WhiteSpaceNode',
+                        'children' : [
+                            {
+                                'type' : 'TextNode',
+                                'value' : ' '
+                            }
+                        ]
+                    },
+                    {
+                        'type' : 'WordNode',
+                        'children' : [
+                            {
+                                'type' : 'TextNode',
+                                'value' : 'Mark'
+                            }
+                        ]
+                    },
+                    {
+                        'type' : 'WhiteSpaceNode',
+                        'children' : [
+                            {
+                                'type' : 'TextNode',
+                                'value' : ' '
+                            }
+                        ]
+                    },
+                    {
+                        'type' : 'PunctuationNode',
+                        'children' : [
+                            {
+                                'type' : 'TextNode',
+                                'value' : '('
+                            }
+                        ]
+                    },
+                    {
+                        'type' : 'PunctuationNode',
+                        'children' : [
+                            {
+                                'type' : 'TextNode',
+                                'value' : '?'
+                            }
+                        ]
+                    },
+                    {
+                        'type' : 'PunctuationNode',
+                        'children' : [
+                            {
+                                'type' : 'TextNode',
+                                'value' : ')'
+                            }
+                        ]
+                    },
+                    {
+                        'type' : 'PunctuationNode',
+                        'children' : [
+                            {
+                                'type' : 'TextNode',
+                                'value' : ';'
+                            }
+                        ]
+                    },
+                    {
+                        'type' : 'WhiteSpaceNode',
+                        'children' : [
+                            {
+                                'type' : 'TextNode',
+                                'value' : ' '
+                            }
+                        ]
+                    },
+                    {
+                        'type' : 'WordNode',
+                        'children' : [
+                            {
+                                'type' : 'TextNode',
+                                'value' : 'Exclamation'
+                            }
+                        ]
+                    },
+                    {
+                        'type' : 'WhiteSpaceNode',
+                        'children' : [
+                            {
+                                'type' : 'TextNode',
+                                'value' : ' '
+                            }
+                        ]
+                    },
+                    {
+                        'type' : 'WordNode',
+                        'children' : [
+                            {
+                                'type' : 'TextNode',
+                                'value' : 'Point'
+                            }
+                        ]
+                    },
+                    {
+                        'type' : 'WhiteSpaceNode',
+                        'children' : [
+                            {
+                                'type' : 'TextNode',
+                                'value' : ' '
+                            }
+                        ]
+                    },
+                    {
+                        'type' : 'PunctuationNode',
+                        'children' : [
+                            {
+                                'type' : 'TextNode',
+                                'value' : '('
+                            }
+                        ]
+                    },
+                    {
+                        'type' : 'PunctuationNode',
+                        'children' : [
+                            {
+                                'type' : 'TextNode',
+                                'value' : '!'
+                            }
+                        ]
+                    },
+                    {
+                        'type' : 'PunctuationNode',
+                        'children' : [
+                            {
+                                'type' : 'TextNode',
+                                'value' : ')'
+                            }
+                        ]
+                    },
+                    {
+                        'type' : 'PunctuationNode',
+                        'children' : [
+                            {
+                                'type' : 'TextNode',
+                                'value' : '.'
+                            }
+                        ]
+                    }
+                ]
+            }));
+        }
+    );
 });
 
 describe('Abbreviations: Initialisms', function () {
