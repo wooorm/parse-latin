@@ -38,8 +38,184 @@ describe('new ParseLatin()', function () {
         assert(typeof parseLatin.tokenizeSentence === 'function');
     });
 
+    it('should have a `tokenizeWord` method', function () {
+        assert(typeof parseLatin.tokenizeWord === 'function');
+    });
+
+    it('should have a `tokenizePunctuation` method', function () {
+        assert(typeof parseLatin.tokenizePunctuation === 'function');
+    });
+
+    it('should have a `tokenizeWhiteSpace` method', function () {
+        assert(typeof parseLatin.tokenizeWhiteSpace === 'function');
+    });
+
+    it('should have a `tokenizeSource` method', function () {
+        assert(typeof parseLatin.tokenizeSource === 'function');
+    });
+
+    it('should have a `tokenizeText` method', function () {
+        assert(typeof parseLatin.tokenizeText === 'function');
+    });
+
     it('should have a `tokenize` method', function () {
         assert(typeof parseLatin.tokenize === 'function');
+    });
+});
+
+describe('ParseLatin#tokenizeText()', function () {
+    it('should return an text node', function () {
+        assert(parseLatin.tokenizeText().type === 'TextNode');
+    });
+
+    it('should return an node with its value property set to the given value',
+        function () {
+            assert(parseLatin.tokenizeText('alfred').value === 'alfred');
+        }
+    );
+
+    it('should return an node with its value property set to an empty ' +
+        'string when no value was given', function () {
+            assert(parseLatin.tokenizeText().value === '');
+            assert(parseLatin.tokenizeText(undefined).value === '');
+            assert(parseLatin.tokenizeText(null).value === '');
+        }
+    );
+
+    it('should return an node without a `children` property', function () {
+        assert(!('children' in parseLatin.tokenizeText()));
+    });
+});
+
+describe('ParseLatin#tokenizeSource()', function () {
+    it('should return an source node', function () {
+        assert(parseLatin.tokenizeSource().type === 'SourceNode');
+    });
+
+    it('should return an node with its value property set to the given value',
+        function () {
+            assert(parseLatin.tokenizeSource('alfred').value === 'alfred');
+        }
+    );
+
+    it('should return an node with its value property set to an empty ' +
+        'string when no value was given', function () {
+            assert(parseLatin.tokenizeSource().value === '');
+            assert(parseLatin.tokenizeSource(undefined).value === '');
+            assert(parseLatin.tokenizeSource(null).value === '');
+        }
+    );
+
+    it('should return an node without a `children` property', function () {
+        assert(!('children' in parseLatin.tokenizeSource()));
+    });
+});
+
+describe('ParseLatin#tokenizeWord()', function () {
+    it('should return an word node', function () {
+        assert(parseLatin.tokenizeWord().type === 'WordNode');
+    });
+
+    it('should return an node with a `children` array', function () {
+        var children = parseLatin.tokenizeWord('alfred').children;
+
+        assert('length' in children);
+        assert(typeof children !== 'string');
+    });
+
+    it('should return an node with a text node as only child', function () {
+        var children = parseLatin.tokenizeWord('alfred').children;
+        assert(children.length === 1);
+        assert(children[0].type === 'TextNode');
+        assert(children[0].value === 'alfred');
+    });
+
+    it('should return an node with its text node\'s value property set to ' +
+        'an empty string when no value was given', function () {
+            var defaultValue = parseLatin.tokenizeWord(),
+                undefinedValue = parseLatin.tokenizeWord(undefined),
+                nullValue = parseLatin.tokenizeWord(null);
+
+            assert(defaultValue.children[0].value === '');
+            assert(undefinedValue.children[0].value === '');
+            assert(nullValue.children[0].value === '');
+        }
+    );
+
+    it('should return an node without a `value` property', function () {
+        assert(!('value' in parseLatin.tokenizeWord()));
+    });
+});
+
+describe('ParseLatin#tokenizeWhiteSpace()', function () {
+    it('should return an white space node', function () {
+        assert(parseLatin.tokenizeWhiteSpace().type === 'WhiteSpaceNode');
+    });
+
+    it('should return an node with a `children` array', function () {
+        var children = parseLatin.tokenizeWhiteSpace('alfred').children;
+
+        assert('length' in children);
+        assert(typeof children !== 'string');
+    });
+
+    it('should return an node with a text node as only child', function () {
+        var children = parseLatin.tokenizeWhiteSpace('alfred').children;
+        assert(children.length === 1);
+        assert(children[0].type === 'TextNode');
+        assert(children[0].value === 'alfred');
+    });
+
+    it('should return an node with its text node\'s value property set to ' +
+        'an empty string when no value was given', function () {
+            var defaultValue = parseLatin.tokenizeWhiteSpace(),
+                undefinedValue = parseLatin.tokenizeWhiteSpace(undefined),
+                nullValue = parseLatin.tokenizeWhiteSpace(null);
+
+            assert(defaultValue.children[0].value === '');
+            assert(undefinedValue.children[0].value === '');
+            assert(nullValue.children[0].value === '');
+        }
+    );
+
+    it('should return an node without a `value` property', function () {
+        assert(!('value' in parseLatin.tokenizeWhiteSpace()));
+    });
+});
+
+describe('ParseLatin#tokenizePunctuation()', function () {
+    it('should return an punctuation node', function () {
+        assert(parseLatin.tokenizePunctuation().type === 'PunctuationNode');
+    });
+
+    it('should return an node with a `children` array', function () {
+        var children = parseLatin.tokenizePunctuation('alfred').children;
+
+        assert('length' in children);
+        assert(typeof children !== 'string');
+    });
+
+    it('should return an node with a text node as only child', function () {
+        var children = parseLatin.tokenizePunctuation('alfred').children;
+        assert(children.length === 1);
+        assert(children[0].type === 'TextNode');
+        assert(children[0].value === 'alfred');
+    });
+
+    it('should return an node with its text node\'s value property set to ' +
+        'an empty string when no value was given', function () {
+            var defaultValue = parseLatin.tokenizePunctuation(),
+                undefinedValue = parseLatin.tokenizePunctuation(undefined),
+                nullValue = parseLatin.tokenizePunctuation(null);
+
+            assert(defaultValue.children[0].value === '');
+            assert(undefinedValue.children[0].value === '');
+            assert(nullValue.children[0].value === '');
+        }
+    );
+
+    it('should return an node without a `value` property', function () {
+        assert(!('value' in parseLatin.tokenizePunctuation()));
     });
 });
 
