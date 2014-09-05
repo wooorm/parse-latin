@@ -1,5 +1,5 @@
 
-n.n.n / 2014-09-05
+0.1.3 / 2014-09-05
 ==================
 
  * Fix redirect to next item to iterate over in breakImplicitSentences
