@@ -1008,6 +1008,17 @@ function makeFinalWhiteSpaceAndSourceSiblings(child, index, parent) {
     parent.children.splice(index + 1, 0, child.children.pop());
 }
 
+/**
+ * Merges non-terminal marker full stops into, if available, the previous
+ * word, or if available, the next word.
+ *
+ * @param {Object} child
+ * @param {number} index
+ * @return {undefined}
+ *
+ * @global
+ * @private
+ */
 function mergeRemainingFullStops(child, index) {
     var children = child.children,
         iterator = children.length,
@@ -1076,6 +1087,18 @@ function mergeRemainingFullStops(child, index) {
     }
 }
 
+/**
+ * Breaks a sentence if a node containing two or more white spaces is found.
+ *
+ * @param {Object} child
+ * @param {number} index
+ * @param {Object} parent
+ * @return {undefined|number} - Either void, or the next index to iterate
+ *     over.
+ *
+ * @global
+ * @private
+ */
 function breakImplicitSentences(child, index, parent) {
     if (child.type !== 'SentenceNode') {
         return;
