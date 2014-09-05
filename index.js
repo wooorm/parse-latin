@@ -922,7 +922,7 @@ function mergeAffixExceptions(child, index, parent) {
     if (
         !node ||
         node.type !== 'PunctuationNode' ||
-        tokenToString(node) !== ','
+        !(tokenToString(node) === ',' || tokenToString(node) === ';')
     ) {
         return;
     }
