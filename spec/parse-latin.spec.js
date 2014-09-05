@@ -15447,6 +15447,140 @@ describe('Terminal markers', function () {
             ]
         }));
     });
+
+    it('should break sentences ending in a unicode ellipsis', function () {
+        var root = parseLatin.parse(
+            'Don\'t do it\u2026 Another sentence.'
+        );
+
+        assert(JSON.stringify(root.children[0]) === JSON.stringify({
+            'type' : 'ParagraphNode',
+            'children' : [
+                {
+                    'type' : 'SentenceNode',
+                    'children' : [
+                        {
+                            'type' : 'WordNode',
+                            'children' : [
+                                {
+                                    'type' : 'TextNode',
+                                    'value' : 'Don'
+                                },
+                                {
+                                    'type' : 'PunctuationNode',
+                                    'children' : [
+                                        {
+                                            'type' : 'TextNode',
+                                            'value' : '\''
+                                        }
+                                    ]
+                                },
+                                {
+                                    'type' : 'TextNode',
+                                    'value' : 't'
+                                }
+                            ]
+                        },
+                        {
+                            'type' : 'WhiteSpaceNode',
+                            'children' : [
+                                {
+                                    'type' : 'TextNode',
+                                    'value' : ' '
+                                }
+                            ]
+                        },
+                        {
+                            'type' : 'WordNode',
+                            'children' : [
+                                {
+                                    'type' : 'TextNode',
+                                    'value' : 'do'
+                                }
+                            ]
+                        },
+                        {
+                            'type' : 'WhiteSpaceNode',
+                            'children' : [
+                                {
+                                    'type' : 'TextNode',
+                                    'value' : ' '
+                                }
+                            ]
+                        },
+                        {
+                            'type' : 'WordNode',
+                            'children' : [
+                                {
+                                    'type' : 'TextNode',
+                                    'value' : 'it'
+                                }
+                            ]
+                        },
+                        {
+                            'type' : 'PunctuationNode',
+                            'children' : [
+                                {
+                                    'type' : 'TextNode',
+                                    'value' : '\u2026'
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    'type' : 'WhiteSpaceNode',
+                    'children' : [
+                        {
+                            'type' : 'TextNode',
+                            'value' : ' '
+                        }
+                    ]
+                },
+                {
+                    'type' : 'SentenceNode',
+                    'children' : [
+                        {
+                            'type' : 'WordNode',
+                            'children' : [
+                                {
+                                    'type' : 'TextNode',
+                                    'value' : 'Another'
+                                }
+                            ]
+                        },
+                        {
+                            'type' : 'WhiteSpaceNode',
+                            'children' : [
+                                {
+                                    'type' : 'TextNode',
+                                    'value' : ' '
+                                }
+                            ]
+                        },
+                        {
+                            'type' : 'WordNode',
+                            'children' : [
+                                {
+                                    'type' : 'TextNode',
+                                    'value' : 'sentence'
+                                }
+                            ]
+                        },
+                        {
+                            'type' : 'PunctuationNode',
+                            'children' : [
+                                {
+                                    'type' : 'TextNode',
+                                    'value' : '.'
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }));
+    });
 });
 
 describe('Abbreviations: Initialisms', function () {
