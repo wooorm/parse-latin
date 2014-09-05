@@ -350,6 +350,7 @@ EXPRESSION_AFFIX_PUNCTUATION = new RegExp(
         GROUP_CLOSING_PUNCTUATION +
         GROUP_FINAL_PUNCTUATION +
         GROUP_TERMINAL_MARKER +
+        '"\'' +
     '])\\1*$'
 );
 
@@ -1563,11 +1564,11 @@ parseLatinPrototype.tokenizeParagraph = tokenizerFactory(ParseLatin, {
     'type' : 'ParagraphNode',
     'delimiter' : EXPRESSION_TERMINAL_MARKER,
     'modifiers' : [
-        mergePrefixExceptions,
-        mergeAffixExceptions,
         mergeNonWordSentences,
         mergeAffixPunctuation,
         mergeInitialLowerCaseLetterSentences,
+        mergePrefixExceptions,
+        mergeAffixExceptions,
         mergeRemainingFullStops,
         makeInitialWhiteSpaceAndSourceSiblings,
         makeFinalWhiteSpaceAndSourceSiblings,
