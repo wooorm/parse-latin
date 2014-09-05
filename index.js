@@ -7,6 +7,7 @@
 'use strict';
 
 var EXPRESSION_ABBREVIATION_PREFIX, EXPRESSION_NEW_LINE,
+    EXPRESSION_MULTI_NEW_LINE,
     EXPRESSION_AFFIX_PUNCTUATION, EXPRESSION_INNER_WORD_PUNCTUATION,
     EXPRESSION_INITIAL_WORD_PUNCTUATION, EXPRESSION_FINAL_WORD_PUNCTUATION,
     EXPRESSION_LOWER_INITIAL_EXCEPTION,
@@ -362,6 +363,15 @@ EXPRESSION_AFFIX_PUNCTUATION = new RegExp(
  * @constant
  */
 EXPRESSION_NEW_LINE = /^(\r?\n|\r)+$/;
+
+/**
+ * Matches a string consisting of two or more new line characters.
+ *
+ * @global
+ * @private
+ * @constant
+ */
+EXPRESSION_MULTI_NEW_LINE = /^(\r?\n|\r){2,}$/;
 
 /**
  * Matches a sentence terminal marker, one or more of the following:
@@ -1066,6 +1076,38 @@ function mergeRemainingFullStops(child, index) {
     }
 }
 
+function breakImplicitSentences(child, index, parent) {
+    if (child.type !== 'SentenceNode') {
+        return;
+    }
+
+    var children = child.children,
+        iterator = -1,
+        length = children.length,
+        node;
+
+    while (++iterator < length) {
+        node = children[iterator];
+
+        if (node.type !== 'WhiteSpaceNode') {
+            continue;
+        }
+
+        if (!EXPRESSION_MULTI_NEW_LINE.test(tokenToString(node))) {
+            continue;
+        }
+
+        child.children = children.slice(0, iterator);
+
+        parent.children.splice(index + 1, 0, node, {
+            'type' : 'SentenceNode',
+            'children' : children.slice(iterator + 1)
+        });
+
+        return index;
+    }
+}
+
 /**
  * Merges a sentence into its previous sentence, when the sentence starts
  * with a lower case letter.
@@ -1572,6 +1614,7 @@ parseLatinPrototype.tokenizeParagraph = tokenizerFactory(ParseLatin, {
         mergeRemainingFullStops,
         makeInitialWhiteSpaceAndSourceSiblings,
         makeFinalWhiteSpaceAndSourceSiblings,
+        breakImplicitSentences,
         removeEmptyNodes
     ]
 });
