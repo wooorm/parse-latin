@@ -8,8 +8,9 @@
 
 var EXPRESSION_ABBREVIATION_PREFIX, EXPRESSION_NEW_LINE,
     EXPRESSION_AFFIX_PUNCTUATION, EXPRESSION_INNER_WORD_PUNCTUATION,
-    EXPRESSION_PREFIX_WORD_PUNCTUATION, EXPRESSION_SUFFIX_WORD_PUNCTUATION,
+    EXPRESSION_INITIAL_WORD_PUNCTUATION, EXPRESSION_FINAL_WORD_PUNCTUATION,
     EXPRESSION_LOWER_INITIAL_EXCEPTION,
+    EXPRESSION_NUMERICAL,
     GROUP_ALPHABETIC, GROUP_ASTRAL, GROUP_CLOSING_PUNCTUATION,
     GROUP_COMBINING_DIACRITICAL_MARK, GROUP_COMBINING_NONSPACING_MARK,
     GROUP_FINAL_PUNCTUATION, GROUP_LETTER_LOWER, GROUP_NUMERICAL,
@@ -356,26 +357,32 @@ EXPRESSION_AFFIX_PUNCTUATION = new RegExp(
 EXPRESSION_NEW_LINE = /^(\r?\n|\r)+$/;
 
 /**
- * Matches punctuation which can be used to join two (sub?) words together.
+ * Matches punctuation part of the surrounding words.
  *
  * Includes:
  * - Hyphen-minus;
+ * - At sign;
+ * - Question mark;
+ * - Equals sign;
  * - full-stop;
  * - colon;
  * - Dumb single quote;
  * - Right single quote;
+ * - Ampersand;
  * - Soft hyphen;
  * - Hyphen;
  * - Non-breaking hyphen;
  * - Hyphenation point;
- * - Middle dot
+ * - Middle dot;
+ * - Slash (one or more);
+ * - Underscore (one or more).
  *
  * @global
  * @private
  * @constant
  */
 EXPRESSION_INNER_WORD_PUNCTUATION =
-    /^[-.:'\/\u2019&\u00AD\u00B7\u2010\2011\u2027]$/;
+    /^([-@?=.:'\u2019&\u00AD\u00B7\u2010\2011\u2027]|[_\/]+)$/;
 
 /**
  * Matches punctuation part of the next word.
@@ -387,19 +394,28 @@ EXPRESSION_INNER_WORD_PUNCTUATION =
  * @private
  * @constant
  */
-EXPRESSION_PREFIX_WORD_PUNCTUATION = /^&$/;
+EXPRESSION_INITIAL_WORD_PUNCTUATION = /^&$/;
 
 /**
  * Matches punctuation part of the previous word.
  *
  * Includes:
- * - Hyphen-minus;
+ * - Hyphen-minus.
  *
  * @global
  * @private
  * @constant
  */
-EXPRESSION_SUFFIX_WORD_PUNCTUATION = /^[-]$/;
+EXPRESSION_FINAL_WORD_PUNCTUATION = /^-$/;
+
+/**
+ * Matches a number.
+ *
+ * @global
+ * @private
+ * @constant
+ */
+EXPRESSION_NUMERICAL = new RegExp('^[' + GROUP_NUMERICAL + ']+$');
 
 /**
  * Matches an initial lower case letter.
@@ -548,6 +564,93 @@ function tokenizerFactory(context, options) {
 }
 
 /**
+ * Merges certain punctuation marks into their previous words.
+ *
+ * @param {Object} child
+ * @param {number} index
+ * @param {Object} parent
+ * @return {undefined|number} - Either void, or the next index to iterate
+ *     over.
+ *
+ * @global
+ * @private
+ */
+function mergeInitialWordPunctuation(child, index, parent) {
+    var children, next, hasPreviousWord, hasNextWord;
+
+    if (
+        child.type !== 'PunctuationNode' ||
+        !EXPRESSION_INITIAL_WORD_PUNCTUATION.test(tokenToString(child))
+    ) {
+        return;
+    }
+
+    children = parent.children;
+    next = children[index + 1];
+
+    hasPreviousWord = index !== 0 && children[index - 1].type === 'WordNode';
+    hasNextWord = next && next.type === 'WordNode';
+
+    if (hasPreviousWord || !hasNextWord) {
+        return;
+    }
+
+    /* Remove `child` from parent. */
+    children.splice(index, 1);
+
+    /* Add the punctuation mark at the start of the next node. */
+    next.children.unshift(child);
+
+    /* Next, iterate over the node at the previous position. */
+    return index - 1;
+}
+
+/**
+ * Merges certain punctuation marks into their preceding words.
+ *
+ * @param {Object} child
+ * @param {number} index
+ * @param {Object} parent
+ * @return {undefined|number} - Either void, or the next index to iterate
+ *     over.
+ *
+ * @global
+ * @private
+ */
+function mergeFinalWordPunctuation(child, index, parent) {
+    var children, prev, next;
+
+    if (
+        index === 0 ||
+        child.type !== 'PunctuationNode' ||
+        !EXPRESSION_FINAL_WORD_PUNCTUATION.test(tokenToString(child))
+    ) {
+        return;
+    }
+
+    children = parent.children;
+    prev = children[index - 1];
+    next = children[index + 1];
+
+    if (
+        (next && next.type === 'WordNode') ||
+        !(prev && prev.type === 'WordNode')
+    ) {
+        return;
+    }
+
+    /* Remove `child` from parent. */
+    children.splice(index, 1);
+
+    /* Add the punctuation mark at the end of the previous node. */
+    prev.children.push(child);
+
+    /* Next, iterate over the node *now* at the current position (which was
+     * the next node). */
+    return index;
+}
+
+/**
  * Merges two words surrounding certain punctuation marks.
  *
  * @param {Object} child
@@ -560,66 +663,30 @@ function tokenizerFactory(context, options) {
  * @private
  */
 function mergeInnerWordPunctuation(child, index, parent) {
-    var children, value, prev, next, hasPreviousWord, hasNextWord, otherChild,
+    var children, prev, otherChild,
         iterator, tokens, queue;
 
-    if (child.type !== 'PunctuationNode') {
+    if (index === 0 || child.type !== 'PunctuationNode') {
         return;
     }
 
     children = parent.children;
     prev = children[index - 1];
-    next = children[index + 1];
-    hasPreviousWord = prev && prev.type === 'WordNode';
-    hasNextWord = next && next.type === 'WordNode';
-    value = tokenToString(child);
 
-    if (!hasNextWord && !hasPreviousWord) {
+    if (!prev || prev.type !== 'WordNode') {
         return;
     }
 
-    if (
-        !(
-            (
-                hasPreviousWord &&
-                hasNextWord &&
-                EXPRESSION_INNER_WORD_PUNCTUATION.test(value)
-            ) ||
-            (
-                hasNextWord &&
-                EXPRESSION_PREFIX_WORD_PUNCTUATION.test(value)
-            ) ||
-            (
-                hasPreviousWord &&
-                EXPRESSION_SUFFIX_WORD_PUNCTUATION.test(value)
-            )
-        )
-    ) {
-        return;
-    }
-
-    if (!hasPreviousWord) {
-        /* Remove `child` from parent. */
-        children.splice(index, 1);
-
-        next.children.unshift(child);
-
-        return index - 1;
-    }
-
-    if (!hasNextWord) {
-        /* Remove `child` from parent. */
-        children.splice(index, 1);
-
-        prev.children.push(child);
-
-        return index - 1;
-    }
-
-    iterator = index;
-    tokens = [child];
+    iterator = index - 1;
+    tokens = [];
     queue = [];
 
+    /*
+     * - Is a token which is neither word nor inner word punctuation is
+     *   found, the loop is broken.
+     * - If a inner word punctuation mark is found, it's queued.
+     * - If a word is found, it's queued (and the queue stored and emptied).
+     */
     while (children[++iterator]) {
         otherChild = children[iterator];
 
@@ -640,16 +707,24 @@ function mergeInnerWordPunctuation(child, index, parent) {
         break;
     }
 
+    /* If no tokens were found, exit. */
+    if (!tokens.length) {
+        return;
+    }
+
+    /* If there was a queue found, remove its length from iterator. */
     if (queue.length) {
         iterator -= queue.length;
     }
 
-    /* Remove `child` and `next` from parent. */
+    /* Remove every (one or more) inner-word punctuation marks, and children
+     * of words. */
     children.splice(index, iterator - index);
 
+    /* Add all found tokens to prev.children */
     prev.children = prev.children.concat(tokens);
 
-    return index - 1;
+    return index;
 }
 
 /**
@@ -665,11 +740,11 @@ function mergeInnerWordPunctuation(child, index, parent) {
  * @private
  */
 function mergeInitialisms(child, index, parent) {
-    var prev, children, length, iterator;
+    var prev, children, length, iterator, otherChild, isAllDigits, value;
 
     if (
         index === 0 || child.type !== 'PunctuationNode' ||
-        child.children[0].value !== '.'
+        tokenToString(child) !== '.'
     ) {
         return;
     }
@@ -690,22 +765,27 @@ function mergeInitialisms(child, index, parent) {
     }
 
     iterator = length;
+    isAllDigits = true;
 
     while (children[--iterator]) {
+        otherChild = children[iterator];
+        value = tokenToString(otherChild);
+
         if (iterator % 2 === 0) {
             /* istanbul ignore if: TOSPEC: Currently not spec-able, but
              * future-friendly */
-            if (children[iterator].type !== 'TextNode') {
+            if (otherChild.type !== 'TextNode') {
                 return;
             }
 
-            if (children[iterator].value.length > 1) {
+            if (value.length > 1) {
                 return;
             }
-        } else if (
-            children[iterator].type !== 'PunctuationNode' ||
-            children[iterator].children[0].value !== '.'
-        ) {
+
+            if (!EXPRESSION_NUMERICAL.test(value)) {
+                isAllDigits = false;
+            }
+        } else if (otherChild.type !== 'PunctuationNode' || value !== '.') {
             /* istanbul ignore else: TOSPEC */
             if (iterator < length - 2) {
                 break;
@@ -713,6 +793,10 @@ function mergeInitialisms(child, index, parent) {
                 return;
             }
         }
+    }
+
+    if (isAllDigits) {
+        return;
     }
 
     /* Remove `child` from parent. */
@@ -751,7 +835,7 @@ function mergePrefixExceptions(child, index, parent) {
 
     if (
         !node || node.type !== 'PunctuationNode' ||
-        node.children[0].value !== '.'
+        tokenToString(node) !== '.'
     ) {
         return;
     }
@@ -761,7 +845,7 @@ function mergePrefixExceptions(child, index, parent) {
     if (!node ||
         node.type !== 'WordNode' ||
         !EXPRESSION_ABBREVIATION_PREFIX.test(
-            node.children[0].value.toLowerCase()
+            tokenToString(node).toLowerCase()
         )
     ) {
         return;
@@ -814,7 +898,7 @@ function mergeAffixExceptions(child, index, parent) {
     if (
         !node ||
         node.type !== 'PunctuationNode' ||
-        node.children[0].value !== ','
+        tokenToString(node) !== ','
     ) {
         return;
     }
@@ -921,9 +1005,7 @@ function mergeInitialLowerCaseLetterSentences(child, index, parent) {
             return;
         } else if (node.type === 'WordNode') {
             if (
-                !EXPRESSION_LOWER_INITIAL_EXCEPTION.test(
-                    node.children[0].value
-                )
+                !EXPRESSION_LOWER_INITIAL_EXCEPTION.test(tokenToString(node))
             ) {
                 return;
             }
@@ -1008,7 +1090,7 @@ function mergeSourceLines(child, index, parent) {
     if (
         !child ||
         child.type !== 'WhiteSpaceNode' ||
-        !EXPRESSION_NEW_LINE.test(child.children[0].value)
+        !EXPRESSION_NEW_LINE.test(tokenToString(child))
     ) {
         return;
     }
@@ -1026,7 +1108,7 @@ function mergeSourceLines(child, index, parent) {
 
         if (
             sibling.type === 'WhiteSpaceNode' &&
-            EXPRESSION_NEW_LINE.test(sibling.children[0].value)
+            EXPRESSION_NEW_LINE.test(tokenToString(sibling))
         ) {
             break;
         }
@@ -1068,7 +1150,7 @@ function mergeAffixPunctuation(child, index, parent) {
 
     if (
         children[0].type !== 'PunctuationNode' ||
-        !EXPRESSION_AFFIX_PUNCTUATION.test(children[0].children[0].value)
+        !EXPRESSION_AFFIX_PUNCTUATION.test(tokenToString(children[0]))
     ) {
         return;
     }
@@ -1282,6 +1364,8 @@ parseLatinPrototype.tokenizeSentence = function (value) {
 };
 
 parseLatinPrototype.tokenizeSentenceModifiers = [
+    mergeInitialWordPunctuation,
+    mergeFinalWordPunctuation,
     mergeInnerWordPunctuation,
     mergeSourceLines,
     mergeInitialisms
