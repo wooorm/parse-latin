@@ -3844,32 +3844,32 @@ describe('White space characters', function () {
         sentenceEnd = 'house.',
         iterator = -1,
         whiteSpaceCharacters = [
-            '\u0009', // CHARACTER TABULATION
-            '\u000A', // LINE FEED (LF)
-            '\u000B', // LINE TABULATION
-            '\u000C', // FORM FEED (FF)
-            '\u000D', // CARRIAGE RETURN (CR)
-            '\u0020', // SPACE
-            '\u0085', // NEXT LINE (NEL)
-            '\u00A0', // NO-BREAK SPACE
-            '\u1680', // OGHAM SPACE MARK
-            '\u180E', // MONGOLIAN VOWEL SEPARATOR
-            '\u2000', // EN QUAD
-            '\u2001', // EM QUAD
-            '\u2002', // EN SPACE
-            '\u2003', // EM SPACE
-            '\u2004', // THREE-PER-EM SPACE
-            '\u2005', // FOUR-PER-EM SPACE
-            '\u2006', // SIX-PER-EM SPACE
-            '\u2007', // FIGURE SPACE
-            '\u2008', // PUNCTUATION SPACE
-            '\u2009', // THIN SPACE
-            '\u200A', // HAIR SPACE
-            '\u2028', // LINE SEPARATOR
-            '\u2029', // PARAGRAPH SEPARATOR
-            '\u202F', // NARROW NO-BREAK SPACE
-            '\u205F', // MEDIUM MATHEMATICAL SPACE
-            '\u3000'  // IDEOGRAPHIC SPACE
+            '\u0009', /* CHARACTER TABULATION */
+            '\u000A', /* LINE FEED (LF) */
+            '\u000B', /* LINE TABULATION */
+            '\u000C', /* FORM FEED (FF) */
+            '\u000D', /* CARRIAGE RETURN (CR) */
+            '\u0020', /* SPACE */
+            '\u0085', /* NEXT LINE (NEL) */
+            '\u00A0', /* NO-BREAK SPACE */
+            '\u1680', /* OGHAM SPACE MARK */
+            '\u180E', /* MONGOLIAN VOWEL SEPARATOR */
+            '\u2000', /* EN QUAD */
+            '\u2001', /* EM QUAD */
+            '\u2002', /* EN SPACE */
+            '\u2003', /* EM SPACE */
+            '\u2004', /* THREE-PER-EM SPACE */
+            '\u2005', /* FOUR-PER-EM SPACE */
+            '\u2006', /* SIX-PER-EM SPACE */
+            '\u2007', /* FIGURE SPACE */
+            '\u2008', /* PUNCTUATION SPACE */
+            '\u2009', /* THIN SPACE */
+            '\u200A', /* HAIR SPACE */
+            '\u2028', /* LINE SEPARATOR */
+            '\u2029', /* PARAGRAPH SEPARATOR */
+            '\u202F', /* NARROW NO-BREAK SPACE */
+            '\u205F', /* MEDIUM MATHEMATICAL SPACE */
+            '\u3000'  /* IDEOGRAPHIC SPACE */
         ],
         character;
 
@@ -4182,118 +4182,118 @@ describe('Double combining marks', function () {
 });
 
 var diacritics = [
-        '\u0300', // COMBINING GRAVE ACCENT (U+0300)
-        '\u0301', // COMBINING ACUTE ACCENT (U+0301)
-        '\u0302', // COMBINING CIRCUMFLEX ACCENT (U+0302)
-        '\u0303', // COMBINING TILDE (U+0303)
-        '\u0304', // COMBINING MACRON (U+0304)
-        '\u0305', // COMBINING OVERLINE (U+0305)
-        '\u0306', // COMBINING BREVE (U+0306)
-        '\u0307', // COMBINING DOT ABOVE (U+0307)
-        '\u0308', // COMBINING DIAERESIS (U+0308)
-        '\u0309', // COMBINING HOOK ABOVE (U+0309)
-        '\u030A', // COMBINING RING ABOVE (U+030A)
-        '\u030B', // COMBINING DOUBLE ACUTE ACCENT (U+030B)
-        '\u030C', // COMBINING CARON (U+030C)
-        '\u030D', // COMBINING VERTICAL LINE ABOVE (U+030D)
-        '\u030E', // COMBINING DOUBLE VERTICAL LINE ABOVE (U+030E)
-        '\u030F', // COMBINING DOUBLE GRAVE ACCENT (U+030F)
-        '\u0310', // COMBINING CANDRABINDU (U+0310)
-        '\u0311', // COMBINING INVERTED BREVE (U+0311)
-        '\u0312', // COMBINING TURNED COMMA ABOVE (U+0312)
-        '\u0313', // COMBINING COMMA ABOVE (U+0313)
-        '\u0314', // COMBINING REVERSED COMMA ABOVE (U+0314)
-        '\u0315', // COMBINING COMMA ABOVE RIGHT (U+0315)
-        '\u0316', // COMBINING GRAVE ACCENT BELOW (U+0316)
-        '\u0317', // COMBINING ACUTE ACCENT BELOW (U+0317)
-        '\u0318', // COMBINING LEFT TACK BELOW (U+0318)
-        '\u0319', // COMBINING RIGHT TACK BELOW (U+0319)
-        '\u031A', // COMBINING LEFT ANGLE ABOVE (U+031A)
-        '\u031B', // COMBINING HORN (U+031B)
-        '\u031C', // COMBINING LEFT HALF RING BELOW (U+031C)
-        '\u031D', // COMBINING UP TACK BELOW (U+031D)
-        '\u031E', // COMBINING DOWN TACK BELOW (U+031E)
-        '\u031F', // COMBINING PLUS SIGN BELOW (U+031F)
-        '\u0320', // COMBINING MINUS SIGN BELOW (U+0320)
-        '\u0321', // COMBINING PALATALIZED HOOK BELOW (U+0321)
-        '\u0322', // COMBINING RETROFLEX HOOK BELOW (U+0322)
-        '\u0323', // COMBINING DOT BELOW (U+0323)
-        '\u0324', // COMBINING DIAERESIS BELOW (U+0324)
-        '\u0325', // COMBINING RING BELOW (U+0325)
-        '\u0326', // COMBINING COMMA BELOW (U+0326)
-        '\u0327', // COMBINING CEDILLA (U+0327)
-        '\u0328', // COMBINING OGONEK (U+0328)
-        '\u0329', // COMBINING VERTICAL LINE BELOW (U+0329)
-        '\u032A', // COMBINING BRIDGE BELOW (U+032A)
-        '\u032B', // COMBINING INVERTED DOUBLE ARCH BELOW (U+032B)
-        '\u032C', // COMBINING CARON BELOW (U+032C)
-        '\u032D', // COMBINING CIRCUMFLEX ACCENT BELOW (U+032D)
-        '\u032E', // COMBINING BREVE BELOW (U+032E)
-        '\u032F', // COMBINING INVERTED BREVE BELOW (U+032F)
-        '\u0330', // COMBINING TILDE BELOW (U+0330)
-        '\u0331', // COMBINING MACRON BELOW (U+0331)
-        '\u0332', // COMBINING LOW LINE (U+0332)
-        '\u0333', // COMBINING DOUBLE LOW LINE (U+0333)
-        '\u0334', // COMBINING TILDE OVERLAY (U+0334)
-        '\u0335', // COMBINING SHORT STROKE OVERLAY (U+0335)
-        '\u0336', // COMBINING LONG STROKE OVERLAY (U+0336)
-        '\u0337', // COMBINING SHORT SOLIDUS OVERLAY (U+0337)
-        '\u0338', // COMBINING LONG SOLIDUS OVERLAY (U+0338)
-        '\u0339', // COMBINING RIGHT HALF RING BELOW (U+0339)
-        '\u033A', // COMBINING INVERTED BRIDGE BELOW (U+033A)
-        '\u033B', // COMBINING SQUARE BELOW (U+033B)
-        '\u033C', // COMBINING SEAGULL BELOW (U+033C)
-        '\u033D', // COMBINING X ABOVE (U+033D)
-        '\u033E', // COMBINING VERTICAL TILDE (U+033E)
-        '\u033F', // COMBINING DOUBLE OVERLINE (U+033F)
-        '\u0340', // COMBINING GRAVE TONE MARK (U+0340)
-        '\u0341', // COMBINING ACUTE TONE MARK (U+0341)
-        '\u0342', // COMBINING GREEK PERISPOMENI (U+0342)
-        '\u0343', // COMBINING GREEK KORONIS (U+0343)
-        '\u0344', // COMBINING GREEK DIALYTIKA TONOS (U+0344)
-        '\u0345', // COMBINING GREEK YPOGEGRAMMENI (U+0345)
-        '\u0346', // COMBINING BRIDGE ABOVE (U+0346)
-        '\u0347', // COMBINING EQUALS SIGN BELOW (U+0347)
-        '\u0348', // COMBINING DOUBLE VERTICAL LINE BELOW (U+0348)
-        '\u0349', // COMBINING LEFT ANGLE BELOW (U+0349)
-        '\u034A', // COMBINING NOT TILDE ABOVE (U+034A)
-        '\u034B', // COMBINING HOMOTHETIC ABOVE (U+034B)
-        '\u034C', // COMBINING ALMOST EQUAL TO ABOVE (U+034C)
-        '\u034D', // COMBINING LEFT RIGHT ARROW BELOW (U+034D)
-        '\u034E', // COMBINING UPWARDS ARROW BELOW (U+034E)
-        '\u034F', // COMBINING GRAPHEME JOINER (U+034F)
-        '\u0350', // COMBINING RIGHT ARROWHEAD ABOVE (U+0350)
-        '\u0351', // COMBINING LEFT HALF RING ABOVE (U+0351)
-        '\u0352', // COMBINING FERMATA (U+0352)
-        '\u0353', // COMBINING X BELOW (U+0353)
-        '\u0354', // COMBINING LEFT ARROWHEAD BELOW (U+0354)
-        '\u0355', // COMBINING RIGHT ARROWHEAD BELOW (U+0355)
-        '\u0356', // COMBINING RIGHT ARROWHEAD AND UP ARROWHEAD BELOW (U+0356)
-        '\u0357', // COMBINING RIGHT HALF RING ABOVE (U+0357)
-        '\u0358', // COMBINING DOT ABOVE RIGHT (U+0358)
-        '\u0359', // COMBINING ASTERISK BELOW (U+0359)
-        '\u035A', // COMBINING DOUBLE RING BELOW (U+035A)
-        '\u035B', // COMBINING ZIGZAG ABOVE (U+035B)
-        '\u035C', // COMBINING DOUBLE BREVE BELOW (U+035C)
-        '\u035D', // COMBINING DOUBLE BREVE (U+035D)
-        '\u035E', // COMBINING DOUBLE MACRON (U+035E)
-        '\u035F', // COMBINING DOUBLE MACRON BELOW (U+035F)
-        '\u0360', // COMBINING DOUBLE TILDE (U+0360)
-        '\u0361', // COMBINING DOUBLE INVERTED BREVE (U+0361)
-        '\u0362', // COMBINING DOUBLE RIGHTWARDS ARROW BELOW (U+0362)
-        '\u0363', // COMBINING LATIN SMALL LETTER A (U+0363)
-        '\u0364', // COMBINING LATIN SMALL LETTER E (U+0364)
-        '\u0365', // COMBINING LATIN SMALL LETTER I (U+0365)
-        '\u0366', // COMBINING LATIN SMALL LETTER O (U+0366)
-        '\u0367', // COMBINING LATIN SMALL LETTER U (U+0367)
-        '\u0368', // COMBINING LATIN SMALL LETTER C (U+0368)
-        '\u0369', // COMBINING LATIN SMALL LETTER D (U+0369)
-        '\u036A', // COMBINING LATIN SMALL LETTER H (U+036A)
-        '\u036B', // COMBINING LATIN SMALL LETTER M (U+036B)
-        '\u036C', // COMBINING LATIN SMALL LETTER R (U+036C)
-        '\u036D', // COMBINING LATIN SMALL LETTER T (U+036D)
-        '\u036E', // COMBINING LATIN SMALL LETTER V (U+036E)
-        '\u036F'  // COMBINING LATIN SMALL LETTER X (U+036F)
+        '\u0300', /* GRAVE ACCENT (U+0300) */
+        '\u0301', /* ACUTE ACCENT (U+0301) */
+        '\u0302', /* CIRCUMFLEX ACCENT (U+0302) */
+        '\u0303', /* TILDE (U+0303) */
+        '\u0304', /* MACRON (U+0304) */
+        '\u0305', /* OVERLINE (U+0305) */
+        '\u0306', /* BREVE (U+0306) */
+        '\u0307', /* DOT ABOVE (U+0307) */
+        '\u0308', /* DIAERESIS (U+0308) */
+        '\u0309', /* HOOK ABOVE (U+0309) */
+        '\u030A', /* RING ABOVE (U+030A) */
+        '\u030B', /* DOUBLE ACUTE ACCENT (U+030B) */
+        '\u030C', /* CARON (U+030C) */
+        '\u030D', /* VERTICAL LINE ABOVE (U+030D) */
+        '\u030E', /* DOUBLE VERTICAL LINE ABOVE (U+030E) */
+        '\u030F', /* DOUBLE GRAVE ACCENT (U+030F) */
+        '\u0310', /* CANDRABINDU (U+0310) */
+        '\u0311', /* INVERTED BREVE (U+0311) */
+        '\u0312', /* TURNED COMMA ABOVE (U+0312) */
+        '\u0313', /* COMMA ABOVE (U+0313) */
+        '\u0314', /* REVERSED COMMA ABOVE (U+0314) */
+        '\u0315', /* COMMA ABOVE RIGHT (U+0315) */
+        '\u0316', /* GRAVE ACCENT BELOW (U+0316) */
+        '\u0317', /* ACUTE ACCENT BELOW (U+0317) */
+        '\u0318', /* LEFT TACK BELOW (U+0318) */
+        '\u0319', /* RIGHT TACK BELOW (U+0319) */
+        '\u031A', /* LEFT ANGLE ABOVE (U+031A) */
+        '\u031B', /* HORN (U+031B) */
+        '\u031C', /* LEFT HALF RING BELOW (U+031C) */
+        '\u031D', /* UP TACK BELOW (U+031D) */
+        '\u031E', /* DOWN TACK BELOW (U+031E) */
+        '\u031F', /* PLUS SIGN BELOW (U+031F) */
+        '\u0320', /* MINUS SIGN BELOW (U+0320) */
+        '\u0321', /* PALATALIZED HOOK BELOW (U+0321) */
+        '\u0322', /* RETROFLEX HOOK BELOW (U+0322) */
+        '\u0323', /* DOT BELOW (U+0323) */
+        '\u0324', /* DIAERESIS BELOW (U+0324) */
+        '\u0325', /* RING BELOW (U+0325) */
+        '\u0326', /* COMMA BELOW (U+0326) */
+        '\u0327', /* CEDILLA (U+0327) */
+        '\u0328', /* OGONEK (U+0328) */
+        '\u0329', /* VERTICAL LINE BELOW (U+0329) */
+        '\u032A', /* BRIDGE BELOW (U+032A) */
+        '\u032B', /* INVERTED DOUBLE ARCH BELOW (U+032B) */
+        '\u032C', /* CARON BELOW (U+032C) */
+        '\u032D', /* CIRCUMFLEX ACCENT BELOW (U+032D) */
+        '\u032E', /* BREVE BELOW (U+032E) */
+        '\u032F', /* INVERTED BREVE BELOW (U+032F) */
+        '\u0330', /* TILDE BELOW (U+0330) */
+        '\u0331', /* MACRON BELOW (U+0331) */
+        '\u0332', /* LOW LINE (U+0332) */
+        '\u0333', /* DOUBLE LOW LINE (U+0333) */
+        '\u0334', /* TILDE OVERLAY (U+0334) */
+        '\u0335', /* SHORT STROKE OVERLAY (U+0335) */
+        '\u0336', /* LONG STROKE OVERLAY (U+0336) */
+        '\u0337', /* SHORT SOLIDUS OVERLAY (U+0337) */
+        '\u0338', /* LONG SOLIDUS OVERLAY (U+0338) */
+        '\u0339', /* RIGHT HALF RING BELOW (U+0339) */
+        '\u033A', /* INVERTED BRIDGE BELOW (U+033A) */
+        '\u033B', /* SQUARE BELOW (U+033B) */
+        '\u033C', /* SEAGULL BELOW (U+033C) */
+        '\u033D', /* X ABOVE (U+033D) */
+        '\u033E', /* VERTICAL TILDE (U+033E) */
+        '\u033F', /* DOUBLE OVERLINE (U+033F) */
+        '\u0340', /* GRAVE TONE MARK (U+0340) */
+        '\u0341', /* ACUTE TONE MARK (U+0341) */
+        '\u0342', /* GREEK PERISPOMENI (U+0342) */
+        '\u0343', /* GREEK KORONIS (U+0343) */
+        '\u0344', /* GREEK DIALYTIKA TONOS (U+0344) */
+        '\u0345', /* GREEK YPOGEGRAMMENI (U+0345) */
+        '\u0346', /* BRIDGE ABOVE (U+0346) */
+        '\u0347', /* EQUALS SIGN BELOW (U+0347) */
+        '\u0348', /* DOUBLE VERTICAL LINE BELOW (U+0348) */
+        '\u0349', /* LEFT ANGLE BELOW (U+0349) */
+        '\u034A', /* NOT TILDE ABOVE (U+034A) */
+        '\u034B', /* HOMOTHETIC ABOVE (U+034B) */
+        '\u034C', /* ALMOST EQUAL TO ABOVE (U+034C) */
+        '\u034D', /* LEFT RIGHT ARROW BELOW (U+034D) */
+        '\u034E', /* UPWARDS ARROW BELOW (U+034E) */
+        '\u034F', /* GRAPHEME JOINER (U+034F) */
+        '\u0350', /* RIGHT ARROWHEAD ABOVE (U+0350) */
+        '\u0351', /* LEFT HALF RING ABOVE (U+0351) */
+        '\u0352', /* FERMATA (U+0352) */
+        '\u0353', /* X BELOW (U+0353) */
+        '\u0354', /* LEFT ARROWHEAD BELOW (U+0354) */
+        '\u0355', /* RIGHT ARROWHEAD BELOW (U+0355) */
+        '\u0356', /* RIGHT ARROWHEAD AND UP ARROWHEAD BELOW (U+0356) */
+        '\u0357', /* RIGHT HALF RING ABOVE (U+0357) */
+        '\u0358', /* DOT ABOVE RIGHT (U+0358) */
+        '\u0359', /* ASTERISK BELOW (U+0359) */
+        '\u035A', /* DOUBLE RING BELOW (U+035A) */
+        '\u035B', /* ZIGZAG ABOVE (U+035B) */
+        '\u035C', /* DOUBLE BREVE BELOW (U+035C) */
+        '\u035D', /* DOUBLE BREVE (U+035D) */
+        '\u035E', /* DOUBLE MACRON (U+035E) */
+        '\u035F', /* DOUBLE MACRON BELOW (U+035F) */
+        '\u0360', /* DOUBLE TILDE (U+0360) */
+        '\u0361', /* DOUBLE INVERTED BREVE (U+0361) */
+        '\u0362', /* DOUBLE RIGHTWARDS ARROW BELOW (U+0362) */
+        '\u0363', /* LATIN SMALL LETTER A (U+0363) */
+        '\u0364', /* LATIN SMALL LETTER E (U+0364) */
+        '\u0365', /* LATIN SMALL LETTER I (U+0365) */
+        '\u0366', /* LATIN SMALL LETTER O (U+0366) */
+        '\u0367', /* LATIN SMALL LETTER U (U+0367) */
+        '\u0368', /* LATIN SMALL LETTER C (U+0368) */
+        '\u0369', /* LATIN SMALL LETTER D (U+0369) */
+        '\u036A', /* LATIN SMALL LETTER H (U+036A) */
+        '\u036B', /* LATIN SMALL LETTER M (U+036B) */
+        '\u036C', /* LATIN SMALL LETTER R (U+036C) */
+        '\u036D', /* LATIN SMALL LETTER T (U+036D) */
+        '\u036E', /* LATIN SMALL LETTER V (U+036E) */
+        '\u036F'  /* LATIN SMALL LETTER X (U+036F) */
     ],
     iterator = -1,
     diacritic;
@@ -6411,8 +6411,7 @@ describe('Unicode parsing', function () {
                         }
                     ]
                 },
-                // NOT a combining ring! Just the unicode
-                // A-ring character.
+                /* NOT a combining ring! Just the unicode A-ring character. */
                 {
                     'type' : 'WordNode',
                     'children' : [
@@ -6539,7 +6538,7 @@ describe('Unicode parsing', function () {
                         }
                     ]
                 },
-                // A combining ring and a combining diaereses.
+                /* A combining ring and a combining diaereses. */
                 {
                     'type' : 'WordNode',
                     'children' : [
@@ -6594,7 +6593,7 @@ describe('Unicode parsing', function () {
                         }
                     ]
                 },
-                // Two combining diaereses.
+                /* Two combining diaereses. */
                 {
                     'type' : 'WordNode',
                     'children' : [
@@ -6622,7 +6621,7 @@ describe('Unicode parsing', function () {
                         }
                     ]
                 },
-                // En-dash
+                /* En-dash */
                 {
                     'type' : 'PunctuationNode',
                     'children' : [
@@ -6731,7 +6730,7 @@ describe('Unicode parsing', function () {
                         }
                     ]
                 },
-                // Superscript minus.
+                /* Superscript minus. */
                 {
                     'type' : 'PunctuationNode',
                     'children' : [
@@ -6741,7 +6740,7 @@ describe('Unicode parsing', function () {
                         }
                     ]
                 },
-                // Superscript one and superscript two
+                /* Superscript 1 and superscript 2 */
                 {
                     'type' : 'WordNode',
                     'children' : [
