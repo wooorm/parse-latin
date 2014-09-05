@@ -265,11 +265,17 @@ GROUP_ASTRAL = expand('D800-DBFFDC00-DFFF');
 /**
  * Expose interrobang, question-, and exclamation mark.
  *
+ * - Full stop;
+ * - Interrobang;
+ * - Question mark;
+ * - Exclamation mark;
+ * - Horizontal ellipsis.
+ *
  * @global
  * @private
  * @constant
  */
-GROUP_TERMINAL_MARKER = '\\.\\u203D?!';
+GROUP_TERMINAL_MARKER = '\\.\\u203D?!\\u2026';
 
 /**
  * Expose Unicode Pe (Punctuation, Close) category.
@@ -362,7 +368,8 @@ EXPRESSION_NEW_LINE = /^(\r?\n|\r)+$/;
  * - Full stop;
  * - Interrobang;
  * - Question mark;
- * - Exclamation mark.
+ * - Exclamation mark;
+ * - Horizontal ellipsis.
  *
  * @global
  * @private
