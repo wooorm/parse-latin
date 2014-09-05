@@ -1127,7 +1127,7 @@ function breakImplicitSentences(child, index, parent) {
             'children' : children.slice(iterator + 1)
         });
 
-        return index;
+        return index + 2;
     }
 }
 
