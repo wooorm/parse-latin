@@ -1180,6 +1180,46 @@ function removeEmptyNodes(child, index, parent) {
 }
 
 /**
+ * Returns a function which in turn returns nodes of the given type.
+ *
+ * @param {string} type
+ * @return {Function} - A function which creates nodes of the given type.
+ * @global
+ * @private
+ */
+function createNodeFactory(type) {
+    return function (value) {
+        return {
+            'type' : type,
+            'children' : [
+                this.tokenizeText(value)
+            ]
+        };
+    };
+}
+
+/**
+ * Returns a function which in turn returns text nodes of the given type.
+ *
+ * @param {string} type
+ * @return {Function} - A function which creates text nodes of the given type.
+ * @global
+ * @private
+ */
+function createTextNodeFactory(type) {
+    return function (value) {
+        if (value === null || value === undefined) {
+            value = '';
+        }
+
+        return {
+            'type' : type,
+            'value' : String(value)
+        };
+    };
+}
+
+/**
  * `ParseLatin` contains the functions needed to tokenize natural Latin-script
  * language into a syntax tree.
  *
@@ -1313,31 +1353,77 @@ parseLatinPrototype.classifier = function (value) {
      * space.
      */
     if (this.EXPRESSION_WHITE_SPACE.test(value)) {
-        type = 'WhiteSpaceNode';
+        type = 'WhiteSpace';
     /*
      * Otherwise, if the token contains just word characters, classify it as
      * a word.
      */
     } else if (this.EXPRESSION_WORD.test(value)) {
-        type = 'WordNode';
+        type = 'Word';
     /*
      * Otherwise, classify it as punctuation.
      */
     } else {
-        type = 'PunctuationNode';
+        type = 'Punctuation';
     }
 
     /* Return a token. */
-    return {
-        'type' : type,
-        'children' : [
-            {
-                'type' : 'TextNode',
-                'value' : value
-            }
-        ]
-    };
+    return this['tokenize' + type](value);
 };
+
+/**
+ * Returns a source node, with its value set to the given value.
+ *
+ * @param {string} value
+ * @return {Object} - The SourceNode.
+ * @private
+ * @memberof ParseLatin#
+ */
+parseLatinPrototype.tokenizeSource = createTextNodeFactory('SourceNode');
+
+/**
+ * Returns a text node, with its value set to the given value.
+ *
+ * @param {string} value
+ * @return {Object} - The TextNode.
+ * @private
+ * @memberof ParseLatin#
+ */
+parseLatinPrototype.tokenizeText = createTextNodeFactory('TextNode');
+
+/**
+ * Returns a word node, with its children set to a single text node, its
+ * value set to the given value.
+ *
+ * @param {string} value
+ * @return {Object} - The WordNode.
+ * @private
+ * @memberof ParseLatin#
+ */
+parseLatinPrototype.tokenizeWord = createNodeFactory('WordNode');
+
+/**
+ * Returns a white space node, with its children set to a single text node,
+ * its value set to the given value.
+ *
+ * @param {string} value
+ * @return {Object} - The whiteSpaceNode.
+ * @private
+ * @memberof ParseLatin#
+ */
+parseLatinPrototype.tokenizeWhiteSpace = createNodeFactory('WhiteSpaceNode');
+
+/**
+ * Returns a punctuation node, with its children set to a single text node,
+ * its value set to the given value.
+ *
+ * @param {string} value
+ * @return {Object} - The PunctuationNode.
+ * @private
+ * @memberof ParseLatin#
+ */
+parseLatinPrototype.tokenizePunctuation =
+    createNodeFactory('PunctuationNode');
 
 /**
  * Tokenize natural Latin-script language into a sentence token.
