@@ -16106,6 +16106,234 @@ describe('Terminal markers', function () {
             }));
         }
     );
+
+    it('should break (implicit) sentences ending in multiple new lines',
+        function () {
+            var root = parseLatin.parse(
+                'A sentence.\n' +
+                '\n' +
+                'This is an implicit sentence\n' +
+                '\n' +
+                'Another sentence.\n'
+            );
+
+            assert(JSON.stringify(root) === JSON.stringify({
+                'type' : 'RootNode',
+                'children' : [
+                    {
+                        'type' : 'ParagraphNode',
+                        'children' : [
+                            {
+                                'type' : 'SentenceNode',
+                                'children' : [
+                                    {
+                                        'type' : 'WordNode',
+                                        'children' : [
+                                            {
+                                                'type' : 'TextNode',
+                                                'value' : 'A'
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        'type' : 'WhiteSpaceNode',
+                                        'children' : [
+                                            {
+                                                'type' : 'TextNode',
+                                                'value' : ' '
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        'type' : 'WordNode',
+                                        'children' : [
+                                            {
+                                                'type' : 'TextNode',
+                                                'value' : 'sentence'
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        'type' : 'PunctuationNode',
+                                        'children' : [
+                                            {
+                                                'type' : 'TextNode',
+                                                'value' : '.'
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        'type' : 'WhiteSpaceNode',
+                        'children' : [
+                            {
+                                'type' : 'TextNode',
+                                'value' : '\n\n'
+                            }
+                        ]
+                    },
+                    {
+                        'type' : 'ParagraphNode',
+                        'children' : [
+                            {
+                                'type' : 'SentenceNode',
+                                'children' : [
+                                    {
+                                        'type' : 'WordNode',
+                                        'children' : [
+                                            {
+                                                'type' : 'TextNode',
+                                                'value' : 'This'
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        'type' : 'WhiteSpaceNode',
+                                        'children' : [
+                                            {
+                                                'type' : 'TextNode',
+                                                'value' : ' '
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        'type' : 'WordNode',
+                                        'children' : [
+                                            {
+                                                'type' : 'TextNode',
+                                                'value' : 'is'
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        'type' : 'WhiteSpaceNode',
+                                        'children' : [
+                                            {
+                                                'type' : 'TextNode',
+                                                'value' : ' '
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        'type' : 'WordNode',
+                                        'children' : [
+                                            {
+                                                'type' : 'TextNode',
+                                                'value' : 'an'
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        'type' : 'WhiteSpaceNode',
+                                        'children' : [
+                                            {
+                                                'type' : 'TextNode',
+                                                'value' : ' '
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        'type' : 'WordNode',
+                                        'children' : [
+                                            {
+                                                'type' : 'TextNode',
+                                                'value' : 'implicit'
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        'type' : 'WhiteSpaceNode',
+                                        'children' : [
+                                            {
+                                                'type' : 'TextNode',
+                                                'value' : ' '
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        'type' : 'WordNode',
+                                        'children' : [
+                                            {
+                                                'type' : 'TextNode',
+                                                'value' : 'sentence'
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        'type' : 'WhiteSpaceNode',
+                        'children' : [
+                            {
+                                'type' : 'TextNode',
+                                'value' : '\n\n'
+                            }
+                        ]
+                    },
+                    {
+                        'type' : 'ParagraphNode',
+                        'children' : [
+                            {
+                                'type' : 'SentenceNode',
+                                'children' : [
+                                    {
+                                        'type' : 'WordNode',
+                                        'children' : [
+                                            {
+                                                'type' : 'TextNode',
+                                                'value' : 'Another'
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        'type' : 'WhiteSpaceNode',
+                                        'children' : [
+                                            {
+                                                'type' : 'TextNode',
+                                                'value' : ' '
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        'type' : 'WordNode',
+                                        'children' : [
+                                            {
+                                                'type' : 'TextNode',
+                                                'value' : 'sentence'
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        'type' : 'PunctuationNode',
+                                        'children' : [
+                                            {
+                                                'type' : 'TextNode',
+                                                'value' : '.'
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        'type' : 'WhiteSpaceNode',
+                        'children' : [
+                            {
+                                'type' : 'TextNode',
+                                'value' : '\n'
+                            }
+                        ]
+                    }
+                ]
+            }));
+        }
+    );
 });
 
 describe('Abbreviations: Initialisms', function () {
