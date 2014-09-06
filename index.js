@@ -599,7 +599,7 @@ function tokenizerFactory(context, options) {
 }
 
 /**
- * Merges certain punctuation marks into their previous words.
+ * Merges certain punctuation marks into their following words.
  *
  * @param {Object} child
  * @param {number} index
