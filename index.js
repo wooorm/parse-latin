@@ -422,13 +422,14 @@ EXPRESSION_INNER_WORD_PUNCTUATION =
  * Matches punctuation part of the next word.
  *
  * Includes:
- * - Ampersand;
+ * - Right single quote;
+ * - Ampersand.
  *
  * @global
  * @private
  * @constant
  */
-EXPRESSION_INITIAL_WORD_PUNCTUATION = /^&$/;
+EXPRESSION_INITIAL_WORD_PUNCTUATION = /^[\u2019&]$/;
 
 /**
  * Matches punctuation part of the previous word.
