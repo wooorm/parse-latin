@@ -14095,6 +14095,52 @@ describe('Inner-word punctuation', function () {
             ]
         }));
     });
+
+    it('should merge a prefixed smart apostrophe into the next word',
+        function () {
+            var ast = parseLatin.tokenizeParagraph(
+                '\u2019Sup, he said, how do you like \u2019em?'
+            ).children[0];
+
+            assert(JSON.stringify(ast.children[0]) === JSON.stringify({
+                'type' : 'WordNode',
+                'children' : [
+                    {
+                        'type' : 'PunctuationNode',
+                        'children' : [
+                            {
+                                'type' : 'TextNode',
+                                'value' : '\u2019'
+                            }
+                        ]
+                    },
+                    {
+                        'type' : 'TextNode',
+                        'value' : 'Sup'
+                    }
+                ]
+            }));
+
+            assert(JSON.stringify(ast.children[16]) === JSON.stringify({
+                'type' : 'WordNode',
+                'children' : [
+                    {
+                        'type' : 'PunctuationNode',
+                        'children' : [
+                            {
+                                'type' : 'TextNode',
+                                'value' : '\u2019'
+                            }
+                        ]
+                    },
+                    {
+                        'type' : 'TextNode',
+                        'value' : 'em'
+                    }
+                ]
+            }));
+        }
+    );
 });
 
 describe('Terminal markers', function () {
