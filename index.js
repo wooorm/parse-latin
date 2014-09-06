@@ -1013,13 +1013,12 @@ function makeFinalWhiteSpaceAndSourceSiblings(child, index, parent) {
  * word, or if available, the next word.
  *
  * @param {Object} child
- * @param {number} index
  * @return {undefined}
  *
  * @global
  * @private
  */
-function mergeRemainingFullStops(child, index) {
+function mergeRemainingFullStops(child) {
     var children = child.children,
         iterator = children.length,
         grandchild, prev, next, hasFoundDelimiter;
