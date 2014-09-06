@@ -499,6 +499,10 @@ function modify(modifiers, parent) {
              */
             if (typeof result === 'number') {
                 pointer = result - 1;
+
+                if (pointer < 0) {
+                    pointer = 0;
+                }
             }
         }
     }
