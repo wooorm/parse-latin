@@ -37,6 +37,8 @@
     "lint-benchmark": "node_modules/.bin/eslint benchmark/index.js --env node --global suite,set,bench --rule 'quotes: [2, single]'",
     "lint-style": "node_modules/.bin/jscs build-expressions.js benchmark/index.js index.js lib/parse-latin.js spec/parse-latin.spec.js --reporter=inline",
     "coverage": "node_modules/.bin/istanbul cover node_modules/.bin/_mocha -- -- spec/parse-latin.spec.js",
+    "build-expressions": "node build-expressions",
+    "prepublish": "npm run build-expressions",
     "benchmark": "node_modules/.bin/matcha",
     "make": "npm run-script lint && npm run-script coverage"
   }
