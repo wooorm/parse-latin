@@ -29,6 +29,7 @@
     "coverage",
     "node_modules",
     "benchmark",
-    "spec"
+    "spec",
+    "build-expressions.js"
   ]
 }
