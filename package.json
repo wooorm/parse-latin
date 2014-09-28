@@ -23,7 +23,9 @@
     "istanbul": "^0.3.0",
     "jscs": "^1.5.8",
     "matcha": "^0.5.0",
-    "mocha": "^1.21.0"
+    "mocha": "^1.21.0",
+    "regenerate": "^1.0.0",
+    "unicode-7.0.0": "^0.1.5"
   },
   "scripts": {
     "test": "node_modules/.bin/_mocha --reporter spec --check-leaks -u exports spec/parse-latin.spec.js",
