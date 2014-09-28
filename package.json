@@ -23,17 +23,22 @@
     "istanbul": "^0.3.0",
     "jscs": "^1.5.8",
     "matcha": "^0.5.0",
-    "mocha": "^1.21.0"
+    "mocha": "^1.21.0",
+    "regenerate": "^1.0.0",
+    "unicode-7.0.0": "^0.1.5"
   },
   "scripts": {
     "test": "node_modules/.bin/_mocha --reporter spec --check-leaks -u exports spec/parse-latin.spec.js",
     "test-travis": "node_modules/.bin/istanbul cover node_modules/.bin/_mocha --report lcovonly -- --reporter spec --check-leaks -u exports spec/parse-latin.spec.js",
     "lint": "npm run-script lint-api && npm run-script lint-test && npm run-script lint-benchmark && npm run-script lint-style",
-    "lint-api": "node_modules/.bin/eslint index.js --env node --env browser --rule 'quotes: [2, single], consistent-return: false'",
+    "lint-api": "node_modules/.bin/eslint index.js lib/parse-latin.js --env node --env browser --rule 'quotes: [2, single], consistent-return: false'",
+    "lint-build": "node_modules/.bin/eslint build-expressions.js --env node --rule 'quotes: [2, single]",
     "lint-test": "node_modules/.bin/eslint spec/parse-latin.spec.js --env node --env mocha --rule 'quotes: [2, single], no-loop-func: false'",
     "lint-benchmark": "node_modules/.bin/eslint benchmark/index.js --env node --global suite,set,bench --rule 'quotes: [2, single]'",
-    "lint-style": "node_modules/.bin/jscs benchmark/index.js index.js spec/parse-latin.spec.js --reporter=inline",
+    "lint-style": "node_modules/.bin/jscs build-expressions.js benchmark/index.js index.js lib/parse-latin.js spec/parse-latin.spec.js --reporter=inline",
     "coverage": "node_modules/.bin/istanbul cover node_modules/.bin/_mocha -- -- spec/parse-latin.spec.js",
+    "build-expressions": "node build-expressions",
+    "prepublish": "npm run build-expressions",
     "benchmark": "node_modules/.bin/matcha",
     "make": "npm run-script lint && npm run-script coverage"
   }
