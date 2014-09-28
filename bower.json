@@ -1,9 +1,8 @@
 {
   "name": "parse-latin",
+  "main": "index.js",
   "description": "Latin-script (natural language) parser",
-  "authors": [
-    "Titus Wormer <tituswormer@gmail.com>"
-  ],
+  "license": "MIT",
   "keywords": [
     "latin",
     "script",
@@ -12,14 +11,15 @@
     "parser"
   ],
   "dependencies": {
-    "nlcst-to-string": "~0.0.1"
+    "nlcst-to-string": "^0.0.1"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/wooorm/parse-latin.git"
   },
-  "license": "MIT",
-  "main": "index.js",
+  "authors": [
+    "Titus Wormer <tituswormer@gmail.com>"
+  ],
   "ignore": [
     ".*",
     "*.log",

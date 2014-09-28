@@ -1,8 +1,8 @@
 {
   "name": "parse-latin",
-  "repository": "wooorm/parse-latin",
-  "description": "Latin-script (natural language) parser",
   "version": "0.1.3",
+  "description": "Latin-script (natural language) parser",
+  "license": "MIT",
   "keywords": [
     "latin",
     "script",
@@ -11,10 +11,10 @@
     "parser"
   ],
   "dependencies": {
-    "wooorm/nlcst-to-string": "~0.0.1"
+    "wooorm/nlcst-to-string": "^0.0.1"
   },
+  "repository": "wooorm/parse-latin",
   "scripts": [
     "index.js"
-  ],
-  "license": "MIT"
+  ]
 }
