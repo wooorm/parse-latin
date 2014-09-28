@@ -13,14 +13,19 @@ Note also that it seems to parse other scripts, such as Cyrillic (“Добро 
 
 ## Installation
 
-NPM:
+npm:
 ```sh
 $ npm install parse-latin
 ```
 
-Component.js:
+Component:
 ```sh
 $ component install wooorm/parse-latin
+```
+
+Bower:
+```sh
+$ bower install parse-latin
 ```
 
 ## Usage
