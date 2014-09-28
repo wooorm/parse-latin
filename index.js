@@ -6,6 +6,18 @@
  */
 'use strict';
 
+/**
+ * Dependencies.
+ */
+
+var nlcstToString;
+
+nlcstToString = require('nlcst-to-string');
+
+/**
+ * Constants.
+ */
+
 var EXPRESSION_ABBREVIATION_PREFIX, EXPRESSION_NEW_LINE,
     EXPRESSION_MULTI_NEW_LINE,
     EXPRESSION_AFFIX_PUNCTUATION, EXPRESSION_INNER_WORD_PUNCTUATION,

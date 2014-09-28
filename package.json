@@ -9,6 +9,9 @@
     "language",
     "parser"
   ],
+  "dependencies": {
+    "nlcst-to-string": "0.0.1"
+  },
   "author": "Titus Wormer <tituswormer@gmail.com>",
   "license": "MIT",
   "devDependencies": {
@@ -33,7 +36,7 @@
     "install-browser-test": "npm install browserify",
     "build-browser-test": "node_modules/.bin/browserify spec/parse-latin.spec.js -o spec/browser.spec.js",
     "coverage": "node_modules/.bin/istanbul cover node_modules/.bin/_mocha -- -- spec/parse-latin.spec.js",
-    "benchmark" : "node_modules/.bin/matcha",
+    "benchmark": "node_modules/.bin/matcha",
     "make": "npm run-script lint && npm run-script coverage"
   },
   "testling": {

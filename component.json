@@ -10,7 +10,10 @@
     "language",
     "parser"
   ],
-  "scripts" : [
+  "dependencies": {
+    "wooorm/nlcst-to-string": "~0.0.1"
+  },
+  "scripts": [
     "index.js"
   ],
   "license": "MIT"
