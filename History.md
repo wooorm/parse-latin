@@ -1,4 +1,30 @@
 
+n.n.n / 2014-09-28
+==================
+
+ * Merge branch 'feature/generate-unicode-expressions'
+ * Update component white list and bower black list
+ * Add npm scripts for building expressions
+ * Add linting for build-expressions and moved files
+ * Move `parse-latin` to lib
+ * Add expressions to seperate file
+ * Add build-expressions
+ * Add regenerate, unicode-7.0.0 as dev-dependencies
+ * Update .gitignore, .npmignore
+ * Remove browser test
+ * Remove tags-only limiation from travis
+ * Update Installation in docs
+ * Update copyright in docs
+ * Remove testling
+ * Fix property order in component.json, package.json, bower.json
+ * Refactor API
+ * Add nlcst-to-string as a dependency
+ * Fix premature exit of a modifier on first child
+ * Fix incorrect description of mergeInitialWordPunctuation
+ * Fix #17: Add functionality for initial word elision with a smart apostrophe
+ * Add spec to allow initial word elision with smart apostrophe
+ * Update eslint to 0.8.0; Fix new found errors
+
 0.1.3 / 2014-09-05
 ==================
 
