@@ -12,5 +12,4 @@ deploy:
   api_key:
     secure: hsVLpp4a5pxzz8Djuu0nkr8iEZiGjfb+VLS75p9iY/LwI7ZhjfQ5mV83GSEq6RVkgWCjZbrdsvZ3Ig2z0YfXwQrOg844LPx9cY1mH5U0gOIuEVaBa0kPIq7gMvIH973J3DMBpRZdrg+gRSG8XgH7I2oDPKL0b7fXwVLZhcx2QkE=
   on:
-    tags: true
     repo: wooorm/parse-latin
