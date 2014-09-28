@@ -1,11 +1,5 @@
 # parse-latin [![Build Status](https://travis-ci.org/wooorm/parse-latin.svg?branch=master)](https://travis-ci.org/wooorm/parse-latin) [![Coverage Status](https://img.shields.io/coveralls/wooorm/parse-latin.svg)](https://coveralls.io/r/wooorm/parse-latin?branch=master)
 
-[![browser support](https://ci.testling.com/wooorm/parse-latin.png) ](https://ci.testling.com/wooorm/parse-latin)
-
-See [Browser Support](#browser-support) for more information (a.k.a. don’t worry about those grey icons above).
-
----
-
 **parse-latin** is an Latin-script language parser in JavaScript. NodeJS, and the browser. Lots of tests (220+), including 300+ assertions. 100% coverage.
 
 Note: This project is **not** an object model for natural languages, or an extensible system for analysing and manipulating natural language, its an algorithm that transforms plain-text natural language into a syntax tree. If you need the above-mentioned functionalities, use the following projects.
@@ -145,9 +139,6 @@ Then, it manipulates and merges those tokens into a syntax tree, adding sentence
 - Some punctuation marks are part of the word they occur in, e.g., `non-profit`, `she\'s`, `G.I.`, `11:00`, `N/A`, `&c`, `nineteenth- and...`;
 - Some full-stops do not mark a sentence end, e.g., `1.`, `e.g.`, `id.`;
 - Although full-stops, question marks, and exclamation marks (sometimes) end a sentence, that end might not occur directly after the mark, e.g., `.)`, `."`;
-
-## Browser Support
-Pretty much every browser (available through browserstack) runs all parse-latin unit tests.
 
 ## Benchmark
 
