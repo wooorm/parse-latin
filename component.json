@@ -15,7 +15,7 @@
   },
   "repository": "wooorm/parse-latin",
   "scripts": [
-    "index.js"
+    "index.js",
     "lib/parse-latin.js",
     "lib/expressions.js"
   ]
