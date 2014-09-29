@@ -1,5 +1,5 @@
 
-n.n.n / 2014-09-29
+0.2.0-rc.2 / 2014-09-29
 ==================
 
  * Fix missing comma introduced in 3630b92
