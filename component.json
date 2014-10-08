@@ -11,7 +11,7 @@
     "parser"
   ],
   "dependencies": {
-    "wooorm/nlcst-to-string": "^0.0.1"
+    "wooorm/nlcst-to-string": "^0.1.0"
   },
   "repository": "wooorm/parse-latin",
   "scripts": [
