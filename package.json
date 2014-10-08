@@ -34,12 +34,12 @@
     "lint-api": "node_modules/.bin/eslint index.js lib/parse-latin.js --env node --env browser --rule 'quotes: [2, single], consistent-return: false'",
     "lint-build": "node_modules/.bin/eslint script/build-expressions.js --env node --rule 'quotes: [2, single]",
     "lint-test": "node_modules/.bin/eslint test/index.js --env node --env mocha --rule 'quotes: [2, single], no-loop-func: false'",
-    "lint-benchmark": "node_modules/.bin/eslint benchmark/index.js --env node --global suite,set,bench --rule 'quotes: [2, single]'",
-    "lint-style": "node_modules/.bin/jscs script/build-expressions.js benchmark/index.js index.js lib/parse-latin.js test/index.js --reporter=inline",
+    "lint-benchmark": "node_modules/.bin/eslint benchmark.js --env node --global suite,set,bench --rule 'quotes: [2, single]'",
+    "lint-style": "node_modules/.bin/jscs script/build-expressions.js benchmark.js index.js lib/parse-latin.js test/index.js --reporter=inline",
     "coverage": "node_modules/.bin/istanbul cover node_modules/.bin/_mocha -- -- test/index.js",
     "build-expressions": "node script/build-expressions",
     "prepublish": "npm run build-expressions",
-    "benchmark": "node_modules/.bin/matcha",
+    "benchmark": "node_modules/.bin/matcha benchmark.js",
     "make": "npm run-script lint && npm run-script coverage"
   }
 }
