@@ -4,6 +4,7 @@
   "description": "Latin-script (natural language) parser",
   "license": "MIT",
   "keywords": [
+    "nlcst",
     "latin",
     "script",
     "natural",
