@@ -1,0 +1,14 @@
+{
+  "type": "RootNode",
+  "children": [
+    {
+      "type": "WhiteSpaceNode",
+      "children": [
+        {
+          "type": "TextNode",
+          "value": "\n\n"
+        }
+      ]
+    }
+  ]
+}

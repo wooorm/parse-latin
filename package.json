@@ -20,11 +20,14 @@
   },
   "author": "Titus Wormer <tituswormer@gmail.com>",
   "devDependencies": {
+    "chalk": "^0.5.1",
+    "diff": "^1.0.8",
     "eslint": "^0.8.0",
     "istanbul": "^0.3.0",
     "jscs": "^1.5.8",
     "matcha": "^0.5.0",
     "mocha": "^1.21.0",
+    "nlcst-test": "^0.1.0",
     "regenerate": "^1.0.0",
     "unicode-7.0.0": "^0.1.5"
   },

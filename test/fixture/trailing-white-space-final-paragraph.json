@@ -1,0 +1,55 @@
+{
+  "type": "ParagraphNode",
+  "children": [
+    {
+      "type": "SentenceNode",
+      "children": [
+        {
+          "type": "WordNode",
+          "children": [
+            {
+              "type": "TextNode",
+              "value": "A"
+            }
+          ]
+        },
+        {
+          "type": "WhiteSpaceNode",
+          "children": [
+            {
+              "type": "TextNode",
+              "value": " "
+            }
+          ]
+        },
+        {
+          "type": "WordNode",
+          "children": [
+            {
+              "type": "TextNode",
+              "value": "sentence"
+            }
+          ]
+        },
+        {
+          "type": "PunctuationNode",
+          "children": [
+            {
+              "type": "TextNode",
+              "value": "."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "WhiteSpaceNode",
+      "children": [
+        {
+          "type": "TextNode",
+          "value": " "
+        }
+      ]
+    }
+  ]
+}
