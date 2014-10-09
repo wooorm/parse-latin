@@ -157,12 +157,10 @@ WORD_PUNCTUATION_INNER_MULTI = regenerate()
  * Includes:
  *
  * - Ampersand;
- * - Right single quote.
  */
 
 WORD_PUNCTUATION_INITIAL = regenerate()
-    .add('&')
-    .add(0x2019);
+    .add('&');
 
 /**
  * Punctuation marks part of the preceding word.

@@ -1128,13 +1128,6 @@ describe('Initial word punctuation', function () {
             'This, that, &c.'
         );
     });
-
-    it('should merge an apostrophe quote preceding a word', function () {
-        describeFixture(
-            'word-initial-apostrophe',
-            'How d\u2019ye like \u2019em?'
-        );
-    });
 });
 
 describe('Final word punctuation', function () {
