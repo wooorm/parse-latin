@@ -1,5 +1,5 @@
 
-n.n.n / 2014-10-09
+0.2.0-rc.3 / 2014-10-09
 ==================
 
  * Remove extraneous istanbul ignore
