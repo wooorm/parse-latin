@@ -1,4 +1,21 @@
 
+n.n.n / 2014-10-09
+==================
+
+ * Remove extraneous istanbul ignore
+ * Remove apostrophe from initial word-punctuation
+ * Refactor test
+ * Remove source node creation from parser
+ * Add script to generate fixtures
+ * Refactor indent in .jscs.json
+ * Add NLCST to package keywords
+ * Refactor Readme.md
+ * Refactor benchmark
+ * Move build-expressions script to `script/`
+ * Update .gitignore, .npmignore, bower ignore
+ * Move spec to new `test` directory
+ * Update nlcst-to-string
+
 0.2.0-rc.2 / 2014-09-29
 ==================
 
