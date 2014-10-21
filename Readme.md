@@ -7,7 +7,7 @@ A Latin script language parser producing [NLCST](https://github.com/wooorm/nlcst
 
 Whether Old-English (“þā gewearþ þǣm hlāforde and þǣm hȳrigmannum wiþ ānum penninge”), Icelandic (“Hvað er að frétta”), French (“Où sont les toilettes?”), **parse-latin** does a good job at tokenizing it.
 
-Note also that **parse-latin** does a decent at tokenizing Latin-like scripts, Cyrillic (“Добро пожаловать!”), Georgian (“როგორა ხარ?”), Armenian (“Շատ հաճելի է”), and such.
+Note also that **parse-latin** does a decent job at tokenizing Latin-like scripts, Cyrillic (“Добро пожаловать!”), Georgian (“როგორა ხარ?”), Armenian (“Շատ հաճելի է”), and such.
 
 ## Installation
 
@@ -96,10 +96,7 @@ latin.parse('A simple sentence.');
  *                       |              └─ value: "A"
  *                       ├─ 1: Object
  *                       |     ├─ type: "WhiteSpaceNode"
- *                       |     └─ children: Array[1]
- *                       |        └─ 0: Object
- *                       |              ├─ type: "TextNode"
- *                       |              └─ value: " "
+ *                       |     └─ value: " "
  *                       ├─ 2: Object
  *                       |     ├─ type: "WordNode"
  *                       |     └─ children: Array[1]
@@ -108,10 +105,7 @@ latin.parse('A simple sentence.');
  *                       |              └─ value: "simple"
  *                       ├─ 3: Object
  *                       |     ├─ type: "WhiteSpaceNode"
- *                       |     └─ children: Array[1]
- *                       |        └─ 0: Object
- *                       |              ├─ type: "TextNode"
- *                       |              └─ value: " "
+ *                       |     └─ value: " "
  *                       ├─ 4: Object
  *                       |     ├─ type: "WordNode"
  *                       |     └─ children: Array[1]
@@ -120,10 +114,7 @@ latin.parse('A simple sentence.');
  *                       |              └─ value: "sentence"
  *                       └─ 5: Object
  *                             ├─ type: "PunctuationNode"
- *                             └─ children: Array[1]
- *                                └─ 0: Object
- *                                      ├─ type: "TextNode"
- *                                      └─ value: "."
+ *                             └─ value: "."
  */
 ```
 
