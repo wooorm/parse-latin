@@ -137,15 +137,15 @@ Then, it manipulates and merges those tokens into an [NLCST](https://github.com/
 
 ## Benchmark
 
-On a MacBook Air, **parse-latin** parses 2 large books, 25 big articles, or 2,056 paragraphs per second.
+On a MacBook Air, **parse-latin** parses 2 large books, 27 big articles, or 2,485 paragraphs per second.
 
-To put things into perspective, Shakespeare’s works contain 884,647 words. I have not tested it, but in theory **parse-latin** should parse these works in (slightly above) four seconds.
+To put things into perspective, Shakespeare’s works contain 884,647 words. I have not tested it, but in theory **parse-latin** should parse these works in (slightly above) three and a half seconds.
 
 ```
              latin.parse(document);
-  2,056 op/s » A paragraph (5 sentences, 100 words)
-    267 op/s » A section (10 paragraphs)
-     25 op/s » An article (10 sections)
+  2,485 op/s » A paragraph (5 sentences, 100 words)
+    318 op/s » A section (10 paragraphs)
+     27 op/s » An article (10 sections)
       2 op/s » A (large) book (10 articles)
 ```
 
