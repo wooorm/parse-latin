@@ -17,22 +17,12 @@
               ]
             },
             {
-              "type": "PunctuationNode",
-              "children": [
-                {
-                  "type": "TextNode",
-                  "value": "™"
-                }
-              ]
+              "type": "SymbolNode",
+              "value": "™"
             },
             {
               "type": "WhiteSpaceNode",
-              "children": [
-                {
-                  "type": "TextNode",
-                  "value": " "
-                }
-              ]
+              "value": " "
             },
             {
               "type": "WordNode",
@@ -45,12 +35,7 @@
             },
             {
               "type": "WhiteSpaceNode",
-              "children": [
-                {
-                  "type": "TextNode",
-                  "value": " "
-                }
-              ]
+              "value": " "
             },
             {
               "type": "WordNode",
@@ -63,12 +48,7 @@
             },
             {
               "type": "WhiteSpaceNode",
-              "children": [
-                {
-                  "type": "TextNode",
-                  "value": " "
-                }
-              ]
+              "value": " "
             },
             {
               "type": "WordNode",
@@ -81,12 +61,7 @@
             },
             {
               "type": "PunctuationNode",
-              "children": [
-                {
-                  "type": "TextNode",
-                  "value": "."
-                }
-              ]
+              "value": "."
             }
           ]
         }

@@ -16,12 +16,7 @@
                 },
                 {
                   "type": "PunctuationNode",
-                  "children": [
-                    {
-                      "type": "TextNode",
-                      "value": "-"
-                    }
-                  ]
+                  "value": "-"
                 },
                 {
                   "type": "TextNode",
@@ -31,12 +26,7 @@
             },
             {
               "type": "PunctuationNode",
-              "children": [
-                {
-                  "type": "TextNode",
-                  "value": "."
-                }
-              ]
+              "value": "."
             }
           ]
         }
