@@ -1,4 +1,11 @@
 
+n.n.n / 2014-10-21
+==================
+
+ * Update benchmark results in `Readme.md`
+ * Update Readme.md for Text punctuation and white-space
+ * Add functionality for symbol-node
+
 0.2.0 / 2014-10-14
 ==================
 
