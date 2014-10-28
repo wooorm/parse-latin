@@ -3,12 +3,7 @@
   "children": [
     {
       "type": "WhiteSpaceNode",
-      "children": [
-        {
-          "type": "TextNode",
-          "value": "\n"
-        }
-      ]
+      "value": "\n"
     },
     {
       "type": "SentenceNode",
@@ -24,12 +19,7 @@
         },
         {
           "type": "WhiteSpaceNode",
-          "children": [
-            {
-              "type": "TextNode",
-              "value": " "
-            }
-          ]
+          "value": " "
         },
         {
           "type": "WordNode",
@@ -42,12 +32,7 @@
         },
         {
           "type": "PunctuationNode",
-          "children": [
-            {
-              "type": "TextNode",
-              "value": "."
-            }
-          ]
+          "value": "."
         }
       ]
     }

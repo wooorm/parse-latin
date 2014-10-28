@@ -23,8 +23,13 @@ var N,
     Ll,
     M,
     Cs,
+    Pc,
+    Pd,
     Pe,
     Pf,
+    Pi,
+    Po,
+    Ps,
     whiteSpace,
     combiningDiacriticalMarks;
 
@@ -33,8 +38,13 @@ L = unicode('categories/L');
 Ll = unicode('categories/Ll');
 M = unicode('categories/M');
 Cs = unicode('categories/Cs');
+Pc = unicode('categories/Pc');
+Pd = unicode('categories/Pd');
 Pe = unicode('categories/Pe');
 Pf = unicode('categories/Pf');
+Pi = unicode('categories/Pi');
+Po = unicode('categories/Po');
+Ps = unicode('categories/Ps');
 whiteSpace = unicode('properties/White_Space');
 combiningDiacriticalMarks = unicode('blocks/Combining Diacritical Marks');
 
@@ -50,13 +60,14 @@ var ASTRAL,
     NUMERICAL,
     PUNCTUATION_CLOSING,
     PUNCTUATION_FINAL,
+    PUNCTUATION,
     WHITE_SPACE,
     WORD,
     TERMINAL_MARKER,
-    WORD_PUNCTUATION_INNER,
-    WORD_PUNCTUATION_INNER_MULTI,
-    WORD_PUNCTUATION_INITIAL,
-    WORD_PUNCTUATION_FINAL;
+    WORD_SYMBOL_INNER,
+    WORD_SYMBOL_INNER_MULTI,
+    WORD_SYMBOL_INITIAL,
+    WORD_SYMBOL_FINAL;
 
 ASTRAL = regenerate()
     .add(Cs);
@@ -75,6 +86,31 @@ LETTER_LOWER = regenerate()
 
 NUMERICAL = regenerate()
     .add(N);
+
+PUNCTUATION = regenerate()
+    .add(Pc)
+    .add(Pd)
+    .add(Pe)
+    .add(Pf)
+    .add(Pi)
+    .add(Po)
+    .add(Ps)
+    /**
+     * Remove few weirdly-classified symbols:
+     *
+     * Source:
+     *   http://www.unicode.org/faq/punctuation_symbols.html#4
+     */
+    .remove('#')
+    .remove('&')
+    .remove('@')
+    .remove('%')
+    .remove('‰')
+    .remove('‱')
+    .remove('*')
+    .remove('†')
+    .remove('‡')
+    .remove('※');
 
 PUNCTUATION_CLOSING = regenerate()
     .add(Pe);
@@ -101,7 +137,7 @@ TERMINAL_MARKER = regenerate()
     .add(0x2026);
 
 /**
- * Punctuation marks part of surrounding words.
+ * Symbols part of surrounding words.
  *
  * Includes:
  *
@@ -121,7 +157,7 @@ TERMINAL_MARKER = regenerate()
  * - Middle dot.
  */
 
-WORD_PUNCTUATION_INNER = regenerate()
+WORD_SYMBOL_INNER = regenerate()
     .add('-')
     .add('@')
     .add('?')
@@ -138,7 +174,7 @@ WORD_PUNCTUATION_INNER = regenerate()
     .add(0x2027);
 
 /**
- * Punctuation marks which can occur multiple times and
+ * Symbols which can occur multiple times and
  * still be part of surrounding words.
  *
  * Includes:
@@ -147,39 +183,40 @@ WORD_PUNCTUATION_INNER = regenerate()
  * - Underscore.
  */
 
-WORD_PUNCTUATION_INNER_MULTI = regenerate()
+WORD_SYMBOL_INNER_MULTI = regenerate()
     .add('_')
     .add('/');
 
 /**
- * Punctuation marks part of the following word.
+ * Symbols part of the following word.
  *
  * Includes:
  *
  * - Ampersand;
  */
 
-WORD_PUNCTUATION_INITIAL = regenerate()
+WORD_SYMBOL_INITIAL = regenerate()
     .add('&');
 
 /**
- * Punctuation marks part of the preceding word.
+ * Symbols part of the preceding word.
  *
  * Includes:
  *
  * - Hyphen-minus.
  */
 
-WORD_PUNCTUATION_FINAL = regenerate()
+WORD_SYMBOL_FINAL = regenerate()
     .add('-');
 
-var EXPRESSION_AFFIX_PUNCTUATION,
+var EXPRESSION_AFFIX_SYMBOL,
     EXPRESSION_NEW_LINE,
     EXPRESSION_NEW_LINE_MULTI,
     EXPRESSION_TERMINAL_MARKER,
-    EXPRESSION_WORD_PUNCTUATION_INNER,
-    EXPRESSION_WORD_PUNCTUATION_INITIAL,
-    EXPRESSION_WORD_PUNCTUATION_FINAL,
+    EXPRESSION_WORD_SYMBOL_INNER,
+    EXPRESSION_WORD_SYMBOL_INITIAL,
+    EXPRESSION_WORD_SYMBOL_FINAL,
+    EXPRESSION_PUNCTUATION,
     EXPRESSION_NUMERICAL,
     EXPRESSION_LOWER_INITIAL,
     EXPRESSION_TOKEN,
@@ -192,7 +229,7 @@ var EXPRESSION_AFFIX_PUNCTUATION,
  * the sentence's terminal marker.
  */
 
-EXPRESSION_AFFIX_PUNCTUATION = new RegExp(
+EXPRESSION_AFFIX_SYMBOL = new RegExp(
     '^(' +
         PUNCTUATION_CLOSING + '|' +
         PUNCTUATION_FINAL + '|' +
@@ -227,18 +264,18 @@ EXPRESSION_TERMINAL_MARKER = new RegExp(
  *
  * See:
  *
- * - WORD_PUNCTUATION_INNER;
- * - WORD_PUNCTUATION_INNER_MULTI.
+ * - WORD_SYMBOL_INNER;
+ * - WORD_SYMBOL_INNER_MULTI.
  */
 
-EXPRESSION_WORD_PUNCTUATION_INNER = new RegExp(
+EXPRESSION_WORD_SYMBOL_INNER = new RegExp(
     '^(' +
         '(?:' +
-            WORD_PUNCTUATION_INNER +
+            WORD_SYMBOL_INNER +
         ')' +
         '|' +
         '(?:' +
-            WORD_PUNCTUATION_INNER_MULTI +
+            WORD_SYMBOL_INNER_MULTI +
         ')+' +
     ')$'
 );
@@ -248,11 +285,11 @@ EXPRESSION_WORD_PUNCTUATION_INNER = new RegExp(
  *
  * See:
  *
- * - WORD_PUNCTUATION_INITIAL.
+ * - WORD_SYMBOL_INITIAL.
  */
 
-EXPRESSION_WORD_PUNCTUATION_INITIAL = new RegExp(
-    '^(?:' + WORD_PUNCTUATION_INITIAL + ')$'
+EXPRESSION_WORD_SYMBOL_INITIAL = new RegExp(
+    '^(?:' + WORD_SYMBOL_INITIAL + ')$'
 );
 
 /**
@@ -260,11 +297,23 @@ EXPRESSION_WORD_PUNCTUATION_INITIAL = new RegExp(
  *
  * See:
  *
- * - WORD_PUNCTUATION_FINAL.
+ * - WORD_SYMBOL_FINAL.
  */
 
-EXPRESSION_WORD_PUNCTUATION_FINAL = new RegExp(
-    '^(?:' + WORD_PUNCTUATION_FINAL + ')$'
+EXPRESSION_WORD_SYMBOL_FINAL = new RegExp(
+    '^(?:' + WORD_SYMBOL_FINAL + ')$'
+);
+
+/**
+ * Match punctuation marks.
+ *
+ * See:
+ *
+ * - PUNCTUATION.
+ */
+
+EXPRESSION_PUNCTUATION = new RegExp(
+    '^(?:' + PUNCTUATION + ')+$'
 );
 
 /**
@@ -316,13 +365,14 @@ var file;
 file =
     'module.exports = {\n' +
     '    ' + [
-        '\'affixPunctuation\' : ' + EXPRESSION_AFFIX_PUNCTUATION,
+        '\'affixSymbol\' : ' + EXPRESSION_AFFIX_SYMBOL,
         '\'newLine\' : ' + EXPRESSION_NEW_LINE,
         '\'newLineMulti\' : ' + EXPRESSION_NEW_LINE_MULTI,
         '\'terminalMarker\' : ' + EXPRESSION_TERMINAL_MARKER,
-        '\'wordPunctuationInner\' : ' + EXPRESSION_WORD_PUNCTUATION_INNER,
-        '\'wordPunctuationInitial\' : ' + EXPRESSION_WORD_PUNCTUATION_INITIAL,
-        '\'wordPunctuationFinal\' : ' + EXPRESSION_WORD_PUNCTUATION_FINAL,
+        '\'wordSymbolInner\' : ' + EXPRESSION_WORD_SYMBOL_INNER,
+        '\'wordSymbolInitial\' : ' + EXPRESSION_WORD_SYMBOL_INITIAL,
+        '\'wordSymbolFinal\' : ' + EXPRESSION_WORD_SYMBOL_FINAL,
+        '\'punctuation\' : ' + EXPRESSION_PUNCTUATION,
         '\'numerical\' : ' + EXPRESSION_NUMERICAL,
         '\'lowerInitial\' : ' + EXPRESSION_LOWER_INITIAL,
         '\'token\' : ' + EXPRESSION_TOKEN,

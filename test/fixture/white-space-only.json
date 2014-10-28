@@ -3,12 +3,7 @@
   "children": [
     {
       "type": "WhiteSpaceNode",
-      "children": [
-        {
-          "type": "TextNode",
-          "value": "\n\n"
-        }
-      ]
+      "value": "\n\n"
     }
   ]
 }

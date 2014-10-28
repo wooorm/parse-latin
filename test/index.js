@@ -219,39 +219,57 @@ describe('ParseLatin#tokenizeWord()', function () {
     });
 });
 
+describe('ParseLatin#tokenizeSymbol()', function () {
+    it('should return a symbol node', function () {
+        assert(latin.tokenizeSymbol().type === 'SymbolNode');
+    });
+
+    it('should return a node with a `value`', function () {
+        assert(typeof latin.tokenizeSymbol('alfred').value === 'string');
+    });
+
+    it('should return a node with a `value` set to an empty string when ' +
+        'no value was given',
+        function () {
+            var defaultValue = latin.tokenizeSymbol(),
+                undefinedValue = latin.tokenizeSymbol(undefined),
+                nullValue = latin.tokenizeSymbol(null);
+
+            assert(defaultValue.value === '');
+            assert(undefinedValue.value === '');
+            assert(nullValue.value === '');
+        }
+    );
+
+    it('should return a node without a `children` property', function () {
+        assert(!('children' in latin.tokenizeSymbol()));
+    });
+});
+
 describe('ParseLatin#tokenizeWhiteSpace()', function () {
     it('should return a white space node', function () {
         assert(latin.tokenizeWhiteSpace().type === 'WhiteSpaceNode');
     });
 
-    it('should return a node with a `children` array', function () {
-        var children = latin.tokenizeWhiteSpace('alfred').children;
-
-        assert('length' in children);
-        assert(typeof children !== 'string');
+    it('should return a node with a `value`', function () {
+        assert(typeof latin.tokenizeWhiteSpace('alfred').value === 'string');
     });
 
-    it('should return a node with a text node as only child', function () {
-        var children = latin.tokenizeWhiteSpace('alfred').children;
-        assert(children.length === 1);
-        assert(children[0].type === 'TextNode');
-        assert(children[0].value === 'alfred');
-    });
-
-    it('should return a node with its text node\'s value property set to ' +
-        'an empty string when no value was given', function () {
+    it('should return a node with a `value` set to an empty string when ' +
+        'no value was given',
+        function () {
             var defaultValue = latin.tokenizeWhiteSpace(),
                 undefinedValue = latin.tokenizeWhiteSpace(undefined),
                 nullValue = latin.tokenizeWhiteSpace(null);
 
-            assert(defaultValue.children[0].value === '');
-            assert(undefinedValue.children[0].value === '');
-            assert(nullValue.children[0].value === '');
+            assert(defaultValue.value === '');
+            assert(undefinedValue.value === '');
+            assert(nullValue.value === '');
         }
     );
 
-    it('should return a node without a `value` property', function () {
-        assert(!('value' in latin.tokenizeWhiteSpace()));
+    it('should return a node without a `children` property', function () {
+        assert(!('children' in latin.tokenizeWhiteSpace()));
     });
 });
 
@@ -260,34 +278,25 @@ describe('ParseLatin#tokenizePunctuation()', function () {
         assert(latin.tokenizePunctuation().type === 'PunctuationNode');
     });
 
-    it('should return a node with a `children` array', function () {
-        var children = latin.tokenizePunctuation('alfred').children;
-
-        assert('length' in children);
-        assert(typeof children !== 'string');
+    it('should return a node with a `value`', function () {
+        assert(typeof latin.tokenizePunctuation('alfred').value === 'string');
     });
 
-    it('should return a node with a text node as only child', function () {
-        var children = latin.tokenizePunctuation('alfred').children;
-        assert(children.length === 1);
-        assert(children[0].type === 'TextNode');
-        assert(children[0].value === 'alfred');
-    });
-
-    it('should return a node with its text node\'s value property set to ' +
-        'an empty string when no value was given', function () {
+    it('should return a node with a `value` set to an empty string when ' +
+        'no value was given',
+        function () {
             var defaultValue = latin.tokenizePunctuation(),
                 undefinedValue = latin.tokenizePunctuation(undefined),
                 nullValue = latin.tokenizePunctuation(null);
 
-            assert(defaultValue.children[0].value === '');
-            assert(undefinedValue.children[0].value === '');
-            assert(nullValue.children[0].value === '');
+            assert(defaultValue.value === '');
+            assert(undefinedValue.value === '');
+            assert(nullValue.value === '');
         }
     );
 
-    it('should return a node without a `value` property', function () {
-        assert(!('value' in latin.tokenizePunctuation()));
+    it('should return a node without a `children` property', function () {
+        assert(!('children' in latin.tokenizePunctuation()));
     });
 });
 
@@ -334,8 +343,8 @@ describe('Root: Without a value', function () {
             assert(
                 stringify(latin.parse()) ===
                 stringify({
-                    'type' : 'RootNode',
-                    'children' : []
+                    'type': 'RootNode',
+                    'children': []
                 })
             );
         }
@@ -373,8 +382,8 @@ describe('Paragraph: Without a value', function () {
             assert(
                 stringify(latin.tokenizeParagraph()) ===
                 stringify({
-                    'type' : 'ParagraphNode',
-                    'children' : []
+                    'type': 'ParagraphNode',
+                    'children': []
                 })
             );
         }
@@ -387,8 +396,8 @@ describe('Sentence: Without a value', function () {
             assert(
                 stringify(latin.tokenizeSentence()) ===
                 stringify({
-                    'type' : 'SentenceNode',
-                    'children' : []
+                    'type': 'SentenceNode',
+                    'children': []
                 })
             );
         }
@@ -744,43 +753,33 @@ describe('White space characters', function () {
                         sentenceStart + character + sentenceEnd
                     ).children[0].children[0]) ===
                     stringify({
-                        'type' : 'SentenceNode',
-                        'children' : [
+                        'type': 'SentenceNode',
+                        'children': [
                             {
-                                'type' : 'WordNode',
-                                'children' : [
+                                'type': 'WordNode',
+                                'children': [
                                     {
-                                        'type' : 'TextNode',
-                                        'value' : 'A'
+                                        'type': 'TextNode',
+                                        'value': 'A'
                                     }
                                 ]
                             },
                             {
-                                'type' : 'WhiteSpaceNode',
-                                'children' : [
+                                'type': 'WhiteSpaceNode',
+                                'value': character
+                            },
+                            {
+                                'type': 'WordNode',
+                                'children': [
                                     {
-                                        'type' : 'TextNode',
-                                        'value' : character
+                                        'type': 'TextNode',
+                                        'value': 'house'
                                     }
                                 ]
                             },
                             {
-                                'type' : 'WordNode',
-                                'children' : [
-                                    {
-                                        'type' : 'TextNode',
-                                        'value' : 'house'
-                                    }
-                                ]
-                            },
-                            {
-                                'type' : 'PunctuationNode',
-                                'children' : [
-                                    {
-                                        'type' : 'TextNode',
-                                        'value' : '.'
-                                    }
-                                ]
+                                'type': 'PunctuationNode',
+                                'value': '.'
                             }
                         ]
                     })
@@ -951,61 +950,46 @@ describe('Combining diacritical marks', function () {
                     'This a' + diacritic + ' house.'
                 ).children[0].children[0]) ===
                 stringify({
-                    'type' : 'SentenceNode',
-                    'children' : [
+                    'type': 'SentenceNode',
+                    'children': [
                         {
-                            'type' : 'WordNode',
-                            'children' : [
+                            'type': 'WordNode',
+                            'children': [
                                 {
-                                    'type' : 'TextNode',
-                                    'value' : 'This'
+                                    'type': 'TextNode',
+                                    'value': 'This'
                                 }
                             ]
                         },
                         {
-                            'type' : 'WhiteSpaceNode',
-                            'children' : [
+                            'type': 'WhiteSpaceNode',
+                            'value': ' '
+                        },
+                        {
+                            'type': 'WordNode',
+                            'children': [
                                 {
-                                    'type' : 'TextNode',
-                                    'value' : ' '
+                                    'type': 'TextNode',
+                                    'value': 'a' + diacritic
                                 }
                             ]
                         },
                         {
-                            'type' : 'WordNode',
-                            'children' : [
+                            'type': 'WhiteSpaceNode',
+                            'value': ' '
+                        },
+                        {
+                            'type': 'WordNode',
+                            'children': [
                                 {
-                                    'type' : 'TextNode',
-                                    'value' : 'a' + diacritic
+                                    'type': 'TextNode',
+                                    'value': 'house'
                                 }
                             ]
                         },
                         {
-                            'type' : 'WhiteSpaceNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : ' '
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'WordNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : 'house'
-                                }
-                            ]
-                        },
-                        {
-                            'type' : 'PunctuationNode',
-                            'children' : [
-                                {
-                                    'type' : 'TextNode',
-                                    'value' : '.'
-                                }
-                            ]
+                            'type': 'PunctuationNode',
+                            'value': '.'
                         }
                     ]
                 })
