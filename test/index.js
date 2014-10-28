@@ -343,8 +343,8 @@ describe('Root: Without a value', function () {
             assert(
                 stringify(latin.parse()) ===
                 stringify({
-                    'type' : 'RootNode',
-                    'children' : []
+                    'type': 'RootNode',
+                    'children': []
                 })
             );
         }
@@ -382,8 +382,8 @@ describe('Paragraph: Without a value', function () {
             assert(
                 stringify(latin.tokenizeParagraph()) ===
                 stringify({
-                    'type' : 'ParagraphNode',
-                    'children' : []
+                    'type': 'ParagraphNode',
+                    'children': []
                 })
             );
         }
@@ -396,8 +396,8 @@ describe('Sentence: Without a value', function () {
             assert(
                 stringify(latin.tokenizeSentence()) ===
                 stringify({
-                    'type' : 'SentenceNode',
-                    'children' : []
+                    'type': 'SentenceNode',
+                    'children': []
                 })
             );
         }
@@ -753,33 +753,33 @@ describe('White space characters', function () {
                         sentenceStart + character + sentenceEnd
                     ).children[0].children[0]) ===
                     stringify({
-                        'type' : 'SentenceNode',
-                        'children' : [
+                        'type': 'SentenceNode',
+                        'children': [
                             {
-                                'type' : 'WordNode',
-                                'children' : [
+                                'type': 'WordNode',
+                                'children': [
                                     {
-                                        'type' : 'TextNode',
-                                        'value' : 'A'
+                                        'type': 'TextNode',
+                                        'value': 'A'
                                     }
                                 ]
                             },
                             {
-                                'type' : 'WhiteSpaceNode',
-                                'value' : character
+                                'type': 'WhiteSpaceNode',
+                                'value': character
                             },
                             {
-                                'type' : 'WordNode',
-                                'children' : [
+                                'type': 'WordNode',
+                                'children': [
                                     {
-                                        'type' : 'TextNode',
-                                        'value' : 'house'
+                                        'type': 'TextNode',
+                                        'value': 'house'
                                     }
                                 ]
                             },
                             {
-                                'type' : 'PunctuationNode',
-                                'value' : '.'
+                                'type': 'PunctuationNode',
+                                'value': '.'
                             }
                         ]
                     })
@@ -950,46 +950,46 @@ describe('Combining diacritical marks', function () {
                     'This a' + diacritic + ' house.'
                 ).children[0].children[0]) ===
                 stringify({
-                    'type' : 'SentenceNode',
-                    'children' : [
+                    'type': 'SentenceNode',
+                    'children': [
                         {
-                            'type' : 'WordNode',
-                            'children' : [
+                            'type': 'WordNode',
+                            'children': [
                                 {
-                                    'type' : 'TextNode',
-                                    'value' : 'This'
+                                    'type': 'TextNode',
+                                    'value': 'This'
                                 }
                             ]
                         },
                         {
-                            'type' : 'WhiteSpaceNode',
-                            'value' : ' '
+                            'type': 'WhiteSpaceNode',
+                            'value': ' '
                         },
                         {
-                            'type' : 'WordNode',
-                            'children' : [
+                            'type': 'WordNode',
+                            'children': [
                                 {
-                                    'type' : 'TextNode',
-                                    'value' : 'a' + diacritic
+                                    'type': 'TextNode',
+                                    'value': 'a' + diacritic
                                 }
                             ]
                         },
                         {
-                            'type' : 'WhiteSpaceNode',
-                            'value' : ' '
+                            'type': 'WhiteSpaceNode',
+                            'value': ' '
                         },
                         {
-                            'type' : 'WordNode',
-                            'children' : [
+                            'type': 'WordNode',
+                            'children': [
                                 {
-                                    'type' : 'TextNode',
-                                    'value' : 'house'
+                                    'type': 'TextNode',
+                                    'value': 'house'
                                 }
                             ]
                         },
                         {
-                            'type' : 'PunctuationNode',
-                            'value' : '.'
+                            'type': 'PunctuationNode',
+                            'value': '.'
                         }
                     ]
                 })
