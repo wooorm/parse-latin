@@ -1,4 +1,12 @@
 
+n.n.n / 2014-10-28
+==================
+
+ * Add `.eslintrc`
+ * Merge branch 'feature/add-symbol-node'
+ * Refactor to disallow space after object keys
+ * Update eslint, mocha
+
 0.3.0-rc.1 / 2014-10-21
 ==================
 
