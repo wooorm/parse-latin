@@ -365,19 +365,19 @@ var file;
 file =
     'module.exports = {\n' +
     '    ' + [
-        '\'affixSymbol\' : ' + EXPRESSION_AFFIX_SYMBOL,
-        '\'newLine\' : ' + EXPRESSION_NEW_LINE,
-        '\'newLineMulti\' : ' + EXPRESSION_NEW_LINE_MULTI,
-        '\'terminalMarker\' : ' + EXPRESSION_TERMINAL_MARKER,
-        '\'wordSymbolInner\' : ' + EXPRESSION_WORD_SYMBOL_INNER,
-        '\'wordSymbolInitial\' : ' + EXPRESSION_WORD_SYMBOL_INITIAL,
-        '\'wordSymbolFinal\' : ' + EXPRESSION_WORD_SYMBOL_FINAL,
-        '\'punctuation\' : ' + EXPRESSION_PUNCTUATION,
-        '\'numerical\' : ' + EXPRESSION_NUMERICAL,
-        '\'lowerInitial\' : ' + EXPRESSION_LOWER_INITIAL,
-        '\'token\' : ' + EXPRESSION_TOKEN,
-        '\'word\' : ' + EXPRESSION_WORD,
-        '\'whiteSpace\' : ' + EXPRESSION_WHITE_SPACE
+        '\'affixSymbol\': ' + EXPRESSION_AFFIX_SYMBOL,
+        '\'newLine\': ' + EXPRESSION_NEW_LINE,
+        '\'newLineMulti\': ' + EXPRESSION_NEW_LINE_MULTI,
+        '\'terminalMarker\': ' + EXPRESSION_TERMINAL_MARKER,
+        '\'wordSymbolInner\': ' + EXPRESSION_WORD_SYMBOL_INNER,
+        '\'wordSymbolInitial\': ' + EXPRESSION_WORD_SYMBOL_INITIAL,
+        '\'wordSymbolFinal\': ' + EXPRESSION_WORD_SYMBOL_FINAL,
+        '\'punctuation\': ' + EXPRESSION_PUNCTUATION,
+        '\'numerical\': ' + EXPRESSION_NUMERICAL,
+        '\'lowerInitial\': ' + EXPRESSION_LOWER_INITIAL,
+        '\'token\': ' + EXPRESSION_TOKEN,
+        '\'word\': ' + EXPRESSION_WORD,
+        '\'whiteSpace\': ' + EXPRESSION_WHITE_SPACE
     ].join(',\n    ') +
     '\n};\n';
 
