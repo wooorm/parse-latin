@@ -615,7 +615,7 @@ describe('Ellipsis at sentence-start', function () {
 });
 
 describe('Ellipsis at sentence-end', function () {
-    it('should not treat multiple full-stops at the end of a sentence' +
+    it('should not treat multiple full-stops at the end of a sentence ' +
         'as terminal markers',
         function () {
             describeFixture(
