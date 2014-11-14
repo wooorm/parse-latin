@@ -65,9 +65,7 @@ var ASTRAL,
     WORD,
     TERMINAL_MARKER,
     WORD_SYMBOL_INNER,
-    WORD_SYMBOL_INNER_MULTI,
-    WORD_SYMBOL_INITIAL,
-    WORD_SYMBOL_FINAL;
+    WORD_SYMBOL_INNER_MULTI;
 
 ASTRAL = regenerate()
     .add(Cs);
@@ -187,35 +185,11 @@ WORD_SYMBOL_INNER_MULTI = regenerate()
     .add('_')
     .add('/');
 
-/**
- * Symbols part of the following word.
- *
- * Includes:
- *
- * - Ampersand;
- */
-
-WORD_SYMBOL_INITIAL = regenerate()
-    .add('&');
-
-/**
- * Symbols part of the preceding word.
- *
- * Includes:
- *
- * - Hyphen-minus.
- */
-
-WORD_SYMBOL_FINAL = regenerate()
-    .add('-');
-
 var EXPRESSION_AFFIX_SYMBOL,
     EXPRESSION_NEW_LINE,
     EXPRESSION_NEW_LINE_MULTI,
     EXPRESSION_TERMINAL_MARKER,
     EXPRESSION_WORD_SYMBOL_INNER,
-    EXPRESSION_WORD_SYMBOL_INITIAL,
-    EXPRESSION_WORD_SYMBOL_FINAL,
     EXPRESSION_PUNCTUATION,
     EXPRESSION_NUMERICAL,
     EXPRESSION_LOWER_INITIAL,
@@ -278,30 +252,6 @@ EXPRESSION_WORD_SYMBOL_INNER = new RegExp(
             WORD_SYMBOL_INNER_MULTI +
         ')+' +
     ')$'
-);
-
-/**
- * Match punctuation marks part of the following word.
- *
- * See:
- *
- * - WORD_SYMBOL_INITIAL.
- */
-
-EXPRESSION_WORD_SYMBOL_INITIAL = new RegExp(
-    '^(?:' + WORD_SYMBOL_INITIAL + ')$'
-);
-
-/**
- * Match punctuation marks part of the preceding word.
- *
- * See:
- *
- * - WORD_SYMBOL_FINAL.
- */
-
-EXPRESSION_WORD_SYMBOL_FINAL = new RegExp(
-    '^(?:' + WORD_SYMBOL_FINAL + ')$'
 );
 
 /**
@@ -370,8 +320,6 @@ file =
         '\'newLineMulti\': ' + EXPRESSION_NEW_LINE_MULTI,
         '\'terminalMarker\': ' + EXPRESSION_TERMINAL_MARKER,
         '\'wordSymbolInner\': ' + EXPRESSION_WORD_SYMBOL_INNER,
-        '\'wordSymbolInitial\': ' + EXPRESSION_WORD_SYMBOL_INITIAL,
-        '\'wordSymbolFinal\': ' + EXPRESSION_WORD_SYMBOL_FINAL,
         '\'punctuation\': ' + EXPRESSION_PUNCTUATION,
         '\'numerical\': ' + EXPRESSION_NUMERICAL,
         '\'lowerInitial\': ' + EXPRESSION_LOWER_INITIAL,
