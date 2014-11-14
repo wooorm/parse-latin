@@ -12,12 +12,12 @@
     "parser"
   ],
   "dependencies": {
+    "wooorm/array-iterate": "^0.0.1",
     "wooorm/nlcst-to-string": "^0.1.0"
   },
   "repository": "wooorm/parse-latin",
   "scripts": [
     "index.js",
-    "lib/parse-latin.js",
-    "lib/expressions.js"
+    "lib/**/*.js"
   ]
 }

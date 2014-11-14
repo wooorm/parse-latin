@@ -54,12 +54,10 @@ function describeFixture(name, document, method) {
     try {
         assert(stringify(nlcst) === stringify(fixture));
     } catch (exception) {
-        /* istanbul ignore next */
         difference = diff.diffLines(
             stringify(fixture, 0, 2), stringify(nlcst, 0, 2)
         );
 
-        /* istanbul ignore next */
         difference.forEach(function (change) {
             var colour;
 
@@ -70,7 +68,6 @@ function describeFixture(name, document, method) {
             process.stderr.write(chalk[colour](change.value));
         });
 
-        /* istanbul ignore next */
         throw exception;
     }
 }

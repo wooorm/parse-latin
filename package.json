@@ -12,6 +12,7 @@
     "parser"
   ],
   "dependencies": {
+    "array-iterate": "^0.0.1",
     "nlcst-to-string": "^0.1.0"
   },
   "repository": {
@@ -35,13 +36,14 @@
     "test": "node_modules/.bin/_mocha --reporter spec --check-leaks -u exports test/index.js",
     "test-travis": "node_modules/.bin/istanbul cover node_modules/.bin/_mocha --report lcovonly -- --reporter spec --check-leaks -u exports test/index.js",
     "coverage": "node_modules/.bin/istanbul cover node_modules/.bin/_mocha -- -- test/index.js",
-    "lint": "npm run-script lint-api && npm run-script lint-script && npm run-script lint-test && npm run-script lint-benchmark && npm run-script lint-style",
-    "lint-api": "node_modules/.bin/eslint index.js lib/parse-latin.js lib/expressions.js --rule 'consistent-return: false'",
+    "lint": "npm run lint-api && npm run lint-plugin && npm run lint-script && npm run lint-test && npm run lint-benchmark && npm run lint-style",
+    "lint-api": "node_modules/.bin/eslint index.js lib/*.js",
+    "lint-plugin": "node_modules/.bin/eslint index.js lib/plugin/*.js --rule 'consistent-return: false'",
     "lint-test": "node_modules/.bin/eslint test/index.js --env mocha",
     "lint-benchmark": "node_modules/.bin/eslint benchmark.js --global suite,set,bench",
     "lint-script": "node_modules/.bin/eslint script/build-expressions.js script/generate-fixture.js",
-    "lint-style": "node_modules/.bin/jscs script/build-expressions.js script/generate-fixture.js benchmark.js index.js lib/parse-latin.js test/index.js --reporter=inline",
-    "make": "npm run-script lint && npm run-script coverage",
+    "lint-style": "node_modules/.bin/jscs {script,test,.}/*.js lib/plugin/*.js lib/{modifier,parse-latin,parser,pluggable,plugin,tokenizer}.js --reporter=inline",
+    "make": "npm run lint && npm run coverage",
     "benchmark": "node_modules/.bin/matcha benchmark.js",
     "build-expressions": "node script/build-expressions",
     "fixture": "node script/generate-fixture",
