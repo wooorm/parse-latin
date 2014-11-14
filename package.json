@@ -12,6 +12,7 @@
     "parser"
   ],
   "dependencies": {
+    "array-iterate": "^0.0.1",
     "nlcst-to-string": "^0.1.0"
   },
   "repository": {
