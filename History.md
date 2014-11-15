@@ -1,4 +1,23 @@
 
+n.n.n / 2014-11-15
+==================
+
+ * Fix overly complex ware process
+ * Add tests for using plugins
+ * Fix plugin-interface for multiple instances
+ * Merge branch 'feature/standardize-flow'
+ * Refactor module
+ * Remove extraneous istanbul ignore comments from test
+ * Remove `wordSymbolInitial` and `wordSymbolFinal` from expressions
+ * Add broader `script` globs in `component.json`
+ * Add array-iterate as a dependency
+ * Add `lib/expressions.js` to eslint
+ * Refactor npm script target order in `package.json`
+ * Add flat badges to `Readme.md`
+ * Refactor module
+ * Fix missing space in test description
+ * Update matcha
+
 0.3.0 / 2014-10-28
 ==================
 
