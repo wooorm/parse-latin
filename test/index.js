@@ -1318,7 +1318,7 @@ describe('Inner-word punctuation', function () {
         );
     });
 
-    it('should merge an full-stop in a word', function () {
+    it('should merge a full-stop in a word', function () {
         describeFixture(
             'word-inner-full-stop',
             'You will need to arrive by 14.30.'
