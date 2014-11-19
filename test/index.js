@@ -207,6 +207,93 @@ describe('ParseLatin#use(key, plugin)', function () {
     });
 });
 
+describe('ParseLatin#useFirst(key, plugin)', function () {
+    it('should throw when a non-pluggable `key` is given', function () {
+        assert.throws(function () {
+            ParseLatin.prototype.useFirst('alfred');
+        }, /Make sure `key` is a supported function/);
+    });
+
+    it('should NOT throw when no plugin is given', function () {
+        assert.doesNotThrow(function () {
+            ParseLatin.prototype.useFirst('tokenizeWord');
+        });
+    });
+
+    it('should add a plugin on the prototype', function () {
+        var parser;
+
+        function thrower() {
+            throw new Error('prototypal thrower was invoked');
+        }
+
+        ParseLatin.prototype.useFirst('tokenizeWord', thrower);
+
+        parser = new ParseLatin();
+
+        assert(
+            ParseLatin.prototype.tokenizeWordPlugins[
+                ParseLatin.prototype.tokenizeWordPlugins.length - 1
+            ] === thrower
+        );
+
+        assert.throws(function () {
+            parser.parse('Alfred.');
+        }, /thrower was invoked/);
+
+        /**
+         * Clean.
+         */
+
+        ParseLatin.prototype.tokenizeWordPlugins.pop();
+    });
+
+    it('should add a plugin on an instance', function () {
+        var parser,
+            wasInvoked;
+
+        function first() {
+            wasInvoked = true;
+        }
+
+        function thrower() {
+            assert(wasInvoked === true);
+            throw new Error('instance thrower was invoked');
+        }
+
+        parser = new ParseLatin();
+
+        parser.useFirst('tokenizeWord', thrower);
+
+        assert(
+            parser.tokenizeWordPlugins[0] === thrower
+        );
+
+        parser.useFirst('tokenizeWord', first);
+
+        assert(
+            parser.tokenizeWordPlugins[0] === first
+        );
+
+        assert.throws(function () {
+            parser.parse('Alfred.');
+        }, /instance thrower was invoked/);
+
+        assert(wasInvoked === true);
+    });
+
+    after(function () {
+        /**
+         * Internally, `ParseLatin` checks if a
+         * `plugins` exists for optimalisation.
+         * We remove the prebiously empty list
+         * here.
+         */
+
+        ParseLatin.prototype.tokenizeWordPlugins = null;
+    });
+});
+
 describe('ParseLatin#tokenizeText()', function () {
     it('should return a text node', function () {
         assert(latin.tokenizeText().type === 'TextNode');
