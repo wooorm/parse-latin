@@ -1325,6 +1325,13 @@ describe('Inner-word punctuation', function () {
         );
     });
 
+    it('should merge a colon in a word', function () {
+        describeFixture(
+            'word-inner-colon',
+            'You will need to arrive by 14:30.'
+        );
+    });
+
     it('should merge URL-symbols, like `?` and `=`', function () {
         describeFixture(
             'word-inner-url',
