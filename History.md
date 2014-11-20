@@ -1,4 +1,10 @@
 
+n.n.n / 2014-11-20
+==================
+
+ * Add test for inner-word colons
+ * Fix grammar in test
+
 0.4.0-rc.2 / 2014-11-19
 ==================
 
