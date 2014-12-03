@@ -1,0 +1,78 @@
+{
+  "type": "RootNode",
+  "children": [
+    {
+      "type": "ParagraphNode",
+      "children": [
+        {
+          "type": "SentenceNode",
+          "children": [
+            {
+              "type": "WordNode",
+              "children": [
+                {
+                  "type": "TextNode",
+                  "value": "Aha"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "WhiteSpaceNode",
+      "value": "\n\n"
+    },
+    {
+      "type": "ParagraphNode",
+      "children": [
+        {
+          "type": "SentenceNode",
+          "children": [
+            {
+              "type": "WordNode",
+              "children": [
+                {
+                  "type": "TextNode",
+                  "value": "oho"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "WhiteSpaceNode",
+      "value": "\n\n"
+    },
+    {
+      "type": "ParagraphNode",
+      "children": [
+        {
+          "type": "SentenceNode",
+          "children": [
+            {
+              "type": "WordNode",
+              "children": [
+                {
+                  "type": "TextNode",
+                  "value": "uhu"
+                }
+              ]
+            },
+            {
+              "type": "PunctuationNode",
+              "value": "."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "WhiteSpaceNode",
+      "value": "\n"
+    }
+  ]
+}

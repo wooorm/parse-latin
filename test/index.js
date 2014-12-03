@@ -1409,6 +1409,15 @@ describe('Terminal markers', function () {
             '\n' +
             'Another sentence.\n'
         );
+
+        describeFixture(
+            'terminal-marker-new-line-multiple',
+            'Aha\n' +
+            '\n' +
+            'oho\n' +
+            '\n' +
+            'uhu.\n'
+        );
     });
 });
 
