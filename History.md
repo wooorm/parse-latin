@@ -1,4 +1,11 @@
 
+n.n.n / 2014-12-03
+==================
+
+ * Merge branch 'bug/fix-multiple-implicit-sentences'
+ * Fix multiple implicit sentences
+ * Add test
+
 0.4.0 / 2014-11-20
 ==================
 
