@@ -1,5 +1,5 @@
 
-n.n.n / 2014-12-03
+0.4.1 / 2014-12-03
 ==================
 
  * Merge branch 'bug/fix-multiple-implicit-sentences'
