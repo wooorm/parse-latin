@@ -12,7 +12,7 @@
     "parser"
   ],
   "dependencies": {
-    "wooorm/array-iterate": "^0.0.1",
+    "wooorm/array-iterate": "^0.1.0",
     "wooorm/nlcst-to-string": "^0.1.0"
   },
   "repository": "wooorm/parse-latin",
