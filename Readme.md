@@ -159,4 +159,4 @@ To put things into perspective, Shakespeare’s works contain 884,647 words. I h
 
 ## License
 
-MIT © Titus Wormer
+MIT © [Titus Wormer](http://wooorm.com)
