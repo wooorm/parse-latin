@@ -1,4 +1,13 @@
 
+n.n.n / 2014-12-05
+==================
+
+ * Update benchmark results in `Readme.md`
+ * Refactor npm script targets in `package.json`
+ * Add link to personal website to copyright in `Readme.md`
+ * Fix incorrect executive rights on `test.js`
+ * Update array-iterate, eslint
+
 0.4.1 / 2014-12-03
 ==================
 
