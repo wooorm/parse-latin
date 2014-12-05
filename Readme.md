@@ -143,9 +143,9 @@ To put things into perspective, Shakespeare’s works contain 884,647 words. I h
 
 ```
              latin.parse(document);
-  2,485 op/s » A paragraph (5 sentences, 100 words)
-    318 op/s » A section (10 paragraphs)
-     27 op/s » An article (10 sections)
+  2,001 op/s » A paragraph (5 sentences, 100 words)
+    235 op/s » A section (10 paragraphs)
+     22 op/s » An article (10 sections)
       2 op/s » A (large) book (10 articles)
 ```
 
