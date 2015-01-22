@@ -1,5 +1,5 @@
 
-n.n.n / 2015-01-22
+0.4.3 / 2015-01-22
 ==================
 
   * Add browser globals as an installation method in `Readme.md`
