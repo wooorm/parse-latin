@@ -1,6 +1,6 @@
 'use strict';
 
-/**
+/*
  * Dependencies.
  */
 
@@ -12,8 +12,10 @@ fs = require('fs');
 
 /**
  * Get unicode data.
+ *
+ * @param {string} path
+ * @return {*}
  */
-
 function unicode(path) {
     return require('unicode-7.0.0/' + path + '/code-points');
 }
@@ -48,7 +50,7 @@ Ps = unicode('categories/Ps');
 whiteSpace = unicode('properties/White_Space');
 combiningDiacriticalMarks = unicode('blocks/Combining Diacritical Marks');
 
-/**
+/*
  * Character groups.
  */
 
@@ -93,7 +95,7 @@ PUNCTUATION = regenerate()
     .add(Pi)
     .add(Po)
     .add(Ps)
-    /**
+    /*
      * Remove few weirdly-classified symbols:
      *
      * Source:
@@ -134,7 +136,7 @@ TERMINAL_MARKER = regenerate()
     .add('!')
     .add(0x2026);
 
-/**
+/*
  * Symbols part of surrounding words.
  *
  * Includes:
@@ -171,7 +173,7 @@ WORD_SYMBOL_INNER = regenerate()
     .add(0x2011)
     .add(0x2027);
 
-/**
+/*
  * Symbols which can occur multiple times and
  * still be part of surrounding words.
  *
@@ -197,7 +199,7 @@ var EXPRESSION_AFFIX_SYMBOL,
     EXPRESSION_WORD,
     EXPRESSION_WHITE_SPACE;
 
-/**
+/*
  * Match closing or final punctuation, or terminal markers that should
  * still be included in the previous sentence, even though they follow
  * the sentence's terminal marker.
@@ -211,19 +213,19 @@ EXPRESSION_AFFIX_SYMBOL = new RegExp(
     ')\\1*$'
 );
 
-/**
+/*
  * Match one or more new line characters.
  */
 
 EXPRESSION_NEW_LINE = /^(\r?\n|\r)+$/;
 
-/**
+/*
  * Match two or more new line characters.
  */
 
 EXPRESSION_NEW_LINE_MULTI = /^(\r?\n|\r){2,}$/;
 
-/**
+/*
  * Match sentence-ending markers.
  *
  * See `GROUP_TERMINAL_MARKER`.
@@ -233,7 +235,7 @@ EXPRESSION_TERMINAL_MARKER = new RegExp(
     '^((?:' + TERMINAL_MARKER + ')+)$'
 );
 
-/**
+/*
  * Match punctuation marks part of surrounding words.
  *
  * See:
@@ -254,7 +256,7 @@ EXPRESSION_WORD_SYMBOL_INNER = new RegExp(
     ')$'
 );
 
-/**
+/*
  * Match punctuation marks.
  *
  * See:
@@ -266,7 +268,7 @@ EXPRESSION_PUNCTUATION = new RegExp(
     '^(?:' + PUNCTUATION + ')+$'
 );
 
-/**
+/*
  * Match numbers.
  */
 
@@ -274,7 +276,7 @@ EXPRESSION_NUMERICAL = new RegExp(
     '^(?:' + NUMERICAL + ')+$'
 );
 
-/**
+/*
  * Match initial lowercase letter.
  */
 
@@ -282,7 +284,7 @@ EXPRESSION_LOWER_INITIAL = new RegExp(
     '^(?:' + LETTER_LOWER + ')'
 );
 
-/**
+/*
  * Match anything, when possible words, white spaces, or astrals.
  */
 
@@ -294,7 +296,7 @@ EXPRESSION_TOKEN = new RegExp(
     'g'
 );
 
-/**
+/*
  * Match a word.
  */
 
@@ -302,7 +304,7 @@ EXPRESSION_WORD = new RegExp(
     '^(?:' + WORD + ')+$'
 );
 
-/**
+/*
  * Match white space.
  */
 

@@ -1,6 +1,6 @@
 'use strict';
 
-/**
+/*
  * Dependencies.
  */
 
@@ -16,7 +16,7 @@ nlcstTest = require('nlcst-test');
 chalk = require('chalk');
 diff = require('diff');
 
-/**
+/*
  * `ParseLatin`.
  */
 
@@ -24,7 +24,7 @@ var latin;
 
 latin = new ParseLatin();
 
-/**
+/*
  * Constants.
  */
 
@@ -39,7 +39,6 @@ stringify = JSON.stringify;
  * @param {string} name - Filename of fixture.
  * @param {string} document - Source to validate.
  */
-
 function describeFixture(name, document, method) {
     var nlcst,
         fixture,
@@ -72,7 +71,7 @@ function describeFixture(name, document, method) {
     }
 }
 
-/**
+/*
  * Tests.
  */
 describe('ParseLatin', function () {
@@ -148,6 +147,9 @@ describe('ParseLatin#use(key, plugin)', function () {
     it('should add a plugin on the prototype', function () {
         var parser;
 
+        /**
+         * Throw an error.
+         */
         function thrower() {
             throw new Error('prototypal thrower was invoked');
         }
@@ -166,7 +168,7 @@ describe('ParseLatin#use(key, plugin)', function () {
             parser.parse('Alfred.');
         }, /thrower was invoked/);
 
-        /**
+        /*
          * Clean.
          */
 
@@ -176,6 +178,9 @@ describe('ParseLatin#use(key, plugin)', function () {
     it('should add a plugin on an instance', function () {
         var parser;
 
+        /**
+         * Throw an error.
+         */
         function thrower() {
             throw new Error('instance thrower was invoked');
         }
@@ -196,7 +201,7 @@ describe('ParseLatin#use(key, plugin)', function () {
     });
 
     after(function () {
-        /**
+        /*
          * Internally, `ParseLatin` checks if a
          * `plugins` exists for optimalisation.
          * We remove the prebiously empty list
@@ -223,6 +228,9 @@ describe('ParseLatin#useFirst(key, plugin)', function () {
     it('should add a plugin on the prototype', function () {
         var parser;
 
+        /**
+         * Throw an error.
+         */
         function thrower() {
             throw new Error('prototypal thrower was invoked');
         }
@@ -241,7 +249,7 @@ describe('ParseLatin#useFirst(key, plugin)', function () {
             parser.parse('Alfred.');
         }, /thrower was invoked/);
 
-        /**
+        /*
          * Clean.
          */
 
@@ -252,12 +260,19 @@ describe('ParseLatin#useFirst(key, plugin)', function () {
         var parser,
             wasInvoked;
 
+        /**
+         * Spy.
+         */
         function first() {
             wasInvoked = true;
         }
 
+        /**
+         * Throw an error.
+         */
         function thrower() {
             assert(wasInvoked === true);
+
             throw new Error('instance thrower was invoked');
         }
 
@@ -283,7 +298,7 @@ describe('ParseLatin#useFirst(key, plugin)', function () {
     });
 
     after(function () {
-        /**
+        /*
          * Internally, `ParseLatin` checks if a
          * `plugins` exists for optimalisation.
          * We remove the prebiously empty list
@@ -461,7 +476,7 @@ describe('ParseLatin#tokenizePunctuation()', function () {
 
 describe('Root: Given two paragraphs', function () {
     it('should work', function () {
-        /**
+        /*
          * Modified first paragraph, split in two, from:
          *    http://en.wikipedia.org/wiki/Paragraph
          */
@@ -495,7 +510,7 @@ describe('A whitespace only document', function () {
 describe('Root: Without a value', function () {
     it('should return an empty RootNode when invoked without value',
         function () {
-            /**
+            /*
              * No fxiture test because this fails in
              * NLCST-test (which it should though).
              */
@@ -565,7 +580,7 @@ describe('Sentence: Without a value', function () {
 
 describe('Digit-letter combinations in words', function () {
     it('should treat digit-letter as a word', function () {
-        /**
+        /*
          * Source:
          *   http://en.wikipedia.org/wiki/IPhone_5S
          */
@@ -635,7 +650,7 @@ describe('Numerical exceptions', function () {
 describe('Initialisms', function () {
     it('should not treat full-stops in initialisms as a terminal marker',
         function () {
-            /**
+            /*
              * Source:
              *   http://en.wikipedia.org/wiki/Natural_language#
              *   Constructed_languages_and_international_auxiliary_languages
@@ -653,7 +668,7 @@ describe('Lower-case letters', function () {
     it('should not treat full-stops followed by a lower-case letter ' +
         'as terminal marker',
         function () {
-            /**
+            /*
              * Source:
              *   http://en.wikipedia.org/wiki/Park_Ave.
              */
@@ -670,7 +685,7 @@ describe('Lower-case letters', function () {
 describe('Domain names', function () {
     it('should not treat full-stops preceding a word as terminal marker',
         function () {
-            /**
+            /*
              * Source:
              *   http://en.wikipedia.org/wiki/.com
              */
@@ -689,7 +704,7 @@ describe('Inside quotes', function () {
     it('should treat closing quotes after full-stops as part of ' +
         'the previous sentence',
         function () {
-            /**
+            /*
              * Source: the web.
              */
 
@@ -708,7 +723,7 @@ describe('Inside parens', function () {
     it('should treat closing parens after full-stops as part of ' +
         'the previous sentence',
         function () {
-            /**
+            /*
              * Source: the web.
              */
 
@@ -726,7 +741,7 @@ describe('Inside parens', function () {
 describe('Before comma', function () {
     it('should not treat full-stops before comma\'s as terminal markers',
         function () {
-            /**
+            /*
              * Source: part of the wikipedia license note.
              */
 
@@ -749,7 +764,7 @@ describe('Ellipsis at sentence-start', function () {
                 '. . . to be continued.'
             );
 
-            /**
+            /*
              * This, perhaps correctly, doesn't work yet:
              * the last full-stop is classified as part of
              * the first word.
@@ -1158,7 +1173,7 @@ describe('Combining diacritical marks', function () {
 });
 
 describe('Tie characters in words', function () {
-    /**
+    /*
      * From wikipedias list: http://en.wikipedia.org/wiki/Tie_(typography)
      */
 
@@ -1244,7 +1259,7 @@ describe('Intelectual property marks', function () {
 });
 
 describe('Single and double Grapheme Clusters', function () {
-    /**
+    /*
      * Modified from: http://mathiasbynens.be/notes/javascript-unicode
      */
 
