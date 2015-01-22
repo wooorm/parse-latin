@@ -50,8 +50,9 @@
     "make": "npm run lint && npm run test-coverage",
     "benchmark": "matcha benchmark.js",
     "fixture": "node script/generate-fixture",
+    "bundle": "browserify index.js -s ParseLatin > parse-latin.js",
     "build-expressions": "node script/build-expressions",
-    "build": "npm run build-expressions",
+    "build": "npm run build-expressions && npm run bundle",
     "prepublish": "npm run build"
   }
 }
