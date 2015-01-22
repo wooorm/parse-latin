@@ -35,6 +35,15 @@ $ bower install parse-latin
 var ParseLatin = require('wooorm/parse-latin');
 ```
 
+Browser globals (both [`parse-latin.js`](parse-latin.js) and [`parse-latin.min.js`](parse-latin.js) are available):
+
+```html
+<script src="path/to/parse-latin.js"></script>
+<script>
+  var parser = new ParseLatin();
+</script>
+```
+
 ## Usage
 
 ```javascript
