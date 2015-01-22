@@ -12,23 +12,26 @@ Note also that **parse-latin** does a decent job at tokenizing Latin-like script
 ## Installation
 
 npm:
-```sh
+
+```bash
 $ npm install parse-latin
 ```
 
 Component:
-```sh
+
+```bash
 $ component install wooorm/parse-latin
 ```
 
 Bower:
-```sh
+
+```bash
 $ bower install parse-latin
 ```
 
 ## Usage
 
-```js
+```javascript
 var ParseLatin = require('parse-latin'),
     latin = new ParseLatin();
 
@@ -73,7 +76,7 @@ Tokenize natural Latin-script language into letter and numbers (words), white sp
 
 Tokenize natural Latin-script languages into an [NLCST](https://github.com/wooorm/nlcst) [syntax tree](#syntaxtreeformat).
 
-```js
+```javascript
 var ParseLatin = require('parse-latin'),
     latin = new ParseLatin();
 
@@ -141,7 +144,7 @@ On a MacBook Air, **parse-latin** parses 2 large books, 27 big articles, or 2,48
 
 To put things into perspective, Shakespeare’s works contain 884,647 words. I have not tested it, but in theory **parse-latin** should parse these works in (slightly above) three and a half seconds.
 
-```
+```text
              latin.parse(document);
   2,001 op/s » A paragraph (5 sentences, 100 words)
     235 op/s » A section (10 paragraphs)
