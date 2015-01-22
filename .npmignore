@@ -11,3 +11,5 @@ benchmark.js
 bower.json
 component.json
 History.md
+parse-latin.js
+parse-latin.min.js
