@@ -30,7 +30,7 @@
     "script/",
     "test/",
     "benchmark.js",
-    "index.js"
+    "index.js",
     "component.json",
     "package.json"
   ]
