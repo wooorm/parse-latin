@@ -29,6 +29,12 @@ $ component install wooorm/parse-latin
 $ bower install parse-latin
 ```
 
+[Duo](http://duojs.org/#getting-started):
+
+```javascript
+var ParseLatin = require('wooorm/parse-latin');
+```
+
 ## Usage
 
 ```javascript
