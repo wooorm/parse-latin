@@ -25,10 +25,12 @@
     "build/",
     "components/",
     "coverage/",
+    "lib/",
     "node_modules/",
     "script/",
     "test/",
     "benchmark.js",
+    "index.js"
     "component.json",
     "package.json"
   ]
