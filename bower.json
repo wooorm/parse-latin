@@ -1,6 +1,6 @@
 {
   "name": "parse-latin",
-  "main": "index.js",
+  "main": "parse-latin.js",
   "description": "Latin-script (natural language) parser",
   "license": "MIT",
   "keywords": [
