@@ -11,10 +11,6 @@
     "language",
     "parser"
   ],
-  "dependencies": {
-    "array-iterate": "^0.1.0",
-    "nlcst-to-string": "^0.1.0"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/wooorm/parse-latin.git"
