@@ -46,7 +46,7 @@
     "lint-test": "eslint --env mocha test/index.js",
     "lint-benchmark": "eslint --global suite,set,bench benchmark.js",
     "lint-script": "eslint script/build-expressions.js script/generate-fixture.js",
-    "lint-style": "jscs --reporter inline {script,test,.}/*.js lib/plugin/*.js lib/{modifier,parse-latin,parser,plugin,tokenizer}.js",
+    "lint-style": "jscs --reporter inline .",
     "lint": "npm run lint-api && npm run lint-plugin && npm run lint-script && npm run lint-test && npm run lint-benchmark && npm run lint-style",
     "make": "npm run lint && npm run test-coverage",
     "benchmark": "matcha benchmark.js",

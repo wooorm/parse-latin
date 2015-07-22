@@ -1,4 +1,13 @@
 {
+  "excludeFiles": [
+    "build/",
+    "components/",
+    "coverage/",
+    "node_modules/",
+    "lib/expressions.js",
+    "parse-latin.js",
+    "parse-latin.min.js"
+  ],
   "plugins": [
     "jscs-jsdoc"
   ],
