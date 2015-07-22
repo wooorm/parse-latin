@@ -24,7 +24,6 @@ var N,
     L,
     Ll,
     M,
-    Cs,
     Pc,
     Pd,
     Pe,
@@ -39,7 +38,6 @@ N = unicode('categories/N');
 L = unicode('categories/L');
 Ll = unicode('categories/Ll');
 M = unicode('categories/M');
-Cs = unicode('categories/Cs');
 Pc = unicode('categories/Pc');
 Pd = unicode('categories/Pd');
 Pe = unicode('categories/Pe');
@@ -54,8 +52,7 @@ combiningDiacriticalMarks = unicode('blocks/Combining Diacritical Marks');
  * Character groups.
  */
 
-var ASTRAL,
-    COMBINING_DIACRITICAL_MARK,
+var COMBINING_DIACRITICAL_MARK,
     COMBINING_NONSPACING_MARK,
     LETTER,
     LETTER_LOWER,
@@ -68,9 +65,6 @@ var ASTRAL,
     TERMINAL_MARKER,
     WORD_SYMBOL_INNER,
     WORD_SYMBOL_INNER_MULTI;
-
-ASTRAL = regenerate()
-    .add(Cs);
 
 COMBINING_DIACRITICAL_MARK = regenerate()
     .add(combiningDiacriticalMarks);
@@ -291,7 +285,7 @@ EXPRESSION_LOWER_INITIAL = new RegExp(
 EXPRESSION_TOKEN = new RegExp(
     '(?:' + WORD + ')+|' +
     '(?:' + WHITE_SPACE + ')+|' +
-    '(?:' + ASTRAL + ')+|' +
+    '(?:[\\uD800-\\uDFFF])+|' +
     '([\\s\\S])\\1*',
     'g'
 );
