@@ -9,176 +9,668 @@
           "children": [
             {
               "type": "PunctuationNode",
-              "value": "“"
+              "value": "“",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 1,
+                  "offset": 0
+                },
+                "end": {
+                  "line": 1,
+                  "column": 2,
+                  "offset": 1
+                }
+              }
             },
             {
               "type": "WordNode",
               "children": [
                 {
                   "type": "TextNode",
-                  "value": "However"
+                  "value": "However",
+                  "position": {
+                    "start": {
+                      "line": 1,
+                      "column": 2,
+                      "offset": 1
+                    },
+                    "end": {
+                      "line": 1,
+                      "column": 9,
+                      "offset": 8
+                    }
+                  }
                 }
-              ]
+              ],
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 2,
+                  "offset": 1
+                },
+                "end": {
+                  "line": 1,
+                  "column": 9,
+                  "offset": 8
+                }
+              }
             },
             {
               "type": "PunctuationNode",
-              "value": ","
+              "value": ",",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 9,
+                  "offset": 8
+                },
+                "end": {
+                  "line": 1,
+                  "column": 10,
+                  "offset": 9
+                }
+              }
             },
             {
               "type": "PunctuationNode",
-              "value": "”"
+              "value": "”",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 10,
+                  "offset": 9
+                },
+                "end": {
+                  "line": 1,
+                  "column": 11,
+                  "offset": 10
+                }
+              }
             },
             {
               "type": "WhiteSpaceNode",
-              "value": " "
+              "value": " ",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 11,
+                  "offset": 10
+                },
+                "end": {
+                  "line": 1,
+                  "column": 12,
+                  "offset": 11
+                }
+              }
             },
             {
               "type": "WordNode",
               "children": [
                 {
                   "type": "TextNode",
-                  "value": "says"
+                  "value": "says",
+                  "position": {
+                    "start": {
+                      "line": 1,
+                      "column": 12,
+                      "offset": 11
+                    },
+                    "end": {
+                      "line": 1,
+                      "column": 16,
+                      "offset": 15
+                    }
+                  }
                 }
-              ]
+              ],
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 12,
+                  "offset": 11
+                },
+                "end": {
+                  "line": 1,
+                  "column": 16,
+                  "offset": 15
+                }
+              }
             },
             {
               "type": "WhiteSpaceNode",
-              "value": " "
+              "value": " ",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 16,
+                  "offset": 15
+                },
+                "end": {
+                  "line": 1,
+                  "column": 17,
+                  "offset": 16
+                }
+              }
             },
             {
               "type": "WordNode",
               "children": [
                 {
                   "type": "TextNode",
-                  "value": "my"
+                  "value": "my",
+                  "position": {
+                    "start": {
+                      "line": 1,
+                      "column": 17,
+                      "offset": 16
+                    },
+                    "end": {
+                      "line": 1,
+                      "column": 19,
+                      "offset": 18
+                    }
+                  }
                 }
-              ]
+              ],
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 17,
+                  "offset": 16
+                },
+                "end": {
+                  "line": 1,
+                  "column": 19,
+                  "offset": 18
+                }
+              }
             },
             {
               "type": "WhiteSpaceNode",
-              "value": " "
+              "value": " ",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 19,
+                  "offset": 18
+                },
+                "end": {
+                  "line": 1,
+                  "column": 20,
+                  "offset": 19
+                }
+              }
             },
             {
               "type": "WordNode",
               "children": [
                 {
                   "type": "TextNode",
-                  "value": "Grade"
+                  "value": "Grade",
+                  "position": {
+                    "start": {
+                      "line": 1,
+                      "column": 20,
+                      "offset": 19
+                    },
+                    "end": {
+                      "line": 1,
+                      "column": 25,
+                      "offset": 24
+                    }
+                  }
                 }
-              ]
+              ],
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 20,
+                  "offset": 19
+                },
+                "end": {
+                  "line": 1,
+                  "column": 25,
+                  "offset": 24
+                }
+              }
             },
             {
               "type": "WhiteSpaceNode",
-              "value": " "
+              "value": " ",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 25,
+                  "offset": 24
+                },
+                "end": {
+                  "line": 1,
+                  "column": 26,
+                  "offset": 25
+                }
+              }
             },
             {
               "type": "WordNode",
               "children": [
                 {
                   "type": "TextNode",
-                  "value": "8"
+                  "value": "8",
+                  "position": {
+                    "start": {
+                      "line": 1,
+                      "column": 26,
+                      "offset": 25
+                    },
+                    "end": {
+                      "line": 1,
+                      "column": 27,
+                      "offset": 26
+                    }
+                  }
                 }
-              ]
+              ],
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 26,
+                  "offset": 25
+                },
+                "end": {
+                  "line": 1,
+                  "column": 27,
+                  "offset": 26
+                }
+              }
             },
             {
               "type": "WhiteSpaceNode",
-              "value": " "
+              "value": " ",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 27,
+                  "offset": 26
+                },
+                "end": {
+                  "line": 1,
+                  "column": 28,
+                  "offset": 27
+                }
+              }
             },
             {
               "type": "WordNode",
               "children": [
                 {
                   "type": "TextNode",
-                  "value": "teacher"
+                  "value": "teacher",
+                  "position": {
+                    "start": {
+                      "line": 1,
+                      "column": 28,
+                      "offset": 27
+                    },
+                    "end": {
+                      "line": 1,
+                      "column": 35,
+                      "offset": 34
+                    }
+                  }
                 }
-              ]
+              ],
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 28,
+                  "offset": 27
+                },
+                "end": {
+                  "line": 1,
+                  "column": 35,
+                  "offset": 34
+                }
+              }
             },
             {
               "type": "PunctuationNode",
-              "value": ","
+              "value": ",",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 35,
+                  "offset": 34
+                },
+                "end": {
+                  "line": 1,
+                  "column": 36,
+                  "offset": 35
+                }
+              }
             },
             {
               "type": "WhiteSpaceNode",
-              "value": " "
+              "value": " ",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 36,
+                  "offset": 35
+                },
+                "end": {
+                  "line": 1,
+                  "column": 37,
+                  "offset": 36
+                }
+              }
             },
             {
               "type": "PunctuationNode",
-              "value": "“"
+              "value": "“",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 37,
+                  "offset": 36
+                },
+                "end": {
+                  "line": 1,
+                  "column": 38,
+                  "offset": 37
+                }
+              }
             },
             {
               "type": "WordNode",
               "children": [
                 {
                   "type": "TextNode",
-                  "value": "the"
+                  "value": "the",
+                  "position": {
+                    "start": {
+                      "line": 1,
+                      "column": 38,
+                      "offset": 37
+                    },
+                    "end": {
+                      "line": 1,
+                      "column": 41,
+                      "offset": 40
+                    }
+                  }
                 }
-              ]
+              ],
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 38,
+                  "offset": 37
+                },
+                "end": {
+                  "line": 1,
+                  "column": 41,
+                  "offset": 40
+                }
+              }
             },
             {
               "type": "WhiteSpaceNode",
-              "value": " "
+              "value": " ",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 41,
+                  "offset": 40
+                },
+                "end": {
+                  "line": 1,
+                  "column": 42,
+                  "offset": 41
+                }
+              }
             },
             {
               "type": "WordNode",
               "children": [
                 {
                   "type": "TextNode",
-                  "value": "period"
+                  "value": "period",
+                  "position": {
+                    "start": {
+                      "line": 1,
+                      "column": 42,
+                      "offset": 41
+                    },
+                    "end": {
+                      "line": 1,
+                      "column": 48,
+                      "offset": 47
+                    }
+                  }
                 }
-              ]
+              ],
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 42,
+                  "offset": 41
+                },
+                "end": {
+                  "line": 1,
+                  "column": 48,
+                  "offset": 47
+                }
+              }
             },
             {
               "type": "WhiteSpaceNode",
-              "value": " "
+              "value": " ",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 48,
+                  "offset": 47
+                },
+                "end": {
+                  "line": 1,
+                  "column": 49,
+                  "offset": 48
+                }
+              }
             },
             {
               "type": "WordNode",
               "children": [
                 {
                   "type": "TextNode",
-                  "value": "goes"
+                  "value": "goes",
+                  "position": {
+                    "start": {
+                      "line": 1,
+                      "column": 49,
+                      "offset": 48
+                    },
+                    "end": {
+                      "line": 1,
+                      "column": 53,
+                      "offset": 52
+                    }
+                  }
                 }
-              ]
+              ],
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 49,
+                  "offset": 48
+                },
+                "end": {
+                  "line": 1,
+                  "column": 53,
+                  "offset": 52
+                }
+              }
             },
             {
               "type": "WhiteSpaceNode",
-              "value": " "
+              "value": " ",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 53,
+                  "offset": 52
+                },
+                "end": {
+                  "line": 1,
+                  "column": 54,
+                  "offset": 53
+                }
+              }
             },
             {
               "type": "WordNode",
               "children": [
                 {
                   "type": "TextNode",
-                  "value": "inside"
+                  "value": "inside",
+                  "position": {
+                    "start": {
+                      "line": 1,
+                      "column": 54,
+                      "offset": 53
+                    },
+                    "end": {
+                      "line": 1,
+                      "column": 60,
+                      "offset": 59
+                    }
+                  }
                 }
-              ]
+              ],
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 54,
+                  "offset": 53
+                },
+                "end": {
+                  "line": 1,
+                  "column": 60,
+                  "offset": 59
+                }
+              }
             },
             {
               "type": "WhiteSpaceNode",
-              "value": " "
+              "value": " ",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 60,
+                  "offset": 59
+                },
+                "end": {
+                  "line": 1,
+                  "column": 61,
+                  "offset": 60
+                }
+              }
             },
             {
               "type": "WordNode",
               "children": [
                 {
                   "type": "TextNode",
-                  "value": "quotes"
+                  "value": "quotes",
+                  "position": {
+                    "start": {
+                      "line": 1,
+                      "column": 61,
+                      "offset": 60
+                    },
+                    "end": {
+                      "line": 1,
+                      "column": 67,
+                      "offset": 66
+                    }
+                  }
                 }
-              ]
+              ],
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 61,
+                  "offset": 60
+                },
+                "end": {
+                  "line": 1,
+                  "column": 67,
+                  "offset": 66
+                }
+              }
             },
             {
               "type": "PunctuationNode",
-              "value": "."
+              "value": ".",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 67,
+                  "offset": 66
+                },
+                "end": {
+                  "line": 1,
+                  "column": 68,
+                  "offset": 67
+                }
+              }
             },
             {
               "type": "PunctuationNode",
-              "value": "”"
+              "value": "”",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 68,
+                  "offset": 67
+                },
+                "end": {
+                  "line": 1,
+                  "column": 69,
+                  "offset": 68
+                }
+              }
             }
-          ]
+          ],
+          "position": {
+            "start": {
+              "line": 1,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 1,
+              "column": 69,
+              "offset": 68
+            }
+          }
         },
         {
           "type": "WhiteSpaceNode",
-          "value": " "
+          "value": " ",
+          "position": {
+            "start": {
+              "line": 1,
+              "column": 69,
+              "offset": 68
+            },
+            "end": {
+              "line": 1,
+              "column": 70,
+              "offset": 69
+            }
+          }
         },
         {
           "type": "SentenceNode",
@@ -188,56 +680,236 @@
               "children": [
                 {
                   "type": "TextNode",
-                  "value": "This"
+                  "value": "This",
+                  "position": {
+                    "start": {
+                      "line": 1,
+                      "column": 70,
+                      "offset": 69
+                    },
+                    "end": {
+                      "line": 1,
+                      "column": 74,
+                      "offset": 73
+                    }
+                  }
                 }
-              ]
+              ],
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 70,
+                  "offset": 69
+                },
+                "end": {
+                  "line": 1,
+                  "column": 74,
+                  "offset": 73
+                }
+              }
             },
             {
               "type": "WhiteSpaceNode",
-              "value": " "
+              "value": " ",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 74,
+                  "offset": 73
+                },
+                "end": {
+                  "line": 1,
+                  "column": 75,
+                  "offset": 74
+                }
+              }
             },
             {
               "type": "WordNode",
               "children": [
                 {
                   "type": "TextNode",
-                  "value": "is"
+                  "value": "is",
+                  "position": {
+                    "start": {
+                      "line": 1,
+                      "column": 75,
+                      "offset": 74
+                    },
+                    "end": {
+                      "line": 1,
+                      "column": 77,
+                      "offset": 76
+                    }
+                  }
                 }
-              ]
+              ],
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 75,
+                  "offset": 74
+                },
+                "end": {
+                  "line": 1,
+                  "column": 77,
+                  "offset": 76
+                }
+              }
             },
             {
               "type": "WhiteSpaceNode",
-              "value": " "
+              "value": " ",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 77,
+                  "offset": 76
+                },
+                "end": {
+                  "line": 1,
+                  "column": 78,
+                  "offset": 77
+                }
+              }
             },
             {
               "type": "WordNode",
               "children": [
                 {
                   "type": "TextNode",
-                  "value": "another"
+                  "value": "another",
+                  "position": {
+                    "start": {
+                      "line": 1,
+                      "column": 78,
+                      "offset": 77
+                    },
+                    "end": {
+                      "line": 1,
+                      "column": 85,
+                      "offset": 84
+                    }
+                  }
                 }
-              ]
+              ],
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 78,
+                  "offset": 77
+                },
+                "end": {
+                  "line": 1,
+                  "column": 85,
+                  "offset": 84
+                }
+              }
             },
             {
               "type": "WhiteSpaceNode",
-              "value": " "
+              "value": " ",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 85,
+                  "offset": 84
+                },
+                "end": {
+                  "line": 1,
+                  "column": 86,
+                  "offset": 85
+                }
+              }
             },
             {
               "type": "WordNode",
               "children": [
                 {
                   "type": "TextNode",
-                  "value": "sentence"
+                  "value": "sentence",
+                  "position": {
+                    "start": {
+                      "line": 1,
+                      "column": 86,
+                      "offset": 85
+                    },
+                    "end": {
+                      "line": 1,
+                      "column": 94,
+                      "offset": 93
+                    }
+                  }
                 }
-              ]
+              ],
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 86,
+                  "offset": 85
+                },
+                "end": {
+                  "line": 1,
+                  "column": 94,
+                  "offset": 93
+                }
+              }
             },
             {
               "type": "PunctuationNode",
-              "value": "."
+              "value": ".",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 94,
+                  "offset": 93
+                },
+                "end": {
+                  "line": 1,
+                  "column": 95,
+                  "offset": 94
+                }
+              }
             }
-          ]
+          ],
+          "position": {
+            "start": {
+              "line": 1,
+              "column": 70,
+              "offset": 69
+            },
+            "end": {
+              "line": 1,
+              "column": 95,
+              "offset": 94
+            }
+          }
         }
-      ]
+      ],
+      "position": {
+        "start": {
+          "line": 1,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 95,
+          "offset": 94
+        }
+      }
     }
-  ]
+  ],
+  "position": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 1,
+      "column": 95,
+      "offset": 94
+    }
+  }
 }

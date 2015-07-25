@@ -75,13 +75,20 @@ latin.parse(
 
 ## API
 
-- [ParseLatin()](#parselatin)
+- [ParseLatin(options?)](#parselatinoptions)
 - [ParseLatin#tokenize(value)](#parselatintokenizevalue)
 - [ParseLatin#parse(value)](#parselatinparsevalue)
 
-### ParseLatin()
+### ParseLatin(options?)
 
 Exposes the functionality needed to tokenize natural Latin-script languages into a syntax tree.
+
+Parameters:
+
+*   `options` (`Object`, optional)
+
+    *   `position` (`boolean`, default: `false`) - Whether to add positional
+        information to nodes.
 
 #### ParseLatin#tokenize(value)
 

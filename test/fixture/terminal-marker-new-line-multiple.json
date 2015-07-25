@@ -12,17 +12,77 @@
               "children": [
                 {
                   "type": "TextNode",
-                  "value": "Aha"
+                  "value": "Aha",
+                  "position": {
+                    "start": {
+                      "line": 1,
+                      "column": 1,
+                      "offset": 0
+                    },
+                    "end": {
+                      "line": 1,
+                      "column": 4,
+                      "offset": 3
+                    }
+                  }
                 }
-              ]
+              ],
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 1,
+                  "offset": 0
+                },
+                "end": {
+                  "line": 1,
+                  "column": 4,
+                  "offset": 3
+                }
+              }
             }
-          ]
+          ],
+          "position": {
+            "start": {
+              "line": 1,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 1,
+              "column": 4,
+              "offset": 3
+            }
+          }
         }
-      ]
+      ],
+      "position": {
+        "start": {
+          "line": 1,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 4,
+          "offset": 3
+        }
+      }
     },
     {
       "type": "WhiteSpaceNode",
-      "value": "\n\n"
+      "value": "\n\n",
+      "position": {
+        "start": {
+          "line": 1,
+          "column": 4,
+          "offset": 3
+        },
+        "end": {
+          "line": 3,
+          "column": 1,
+          "offset": 5
+        }
+      }
     },
     {
       "type": "ParagraphNode",
@@ -35,17 +95,77 @@
               "children": [
                 {
                   "type": "TextNode",
-                  "value": "oho"
+                  "value": "oho",
+                  "position": {
+                    "start": {
+                      "line": 3,
+                      "column": 1,
+                      "offset": 5
+                    },
+                    "end": {
+                      "line": 3,
+                      "column": 4,
+                      "offset": 8
+                    }
+                  }
                 }
-              ]
+              ],
+              "position": {
+                "start": {
+                  "line": 3,
+                  "column": 1,
+                  "offset": 5
+                },
+                "end": {
+                  "line": 3,
+                  "column": 4,
+                  "offset": 8
+                }
+              }
             }
-          ]
+          ],
+          "position": {
+            "start": {
+              "line": 3,
+              "column": 1,
+              "offset": 5
+            },
+            "end": {
+              "line": 3,
+              "column": 4,
+              "offset": 8
+            }
+          }
         }
-      ]
+      ],
+      "position": {
+        "start": {
+          "line": 3,
+          "column": 1,
+          "offset": 5
+        },
+        "end": {
+          "line": 3,
+          "column": 4,
+          "offset": 8
+        }
+      }
     },
     {
       "type": "WhiteSpaceNode",
-      "value": "\n\n"
+      "value": "\n\n",
+      "position": {
+        "start": {
+          "line": 3,
+          "column": 4,
+          "offset": 8
+        },
+        "end": {
+          "line": 5,
+          "column": 1,
+          "offset": 10
+        }
+      }
     },
     {
       "type": "ParagraphNode",
@@ -58,21 +178,105 @@
               "children": [
                 {
                   "type": "TextNode",
-                  "value": "uhu"
+                  "value": "uhu",
+                  "position": {
+                    "start": {
+                      "line": 5,
+                      "column": 1,
+                      "offset": 10
+                    },
+                    "end": {
+                      "line": 5,
+                      "column": 4,
+                      "offset": 13
+                    }
+                  }
                 }
-              ]
+              ],
+              "position": {
+                "start": {
+                  "line": 5,
+                  "column": 1,
+                  "offset": 10
+                },
+                "end": {
+                  "line": 5,
+                  "column": 4,
+                  "offset": 13
+                }
+              }
             },
             {
               "type": "PunctuationNode",
-              "value": "."
+              "value": ".",
+              "position": {
+                "start": {
+                  "line": 5,
+                  "column": 4,
+                  "offset": 13
+                },
+                "end": {
+                  "line": 5,
+                  "column": 5,
+                  "offset": 14
+                }
+              }
             }
-          ]
+          ],
+          "position": {
+            "start": {
+              "line": 5,
+              "column": 1,
+              "offset": 10
+            },
+            "end": {
+              "line": 5,
+              "column": 5,
+              "offset": 14
+            }
+          }
         }
-      ]
+      ],
+      "position": {
+        "start": {
+          "line": 5,
+          "column": 1,
+          "offset": 10
+        },
+        "end": {
+          "line": 5,
+          "column": 5,
+          "offset": 14
+        }
+      }
     },
     {
       "type": "WhiteSpaceNode",
-      "value": "\n"
+      "value": "\n",
+      "position": {
+        "start": {
+          "line": 5,
+          "column": 5,
+          "offset": 14
+        },
+        "end": {
+          "line": 6,
+          "column": 1,
+          "offset": 15
+        }
+      }
     }
-  ]
+  ],
+  "position": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 6,
+      "column": 1,
+      "offset": 15
+    }
+  }
 }

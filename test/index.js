@@ -1,28 +1,30 @@
 'use strict';
 
+/* eslint-env mocha */
+
 /*
  * Dependencies.
  */
 
 var ParseLatin,
     assert,
-    nlcstTest,
-    chalk,
-    diff;
+    nlcstTest;
 
 ParseLatin = require('..');
 assert = require('assert');
 nlcstTest = require('nlcst-test');
-chalk = require('chalk');
-diff = require('diff');
 
 /*
  * `ParseLatin`.
  */
 
-var latin;
+var latin,
+    latinPosition;
 
 latin = new ParseLatin();
+latinPosition = new ParseLatin({
+    'position': true
+});
 
 /*
  * Constants.
@@ -33,6 +35,33 @@ var stringify;
 stringify = JSON.stringify;
 
 /**
+ * Clone `object` but omit positional information.
+ *
+ * @param {Object|Array} object - Object to clone.
+ * @return {Object|Array} - `object`, without positional
+ *   information.
+ */
+function clean(object) {
+    var key,
+        clone,
+        value;
+
+    clone = 'length' in object ? [] : {};
+
+    for (key in object) {
+        value = object[key];
+
+        if (key === 'position') {
+            continue;
+        }
+
+        clone[key] = typeof object[key] === 'object' ? clean(value) : value;
+    }
+
+    return clone;
+}
+
+/**
  * Utility to test if a given document is both a valid
  * node, and matches a fixture.
  *
@@ -40,35 +69,20 @@ stringify = JSON.stringify;
  * @param {string} document - Source to validate.
  */
 function describeFixture(name, document, method) {
-    var nlcst,
-        fixture,
-        difference;
+    var nlcstA,
+        nlcstB,
+        fixture;
 
-    nlcst = latin[method || 'parse'](document);
+    nlcstA = latin[method || 'parse'](document);
+    nlcstB = latinPosition[method || 'parse'](document);
 
-    nlcstTest(nlcst);
+    nlcstTest(nlcstA);
+    nlcstTest(nlcstB);
 
     fixture = require('./fixture/' + name);
 
-    try {
-        assert(stringify(nlcst) === stringify(fixture));
-    } catch (exception) {
-        difference = diff.diffLines(
-            stringify(fixture, 0, 2), stringify(nlcst, 0, 2)
-        );
-
-        difference.forEach(function (change) {
-            var colour;
-
-            colour = change.added ?
-                'green' :
-                change.removed ? 'red' : 'dim';
-
-            process.stderr.write(chalk[colour](change.value));
-        });
-
-        throw exception;
-    }
+    assert.deepEqual(nlcstA, clean(fixture));
+    assert.deepEqual(nlcstB, fixture);
 }
 
 /*
@@ -85,6 +99,18 @@ describe('ParseLatin', function () {
             /*eslint-disable new-cap */
             assert(ParseLatin() instanceof ParseLatin);
             /*eslint-enable new-cap */
+        }
+    );
+
+    it('should set `position`', function () {
+        assert(new ParseLatin().position === false);
+    });
+
+    it('should accept `{position: boolean}`',
+        function () {
+            assert(new ParseLatin({
+                'position': true
+            }).position === true);
         }
     );
 });
@@ -204,7 +230,7 @@ describe('ParseLatin#use(key, plugin)', function () {
         /*
          * Internally, `ParseLatin` checks if a
          * `plugins` exists for optimalisation.
-         * We remove the prebiously empty list
+         * We remove the previously empty list
          * here.
          */
 
@@ -538,6 +564,260 @@ describe('Root: Given a String object', function () {
             /*eslint-enable no-new-wrappers */
         }
     );
+});
+
+describe('Root: Given an array', function () {
+    it('should work when empty', function () {
+        assert.deepEqual(latin.parse([]), {
+            'type': 'RootNode',
+            'children': []
+        });
+    });
+
+    it('should work when given tokens', function () {
+        assert.deepEqual({
+            'type': 'RootNode',
+            'children': [
+                {
+                    'type': 'ParagraphNode',
+                    'children': [
+                        {
+                            'type': 'SentenceNode',
+                            'children': [
+                                {
+                                    'type': 'SymbolNode',
+                                    'value': '&'
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }, latin.parse([{
+            'type': 'SymbolNode',
+            'value': '&'
+        }]));
+    });
+
+    it('should merge adjacent words', function () {
+        assert.deepEqual({
+            'type': 'RootNode',
+            'children': [
+                {
+                    'type': 'ParagraphNode',
+                    'children': [
+                        {
+                            'type': 'SentenceNode',
+                            'children': [
+                                {
+                                    'type': 'WordNode',
+                                    'children': [
+                                        {
+                                            'type': 'TextNode',
+                                            'value': 'hoot'
+                                        },
+                                        {
+                                            'type': 'TextNode',
+                                            'value': 's'
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }, latin.parse([
+            {
+                'type': 'WordNode',
+                'children': [
+                    {
+                        'type': 'TextNode',
+                        'value': 'hoot'
+                    }
+                ]
+            },
+            {
+                'type': 'WordNode',
+                'children': [
+                    {
+                        'type': 'TextNode',
+                        'value': 's'
+                    }
+                ]
+            }
+        ]));
+    });
+
+    it('should patch positions', function () {
+        assert.deepEqual({
+            'type': 'RootNode',
+            'children': [
+                {
+                    'type': 'ParagraphNode',
+                    'children': [
+                        {
+                            'type': 'SentenceNode',
+                            'children': [
+                                {
+                                    'type': 'WordNode',
+                                    'children': [
+                                        {
+                                            'type': 'TextNode',
+                                            'value': 'hoot',
+                                            'position': {
+                                                'start': {
+                                                    'line': 1,
+                                                    'column': 5,
+                                                    'offset': 4
+                                                },
+                                                'end': {
+                                                    'line': 1,
+                                                    'column': 9,
+                                                    'offset': 8
+                                                }
+                                            }
+                                        },
+                                        {
+                                            'type': 'TextNode',
+                                            'value': 's',
+                                            'position': {
+                                                'start': {
+                                                    'line': 1,
+                                                    'column': 11,
+                                                    'offset': 10
+                                                },
+                                                'end': {
+                                                    'line': 1,
+                                                    'column': 12,
+                                                    'offset': 11
+                                                }
+                                            }
+                                        }
+                                    ],
+                                    'position': {
+                                        'start': {
+                                            'line': 1,
+                                            'column': 5,
+                                            'offset': 4
+                                        },
+                                        'end': {
+                                            'line': 1,
+                                            'column': 12,
+                                            'offset': 11
+                                        }
+                                    }
+                                }
+                            ],
+                            'position': {
+                                'start': {
+                                    'line': 1,
+                                    'column': 5,
+                                    'offset': 4
+                                },
+                                'end': {
+                                    'line': 1,
+                                    'column': 12,
+                                    'offset': 11
+                                }
+                            }
+                        }
+                    ],
+                    'position': {
+                        'start': {
+                            'line': 1,
+                            'column': 5,
+                            'offset': 4
+                        },
+                        'end': {
+                            'line': 1,
+                            'column': 12,
+                            'offset': 11
+                        }
+                    }
+                }
+            ],
+            'position': {
+                'start': {
+                    'line': 1,
+                    'column': 5,
+                    'offset': 4
+                },
+                'end': {
+                    'line': 1,
+                    'column': 12,
+                    'offset': 11
+                }
+            }
+        }, latin.parse([
+            {
+                'type': 'WordNode',
+                'children': [
+                    {
+                        'type': 'TextNode',
+                        'value': 'hoot',
+                        'position': {
+                            'start': {
+                                'line': 1,
+                                'column': 5,
+                                'offset': 4
+                            },
+                            'end': {
+                                'line': 1,
+                                'column': 9,
+                                'offset': 8
+                            }
+                        }
+                    }
+                ],
+                'position': {
+                    'start': {
+                        'line': 1,
+                        'column': 5,
+                        'offset': 4
+                    },
+                    'end': {
+                        'line': 1,
+                        'column': 9,
+                        'offset': 8
+                    }
+                }
+            },
+            {
+                'type': 'WordNode',
+                'children': [
+                    {
+                        'type': 'TextNode',
+                        'value': 's',
+                        'position': {
+                            'start': {
+                                'line': 1,
+                                'column': 11,
+                                'offset': 10
+                            },
+                            'end': {
+                                'line': 1,
+                                'column': 12,
+                                'offset': 11
+                            }
+                        }
+                    }
+                ],
+                'position': {
+                    'start': {
+                        'line': 1,
+                        'column': 11,
+                        'offset': 10
+                    },
+                    'end': {
+                        'line': 1,
+                        'column': 12,
+                        'offset': 11
+                    }
+                }
+            }
+        ]));
+    });
 });
 
 describe('Root: Given any other value', function () {

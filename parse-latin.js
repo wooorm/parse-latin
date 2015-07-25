@@ -73,7 +73,7 @@ function modifierFactory(callback) {
 
 module.exports = modifierFactory;
 
-},{"array-iterate":22}],4:[function(require,module,exports){
+},{"array-iterate":24}],4:[function(require,module,exports){
 /*!
  * parse-latin
  *
@@ -170,9 +170,9 @@ function classify(value) {
  */
 function tokenize(parser, value) {
     var tokens,
-        token,
-        start,
-        end,
+        offset,
+        line,
+        column,
         match;
 
     if (value === null || value === undefined) {
@@ -182,6 +182,16 @@ function tokenize(parser, value) {
     }
 
     if (typeof value !== 'string') {
+        /**
+         * Return the given nodes if this is either an
+         * empty array, or an array with a node as a first
+         * child.
+         */
+
+        if ('length' in value && (!value[0] || value[0].type)) {
+            return value;
+        }
+
         throw new Error(
             'Illegal invocation: \'' + value + '\'' +
             ' is not a valid argument for \'ParseLatin\''
@@ -194,34 +204,234 @@ function tokenize(parser, value) {
         return tokens;
     }
 
-    EXPRESSION_TOKEN.lastIndex = 0;
-    start = 0;
-    match = EXPRESSION_TOKEN.exec(value);
+    offset = 0;
+    line = 1;
+    column = 1;
 
-    while (match) {
-        /*
-         * Move the pointer over to after its last
-         * character.
+    /**
+     * Get the current position.
+     *
+     * @example
+     *   position = now(); // {line: 1, column: 1}
+     *
+     * @return {Object}
+     */
+    function now() {
+        return {
+            'line': line,
+            'column': column,
+            'offset': offset
+        };
+    }
+
+    /**
+     * Store position information for a node.
+     *
+     * @example
+     *   start = now();
+     *   updatePosition('foo');
+     *   location = new Position(start);
+     *   // {start: {line: 1, column: 1}, end: {line: 1, column: 3}}
+     *
+     * @param {Object} start
+     */
+    function Position(start) {
+        this.start = start;
+        this.end = now();
+    }
+
+    /**
+     * Mark position and patch `node.position`.
+     *
+     * @example
+     *   var update = position();
+     *   updatePosition('foo');
+     *   update({});
+     *   // {
+     *   //   position: {
+     *   //     start: {line: 1, column: 1}
+     *   //     end: {line: 1, column: 3}
+     *   //   }
+     *   // }
+     *
+     * @returns {function(Node): Node}
+     */
+    function position() {
+        var before = now();
+
+        /**
+         * Add the position to a node.
+         *
+         * @example
+         *   update({type: 'text', value: 'foo'});
+         *
+         * @param {Node} node - Node to attach position
+         *   on.
+         * @return {Node} - `node`.
          */
+        function patch(node) {
+            node.position = new Position(before);
 
-        end = match.index + match[0].length;
+            return node;
+        }
 
-        /*
-         * Slice the found content, from (including)
-         * start to (not including) end, classify it,
-         * and add the result.
+        return patch;
+    }
+
+    /**
+     * Update line and column based on `value`.
+     *
+     * @example
+     *   update('foo');
+     *
+     * @param {string} subvalue
+     */
+    function update(subvalue) {
+        var subvalueLength = subvalue.length,
+            character = -1,
+            lastIndex = -1;
+
+        offset += subvalueLength;
+
+        while (++character < subvalueLength) {
+            if (subvalue.charAt(character) === '\n') {
+                lastIndex = character;
+                line++;
+            }
+        }
+
+        if (lastIndex === -1) {
+            column = column + subvalueLength;
+        } else {
+            column = subvalueLength - lastIndex;
+        }
+    }
+
+    /**
+     * Add mechanism.
+     *
+     * @param {NLCSTNode} node - Node to add.
+     * @param {NLCSTParentNode?} [parent] - Optional parent
+     *   node to insert into.
+     * @return {NLCSTNode} - `node`.
+     */
+    function add(node, parent) {
+        if (parent) {
+            parent.children.push(node);
+        } else {
+            tokens.push(node);
+        }
+
+        return node;
+    }
+
+    /**
+     * Remove `subvalue` from `value`.
+     * Expects `subvalue` to be at the start from
+     * `value`, and applies no validation.
+     *
+     * @example
+     *   eat('foo')({type: 'TextNode', value: 'foo'});
+     *
+     * @param {string} subvalue - Removed from `value`,
+     *   and passed to `update`.
+     * @return {Function} - Wrapper around `add`, which
+     *   also adds `position` to node.
+     */
+    function eat(subvalue) {
+        var pos = position();
+
+        /**
+         * Add the given arguments, add `position` to
+         * the returned node, and return the node.
+         *
+         * @return {Node}
          */
+        function apply() {
+            return pos(add.apply(null, arguments));
+        }
 
-        token = value.substring(start, end);
+        value = value.substring(subvalue.length);
 
-        tokens.push(parser['tokenize' + classify(token)](token));
+        update(subvalue);
+
+        return apply;
+    }
+
+    /**
+     * Remove `subvalue` from `value`. Does not patch
+     * positional information.
+     *
+     * @param {string} subvalue - Value to eat.
+     * @return {Function}
+     */
+    function noPositionEat(subvalue) {
+        /**
+         * Add the given arguments and return the node.
+         *
+         * @return {Node}
+         */
+        function apply() {
+            return add.apply(null, arguments);
+        }
+
+        value = value.substring(subvalue.length);
+
+        return apply;
+    }
+
+    /*
+     * Eat mechanism to use.
+     */
+
+    var eater = parser.position ? eat : noPositionEat;
+
+    /**
+     * Continue matching.
+     */
+    function next() {
+        EXPRESSION_TOKEN.lastIndex = 0;
 
         match = EXPRESSION_TOKEN.exec(value);
+    }
 
-        start = end;
+    next();
+
+    while (match) {
+        parser['tokenize' + classify(match[0])](match[0], eater);
+
+        next();
     }
 
     return tokens;
+}
+
+/**
+ * Add mechanism used when text-tokenisers are called
+ * directly outside of the `tokenize` function.
+ *
+ * @param {NLCSTNode} node - Node to add.
+ * @param {NLCSTParentNode?} [parent] - Optional parent
+ *   node to insert into.
+ * @return {NLCSTNode} - `node`.
+ */
+function noopAdd(node, parent) {
+    if (parent) {
+        parent.children.push(node);
+    }
+
+    return node;
+}
+
+/**
+ * Eat and add mechanism without adding positional
+ * information, used when text-tokenisers are called
+ * directly outside of the `tokenize` function.
+ *
+ * @return {Function}
+ */
+function noopEat() {
+    return noopAdd;
 }
 
 /*
@@ -234,15 +444,17 @@ function tokenize(parser, value) {
  *
  * @constructor {ParseLatin}
  */
-function ParseLatin() {
+function ParseLatin(options) {
     /*
      * TODO: This should later be removed (when this
      * change bubbles through to dependants).
      */
 
     if (!(this instanceof ParseLatin)) {
-        return new ParseLatin();
+        return new ParseLatin(options);
     }
+
+    this.position = Boolean(options && options.position);
 }
 
 /*
@@ -279,68 +491,66 @@ parseLatinPrototype.tokenize = function (value) {
 function createTextFactory(type) {
     type += 'Node';
 
-    /*
+    /**
      * Construct a `Text` from a bound `type`
      *
-     * @param {value} value
+     * @param {value} value - Value of the node.
+     * @param {Function?} [eat] - Optional eat mechanism
+     *   to use.
+     * @param {NLCSTParentNode?} [parent] - Optional
+     *   parent to insert into.
      * @return {NLCSTText}
      */
-
-    return function (value) {
+    return function (value, eat, parent) {
         if (value === null || value === undefined) {
             value = '';
         }
 
-        return {
+        return (eat || noopEat)(value)({
             'type': type,
             'value': String(value)
-        };
+        }, parent);
     };
 }
 
-/*
+/**
  * Create a `SymbolNode` with the given `value`.
  *
  * @param {string?} value
  * @return {NLCSTSymbolNode}
  */
-
 parseLatinPrototype.tokenizeSymbol = createTextFactory('Symbol');
 
-/*
+/**
  * Create a `WhiteSpaceNode` with the given `value`.
  *
  * @param {string?} value
  * @return {NLCSTWhiteSpaceNode}
  */
-
 parseLatinPrototype.tokenizeWhiteSpace = createTextFactory('WhiteSpace');
 
-/*
+/**
  * Create a `PunctuationNode` with the given `value`.
  *
  * @param {string?} value
  * @return {NLCSTPunctuationNode}
  */
-
 parseLatinPrototype.tokenizePunctuation = createTextFactory('Punctuation');
 
-/*
+/**
  * Create a `SourceNode` with the given `value`.
  *
  * @param {string?} value
  * @return {NLCSTSourceNode}
  */
-
 parseLatinPrototype.tokenizeSource = createTextFactory('Source');
 
-/*
+/**
  * Create a `TextNode` with the given `value`.
  *
  * @param {string?} value
  * @return {NLCSTTextNode}
  */
-
 parseLatinPrototype.tokenizeText = createTextFactory('Text');
 
 /*
@@ -359,40 +569,50 @@ parseLatinPrototype.tokenizeText = createTextFactory('Text');
  */
 
 /**
+ * Run transform plug-ins for `key` on `nodes`.
+ *
+ * @param {string} key
+ * @param {Array.<Node>} nodes
+ * @return {Array.<Node>} - `nodes`.
+ */
+function run(key, nodes) {
+    var wareKey,
+        plugins,
+        index;
+
+    wareKey = key + 'Plugins';
+
+    plugins = this[wareKey];
+
+    if (plugins) {
+        index = -1;
+
+        while (plugins[++index]) {
+            plugins[index](nodes);
+        }
+    }
+
+    return nodes;
+}
+
+/*
+ * Expose `run`.
+ */
+
+parseLatinPrototype.run = run;
+
+/**
  * @param {Function} Constructor
  * @param {string} key
  * @param {function(*): undefined} callback
  */
 function pluggable(Constructor, key, callback) {
-    var wareKey;
-
-    wareKey = key + 'Plugins';
-
     /**
      * Set a pluggable version of `callback`
      * on `Constructor`.
      */
     Constructor.prototype[key] = function () {
-        var self,
-            result,
-            plugins,
-            index;
-
-        self = this;
-
-        result = callback.apply(self, arguments);
-
-        plugins = self[wareKey];
-
-        if (plugins) {
-            index = -1;
-
-            while (plugins[++index]) {
-                plugins[index](result);
-            }
-        }
-
-        return result;
+        return this.run(key, callback.apply(this, arguments));
     };
 }
 
@@ -493,7 +713,7 @@ parseLatinPrototype.useFirst = useFactory(function (context, key, plugins) {
     context[key] = plugins.concat(context[key]);
 });
 
-/*
+/**
  * Create a `WordNode` with its children set to a single
  * `TextNode`, its value set to the given `value`.
  *
@@ -502,17 +722,22 @@ parseLatinPrototype.useFirst = useFactory(function (context, key, plugins) {
  * @param {string?} value
  * @return {NLCSTWordNode}
  */
+pluggable(ParseLatin, 'tokenizeWord', function (value, eat) {
+    var add,
+        parent;
 
-pluggable(ParseLatin, 'tokenizeWord', function (value) {
-    return {
+    add = (eat || noopEat)('');
+    parent = {
         'type': 'WordNode',
-        'children': [
-            this.tokenizeText(value)
-        ]
+        'children': []
     };
+
+    this.tokenizeText(value, eat, parent);
+
+    return add(parent);
 });
 
-/*
+/**
  * Create a `SentenceNode` with its children set to
  * `Node`s, their values set to the tokenized given
  * `value`.
@@ -526,13 +751,12 @@ pluggable(ParseLatin, 'tokenizeWord', function (value) {
  * @param {string?} value
  * @return {NLCSTSentenceNode}
  */
-
 pluggable(ParseLatin, 'tokenizeSentence', createParser({
     'type': 'SentenceNode',
     'tokenizer': 'tokenize'
 }));
 
-/*
+/**
  * Create a `ParagraphNode` with its children set to
  * `Node`s, their values set to the tokenized given
  * `value`.
@@ -545,7 +769,6 @@ pluggable(ParseLatin, 'tokenizeSentence', createParser({
  * @param {string?} value
  * @return {NLCSTParagraphNode}
  */
-
 pluggable(ParseLatin, 'tokenizeParagraph', createParser({
     'type': 'ParagraphNode',
     'delimiter': expressions.terminalMarker,
@@ -553,7 +776,7 @@ pluggable(ParseLatin, 'tokenizeParagraph', createParser({
     'tokenizer': 'tokenizeSentence'
 }));
 
-/*
+/**
  * Create a `RootNode` with its children set to `Node`s,
  * their values set to the tokenized given `value`.
  *
@@ -565,7 +788,6 @@ pluggable(ParseLatin, 'tokenizeParagraph', createParser({
  * @param {string?} value
  * @return {NLCSTRootNode}
  */
-
 pluggable(ParseLatin, 'tokenizeRoot', createParser({
     'type': 'RootNode',
     'delimiter': expressions.newLine,
@@ -590,7 +812,9 @@ parseLatinPrototype.use('tokenizeSentence', [
     require('./plugin/merge-initial-word-symbol'),
     require('./plugin/merge-final-word-symbol'),
     require('./plugin/merge-inner-word-symbol'),
-    require('./plugin/merge-initialisms')
+    require('./plugin/merge-initialisms'),
+    require('./plugin/merge-words'),
+    require('./plugin/patch-position')
 ]);
 
 parseLatinPrototype.use('tokenizeParagraph', [
@@ -603,13 +827,15 @@ parseLatinPrototype.use('tokenizeParagraph', [
     require('./plugin/make-initial-white-space-siblings'),
     require('./plugin/make-final-white-space-siblings'),
     require('./plugin/break-implicit-sentences'),
-    require('./plugin/remove-empty-nodes')
+    require('./plugin/remove-empty-nodes'),
+    require('./plugin/patch-position')
 ]);
 
 parseLatinPrototype.use('tokenizeRoot', [
     require('./plugin/make-initial-white-space-siblings'),
     require('./plugin/make-final-white-space-siblings'),
-    require('./plugin/remove-empty-nodes')
+    require('./plugin/remove-empty-nodes'),
+    require('./plugin/patch-position')
 ]);
 
 /*
@@ -634,7 +860,7 @@ ParseLatin.plugin = pluginFactory;
 
 ParseLatin.modifier = modifierFactory;
 
-},{"./expressions":2,"./modifier":3,"./parser":5,"./plugin":6,"./plugin/break-implicit-sentences":7,"./plugin/make-final-white-space-siblings":8,"./plugin/make-initial-white-space-siblings":9,"./plugin/merge-affix-exceptions":10,"./plugin/merge-affix-symbol":11,"./plugin/merge-final-word-symbol":12,"./plugin/merge-initial-lower-case-letter-sentences":13,"./plugin/merge-initial-word-symbol":14,"./plugin/merge-initialisms":15,"./plugin/merge-inner-word-symbol":16,"./plugin/merge-non-word-sentences":17,"./plugin/merge-prefix-exceptions":18,"./plugin/merge-remaining-full-stops":19,"./plugin/remove-empty-nodes":20}],5:[function(require,module,exports){
+},{"./expressions":2,"./modifier":3,"./parser":5,"./plugin":6,"./plugin/break-implicit-sentences":7,"./plugin/make-final-white-space-siblings":8,"./plugin/make-initial-white-space-siblings":9,"./plugin/merge-affix-exceptions":10,"./plugin/merge-affix-symbol":11,"./plugin/merge-final-word-symbol":12,"./plugin/merge-initial-lower-case-letter-sentences":13,"./plugin/merge-initial-word-symbol":14,"./plugin/merge-initialisms":15,"./plugin/merge-inner-word-symbol":16,"./plugin/merge-non-word-sentences":17,"./plugin/merge-prefix-exceptions":18,"./plugin/merge-remaining-full-stops":19,"./plugin/merge-words":20,"./plugin/patch-position":21,"./plugin/remove-empty-nodes":22}],5:[function(require,module,exports){
 'use strict';
 
 var tokenizer;
@@ -674,7 +900,7 @@ function parserFactory(options) {
 
 module.exports = parserFactory;
 
-},{"./tokenizer":21}],6:[function(require,module,exports){
+},{"./tokenizer":23}],6:[function(require,module,exports){
 'use strict';
 
 /**
@@ -741,6 +967,10 @@ function breakImplicitSentences(child, index, parent) {
     var children,
         position,
         length,
+        tail,
+        head,
+        end,
+        insertion,
         node;
 
     if (child.type !== 'SentenceNode') {
@@ -765,10 +995,26 @@ function breakImplicitSentences(child, index, parent) {
 
         child.children = children.slice(0, position);
 
-        parent.children.splice(index + 1, 0, node, {
+        insertion = {
             'type': 'SentenceNode',
             'children': children.slice(position + 1)
-        });
+        };
+
+        tail = children[position - 1];
+        head = children[position + 1];
+
+        parent.children.splice(index + 1, 0, node, insertion);
+
+        if (child.position && tail.position && head.position) {
+            end = child.position.end;
+
+            child.position.end = tail.position.end;
+
+            insertion.position = {
+                'start': head.position.start,
+                'end': end
+            };
+        }
 
         return index + 1;
     }
@@ -780,7 +1026,7 @@ function breakImplicitSentences(child, index, parent) {
 
 module.exports = modifier(breakImplicitSentences);
 
-},{"../expressions":2,"../modifier":3,"nlcst-to-string":23}],8:[function(require,module,exports){
+},{"../expressions":2,"../modifier":3,"nlcst-to-string":25}],8:[function(require,module,exports){
 'use strict';
 
 /*
@@ -801,7 +1047,8 @@ modifier = require('../modifier');
  * @return {undefined|number}
  */
 function makeFinalWhiteSpaceSiblings(child, index, parent) {
-    var children;
+    var children,
+        prev;
 
     children = child.children;
 
@@ -811,6 +1058,11 @@ function makeFinalWhiteSpaceSiblings(child, index, parent) {
         children[children.length - 1].type === 'WhiteSpaceNode'
     ) {
         parent.children.splice(index + 1, 0, child.children.pop());
+        prev = children[children.length - 1];
+
+        if (prev && prev.position && child.position) {
+            child.position.end = prev.position.end;
+        }
 
         /*
          * Next, iterate over the current node again.
@@ -846,7 +1098,8 @@ plugin = require('../plugin');
  * @param {NLCSTParent} parent
  */
 function makeInitialWhiteSpaceSiblings(child, index, parent) {
-    var children;
+    var children,
+        next;
 
     children = child.children;
 
@@ -856,6 +1109,11 @@ function makeInitialWhiteSpaceSiblings(child, index, parent) {
         children[0].type === 'WhiteSpaceNode'
     ) {
         parent.children.splice(index, 0, children.shift());
+        next = children[0];
+
+        if (next && next.position && child.position) {
+            child.position.start = next.position.start;
+        }
     }
 }
 
@@ -921,9 +1179,15 @@ function mergeAffixExceptions(child, index, parent) {
 
             previousChild = parent.children[index - 1];
 
-            previousChild.children = previousChild.children.concat(
-                children
-            );
+            previousChild.children = previousChild.children.concat(children);
+
+            /*
+             * Update position.
+             */
+
+            if (previousChild.position && child.position) {
+                previousChild.position.end = child.position.end;
+            }
 
             parent.children.splice(index, 1);
 
@@ -943,7 +1207,7 @@ function mergeAffixExceptions(child, index, parent) {
 
 module.exports = modifier(mergeAffixExceptions);
 
-},{"../modifier":3,"nlcst-to-string":23}],11:[function(require,module,exports){
+},{"../modifier":3,"nlcst-to-string":25}],11:[function(require,module,exports){
 'use strict';
 
 /*
@@ -983,7 +1247,9 @@ EXPRESSION_AFFIX_SYMBOL = expressions.affixSymbol;
  */
 function mergeAffixSymbol(child, index, parent) {
     var children,
-        firstChild;
+        prev,
+        first,
+        second;
 
     children = child.children;
 
@@ -992,16 +1258,30 @@ function mergeAffixSymbol(child, index, parent) {
         children.length &&
         index !== 0
     ) {
-        firstChild = children[0];
+        first = children[0];
+        second = children[1];
+        prev = parent.children[index - 1];
 
         if (
             (
-                firstChild.type === 'SymbolNode' ||
-                firstChild.type === 'PunctuationNode'
+                first.type === 'SymbolNode' ||
+                first.type === 'PunctuationNode'
             ) &&
-            EXPRESSION_AFFIX_SYMBOL.test(nlcstToString(firstChild))
+            EXPRESSION_AFFIX_SYMBOL.test(nlcstToString(first))
         ) {
-            parent.children[index - 1].children.push(children.shift());
+            prev.children.push(children.shift());
+
+            /*
+             * Update position.
+             */
+
+            if (first.position && prev.position) {
+                prev.position.end = first.position.end;
+            }
+
+            if (second && second.position && child.position) {
+                child.position.start = second.position.start;
+            }
 
             /*
              * Next, iterate over the previous node again.
@@ -1018,7 +1298,7 @@ function mergeAffixSymbol(child, index, parent) {
 
 module.exports = modifier(mergeAffixSymbol);
 
-},{"../expressions":2,"../modifier":3,"nlcst-to-string":23}],12:[function(require,module,exports){
+},{"../expressions":2,"../modifier":3,"nlcst-to-string":25}],12:[function(require,module,exports){
 'use strict';
 
 /*
@@ -1082,6 +1362,14 @@ function mergeFinalWordSymbol(child, index, parent) {
             prev.children.push(child);
 
             /*
+             * Update position.
+             */
+
+            if (prev.position && child.position) {
+                prev.position.end = child.position.end;
+            }
+
+            /*
              * Next, iterate over the node *now* at the
              * current position (which was the next node).
              */
@@ -1097,7 +1385,7 @@ function mergeFinalWordSymbol(child, index, parent) {
 
 module.exports = modifier(mergeFinalWordSymbol);
 
-},{"../modifier":3,"nlcst-to-string":23}],13:[function(require,module,exports){
+},{"../modifier":3,"nlcst-to-string":25}],13:[function(require,module,exports){
 'use strict';
 
 /*
@@ -1164,6 +1452,14 @@ function mergeInitialLowerCaseLetterSentences(child, index, parent) {
                 siblings.splice(index, 1);
 
                 /*
+                 * Update position.
+                 */
+
+                if (prev.position && child.position) {
+                    prev.position.end = child.position.end;
+                }
+
+                /*
                  * Next, iterate over the node *now* at
                  * the current position.
                  */
@@ -1187,7 +1483,7 @@ function mergeInitialLowerCaseLetterSentences(child, index, parent) {
 
 module.exports = modifier(mergeInitialLowerCaseLetterSentences);
 
-},{"../expressions":2,"../modifier":3,"nlcst-to-string":23}],14:[function(require,module,exports){
+},{"../expressions":2,"../modifier":3,"nlcst-to-string":25}],14:[function(require,module,exports){
 'use strict';
 
 /*
@@ -1259,6 +1555,14 @@ function mergeInitialWordSymbol(child, index, parent) {
     next.children.unshift(child);
 
     /*
+     * Update position.
+     */
+
+    if (next.position && child.position) {
+        next.position.start = child.position.start;
+    }
+
+    /*
      * Next, iterate over the node at the previous
      * position, as it's now adjacent to a following
      * word.
@@ -1273,7 +1577,7 @@ function mergeInitialWordSymbol(child, index, parent) {
 
 module.exports = modifier(mergeInitialWordSymbol);
 
-},{"../modifier":3,"nlcst-to-string":23}],15:[function(require,module,exports){
+},{"../modifier":3,"nlcst-to-string":25}],15:[function(require,module,exports){
 'use strict';
 
 /*
@@ -1377,6 +1681,14 @@ function mergeInitialisms(child, index, parent) {
                 children.push(child);
 
                 /*
+                 * Update position.
+                 */
+
+                if (prev.position && child.position) {
+                    prev.position.end = child.position.end;
+                }
+
+                /*
                  * Next, iterate over the node *now* at the current
                  * position.
                  */
@@ -1393,7 +1705,7 @@ function mergeInitialisms(child, index, parent) {
 
 module.exports = modifier(mergeInitialisms);
 
-},{"../expressions":2,"../modifier":3,"nlcst-to-string":23}],16:[function(require,module,exports){
+},{"../expressions":2,"../modifier":3,"nlcst-to-string":25}],16:[function(require,module,exports){
 'use strict';
 
 /*
@@ -1430,6 +1742,7 @@ function mergeInnerWordSymbol(child, index, parent) {
     var siblings,
         sibling,
         prev,
+        last,
         position,
         tokens,
         queue;
@@ -1504,6 +1817,16 @@ function mergeInnerWordSymbol(child, index, parent) {
 
                 prev.children = prev.children.concat(tokens);
 
+                last = tokens[tokens.length - 1];
+
+                /*
+                 * Update position.
+                 */
+
+                if (prev.position && last.position) {
+                    prev.position.end = last.position.end;
+                }
+
                 /*
                  * Next, iterate over the node *now* at the current
                  * position.
@@ -1521,7 +1844,7 @@ function mergeInnerWordSymbol(child, index, parent) {
 
 module.exports = modifier(mergeInnerWordSymbol);
 
-},{"../expressions":2,"../modifier":3,"nlcst-to-string":23}],17:[function(require,module,exports){
+},{"../expressions":2,"../modifier":3,"nlcst-to-string":25}],17:[function(require,module,exports){
 'use strict';
 
 /*
@@ -1544,7 +1867,8 @@ modifier = require('../modifier');
 function mergeNonWordSentences(child, index, parent) {
     var children,
         position,
-        prev;
+        prev,
+        next;
 
     children = child.children;
     position = -1;
@@ -1567,6 +1891,14 @@ function mergeNonWordSentences(child, index, parent) {
         parent.children.splice(index, 1);
 
         /*
+         * Patch position.
+         */
+
+        if (prev.position && child.position) {
+            prev.position.end = child.position.end;
+        }
+
+        /*
          * Next, iterate over the node *now* at
          * the current position (which was the
          * next node).
@@ -1575,10 +1907,18 @@ function mergeNonWordSentences(child, index, parent) {
         return index;
     }
 
-    prev = parent.children[index + 1];
+    next = parent.children[index + 1];
 
-    if (prev) {
-        prev.children = children.concat(prev.children);
+    if (next) {
+        next.children = children.concat(next.children);
+
+        /*
+         * Patch position.
+         */
+
+        if (next.position && child.position) {
+            next.position.start = child.position.start;
+        }
 
         /*
          * Remove the child.
@@ -1650,7 +1990,8 @@ EXPRESSION_ABBREVIATION_PREFIX = new RegExp(
  */
 function mergePrefixExceptions(child, index, parent) {
     var children,
-        node;
+        node,
+        next;
 
     children = child.children;
 
@@ -1674,11 +2015,19 @@ function mergePrefixExceptions(child, index, parent) {
                     nlcstToString(node).toLowerCase()
                 )
             ) {
-                child.children = children.concat(
-                    parent.children[index + 1].children
-                );
+                next = parent.children[index + 1];
+
+                child.children = children.concat(next.children);
 
                 parent.children.splice(index + 1, 1);
+
+                /*
+                 * Update position.
+                 */
+
+                if (next.position && child.position) {
+                    child.position.end = next.position.end;
+                }
 
                 /*
                  * Next, iterate over the current node again.
@@ -1696,7 +2045,7 @@ function mergePrefixExceptions(child, index, parent) {
 
 module.exports = modifier(mergePrefixExceptions);
 
-},{"../modifier":3,"nlcst-to-string":23}],19:[function(require,module,exports){
+},{"../modifier":3,"nlcst-to-string":25}],19:[function(require,module,exports){
 'use strict';
 
 /*
@@ -1826,6 +2175,14 @@ function mergeRemainingFullStops(child) {
 
             prev.children.push(grandchild);
 
+            /*
+             * Update position.
+             */
+
+            if (grandchild.position && prev.position) {
+                prev.position.end = grandchild.position.end;
+            }
+
             position--;
         } else if (next && next.type === 'WordNode') {
             /*
@@ -1840,6 +2197,10 @@ function mergeRemainingFullStops(child) {
              */
 
             next.children.unshift(grandchild);
+
+            if (grandchild.position && next.position) {
+                next.position.start = grandchild.position.start;
+            }
         }
     }
 }
@@ -1850,7 +2211,128 @@ function mergeRemainingFullStops(child) {
 
 module.exports = plugin(mergeRemainingFullStops);
 
-},{"../expressions":2,"../plugin":6,"nlcst-to-string":23}],20:[function(require,module,exports){
+},{"../expressions":2,"../plugin":6,"nlcst-to-string":25}],20:[function(require,module,exports){
+'use strict';
+
+/*
+ * Dependencies.
+ */
+
+var modifier = require('../modifier');
+
+/**
+ * Merge multiple words. This merges the children of
+ * adjacent words, something which should not occur
+ * naturally by parse-latin, but might happen when
+ * custom tokens were passed in.
+ *
+ * @param {NLCSTNode} child
+ * @param {number} index
+ * @param {NLCSTSentenceNode} parent
+ * @return {undefined|number}
+ */
+function mergeFinalWordSymbol(child, index, parent) {
+    var siblings = parent.children,
+        next;
+
+    if (child.type === 'WordNode') {
+        next = siblings[index + 1];
+
+        if (next && next.type === 'WordNode') {
+            /*
+             * Remove `next` from parent.
+             */
+
+            siblings.splice(index + 1, 1);
+
+            /*
+             * Add the punctuation mark at the end of the
+             * previous node.
+             */
+
+            child.children = child.children.concat(next.children);
+
+            /*
+             * Update position.
+             */
+
+            if (next.position && child.position) {
+                child.position.end = next.position.end;
+            }
+
+            /*
+             * Next, re-iterate the current node.
+             */
+
+            return index;
+        }
+    }
+}
+
+/*
+ * Expose `mergeFinalWordSymbol` as a modifier.
+ */
+
+module.exports = modifier(mergeFinalWordSymbol);
+
+},{"../modifier":3}],21:[function(require,module,exports){
+'use strict';
+
+/*
+ * Dependencies.
+ */
+
+var plugin = require('../plugin');
+
+/**
+ * Add a `position` object when it does not yet exist
+ * on `node`.
+ *
+ * @param {NLCSTNode} node - Node to patch.
+ */
+function patch(node) {
+    if (!node.position) {
+        node.position = {};
+    }
+}
+
+/**
+ * Patch the position on a parent node based on its first
+ * and last child.
+ *
+ * @param {NLCSTNode} child
+ */
+function patchPosition(child, index, node) {
+    var siblings = node.children;
+
+    if (!child.position) {
+        return;
+    }
+
+    if (
+        index === 0 &&
+        (!node.position || /* istanbul ignore next */ !node.position.start)
+    ) {
+        patch(node);
+        node.position.start = child.position.start;
+    }
+
+    if (
+        index === siblings.length - 1 &&
+        (!node.position || !node.position.end)
+    ) {
+        patch(node);
+        node.position.end = child.position.end;
+    }
+}
+
+/*
+ * Expose `patchPosition` as a plugin.
+ */
+
+module.exports = plugin(patchPosition);
+
+},{"../plugin":6}],22:[function(require,module,exports){
 'use strict';
 
 /*
@@ -1889,7 +2371,7 @@ function removeEmptyNodes(child, index, parent) {
 
 module.exports = modifier(removeEmptyNodes);
 
-},{"../modifier":3}],21:[function(require,module,exports){
+},{"../modifier":3}],23:[function(require,module,exports){
 'use strict';
 
 var nlcstToString;
@@ -1918,7 +2400,10 @@ function tokenizerFactory(childType, expression) {
             length,
             index,
             lastIndex,
-            start;
+            start,
+            parent,
+            first,
+            last;
 
         children = [];
 
@@ -1941,10 +2426,22 @@ function tokenizerFactory(childType, expression) {
                     expression.test(nlcstToString(tokens[index]))
                 )
             ) {
-                children.push({
+                first = tokens[start];
+                last = tokens[index];
+
+                parent = {
                     'type': type,
                     'children': tokens.slice(start, index + 1)
-                });
+                };
+
+                if (first.position && last.position) {
+                    parent.position = {
+                        'start': first.position.start,
+                        'end': last.position.end
+                    };
+                }
+
+                children.push(parent);
 
                 start = index + 1;
             }
@@ -1956,7 +2453,7 @@ function tokenizerFactory(childType, expression) {
 
 module.exports = tokenizerFactory;
 
-},{"nlcst-to-string":23}],22:[function(require,module,exports){
+},{"nlcst-to-string":25}],24:[function(require,module,exports){
 'use strict';
 
 /**
@@ -2043,7 +2540,7 @@ function iterate(values, callback, context) {
 
 module.exports = iterate;
 
-},{}],23:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 'use strict';
 
 /**
