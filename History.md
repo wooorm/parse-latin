@@ -1,4 +1,10 @@
 
+0.5.1 / 2015-07-25
+==================
+
+*   Refactor to use `files` in package.json isntead of `.npmignore` (eab264f)
+*   Remove prepublish hook (66ba83b)
+
 0.5.0 / 2015-07-25
 ==================
 
