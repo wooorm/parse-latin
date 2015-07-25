@@ -1,4 +1,15 @@
 
+0.5.0 / 2015-07-25
+==================
+
+*   Add positional information to nodes ([66461f1](https://github.com/wooorm/parse-latin/commit/66461f1))
+*   Rebuild distribution ([6513a32](https://github.com/wooorm/parse-latin/commit/6513a32))
+*   Update browserify, chalk, jscs-jsdoc ([8aaf4be](https://github.com/wooorm/parse-latin/commit/8aaf4be))
+*   Update regenerate; fix bug ([df2cd07](https://github.com/wooorm/parse-latin/commit/df2cd07))
+*   Update eslint ([380ad4b](https://github.com/wooorm/parse-latin/commit/380ad4b))
+*   Refactor jscs build-script ([c8e65d1](https://github.com/wooorm/parse-latin/commit/c8e65d1))
+*   Fix broken link in `Readme.md` ([a9d55cf](https://github.com/wooorm/parse-latin/commit/a9d55cf))
+
 0.4.3 / 2015-01-22
 ==================
 
