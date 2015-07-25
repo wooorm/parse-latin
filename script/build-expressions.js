@@ -17,7 +17,7 @@ fs = require('fs');
  * @return {*}
  */
 function unicode(path) {
-    return require('unicode-7.0.0/' + path + '/code-points');
+    return require('unicode-8.0.0/' + path + '/code-points');
 }
 
 var N,
