@@ -54,7 +54,6 @@
     "bundle": "browserify index.js -s ParseLatin > parse-latin.js",
     "postbundle": "esmangle parse-latin.js > parse-latin.min.js",
     "build-expressions": "node script/build-expressions",
-    "build": "npm run build-expressions && npm run bundle",
-    "prepublish": "npm run build"
+    "build": "npm run build-expressions && npm run bundle"
   }
 }
