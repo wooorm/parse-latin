@@ -979,9 +979,12 @@ function breakImplicitSentences(child, index, parent) {
 
     children = child.children;
 
-    length = children.length;
+    /*
+     * Ignore first and last child.
+     */
 
-    position = -1;
+    length = children.length - 1;
+    position = 0;
 
     while (++position < length) {
         node = children[position];
