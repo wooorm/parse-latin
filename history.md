@@ -1,9 +1,14 @@
 
+0.5.2 / 2015-08-16
+==================
+
+*   Fix bug when breaking implicit sentences ([439cb71](https://github.com/wooorm/parse-latin/commit/439cb71))
+
 0.5.1 / 2015-07-25
 ==================
 
-*   Refactor to use `files` in package.json isntead of `.npmignore` (eab264f)
-*   Remove prepublish hook (66ba83b)
+*   Refactor to use `files` in package.json instead of `.npmignore` ([eab264f](https://github.com/wooorm/parse-latin/commit/eab264f))
+*   Remove prepublish hook ([66ba83b](https://github.com/wooorm/parse-latin/commit/66ba83b))
 
 0.5.0 / 2015-07-25
 ==================
