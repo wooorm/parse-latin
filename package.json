@@ -17,10 +17,7 @@
     "unist-util-modify-children": "^1.0.0",
     "unist-util-visit-children": "^1.0.0"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/wooorm/parse-latin.git"
-  },
+  "repository": "wooorm/parse-latin",
   "author": "Titus Wormer <tituswormer@gmail.com>",
   "files": [
     "index.js",
@@ -35,16 +32,21 @@
     "jscs": "^2.0.0",
     "jscs-jsdoc": "^1.0.0",
     "matcha": "^0.6.0",
+    "mdast": "^1.1.0",
+    "mdast-comment-config": "^1.0.0",
+    "mdast-github": "^1.0.0",
+    "mdast-lint": "^1.0.0",
+    "mdast-slug": "^1.0.0",
+    "mdast-validate-links": "^1.0.0",
     "mocha": "^2.0.0",
     "nlcst-test": "^0.2.0",
     "regenerate": "^1.0.0",
     "unicode-8.0.0": "^0.1.0"
   },
   "scripts": {
-    "test-api": "_mocha --check-leaks test/index.js",
-    "test-coveralls": "istanbul cover _mocha --report lcovonly -- --check-leaks test/index.js",
-    "test-coverage": "istanbul cover _mocha -- -- test/index.js",
-    "test-travis": "npm run test-coveralls",
+    "test-api": "mocha --check-leaks test/index.js",
+    "test-coverage": "istanbul cover _mocha -- test/index.js",
+    "test-travis": "npm run test-coverage",
     "test": "npm run test-api",
     "lint-api": "eslint .",
     "lint-style": "jscs --reporter inline .",
@@ -54,7 +56,8 @@
     "fixture": "node script/generate-fixture",
     "bundle": "browserify index.js -s ParseLatin > parse-latin.js",
     "postbundle": "esmangle parse-latin.js > parse-latin.min.js",
+    "build-md": "mdast . --quiet",
     "build-expressions": "node script/build-expressions",
-    "build": "npm run build-expressions && npm run bundle"
+    "build": "npm run build-md && npm run build-expressions && npm run bundle"
   }
 }
