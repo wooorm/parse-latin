@@ -46,6 +46,6 @@ var nlcst = latin[parameters[2] || 'parse'](parameters[1]);
  * Write fixture.
  */
 
-fs.writeFileSync(filePath, JSON.stringify(nlcst, 0, 2));
+fs.writeFileSync(filePath, JSON.stringify(nlcst, 0, 2) + '\n');
 
 console.log('Wrote file to `' + filePath + '`');

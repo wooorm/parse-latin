@@ -45,5 +45,5 @@ fs.readdirSync('test/fixture').filter(function (name) {
 
     nlcst = latin[fn](toString(json));
 
-    fs.writeFileSync('test/fixture/' + name, JSON.stringify(nlcst, 0, 2));
+    fs.writeFileSync('test/fixture/' + name, JSON.stringify(nlcst, 0, 2) + '\n');
 });
