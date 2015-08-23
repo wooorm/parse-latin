@@ -14,11 +14,8 @@
  * Dependencies.
  */
 
-var regenerate,
-    fs;
-
-regenerate = require('regenerate');
-fs = require('fs');
+var fs = require('fs');
+var regenerate = require('regenerate');
 
 /**
  * Get unicode data.
@@ -30,68 +27,40 @@ function unicode(path) {
     return require('unicode-8.0.0/' + path + '/code-points');
 }
 
-var N,
-    L,
-    Ll,
-    M,
-    Pc,
-    Pd,
-    Pe,
-    Pf,
-    Pi,
-    Po,
-    Ps,
-    whiteSpace,
-    combiningDiacriticalMarks;
-
-N = unicode('categories/N');
-L = unicode('categories/L');
-Ll = unicode('categories/Ll');
-M = unicode('categories/M');
-Pc = unicode('categories/Pc');
-Pd = unicode('categories/Pd');
-Pe = unicode('categories/Pe');
-Pf = unicode('categories/Pf');
-Pi = unicode('categories/Pi');
-Po = unicode('categories/Po');
-Ps = unicode('categories/Ps');
-whiteSpace = unicode('properties/White_Space');
-combiningDiacriticalMarks = unicode('blocks/Combining Diacritical Marks');
+var N = unicode('categories/N');
+var L = unicode('categories/L');
+var Ll = unicode('categories/Ll');
+var M = unicode('categories/M');
+var Pc = unicode('categories/Pc');
+var Pd = unicode('categories/Pd');
+var Pe = unicode('categories/Pe');
+var Pf = unicode('categories/Pf');
+var Pi = unicode('categories/Pi');
+var Po = unicode('categories/Po');
+var Ps = unicode('categories/Ps');
+var whiteSpace = unicode('properties/White_Space');
+var combiningDiacriticalMarks = unicode('blocks/Combining Diacritical Marks');
 
 /*
  * Character groups.
  */
 
-var COMBINING_DIACRITICAL_MARK,
-    COMBINING_NONSPACING_MARK,
-    LETTER,
-    LETTER_LOWER,
-    NUMERICAL,
-    PUNCTUATION_CLOSING,
-    PUNCTUATION_FINAL,
-    PUNCTUATION,
-    WHITE_SPACE,
-    WORD,
-    TERMINAL_MARKER,
-    WORD_SYMBOL_INNER,
-    WORD_SYMBOL_INNER_MULTI;
-
-COMBINING_DIACRITICAL_MARK = regenerate()
+var COMBINING_DIACRITICAL_MARK = regenerate()
     .add(combiningDiacriticalMarks);
 
-COMBINING_NONSPACING_MARK = regenerate()
+var COMBINING_NONSPACING_MARK = regenerate()
     .add(M);
 
-LETTER = regenerate()
+var LETTER = regenerate()
     .add(L);
 
-LETTER_LOWER = regenerate()
+var LETTER_LOWER = regenerate()
     .add(Ll);
 
-NUMERICAL = regenerate()
+var NUMERICAL = regenerate()
     .add(N);
 
-PUNCTUATION = regenerate()
+var PUNCTUATION = regenerate()
     .add(Pc)
     .add(Pd)
     .add(Pe)
@@ -116,24 +85,24 @@ PUNCTUATION = regenerate()
     .remove('‡')
     .remove('※');
 
-PUNCTUATION_CLOSING = regenerate()
+var PUNCTUATION_CLOSING = regenerate()
     .add(Pe);
 
-PUNCTUATION_FINAL = regenerate()
+var PUNCTUATION_FINAL = regenerate()
     .add(Pf)
     .add('"')
     .add('\'');
 
-WHITE_SPACE = regenerate()
+var WHITE_SPACE = regenerate()
     .add(whiteSpace);
 
-WORD = regenerate()
+var WORD = regenerate()
     .add(COMBINING_DIACRITICAL_MARK)
     .add(COMBINING_NONSPACING_MARK)
     .add(LETTER)
     .add(NUMERICAL);
 
-TERMINAL_MARKER = regenerate()
+var TERMINAL_MARKER = regenerate()
     .add('.')
     .add(0x203D)
     .add('?')
@@ -161,7 +130,7 @@ TERMINAL_MARKER = regenerate()
  * - Middle dot.
  */
 
-WORD_SYMBOL_INNER = regenerate()
+var WORD_SYMBOL_INNER = regenerate()
     .add('-')
     .add('@')
     .add('?')
@@ -187,21 +156,9 @@ WORD_SYMBOL_INNER = regenerate()
  * - Underscore.
  */
 
-WORD_SYMBOL_INNER_MULTI = regenerate()
+var WORD_SYMBOL_INNER_MULTI = regenerate()
     .add('_')
     .add('/');
-
-var EXPRESSION_AFFIX_SYMBOL,
-    EXPRESSION_NEW_LINE,
-    EXPRESSION_NEW_LINE_MULTI,
-    EXPRESSION_TERMINAL_MARKER,
-    EXPRESSION_WORD_SYMBOL_INNER,
-    EXPRESSION_PUNCTUATION,
-    EXPRESSION_NUMERICAL,
-    EXPRESSION_LOWER_INITIAL,
-    EXPRESSION_TOKEN,
-    EXPRESSION_WORD,
-    EXPRESSION_WHITE_SPACE;
 
 /*
  * Match closing or final punctuation, or terminal markers that should
@@ -209,7 +166,7 @@ var EXPRESSION_AFFIX_SYMBOL,
  * the sentence's terminal marker.
  */
 
-EXPRESSION_AFFIX_SYMBOL = new RegExp(
+var EXPRESSION_AFFIX_SYMBOL = new RegExp(
     '^(' +
         PUNCTUATION_CLOSING + '|' +
         PUNCTUATION_FINAL + '|' +
@@ -221,13 +178,13 @@ EXPRESSION_AFFIX_SYMBOL = new RegExp(
  * Match one or more new line characters.
  */
 
-EXPRESSION_NEW_LINE = /^(\r?\n|\r)+$/;
+var EXPRESSION_NEW_LINE = /^(\r?\n|\r)+$/;
 
 /*
  * Match two or more new line characters.
  */
 
-EXPRESSION_NEW_LINE_MULTI = /^(\r?\n|\r){2,}$/;
+var EXPRESSION_NEW_LINE_MULTI = /^(\r?\n|\r){2,}$/;
 
 /*
  * Match sentence-ending markers.
@@ -235,7 +192,7 @@ EXPRESSION_NEW_LINE_MULTI = /^(\r?\n|\r){2,}$/;
  * See `GROUP_TERMINAL_MARKER`.
  */
 
-EXPRESSION_TERMINAL_MARKER = new RegExp(
+var EXPRESSION_TERMINAL_MARKER = new RegExp(
     '^((?:' + TERMINAL_MARKER + ')+)$'
 );
 
@@ -248,7 +205,7 @@ EXPRESSION_TERMINAL_MARKER = new RegExp(
  * - WORD_SYMBOL_INNER_MULTI.
  */
 
-EXPRESSION_WORD_SYMBOL_INNER = new RegExp(
+var EXPRESSION_WORD_SYMBOL_INNER = new RegExp(
     '^(' +
         '(?:' +
             WORD_SYMBOL_INNER +
@@ -268,7 +225,7 @@ EXPRESSION_WORD_SYMBOL_INNER = new RegExp(
  * - PUNCTUATION.
  */
 
-EXPRESSION_PUNCTUATION = new RegExp(
+var EXPRESSION_PUNCTUATION = new RegExp(
     '^(?:' + PUNCTUATION + ')+$'
 );
 
@@ -276,7 +233,7 @@ EXPRESSION_PUNCTUATION = new RegExp(
  * Match numbers.
  */
 
-EXPRESSION_NUMERICAL = new RegExp(
+var EXPRESSION_NUMERICAL = new RegExp(
     '^(?:' + NUMERICAL + ')+$'
 );
 
@@ -284,7 +241,7 @@ EXPRESSION_NUMERICAL = new RegExp(
  * Match initial lowercase letter.
  */
 
-EXPRESSION_LOWER_INITIAL = new RegExp(
+var EXPRESSION_LOWER_INITIAL = new RegExp(
     '^(?:' + LETTER_LOWER + ')'
 );
 
@@ -292,7 +249,7 @@ EXPRESSION_LOWER_INITIAL = new RegExp(
  * Match anything, when possible words, white spaces, or astrals.
  */
 
-EXPRESSION_TOKEN = new RegExp(
+var EXPRESSION_TOKEN = new RegExp(
     '(?:' + WORD + ')+|' +
     '(?:' + WHITE_SPACE + ')+|' +
     '(?:[\\uD800-\\uDFFF])+|' +
@@ -304,7 +261,7 @@ EXPRESSION_TOKEN = new RegExp(
  * Match a word.
  */
 
-EXPRESSION_WORD = new RegExp(
+var EXPRESSION_WORD = new RegExp(
     '^(?:' + WORD + ')+$'
 );
 
@@ -312,13 +269,15 @@ EXPRESSION_WORD = new RegExp(
  * Match white space.
  */
 
-EXPRESSION_WHITE_SPACE = new RegExp(
+var EXPRESSION_WHITE_SPACE = new RegExp(
     '^(?:' + WHITE_SPACE + ')+$'
 );
 
-var file;
+/*
+ * Build file.
+ */
 
-file =
+var file =
     '/* This module is generated by `script/build-expressions.js` */\n' +
     '\'use strict\'\n' +
     '/* eslint-env commonjs */\n' +
@@ -337,5 +296,9 @@ file =
         '\'whiteSpace\': ' + EXPRESSION_WHITE_SPACE
     ].join(',\n    ') +
     '\n};\n';
+
+/*
+ * Write.
+ */
 
 fs.writeFileSync('./lib/expressions.js', file);

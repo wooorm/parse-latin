@@ -15,21 +15,15 @@
  * Dependencies.
  */
 
-var ParseLatin,
-    fs,
-    toString;
-
-fs = require('fs');
-ParseLatin = require('../');
-toString = require('nlcst-to-string');
+var fs = require('fs');
+var toString = require('nlcst-to-string');
+var ParseLatin = require('..');
 
 /*
  * Parser.
  */
 
-var latin;
-
-latin = new ParseLatin({
+var latin = new ParseLatin({
     'position': true
 });
 
@@ -40,16 +34,10 @@ latin = new ParseLatin({
 fs.readdirSync('test/fixture').filter(function (name) {
     return name.charAt(0) !== '.';
 }).forEach(function (name) {
-    var doc,
-        json,
-        fn,
-        nlcst;
-
-    doc = fs.readFileSync('test/fixture/' + name, 'utf8');
-
-    json = JSON.parse(doc);
-
-    fn = 'tokenize' + json.type.slice(0, json.type.indexOf('Node'));
+    var doc = fs.readFileSync('test/fixture/' + name, 'utf8');
+    var json = JSON.parse(doc);
+    var fn = 'tokenize' + json.type.slice(0, json.type.indexOf('Node'));
+    var nlcst;
 
     if (fn === 'tokenizeRoot') {
         fn = 'parse';

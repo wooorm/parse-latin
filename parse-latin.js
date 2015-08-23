@@ -59,11 +59,6 @@ var expressions = require('./expressions');
  * Constants.
  */
 
-var EXPRESSION_TOKEN,
-    EXPRESSION_WORD,
-    EXPRESSION_PUNCTUATION,
-    EXPRESSION_WHITE_SPACE;
-
 /*
  * Match all tokens:
  * - One or more number, alphabetic, or
@@ -73,25 +68,25 @@ var EXPRESSION_TOKEN,
  * - One or more of the same character;
  */
 
-EXPRESSION_TOKEN = expressions.token;
+var EXPRESSION_TOKEN = expressions.token;
 
 /*
  * Match a word.
  */
 
-EXPRESSION_WORD = expressions.word;
+var EXPRESSION_WORD = expressions.word;
 
 /*
  * Match a string containing ONLY punctuation.
  */
 
-EXPRESSION_PUNCTUATION = expressions.punctuation;
+var EXPRESSION_PUNCTUATION = expressions.punctuation;
 
 /*
  * Match a string containing ONLY white space.
  */
 
-EXPRESSION_WHITE_SPACE = expressions.whiteSpace;
+var EXPRESSION_WHITE_SPACE = expressions.whiteSpace;
 
 /**
  * Classify a token.
@@ -123,11 +118,11 @@ function classify(value) {
  * @return {Array.<NLCSTNode>}
  */
 function tokenize(parser, value) {
-    var tokens,
-        offset,
-        line,
-        column,
-        match;
+    var tokens;
+    var offset;
+    var line;
+    var column;
+    var match;
 
     if (value === null || value === undefined) {
         value = '';
@@ -241,9 +236,9 @@ function tokenize(parser, value) {
      * @param {string} subvalue - Eaten value..
      */
     function update(subvalue) {
-        var subvalueLength = subvalue.length,
-            character = -1,
-            lastIndex = -1;
+        var subvalueLength = subvalue.length;
+        var character = -1;
+        var lastIndex = -1;
 
         offset += subvalueLength;
 
@@ -415,9 +410,7 @@ function ParseLatin(options) {
  * Quick access to the prototype.
  */
 
-var parseLatinPrototype;
-
-parseLatinPrototype = ParseLatin.prototype;
+var parseLatinPrototype = ParseLatin.prototype;
 
 /*
  * == TOKENIZE ===============================================================
@@ -530,17 +523,11 @@ parseLatinPrototype.tokenizeText = createTextFactory('Text');
  * @return {Array.<Node>} - `nodes`.
  */
 function run(key, nodes) {
-    var wareKey,
-        plugins,
-        index;
-
-    wareKey = key + 'Plugins';
-
-    plugins = this[wareKey];
+    var wareKey = key + 'Plugins';
+    var plugins = this[wareKey];
+    var index = -1;
 
     if (plugins) {
-        index = -1;
-
         while (plugins[++index]) {
             plugins[index](nodes);
         }
@@ -588,10 +575,8 @@ function useFactory(callback) {
      */
 
     return function (key, plugins) {
-        var self,
-            wareKey;
-
-        self = this;
+        var self = this;
+        var wareKey;
 
         /*
          * Throw if the method is not pluggable.
@@ -677,11 +662,8 @@ parseLatinPrototype.useFirst = useFactory(function (context, key, plugins) {
  * @return {NLCSTWordNode}
  */
 pluggable(ParseLatin, 'tokenizeWord', function (value, eat) {
-    var add,
-        parent;
-
-    add = (eat || noopEat)('');
-    parent = {
+    var add = (eat || noopEat)('');
+    var parent = {
         'type': 'WordNode',
         'children': []
     };
@@ -797,7 +779,7 @@ parseLatinPrototype.use('tokenizeRoot', [
  */
 
 /*
- * Expose `ParseLatin`.
+ * Expose.
  */
 
 module.exports = ParseLatin;
@@ -815,9 +797,11 @@ module.exports = ParseLatin;
 
 /* eslint-env commonjs */
 
-var tokenizer;
+/*
+ * Dependencies.
+ */
 
-tokenizer = require('./tokenizer');
+var tokenizer = require('./tokenizer');
 
 /**
  * Construct a parser based on `options`.
@@ -826,29 +810,24 @@ tokenizer = require('./tokenizer');
  * @return {function(string): NLCSTNode}
  */
 function parserFactory(options) {
-    var type,
-        delimiter,
-        tokenizerProperty;
-
-    type = options.type;
-    tokenizerProperty = options.tokenizer;
-    delimiter = options.delimiter;
-
-    if (delimiter) {
-        delimiter = tokenizer(options.delimiterType, options.delimiter);
-    }
+    var type = options.type;
+    var tokenizerProperty = options.tokenizer;
+    var delimiter = options.delimiter;
+    var tokenize = delimiter && tokenizer(options.delimiterType, delimiter);
 
     return function (value) {
-        var children;
-
-        children = this[tokenizerProperty](value);
+        var children = this[tokenizerProperty](value);
 
         return {
             'type': type,
-            'children': delimiter ? delimiter(children) : children
+            'children': tokenize ? tokenize(children) : children
         };
     };
 }
+
+/*
+ * Expose.
+ */
 
 module.exports = parserFactory;
 
@@ -870,13 +849,9 @@ module.exports = parserFactory;
  * Dependencies.
  */
 
-var nlcstToString,
-    modifyChildren,
-    expressions;
-
-nlcstToString = require('nlcst-to-string');
-modifyChildren = require('unist-util-modify-children');
-expressions = require('../expressions');
+var nlcstToString = require('nlcst-to-string');
+var modifyChildren = require('unist-util-modify-children');
+var expressions = require('../expressions');
 
 /*
  * Constants.
@@ -884,9 +859,7 @@ expressions = require('../expressions');
  * - Two or more new line characters.
  */
 
-var EXPRESSION_MULTI_NEW_LINE;
-
-EXPRESSION_MULTI_NEW_LINE = expressions.newLineMulti;
+var EXPRESSION_MULTI_NEW_LINE = expressions.newLineMulti;
 
 /**
  * Break a sentence if a white space with more
@@ -898,14 +871,14 @@ EXPRESSION_MULTI_NEW_LINE = expressions.newLineMulti;
  * @return {undefined}
  */
 function breakImplicitSentences(child, index, parent) {
-    var children,
-        position,
-        length,
-        tail,
-        head,
-        end,
-        insertion,
-        node;
+    var children;
+    var position;
+    var length;
+    var tail;
+    var head;
+    var end;
+    var insertion;
+    var node;
 
     if (child.type !== 'SentenceNode') {
         return;
@@ -992,10 +965,8 @@ var modifyChildren = require('unist-util-modify-children');
  * @return {undefined|number}
  */
 function makeFinalWhiteSpaceSiblings(child, index, parent) {
-    var children,
-        prev;
-
-    children = child.children;
+    var children = child.children;
+    var prev;
 
     if (
         children &&
@@ -1051,10 +1022,8 @@ var visitChildren = require('unist-util-visit-children');
  * @param {NLCSTParent} parent - Parent of `child`.
  */
 function makeInitialWhiteSpaceSiblings(child, index, parent) {
-    var children,
-        next;
-
-    children = child.children;
+    var children = child.children;
+    var next;
 
     if (
         children &&
@@ -1094,11 +1063,8 @@ module.exports = visitChildren(makeInitialWhiteSpaceSiblings);
  * Dependencies.
  */
 
-var nlcstToString,
-    modifyChildren;
-
-nlcstToString = require('nlcst-to-string');
-modifyChildren = require('unist-util-modify-children');
+var nlcstToString = require('nlcst-to-string');
+var modifyChildren = require('unist-util-modify-children');
 
 /**
  * Merge a sentence into its previous sentence, when
@@ -1110,13 +1076,11 @@ modifyChildren = require('unist-util-modify-children');
  * @return {undefined|number}
  */
 function mergeAffixExceptions(child, index, parent) {
-    var children,
-        node,
-        position,
-        previousChild,
-        value;
-
-    children = child.children;
+    var children = child.children;
+    var node;
+    var position;
+    var value;
+    var previousChild;
 
     if (!children || !children.length || index === 0) {
         return;
@@ -1190,13 +1154,9 @@ module.exports = modifyChildren(mergeAffixExceptions);
  * Dependencies.
  */
 
-var nlcstToString,
-    modifyChildren,
-    expressions;
-
-nlcstToString = require('nlcst-to-string');
-modifyChildren = require('unist-util-modify-children');
-expressions = require('../expressions');
+var nlcstToString = require('nlcst-to-string');
+var modifyChildren = require('unist-util-modify-children');
+var expressions = require('../expressions');
 
 /*
  * Constants.
@@ -1207,9 +1167,7 @@ expressions = require('../expressions');
  *   terminal marker.
  */
 
-var EXPRESSION_AFFIX_SYMBOL;
-
-EXPRESSION_AFFIX_SYMBOL = expressions.affixSymbol;
+var EXPRESSION_AFFIX_SYMBOL = expressions.affixSymbol;
 
 /**
  * Move certain punctuation following a terminal
@@ -1222,12 +1180,10 @@ EXPRESSION_AFFIX_SYMBOL = expressions.affixSymbol;
  * @return {undefined|number}
  */
 function mergeAffixSymbol(child, index, parent) {
-    var children,
-        prev,
-        first,
-        second;
-
-    children = child.children;
+    var children = child.children;
+    var first;
+    var second;
+    var prev;
 
     if (
         children &&
@@ -1291,11 +1247,8 @@ module.exports = modifyChildren(mergeAffixSymbol);
  * Dependencies.
  */
 
-var nlcstToString,
-    modifyChildren;
-
-nlcstToString = require('nlcst-to-string');
-modifyChildren = require('unist-util-modify-children');
+var nlcstToString = require('nlcst-to-string');
+var modifyChildren = require('unist-util-modify-children');
 
 /**
  * Merge certain punctuation marks into their
@@ -1307,9 +1260,9 @@ modifyChildren = require('unist-util-modify-children');
  * @return {undefined|number}
  */
 function mergeFinalWordSymbol(child, index, parent) {
-    var children,
-        prev,
-        next;
+    var children;
+    var prev;
+    var next;
 
     if (
         index !== 0 &&
@@ -1390,13 +1343,9 @@ module.exports = modifyChildren(mergeFinalWordSymbol);
  * Dependencies.
  */
 
-var nlcstToString,
-    modifyChildren,
-    expressions;
-
-nlcstToString = require('nlcst-to-string');
-modifyChildren = require('unist-util-modify-children');
-expressions = require('../expressions');
+var nlcstToString = require('nlcst-to-string');
+var modifyChildren = require('unist-util-modify-children');
+var expressions = require('../expressions');
 
 /*
  * Constants.
@@ -1404,9 +1353,7 @@ expressions = require('../expressions');
  * - Initial lowercase letter.
  */
 
-var EXPRESSION_LOWER_INITIAL;
-
-EXPRESSION_LOWER_INITIAL = expressions.lowerInitial;
+var EXPRESSION_LOWER_INITIAL = expressions.lowerInitial;
 
 /**
  * Merge a sentence into its previous sentence, when
@@ -1418,13 +1365,11 @@ EXPRESSION_LOWER_INITIAL = expressions.lowerInitial;
  * @return {undefined|number}
  */
 function mergeInitialLowerCaseLetterSentences(child, index, parent) {
-    var siblings,
-        children,
-        position,
-        node,
-        prev;
-
-    children = child.children;
+    var children = child.children;
+    var position;
+    var node;
+    var siblings;
+    var prev;
 
     if (
         children &&
@@ -1498,11 +1443,8 @@ module.exports = modifyChildren(mergeInitialLowerCaseLetterSentences);
  * Dependencies.
  */
 
-var nlcstToString,
-    modifyChildren;
-
-nlcstToString = require('nlcst-to-string');
-modifyChildren = require('unist-util-modify-children');
+var nlcstToString = require('nlcst-to-string');
+var modifyChildren = require('unist-util-modify-children');
 
 /**
  * Merge certain punctuation marks into their
@@ -1514,8 +1456,8 @@ modifyChildren = require('unist-util-modify-children');
  * @return {undefined|number}
  */
 function mergeInitialWordSymbol(child, index, parent) {
-    var children,
-        next;
+    var children;
+    var next;
 
     if (
         (
@@ -1602,13 +1544,9 @@ module.exports = modifyChildren(mergeInitialWordSymbol);
  * Dependencies.
  */
 
-var nlcstToString,
-    modifyChildren,
-    expressions;
-
-nlcstToString = require('nlcst-to-string');
-modifyChildren = require('unist-util-modify-children');
-expressions = require('../expressions');
+var nlcstToString = require('nlcst-to-string');
+var modifyChildren = require('unist-util-modify-children');
+var expressions = require('../expressions');
 
 /*
  * Constants.
@@ -1616,9 +1554,7 @@ expressions = require('../expressions');
  * - Numbers.
  */
 
-var EXPRESSION_NUMERICAL;
-
-EXPRESSION_NUMERICAL = expressions.numerical;
+var EXPRESSION_NUMERICAL = expressions.numerical;
 
 /**
  * Merge initialisms.
@@ -1629,14 +1565,14 @@ EXPRESSION_NUMERICAL = expressions.numerical;
  * @return {undefined|number}
  */
 function mergeInitialisms(child, index, parent) {
-    var siblings,
-        prev,
-        children,
-        length,
-        position,
-        otherChild,
-        isAllDigits,
-        value;
+    var siblings;
+    var prev;
+    var children;
+    var length;
+    var position;
+    var otherChild;
+    var isAllDigits;
+    var value;
 
     if (
         index !== 0 &&
@@ -1741,13 +1677,9 @@ module.exports = modifyChildren(mergeInitialisms);
  * Dependencies.
  */
 
-var nlcstToString,
-    modifyChildren,
-    expressions;
-
-nlcstToString = require('nlcst-to-string');
-modifyChildren = require('unist-util-modify-children');
-expressions = require('../expressions');
+var nlcstToString = require('nlcst-to-string');
+var modifyChildren = require('unist-util-modify-children');
+var expressions = require('../expressions');
 
 /*
  * Constants.
@@ -1755,9 +1687,7 @@ expressions = require('../expressions');
  * - Symbols part of surrounding words.
  */
 
-var EXPRESSION_INNER_WORD_SYMBOL;
-
-EXPRESSION_INNER_WORD_SYMBOL = expressions.wordSymbolInner;
+var EXPRESSION_INNER_WORD_SYMBOL = expressions.wordSymbolInner;
 
 /**
  * Merge words joined by certain punctuation marks.
@@ -1768,13 +1698,13 @@ EXPRESSION_INNER_WORD_SYMBOL = expressions.wordSymbolInner;
  * @return {undefined|number}
  */
 function mergeInnerWordSymbol(child, index, parent) {
-    var siblings,
-        sibling,
-        prev,
-        last,
-        position,
-        tokens,
-        queue;
+    var siblings;
+    var sibling;
+    var prev;
+    var last;
+    var position;
+    var tokens;
+    var queue;
 
     if (
         index !== 0 &&
@@ -1904,13 +1834,10 @@ var modifyChildren = require('unist-util-modify-children');
  * @return {undefined|number}
  */
 function mergeNonWordSentences(child, index, parent) {
-    var children,
-        position,
-        prev,
-        next;
-
-    children = child.children;
-    position = -1;
+    var children = child.children;
+    var position = -1;
+    var prev;
+    var next;
 
     while (children[++position]) {
         if (children[position].type === 'WordNode') {
@@ -1991,11 +1918,8 @@ module.exports = modifyChildren(mergeNonWordSentences);
  * Dependencies.
  */
 
-var nlcstToString,
-    modifyChildren;
-
-nlcstToString = require('nlcst-to-string');
-modifyChildren = require('unist-util-modify-children');
+var nlcstToString = require('nlcst-to-string');
+var modifyChildren = require('unist-util-modify-children');
 
 /*
  * Constants.
@@ -2005,9 +1929,7 @@ modifyChildren = require('unist-util-modify-children');
  *   case-insensitive abbreviation.
  */
 
-var EXPRESSION_ABBREVIATION_PREFIX;
-
-EXPRESSION_ABBREVIATION_PREFIX = new RegExp(
+var EXPRESSION_ABBREVIATION_PREFIX = new RegExp(
     '^(' +
         '[0-9]+|' +
         '[a-z]|' +
@@ -2039,11 +1961,9 @@ EXPRESSION_ABBREVIATION_PREFIX = new RegExp(
  * @return {undefined|number}
  */
 function mergePrefixExceptions(child, index, parent) {
-    var children,
-        node,
-        next;
-
-    children = child.children;
+    var children = child.children;
+    var node;
+    var next;
 
     if (
         children &&
@@ -2113,13 +2033,9 @@ module.exports = modifyChildren(mergePrefixExceptions);
  * Dependencies.
  */
 
-var nlcstToString,
-    visitChildren,
-    expressions;
-
-nlcstToString = require('nlcst-to-string');
-visitChildren = require('unist-util-visit-children');
-expressions = require('../expressions');
+var nlcstToString = require('nlcst-to-string');
+var visitChildren = require('unist-util-visit-children');
+var expressions = require('../expressions');
 
 /*
  * Constants.
@@ -2129,9 +2045,7 @@ expressions = require('../expressions');
  *   case-insensitive abbreviation.
  */
 
-var EXPRESSION_TERMINAL_MARKER;
-
-EXPRESSION_TERMINAL_MARKER = expressions.terminalMarker;
+var EXPRESSION_TERMINAL_MARKER = expressions.terminalMarker;
 
 /**
  * Merge non-terminal-marker full stops into
@@ -2141,18 +2055,13 @@ EXPRESSION_TERMINAL_MARKER = expressions.terminalMarker;
  * @param {NLCSTNode} child - Node.
  */
 function mergeRemainingFullStops(child) {
-    var children,
-        position,
-        grandchild,
-        prev,
-        next,
-        nextNext,
-        hasFoundDelimiter;
-
-    children = child.children;
-    position = children.length;
-
-    hasFoundDelimiter = false;
+    var children = child.children;
+    var position = children.length;
+    var hasFoundDelimiter = false;
+    var grandchild;
+    var prev;
+    var next;
+    var nextNext;
 
     while (children[--position]) {
         grandchild = children[position];
@@ -2303,8 +2212,8 @@ var modifyChildren = require('unist-util-modify-children');
  * @return {undefined|number}
  */
 function mergeFinalWordSymbol(child, index, parent) {
-    var siblings = parent.children,
-        next;
+    var siblings = parent.children;
+    var next;
 
     if (child.type === 'WordNode') {
         next = siblings[index + 1];
@@ -2475,9 +2384,11 @@ module.exports = modifyChildren(removeEmptyNodes);
 
 /* eslint-env commonjs */
 
-var nlcstToString;
+/*
+ * Dependencies.
+ */
 
-nlcstToString = require('nlcst-to-string');
+var nlcstToString = require('nlcst-to-string');
 
 /**
  * Factory to create a tokenizer based on a given
@@ -2497,29 +2408,16 @@ function tokenizerFactory(childType, expression) {
      * @return {Array.<NLCSTChild>}
      */
     return function (node) {
-        var children,
-            tokens,
-            type,
-            length,
-            index,
-            lastIndex,
-            start,
-            parent,
-            first,
-            last;
-
-        children = [];
-
-        tokens = node.children;
-        type = node.type;
-
-        length = tokens.length;
-
-        index = -1;
-
-        lastIndex = length - 1;
-
-        start = 0;
+        var children = [];
+        var tokens = node.children;
+        var type = node.type;
+        var length = tokens.length;
+        var index = -1;
+        var lastIndex = length - 1;
+        var start = 0;
+        var first;
+        var last;
+        var parent;
 
         while (++index < length) {
             if (
@@ -2553,6 +2451,10 @@ function tokenizerFactory(childType, expression) {
         return children;
     };
 }
+
+/*
+ * Expose.
+ */
 
 module.exports = tokenizerFactory;
 
