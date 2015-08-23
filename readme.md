@@ -149,7 +149,7 @@ Then, it manipulates and merges those tokens into an [NLCST](https://github.com/
 syntax tree, adding sentences and paragraphs where needed.
 
 *   Some punctuation marks are part of the word they occur in, e.g.,
-    `non-profit`, `she\'s`, `G.I.`, `11:00`, `N/A`, `&c`, `nineteenth- and...`;
+    `non-profit`, `she’s`, `G.I.`, `11:00`, `N/A`, `&c`, `nineteenth- and...`;
 
 *   Some full-stops do not mark a sentence end, e.g., `1.`, `e.g.`, `id.`;
 
