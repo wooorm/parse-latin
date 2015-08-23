@@ -29,7 +29,6 @@
   "devDependencies": {
     "browserify": "^11.0.0",
     "chalk": "^1.0.0",
-    "diff": "^2.0.0",
     "eslint": "^1.0.0",
     "esmangle": "^1.0.0",
     "istanbul": "^0.3.0",

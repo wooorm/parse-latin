@@ -6,33 +6,26 @@
  * Dependencies.
  */
 
-var ParseLatin,
-    assert,
-    nlcstTest;
+var assert = require('assert');
+var nlcstTest = require('nlcst-test');
+var ParseLatin = require('..');
 
-ParseLatin = require('..');
-assert = require('assert');
-nlcstTest = require('nlcst-test');
+/*
+ * Methods.
+ */
+
+var stringify = JSON.stringify;
+var deepEqual = assert.deepEqual;
 
 /*
  * `ParseLatin`.
  */
 
-var latin,
-    latinPosition;
+var latin = new ParseLatin();
 
-latin = new ParseLatin();
-latinPosition = new ParseLatin({
+var latinPosition = new ParseLatin({
     'position': true
 });
-
-/*
- * Constants.
- */
-
-var stringify;
-
-stringify = JSON.stringify;
 
 /**
  * Clone `object` but omit positional information.
@@ -42,11 +35,9 @@ stringify = JSON.stringify;
  *   information.
  */
 function clean(object) {
-    var key,
-        clone,
-        value;
-
-    clone = 'length' in object ? [] : {};
+    var clone = 'length' in object ? [] : {};
+    var key;
+    var value;
 
     for (key in object) {
         value = object[key];
@@ -69,20 +60,15 @@ function clean(object) {
  * @param {string} document - Source to validate.
  */
 function describeFixture(name, document, method) {
-    var nlcstA,
-        nlcstB,
-        fixture;
-
-    nlcstA = latin[method || 'parse'](document);
-    nlcstB = latinPosition[method || 'parse'](document);
+    var nlcstA = latin[method || 'parse'](document);
+    var nlcstB = latinPosition[method || 'parse'](document);
+    var fixture = require('./fixture/' + name);
 
     nlcstTest(nlcstA);
     nlcstTest(nlcstB);
 
-    fixture = require('./fixture/' + name);
-
-    assert.deepEqual(nlcstA, clean(fixture));
-    assert.deepEqual(nlcstB, fixture);
+    deepEqual(nlcstA, clean(fixture));
+    deepEqual(nlcstB, fixture);
 }
 
 /*
@@ -202,7 +188,7 @@ describe('ParseLatin#use(key, plugin)', function () {
     });
 
     it('should add a plugin on an instance', function () {
-        var parser;
+        var parser = new ParseLatin();
 
         /**
          * Throw an error.
@@ -210,8 +196,6 @@ describe('ParseLatin#use(key, plugin)', function () {
         function thrower() {
             throw new Error('instance thrower was invoked');
         }
-
-        parser = new ParseLatin();
 
         parser.use('tokenizeWord', thrower);
 
@@ -283,8 +267,8 @@ describe('ParseLatin#useFirst(key, plugin)', function () {
     });
 
     it('should add a plugin on an instance', function () {
-        var parser,
-            wasInvoked;
+        var parser = new ParseLatin();
+        var wasInvoked;
 
         /**
          * Spy.
@@ -301,8 +285,6 @@ describe('ParseLatin#useFirst(key, plugin)', function () {
 
             throw new Error('instance thrower was invoked');
         }
-
-        parser = new ParseLatin();
 
         parser.useFirst('tokenizeWord', thrower);
 
@@ -397,6 +379,7 @@ describe('ParseLatin#tokenizeWord()', function () {
 
     it('should return a node with a text node as only child', function () {
         var children = latin.tokenizeWord('alfred').children;
+
         assert(children.length === 1);
         assert(children[0].type === 'TextNode');
         assert(children[0].value === 'alfred');
@@ -404,9 +387,9 @@ describe('ParseLatin#tokenizeWord()', function () {
 
     it('should return a node with its text node\'s value property set to ' +
         'an empty string when no value was given', function () {
-            var defaultValue = latin.tokenizeWord(),
-                undefinedValue = latin.tokenizeWord(undefined),
-                nullValue = latin.tokenizeWord(null);
+            var defaultValue = latin.tokenizeWord();
+            var undefinedValue = latin.tokenizeWord(undefined);
+            var nullValue = latin.tokenizeWord(null);
 
             assert(defaultValue.children[0].value === '');
             assert(undefinedValue.children[0].value === '');
@@ -431,9 +414,9 @@ describe('ParseLatin#tokenizeSymbol()', function () {
     it('should return a node with a `value` set to an empty string when ' +
         'no value was given',
         function () {
-            var defaultValue = latin.tokenizeSymbol(),
-                undefinedValue = latin.tokenizeSymbol(undefined),
-                nullValue = latin.tokenizeSymbol(null);
+            var defaultValue = latin.tokenizeSymbol();
+            var undefinedValue = latin.tokenizeSymbol(undefined);
+            var nullValue = latin.tokenizeSymbol(null);
 
             assert(defaultValue.value === '');
             assert(undefinedValue.value === '');
@@ -458,9 +441,9 @@ describe('ParseLatin#tokenizeWhiteSpace()', function () {
     it('should return a node with a `value` set to an empty string when ' +
         'no value was given',
         function () {
-            var defaultValue = latin.tokenizeWhiteSpace(),
-                undefinedValue = latin.tokenizeWhiteSpace(undefined),
-                nullValue = latin.tokenizeWhiteSpace(null);
+            var defaultValue = latin.tokenizeWhiteSpace();
+            var undefinedValue = latin.tokenizeWhiteSpace(undefined);
+            var nullValue = latin.tokenizeWhiteSpace(null);
 
             assert(defaultValue.value === '');
             assert(undefinedValue.value === '');
@@ -485,9 +468,9 @@ describe('ParseLatin#tokenizePunctuation()', function () {
     it('should return a node with a `value` set to an empty string when ' +
         'no value was given',
         function () {
-            var defaultValue = latin.tokenizePunctuation(),
-                undefinedValue = latin.tokenizePunctuation(undefined),
-                nullValue = latin.tokenizePunctuation(null);
+            var defaultValue = latin.tokenizePunctuation();
+            var undefinedValue = latin.tokenizePunctuation(undefined);
+            var nullValue = latin.tokenizePunctuation(null);
 
             assert(defaultValue.value === '');
             assert(undefinedValue.value === '');
@@ -568,14 +551,14 @@ describe('Root: Given a String object', function () {
 
 describe('Root: Given an array', function () {
     it('should work when empty', function () {
-        assert.deepEqual(latin.parse([]), {
+        deepEqual(latin.parse([]), {
             'type': 'RootNode',
             'children': []
         });
     });
 
     it('should work when given tokens', function () {
-        assert.deepEqual({
+        deepEqual({
             'type': 'RootNode',
             'children': [
                 {
@@ -600,7 +583,7 @@ describe('Root: Given an array', function () {
     });
 
     it('should merge adjacent words', function () {
-        assert.deepEqual({
+        deepEqual({
             'type': 'RootNode',
             'children': [
                 {
@@ -650,7 +633,7 @@ describe('Root: Given an array', function () {
     });
 
     it('should patch positions', function () {
-        assert.deepEqual({
+        deepEqual({
             'type': 'RootNode',
             'children': [
                 {
@@ -1164,12 +1147,9 @@ describe('Non-alphabetic sentences', function () {
 });
 
 describe('White space characters', function () {
-    var sentenceStart,
-        sentenceEnd,
-        whiteSpaceCharacters;
-
-    sentenceStart = 'A';
-    sentenceEnd = 'house.';
+    var sentenceStart = 'A';
+    var sentenceEnd = 'house.';
+    var whiteSpaceCharacters;
 
     whiteSpaceCharacters = [
         '\u0009', /* CHARACTER TABULATION */
