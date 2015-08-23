@@ -4,6 +4,12 @@
 
 <!--lint disable maximum-line-length-->
 
+1.0.0 / 2015-08-23
+==================
+
+*   Refactor to externalise `plugin` wrapping ([a97226c](https://github.com/wooorm/parse-latin/commit/a97226c))
+*   Update dependencies, dev-dependencies ([b875fe5](https://github.com/wooorm/parse-latin/commit/b875fe5))
+
 0.5.2 / 2015-08-16
 ==================
 
