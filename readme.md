@@ -1,4 +1,4 @@
-# parse-latin [![Build Status](https://img.shields.io/travis/wooorm/parse-latin.svg?style=flat)](https://travis-ci.org/wooorm/parse-latin) [![Coverage Status](https://img.shields.io/coveralls/wooorm/parse-latin.svg?style=flat)](https://coveralls.io/r/wooorm/parse-latin?branch=master)
+# parse-latin [![Build Status](https://img.shields.io/travis/wooorm/parse-latin.svg)](https://travis-ci.org/wooorm/parse-latin) [![Coverage Status](https://img.shields.io/codecov/c/github/wooorm/parse-latin.svg)](https://codecov.io/github/wooorm/parse-latin)
 
 A Latin script language parser producing [NLCST](https://github.com/wooorm/nlcst)
 nodes.
