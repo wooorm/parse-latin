@@ -1,3 +1,8 @@
+<!--mdast setext-->
+
+<!--lint disable no-multiple-toplevel-headings-->
+
+<!--lint disable maximum-line-length-->
 
 0.5.2 / 2015-08-16
 ==================
@@ -8,490 +13,100 @@
 ==================
 
 *   Refactor to use `files` in package.json instead of `.npmignore` ([eab264f](https://github.com/wooorm/parse-latin/commit/eab264f))
-*   Remove prepublish hook ([66ba83b](https://github.com/wooorm/parse-latin/commit/66ba83b))
 
 0.5.0 / 2015-07-25
 ==================
 
 *   Add positional information to nodes ([66461f1](https://github.com/wooorm/parse-latin/commit/66461f1))
-*   Rebuild distribution ([6513a32](https://github.com/wooorm/parse-latin/commit/6513a32))
-*   Update browserify, chalk, jscs-jsdoc ([8aaf4be](https://github.com/wooorm/parse-latin/commit/8aaf4be))
-*   Update regenerate; fix bug ([df2cd07](https://github.com/wooorm/parse-latin/commit/df2cd07))
-*   Update eslint ([380ad4b](https://github.com/wooorm/parse-latin/commit/380ad4b))
-*   Refactor jscs build-script ([c8e65d1](https://github.com/wooorm/parse-latin/commit/c8e65d1))
 *   Fix broken link in `Readme.md` ([a9d55cf](https://github.com/wooorm/parse-latin/commit/a9d55cf))
 
 0.4.3 / 2015-01-22
 ==================
 
-  * Add browser globals as an installation method in `Readme.md`
-  * Add `lib/`, `index.js` to bower ignore
-  * Remove bower dependencies duo to UMD build
-  * Add `parse-latin.js` to bowers `main` instead of `index.js`
-  * Add `parse-latin.js`, `parse-latin.min.js`
-  * Add `parse-latin.js`, `parse-latin.min.js` to `.npmignore`
-  * Add `postbundle` npm script target to mangle build
-  * Add esmangle as a dev-dependency
-  * Add `bundle` npm script target to `build`
-  * Add browserify as a dev-dependency
-  * Update copyright notice in `LICENSE` to include 2015
-  * Add link to whole license in `Readme.md`
-  * Add Duo as an instalation method in `Readme.md`
-  * Add links to installation methods in `Readme.md`
-  * Refactor fences code blocks in `Readme.md`
-  * Refactor to adhere to strict jsdoc style
-  * Add jscs-jsdoc configuration to `.jscs.json`
-  * Add jscs-jsdoc as a dev-dependency
-  * Refactor `package.json` for changes in npm
-  * Fix style issue found in new eslint
-  * Update eslint
+*   Add `parse-latin.js`, `parse-latin.min.js` ([c6ab27e](https://github.com/wooorm/parse-latin/commit/c6ab27e))
+*   Update copyright notice in `LICENSE` to include 2015 ([0609290](https://github.com/wooorm/parse-latin/commit/0609290))
 
 0.4.2 / 2014-12-05
 ==================
 
- * Update benchmark results in `Readme.md`
- * Refactor npm script targets in `package.json`
- * Add link to personal website to copyright in `Readme.md`
- * Fix incorrect executive rights on `test.js`
- * Update array-iterate, eslint
+*   Add link to personal website to copyright in `Readme.md` ([3e26c39](https://github.com/wooorm/parse-latin/commit/3e26c39))
+*   Fix incorrect executive rights on `test.js` ([bff933f](https://github.com/wooorm/parse-latin/commit/bff933f))
 
 0.4.1 / 2014-12-03
 ==================
 
- * Merge branch 'bug/fix-multiple-implicit-sentences'
- * Fix multiple implicit sentences
- * Add test
+*   Fix multiple implicit sentences ([7c58c0b](https://github.com/wooorm/parse-latin/commit/7c58c0b))
 
 0.4.0 / 2014-11-20
 ==================
 
- * Add test for inner-word colons
- * Fix grammar in test
-
 0.4.0-rc.2 / 2014-11-19
-==================
+=======================
 
- * Add `useFirst` method to parse-latin
+*   Add `useFirst` method to parse-latin ([949f37d](https://github.com/wooorm/parse-latin/commit/949f37d))
 
 0.4.0-rc.1 / 2014-11-15
-==================
+=======================
 
- * Fix overly complex ware process
- * Add tests for using plugins
- * Fix plugin-interface for multiple instances
- * Merge branch 'feature/standardize-flow'
- * Refactor module
- * Remove extraneous istanbul ignore comments from test
- * Remove `wordSymbolInitial` and `wordSymbolFinal` from expressions
- * Add broader `script` globs in `component.json`
- * Add array-iterate as a dependency
- * Add `lib/expressions.js` to eslint
- * Refactor npm script target order in `package.json`
- * Add flat badges to `Readme.md`
- * Refactor module
- * Fix missing space in test description
- * Update matcha
+*   Add `plugin` and `modifier` factories to exports ([8669c90](https://github.com/wooorm/parse-latin/commit/8669c90))
+*   Refactor module ([8fc7b93](https://github.com/wooorm/parse-latin/commit/8fc7b93))
+*   Remove `wordSymbolInitial` and `wordSymbolFinal` from expressions ([9971cd0](https://github.com/wooorm/parse-latin/commit/9971cd0))
+*   Refactor module ([f7b0bf6](https://github.com/wooorm/parse-latin/commit/f7b0bf6))
 
 0.3.0 / 2014-10-28
 ==================
 
- * Add `.eslintrc`
- * Merge branch 'feature/add-symbol-node'
- * Refactor to disallow space after object keys
- * Update eslint, mocha
-
 0.3.0-rc.1 / 2014-10-21
-==================
+=======================
 
- * Update benchmark results in `Readme.md`
- * Update Readme.md for Text punctuation and white-space
- * Add functionality for symbol-node
+*   Add functionality for symbol-node ([56bf018](https://github.com/wooorm/parse-latin/commit/56bf018))
 
 0.2.0 / 2014-10-14
 ==================
 
- * Update .npmignore, bower ignore
-
 0.2.0-rc.3 / 2014-10-09
-==================
+=======================
 
- * Remove extraneous istanbul ignore
- * Remove apostrophe from initial word-punctuation
- * Refactor test
- * Remove source node creation from parser
- * Add script to generate fixtures
- * Refactor indent in .jscs.json
- * Add NLCST to package keywords
- * Refactor Readme.md
- * Refactor benchmark
- * Move build-expressions script to `script/`
- * Update .gitignore, .npmignore, bower ignore
- * Move spec to new `test` directory
- * Update nlcst-to-string
+*   Remove apostrophe from initial word-punctuation ([e0a2ea4](https://github.com/wooorm/parse-latin/commit/e0a2ea4))
+*   Remove source node creation from parser ([5f8d0cd](https://github.com/wooorm/parse-latin/commit/5f8d0cd))
 
 0.2.0-rc.2 / 2014-09-29
-==================
+=======================
 
- * Fix missing comma introduced in 3630b92
+*   Fix missing comma introduced in [3630b92](https://github.com/wooorm/parse-latin/commit/3630b92) ([f12e7e8](https://github.com/wooorm/parse-latin/commit/f12e7e8))
 
 0.2.0-rc.1 / 2014-09-28
-==================
+=======================
 
- * Merge branch 'feature/generate-unicode-expressions'
- * Update component white list and bower black list
- * Add npm scripts for building expressions
- * Add linting for build-expressions and moved files
- * Move `parse-latin` to lib
- * Add expressions to seperate file
- * Add build-expressions
- * Add regenerate, unicode-7.0.0 as dev-dependencies
- * Update .gitignore, .npmignore
- * Remove browser test
- * Remove tags-only limiation from travis
- * Update Installation in docs
- * Update copyright in docs
- * Remove testling
- * Fix property order in component.json, package.json, bower.json
- * Refactor API
- * Add nlcst-to-string as a dependency
- * Fix premature exit of a modifier on first child
- * Fix incorrect description of mergeInitialWordPunctuation
- * Fix #17: Add functionality for initial word elision with a smart apostrophe
- * Add spec to allow initial word elision with smart apostrophe
- * Update eslint to 0.8.0; Fix new found errors
+*   Move `parse-latin` to lib ([e30106b](https://github.com/wooorm/parse-latin/commit/e30106b))
+*   Add expressions to seperate file ([102b37c](https://github.com/wooorm/parse-latin/commit/102b37c))
+*   Refactor API ([8963d3c](https://github.com/wooorm/parse-latin/commit/8963d3c))
+*   Fix premature exit of a modifier on first child ([c57dfad](https://github.com/wooorm/parse-latin/commit/c57dfad))
+*   Add functionality for initial word elision with a smart apostrophe ([77b7cfb](https://github.com/wooorm/parse-latin/commit/77b7cfb))
+*   Add spec to allow initial word elision with smart apostrophe ([2d04e0d](https://github.com/wooorm/parse-latin/commit/2d04e0d))
 
 0.1.3 / 2014-09-05
 ==================
 
- * Fix redirect to next item to iterate over in breakImplicitSentences
- * Add JSDoc and descriptions to recently added functions
- * Add functionality for implicit sentences
- * Add spec for implicit sentences, through two or more new lines
- * Add functionality for semicolons following (non) terminal markers
- * Add spec for semicolons following (non) terminal markers
- * Add functionality for denying a comma as first token in sentence (closes #15)
- * Add spec for functionality to deny comma as first token in sentence
- * Add functionality for unicode ellipses as sentence terminal marker
- * Add spec for unicode ellipses as terminal marker
- * Fix comments in spec; line comments > block comments
- * Fix detection of non-terminal markers in sentences without terminal marker
- * Add spec for fix of some non-terminal full stops
- * Add functionality to merge non-terminal full stops with adjacent words
- * Add spec for merging all non-terminal full stops into adjacent words
- * Add functionality for tokenizing inner-sentence nodes
- * Add spec for functionality to tokenize inner sentence nodes
- * Add section on Shakespeare to docs
- * Update benchmark results
- * Add functionality for better inner word punctuation and sentence parsing
- * Add spec for a trailing full stop after version number
- * Add spec for better inner word punctuation classfication.
- * Fix description of two unit tests
+*   Fix redirect to next item to iterate over in breakImplicitSentences ([3fec33e](https://github.com/wooorm/parse-latin/commit/3fec33e))
+*   Add functionality for implicit sentences ([3b6e6ed](https://github.com/wooorm/parse-latin/commit/3b6e6ed))
+*   Add functionality for semicolons following (non) terminal markers ([ce47537](https://github.com/wooorm/parse-latin/commit/ce47537))
+*   Add functionality for denying a comma as first token in sentence (closes [GH-15](https://github.com/wooorm/parse-latin/issues/15)) ([c952354](https://github.com/wooorm/parse-latin/commit/c952354))
+*   Add functionality for unicode ellipses as sentence terminal marker ([10713d2](https://github.com/wooorm/parse-latin/commit/10713d2))
+*   Fix detection of non-terminal markers in sentences without terminal marker ([e7b987f](https://github.com/wooorm/parse-latin/commit/e7b987f))
+*   Add functionality to merge non-terminal full stops with adjacent words ([b794084](https://github.com/wooorm/parse-latin/commit/b794084))
+*   Add functionality for tokenizing inner-sentence nodes ([d50586b](https://github.com/wooorm/parse-latin/commit/d50586b))
+*   Add functionality for better inner word punctuation and sentence parsing ([3377a42](https://github.com/wooorm/parse-latin/commit/3377a42))
 
 0.1.2 / 2014-09-04
 ==================
 
- * Add functionality for pre- and suffix punctuation in words
- * Add docs for pre- and suffix punctuation in words
- * Add spec for pre- and suffix punctuation in words
- * Fix typo in docs (start > starts)
- * Fix typo in docs (code > text)
- * Fix typo in unit tests (fixes #10)
+*   Add functionality for pre- and suffix punctuation in words ([445df03](https://github.com/wooorm/parse-latin/commit/445df03))
 
 0.1.1 / 2014-07-25
 ==================
 
- * Add bower.json
+*   Add bower.json ([7804978](https://github.com/wooorm/parse-latin/commit/7804978))
 
 0.1.0 / 2014-07-24
 ==================
-
- * Add benchmark/index.js to lint-style
- * Update assertion and unit test count
- * Add spec/browser.spec.js to gitignore
- * Add components to gitignore
- * Update mocha
-
-0.1.0-rc.12 / 2014-07-23
-==================
-
- * Fix incorrect JSDoc comments
- * Fix future-proofing by using tokenToString rather than property checking
- * Mentioned the only demo parser
-
-0.1.0-rc.11 / 2014-07-21
-==================
-
- * Added the slash character to inner word punctuation marks (fixes #7)
- * Fixed typo; apostrophes were never classified as inner-word punctuation (fixes #8)
- * Renamed the internally used name (Parser -> ParseLatin)
- * Refactored documentation
- * Changed benchmark to only run the new parse method
- * Added a ParseLatin#parse method
- * Refactor JSDoc comments
- * Added `#parse` method, the method most everyone should use
- * Added explanaition of AST
-
-0.1.0-rc.10 / 2014-07-17
-==================
-
- * Added auto-deployment to NPM with Travis
- * Added support for pluralised initialisms; fixed bug where times were classified as initialisms (e.g., 16.00.)
- * Added unit tests for pluralised initialisms
-
-0.1.0-rc.9 / 2014-07-17
-==================
-
- * Removed unused variable
- * Added parse-dutch and parse-english to Related
- * Replaced assignments with conditional expressions in two loops
- * Replaced unicode charachters in API with their ASCII equivalent
-
-0.1.0-rc.8 / 2014-07-16
-==================
-
- * Fixed a bug where the mergeInitialisms choked on source nodes
-
-0.1.0-rc.7 / 2014-07-15
-==================
-
- * Add support for basic Source detection (fixes #1)
- * Removed some English-only unit tests
- * Fixed a typo (fixes #5)
-
-0.1.0-rc.6 / 2014-07-11
-==================
-
- * mergeNonWordSentences now gives precedence to preceding, rather than following, children (fixes #4)
- * Added eslint comments around a unit test
- * Added a forgotten `new` token
- * Removed an unused variable
- * Updated eslint, istanbul
-
-0.1.0-rc.5 / 2014-07-08
-==================
-
- * Fixed parsing of non-word sentences, not at the beginning (a sentence ending with ellipsis containing spaces)
-
-0.1.0-rc.4 / 2014-07-06
-==================
-
- * Added functionality to merge a colon surrounded by words (fixes #3)
- * Added functionality to merge full-stops surrounded by words, or in initialisms (fixes #2)
-
-0.1.0-rc.3 / 2014-07-05
-==================
-
- * Updated jscs to 1.5.8
- * Changed where modifiers and delimiters are placed (on prototype vs on function)
- * Mentioned supported scripts/alphabets, fixed grammar mistakes
- * Fixed an error in the documentation, since the changes in 594e234
- * Updated benchmark
- * Added better docs and performce wins
- * Removed extraneous debugger messages
- * Removed a lot of the English-only functionality
- * Renamed the project to parse-latin
-
-0.1.0-rc.2 / 2014-07-04
-==================
-
- * The API now merges hyphens surrounded by two words: non-profit, high-end
- * The api now merges apostrophs when surrounded by two words: cat’s, O’Doole, 1000’s
- * The API now supports children in white space, punctuation, and words (e.g., punctuation inside a word)
- * Updated dependency version of istanbul to 0.2.16
- * Added benchmarks to documentation
-
-0.1.0-rc.1 / 2014-07-03
-==================
-
- * Moved a wrongly places tokenizer call
- * Modified a unit test testing for functionality that changed in 3169a8c
- * Added a missing newline
- * Removed unit tests for functionality removed in 3169a8c
- * Completely rewrote the API
- * The API-linter no longer checks for inconsistent return values
- * Updated istanbul version to 0.2.14
- * tokenizeSentence now depends accepts a `DELIMITER` option
- * Removed support for breaking contractions into multiple “words” (e.g., gim|me to gimme)
- * Removed functionality to split between alphabetic and number (e.g., 258|f to 258f, 5|S to 5S)
- * tokenizeRoot and tokenizeParagraph no longer depend on global variables
- * Added two unit tests for the changes in 04e8212
- * Modified the benchmark to better reflect actual natural english language
- * Removed two unused variables from the API
- * Refactored code (better performance, comments, and readability)
- * Merge branch 'master' into feature/alpha
- * Removed functionality to browserify unit tests by default
- * Added a factory method for the APIs tokenizers
- * Added documentation for the changes in 04e8212 and 7dd0818
- * API no longer depends on TextOM, instead returning AST objects; fixes #2
- * API now exposes all tokenisation steps; fixes #4
- * Update jscs dependency version
- * Bring browser specs up to par with latest code 33204fd
- * 0.0.24
- * Removed redundant contractions
- * Removed complexity-report from dependencies
- * Added a unit test for white space only documents
- * Refactored code to work faster and be more readable
- * Added benchmarks
- * Fixed newline
- * Fixed newline
- * Added History.md
- * Fixed an ungrammatical sentence
- * Updated dependencies
-
-0.0.24 / 2014-06-29
-==================
-
- * Removed redundant contractions
- * Removed complexity-report from dependencies
- * Added a unit test for white space only documents
- * Refactored code to work faster and be more readable
- * Added benchmarks
- * Fixed newline
- * Fixed newline
- * Added History.md
- * Fixed an ungrammatical sentence
- * Updated dependencies
-
-0.0.23 / 2014-06-19
-==================
-
- * Update component dependency of textom to 0.0.20
- * Unit tests can now run in the browser (spec/index.html)
- * Fixed a bug where everything in ./spec/ was tested
- * Split the lint task into lint-api, lint-test, and lint-style
- * Update dependencies (textom, jscs, retext-ast) to latest versions
- * Update component dependency of textom to 0.0.19
-
-0.0.22 / 2014-06-16
-==================
-
- * Fix code styleguide for latest jscs updates
- * Updated dependency versions of textom and jscs to 0.0.19 and 1.5.1 resp.
- * Updated dependency version of textom to 0.0.18
- * Removed note about JSON support, redundant since 7ca1ea2ed7
-
-0.0.20 / 2014-06-13
-==================
-
- * Removed reparser as a dependency
- * Fixed some missing newline at EOF; added retextAST to unit tests
- * Added retext-ast as a developer dependency
-
-0.0.19 / 2014-06-12
-==================
-
- * Updated dependency version of reparser to 0.0.2
-
-0.0.18 / 2014-06-12
-==================
-
- * Moved generic methods over to a new library (reparser); fixes #1
-
-0.0.17 / 2014-06-11
-==================
-
- * Updated dependency versions of textom and istanbul to 0.0.17 and 0.2.11, respectively
- * Added unit tests for the Firefox and IE bugs (fixed resp. in 84129fc and 8b7d712)
- * Mentioned what this project is, and isn’t, at the top of Readme
- * Mentioned browser support in a seperate section (that darn Testling and its grey icons)
- * ParseEnglish now throws a message when `JSON` is not available--required for the library to function
- * Fixed a bug in Firefox lte 3.6, where an undefined `endSlice` value for `String#slice` was causing problems
- * Before an `RegExp#exec` call, the `lastIndex` property is now set to `0`, needed by old-IE
-
-0.0.16 / 2014-06-10
-==================
-
- * Unit tests now use loops rather than `.forEach` calls
- * No longer using function.name, which can break IE
- * ESLint now allows function inside loops for unit tests
-
-0.0.15 / 2014-06-09
-==================
-
- * Fixed a bug in lower Opera versions (i.e. 12.02), where punctuation marks were not split from words
-
-0.0.14 / 2014-06-09
-==================
-
- * Removed JSHint options
- * Fixed a typo
- * Added a paragraph about the new sanboxed environments added in bcc534cab4cf32380c96184eb66aae8606ad32bc
- * Fixed code examples for the API change in bcc534cab4cf32380c96184eb66aae8606ad32bc
- * Added an `after_script` for travis, made things strings
- * Added a testling badge, added a coverage-coveralls badge, added SVG icons
- * Added ci-testling fields to package.json
- * Added an “install with component” guide
- * Made api and unit tests honour ESLint settings
- * Removed Makefile, instead opting for just package.json
- * Added a newline to `.gitignore`
- * Updated textom to 0.0.16
-
-0.0.13 / 2014-06-08
-==================
-
- * Wrapped parseEnglish in a function, thus allowing the creation of multiple (sandboxed) parseEnglish instances
- * Updated dependency version of textom
-
-0.0.12 / 2014-06-07
-==================
-
- * Fixed a bug where no error was thrown when removing all children of an array-like object
- * Merged all spec files
-
-0.0.11 / 2014-06-07
-==================
-
- * Added component.json
- * Updated dependency version of textom
- * 0.0.10
- * Fixed JSCodeStyle in spec/parse-english.ast.paragraph
- * Fixed JSCodeStyle in spec/parse-english.ast.sentence
- * Fixed JSCodeStyle in spec/parse-english.ast.whitespace
- * Fixed JSCodeStyle in spec/parse-english.ast.word
- * Fixed JSCodeStyle in spec/parse-english
- * Fixed JSCodeStyle in spec/abbreviation.affix.decimal
- * Fixed JSCodeStyle in spec/abbreviation.affix.geographic
- * Fixed JSCodeStyle in spec/abbreviation.affix.title
- * Fixed JSCodeStyle in spec/abbreviation.general.alphabetic
- * Fixed JSCodeStyle in spec/abbreviation.general.business
- * Fixed JSCodeStyle in spec/abbreviation.general.latin
- * Fixed JSCodeStyle in spec/abbreviation.general.unit
- * Fixed JSCodeStyle in spec/abbreviation.decimal.tld
- * Fixed JSCodeStyle in spec/abbreviation.prefix.tld
- * Fixed JSCodeStyle in spec/contraction
- * Fixed JSCodeStyle in spec/terminal-marker
- * Replaced double quotes as literal string delimiters with single quotes
- * Added spec-files to JSCodeStyle checker
- * Moved some var declarations to the top of their scope; removed some JSHint options
- * Updated dependency version of textom to 0.0.12
- * `-` is now an allowed left-sticked operator (e.g., `-1`)
- * 0.0.9
- * Fixed grammer: “delimeter” are now properly named “delimiter”s
- * Fixed some typo’s and some grammar mistakes
- * Removed “More to come” note from related projects
- * Better, more concise docs
- * Updated TextOM and Mocha dependencies to their latest versions
- * Removed installation “guide” for Git
- * Added Retext to related projects
- * Removed IDL-like description of TextOM extensions
- * 0.0.8
- * Added tests for 908b8c963ead4f280465c476ab998ffbd4cfe10b
- * Upped max cyclomatic complexity to 20
- * Fixed a bug where content was ignored when a paragraph containd one sentence (without alphabetic characters)
- * 0.0.7
- * Updated dependency of TextOM to 0.0.10
- * - `tokenizeParagraph`—the method responsible for parsing a paragraph into white space and sentences—now checks if a probable sentence actually contains an alphabetic character (Unicode Alpha * 0.0.6
- * Updated dependencie of TextOM to 0.0.9
- * Removed module definition from “WebIDL”
- * Removed the files array from package.json, instead opting for just .npmignore
- * 0.0.5
- * Fixed a failing Make target (`cover`)
- * Upped dependencies (TextOM & Mocha) to latest versions
- * Fixed a line-ending bug
- * Patched version to 0.0.4
- * Updated textom dependency to 0.0.6
- * Better unicode support, more tests
- * Parsing now treats ordinal number (e.g., `1th`, `102nd`) as a single word; patched version to 0.0.3
- * Patched version to 0.0.2
- * Added missing semicolons in IDL, and added missing TextOM attribute; Fixed wrong-cased link.
- * Initial commit
