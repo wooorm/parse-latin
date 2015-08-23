@@ -1,48 +1,33 @@
 # parse-latin [![Build Status](https://img.shields.io/travis/wooorm/parse-latin.svg?style=flat)](https://travis-ci.org/wooorm/parse-latin) [![Coverage Status](https://img.shields.io/coveralls/wooorm/parse-latin.svg?style=flat)](https://coveralls.io/r/wooorm/parse-latin?branch=master)
 
-A Latin script language parser producing [NLCST](https://github.com/wooorm/nlcst) nodes.
+A Latin script language parser producing [NLCST](https://github.com/wooorm/nlcst)
+nodes.
 
-- For semantics of nodes, see [NLCST](https://github.com/wooorm/nlcst);
-- For a pluggable system to analyze and manipulate language, see [retext](https://github.com/wooorm/retext).
+*   For semantics of nodes, see [NLCST](https://github.com/wooorm/nlcst);
 
-Whether Old-English (“þā gewearþ þǣm hlāforde and þǣm hȳrigmannum wiþ ānum penninge”), Icelandic (“Hvað er að frétta”), French (“Où sont les toilettes?”), **parse-latin** does a good job at tokenizing it.
+*   For a pluggable system to analyze and manipulate language, see
+    [retext](https://github.com/wooorm/retext).
 
-Note also that **parse-latin** does a decent job at tokenizing Latin-like scripts, Cyrillic (“Добро пожаловать!”), Georgian (“როგორა ხარ?”), Armenian (“Շատ հաճելի է”), and such.
+Whether Old-English (“þā gewearþ þǣm hlāforde and þǣm hȳrigmannum wiþ ānum
+penninge”), Icelandic (“Hvað er að frétta”), French (“Où sont les toilettes?”),
+**parse-latin** does a good job at tokenizing it.
+
+Note also that **parse-latin** does a decent job at tokenizing Latin-like
+scripts, Cyrillic (“Добро пожаловать!”), Georgian (“როგორა ხარ?”), Armenian
+(“Շատ հաճելի է”), and such.
 
 ## Installation
 
 [npm](https://docs.npmjs.com/cli/install):
 
 ```bash
-$ npm install parse-latin
+npm install parse-latin
 ```
 
-[Component.js](https://github.com/componentjs/component):
-
-```bash
-$ component install wooorm/parse-latin
-```
-
-[Bower](http://bower.io/#install-packages):
-
-```bash
-$ bower install parse-latin
-```
-
-[Duo](http://duojs.org/#getting-started):
-
-```javascript
-var ParseLatin = require('wooorm/parse-latin');
-```
-
-Browser globals (both [`parse-latin.js`](parse-latin.js) and [`parse-latin.min.js`](parse-latin.min.js) are available):
-
-```html
-<script src="path/to/parse-latin.js"></script>
-<script>
-  var parser = new ParseLatin();
-</script>
-```
+**parse-latin** is also available for [bower](http://bower.io/#install-packages),
+[component](https://github.com/componentjs/component), and
+[duo](http://duojs.org/#getting-started), and as an AMD, CommonJS, and globals
+module, [uncompressed](parse-latin.js) and [compressed](parse-latin.min.js).
 
 ## Usage
 
@@ -75,13 +60,14 @@ latin.parse(
 
 ## API
 
-- [ParseLatin(options?)](#parselatinoptions)
-- [ParseLatin#tokenize(value)](#parselatintokenizevalue)
-- [ParseLatin#parse(value)](#parselatinparsevalue)
+*   [ParseLatin(options?)](#parselatinoptions)
+*   [ParseLatin#tokenize(value)](#parselatintokenizevalue)
+*   [ParseLatin#parse(value)](#parselatinparsevalue)
 
 ### ParseLatin(options?)
 
-Exposes the functionality needed to tokenize natural Latin-script languages into a syntax tree.
+Exposes the functionality needed to tokenize natural Latin-script languages
+into a syntax tree.
 
 Parameters:
 
@@ -92,11 +78,13 @@ Parameters:
 
 #### ParseLatin#tokenize(value)
 
-Tokenize natural Latin-script language into letter and numbers (words), white space, and everything else (punctuation).
+Tokenize natural Latin-script language into letter and numbers (words), white
+space, and everything else (punctuation).
 
 #### ParseLatin#parse(value)
 
-Tokenize natural Latin-script languages into an [NLCST](https://github.com/wooorm/nlcst) [syntax tree](#syntaxtreeformat).
+Tokenize natural Latin-script languages into an [NLCST](https://github.com/wooorm/nlcst)
+[syntax tree](#syntax-tree-format).
 
 ```javascript
 var ParseLatin = require('parse-latin'),
@@ -145,26 +133,40 @@ latin.parse('A simple sentence.');
 
 ## Syntax Tree Format
 
-> Note: The easiest way to see **how parse-latin tokenizes and parses**, is by using the [online parser demo](https://wooorm.github.io/parse-latin), which shows the syntax tree corresponding to the typed text.
+> Note: The easiest way to see **how parse-latin tokenizes and parses**, is by
+> using the [online parser demo](https://wooorm.github.io/parse-latin), which
+> shows the syntax tree corresponding to the typed text.
 
-Basically, **parse-latin** splits text into white space, word, and punctuation tokens. **parse-latin** starts out with a pretty easy definition, one that most other tokenizers use:
+Basically, **parse-latin** splits text into white space, word, and punctuation
+tokens. **parse-latin** starts out with a pretty easy definition, one that most
+other tokenizers use:
 
-- A “word” is one or more letter or number characters;
-- A “white space” is one or more white space characters;
-- A “punctuation” is one or more of anything else;
+*   A “word” is one or more letter or number characters;
+*   A “white space” is one or more white space characters;
+*   A “punctuation” is one or more of anything else;
 
-Then, it manipulates and merges those tokens into an [NLCST](https://github.com/wooorm/nlcst) syntax tree, adding sentences and paragraphs where needed.
+Then, it manipulates and merges those tokens into an [NLCST](https://github.com/wooorm/nlcst)
+syntax tree, adding sentences and paragraphs where needed.
 
-- Some punctuation marks are part of the word they occur in, e.g., `non-profit`, `she\'s`, `G.I.`, `11:00`, `N/A`, `&c`, `nineteenth- and...`;
-- Some full-stops do not mark a sentence end, e.g., `1.`, `e.g.`, `id.`;
-- Although full-stops, question marks, and exclamation marks (sometimes) end a sentence, that end might not occur directly after the mark, e.g., `.)`, `."`;
-- And many more exceptions.
+*   Some punctuation marks are part of the word they occur in, e.g.,
+    `non-profit`, `she\'s`, `G.I.`, `11:00`, `N/A`, `&c`, `nineteenth- and...`;
+
+*   Some full-stops do not mark a sentence end, e.g., `1.`, `e.g.`, `id.`;
+
+*   Although full-stops, question marks, and exclamation marks (sometimes) end
+    a sentence, that end might not occur directly after the mark, e.g., `.)`,
+    `."`;
+
+*   And many more exceptions.
 
 ## Benchmark
 
-On a MacBook Air, **parse-latin** parses 2 large books, 27 big articles, or 2,485 paragraphs per second.
+On a MacBook Air, **parse-latin** parses 2 large books, 27 big articles, or
+2,485 paragraphs per second.
 
-To put things into perspective, Shakespeare’s works contain 884,647 words. I have not tested it, but in theory **parse-latin** should parse these works in (slightly above) three and a half seconds.
+To put things into perspective, Shakespeare’s works contain 884,647 words. I
+have not tested it, but in theory **parse-latin** should parse these works in
+(slightly above) three and a half seconds.
 
 ```text
              latin.parse(document);
@@ -176,11 +178,10 @@ To put things into perspective, Shakespeare’s works contain 884,647 words. I h
 
 ## Related
 
-- [nlcst](https://github.com/wooorm/nlcst)
-- [retext](https://github.com/wooorm/retext)
-- [textom](https://github.com/wooorm/textom)
-- [parse-dutch](https://github.com/wooorm/parse-dutch)
-- [parse-english](https://github.com/wooorm/parse-english)
+*   [nlcst](https://github.com/wooorm/nlcst)
+*   [retext](https://github.com/wooorm/retext)
+*   [parse-dutch](https://github.com/wooorm/parse-dutch)
+*   [parse-english](https://github.com/wooorm/parse-english)
 
 ## License
 
