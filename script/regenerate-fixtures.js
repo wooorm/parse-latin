@@ -1,4 +1,12 @@
 #!/usr/bin/env node
+/**
+ * @author Titus Wormer
+ * @copyright 2014-2015 Titus Wormer
+ * @license MIT
+ * @module parse-latin:script:regenerate-fixtures
+ * @fileoverview Re-generate fixtures.
+ */
+
 'use strict';
 
 /* eslint-env node */

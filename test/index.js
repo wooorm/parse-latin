@@ -1,3 +1,11 @@
+/**
+ * @author Titus Wormer
+ * @copyright 2014-2015 Titus Wormer
+ * @license MIT
+ * @module parse-latin:test
+ * @fileoverview Test suite for `parse-latin`.
+ */
+
 'use strict';
 
 /* eslint-env node, mocha */

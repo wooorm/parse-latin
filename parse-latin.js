@@ -1,4 +1,12 @@
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.ParseLatin = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+/**
+ * @author Titus Wormer
+ * @copyright 2014-2015 Titus Wormer
+ * @license MIT
+ * @module parse-latin
+ * @fileoverview Latin-script (natural language) parser.
+ */
+
 'use strict';
 
 /* eslint-env commonjs */
@@ -24,11 +32,12 @@ module.exports = {
 };
 
 },{}],3:[function(require,module,exports){
-/*!
- * parse-latin
- *
- * Licensed under MIT.
- * Copyright (c) 2014 Titus Wormer <tituswormer@gmail.com>
+/**
+ * @author Titus Wormer
+ * @copyright 2014-2015 Titus Wormer
+ * @license MIT
+ * @module parse-latin
+ * @fileoverview Latin-script (natural language) parser.
  */
 
 'use strict';
@@ -794,6 +803,14 @@ parseLatinPrototype.use('tokenizeRoot', [
 module.exports = ParseLatin;
 
 },{"./expressions":2,"./parser":4,"./plugin/break-implicit-sentences":5,"./plugin/make-final-white-space-siblings":6,"./plugin/make-initial-white-space-siblings":7,"./plugin/merge-affix-exceptions":8,"./plugin/merge-affix-symbol":9,"./plugin/merge-final-word-symbol":10,"./plugin/merge-initial-lower-case-letter-sentences":11,"./plugin/merge-initial-word-symbol":12,"./plugin/merge-initialisms":13,"./plugin/merge-inner-word-symbol":14,"./plugin/merge-non-word-sentences":15,"./plugin/merge-prefix-exceptions":16,"./plugin/merge-remaining-full-stops":17,"./plugin/merge-words":18,"./plugin/patch-position":19,"./plugin/remove-empty-nodes":20}],4:[function(require,module,exports){
+/**
+ * @author Titus Wormer
+ * @copyright 2014-2015 Titus Wormer
+ * @license MIT
+ * @module parse-latin:parser
+ * @fileoverview Construct a parser for a given node.
+ */
+
 'use strict';
 
 /* eslint-env commonjs */
@@ -836,6 +853,15 @@ function parserFactory(options) {
 module.exports = parserFactory;
 
 },{"./tokenizer":21}],5:[function(require,module,exports){
+/**
+ * @author Titus Wormer
+ * @copyright 2014-2015 Titus Wormer
+ * @license MIT
+ * @module parse-latin:plugin:break-implicit-sentencs
+ * @fileoverview Break a sentence if a white space with
+ *   more than one new-line is found.
+ */
+
 'use strict';
 
 /* eslint-env commonjs */
@@ -938,6 +964,14 @@ function breakImplicitSentences(child, index, parent) {
 module.exports = modifyChildren(breakImplicitSentences);
 
 },{"../expressions":2,"nlcst-to-string":23,"unist-util-modify-children":24}],6:[function(require,module,exports){
+/**
+ * @author Titus Wormer
+ * @copyright 2014-2015 Titus Wormer
+ * @license MIT
+ * @module parse-latin:plugin:make-final-white-space-siblings
+ * @fileoverview Make final white-space siblings.
+ */
+
 'use strict';
 
 /* eslint-env commonjs */
@@ -990,6 +1024,14 @@ function makeFinalWhiteSpaceSiblings(child, index, parent) {
 module.exports = modifyChildren(makeFinalWhiteSpaceSiblings);
 
 },{"unist-util-modify-children":24}],7:[function(require,module,exports){
+/**
+ * @author Titus Wormer
+ * @copyright 2014-2015 Titus Wormer
+ * @license MIT
+ * @module parse-latin:plugin:make-initial-white-space-siblings
+ * @fileoverview Make initial white-space siblings.
+ */
+
 'use strict';
 
 /* eslint-env commonjs */
@@ -1035,6 +1077,15 @@ function makeInitialWhiteSpaceSiblings(child, index, parent) {
 module.exports = visitChildren(makeInitialWhiteSpaceSiblings);
 
 },{"unist-util-visit-children":25}],8:[function(require,module,exports){
+/**
+ * @author Titus Wormer
+ * @copyright 2014-2015 Titus Wormer
+ * @license MIT
+ * @module parse-latin:plugin:merge-affix-exceptions
+ * @fileoverview Merge a sentence into its previous
+ *   sentence, when the sentence starts with a comma.
+ */
+
 'use strict';
 
 /* eslint-env commonjs */
@@ -1121,6 +1172,16 @@ function mergeAffixExceptions(child, index, parent) {
 module.exports = modifyChildren(mergeAffixExceptions);
 
 },{"nlcst-to-string":23,"unist-util-modify-children":24}],9:[function(require,module,exports){
+/**
+ * @author Titus Wormer
+ * @copyright 2014-2015 Titus Wormer
+ * @license MIT
+ * @module parse-latin:plugin:merge-affix-symbol
+ * @fileoverview Move certain punctuation following a
+ *   terminal marker (thus in the next sentence) to the
+ *   previous sentence.
+ */
+
 'use strict';
 
 /* eslint-env commonjs */
@@ -1214,6 +1275,14 @@ function mergeAffixSymbol(child, index, parent) {
 module.exports = modifyChildren(mergeAffixSymbol);
 
 },{"../expressions":2,"nlcst-to-string":23,"unist-util-modify-children":24}],10:[function(require,module,exports){
+/**
+ * @author Titus Wormer
+ * @copyright 2014-2015 Titus Wormer
+ * @license MIT
+ * @module parse-latin:plugin:merge-final-word-symbol
+ * @fileoverview Merge certain symbols into their preceding word.
+ */
+
 'use strict';
 
 /* eslint-env commonjs */
@@ -1303,6 +1372,16 @@ function mergeFinalWordSymbol(child, index, parent) {
 module.exports = modifyChildren(mergeFinalWordSymbol);
 
 },{"nlcst-to-string":23,"unist-util-modify-children":24}],11:[function(require,module,exports){
+/**
+ * @author Titus Wormer
+ * @copyright 2014-2015 Titus Wormer
+ * @license MIT
+ * @module parse-latin:plugin:merge-initial-lower-case-letter-sentences
+ * @fileoverview Merge a sentence into its previous
+ *   sentence, when the sentence starts with a lower case
+ *   letter.
+ */
+
 'use strict';
 
 /* eslint-env commonjs */
@@ -1403,6 +1482,14 @@ function mergeInitialLowerCaseLetterSentences(child, index, parent) {
 module.exports = modifyChildren(mergeInitialLowerCaseLetterSentences);
 
 },{"../expressions":2,"nlcst-to-string":23,"unist-util-modify-children":24}],12:[function(require,module,exports){
+/**
+ * @author Titus Wormer
+ * @copyright 2014-2015 Titus Wormer
+ * @license MIT
+ * @module parse-latin:plugin:merge-initial-word-symbol
+ * @fileoverview Merge certain symbols into their next word.
+ */
+
 'use strict';
 
 /* eslint-env commonjs */
@@ -1499,6 +1586,14 @@ function mergeInitialWordSymbol(child, index, parent) {
 module.exports = modifyChildren(mergeInitialWordSymbol);
 
 },{"nlcst-to-string":23,"unist-util-modify-children":24}],13:[function(require,module,exports){
+/**
+ * @author Titus Wormer
+ * @copyright 2014-2015 Titus Wormer
+ * @license MIT
+ * @module parse-latin:plugin:merge-initialisms
+ * @fileoverview Merge initialisms.
+ */
+
 'use strict';
 
 /* eslint-env commonjs */
@@ -1629,6 +1724,15 @@ function mergeInitialisms(child, index, parent) {
 module.exports = modifyChildren(mergeInitialisms);
 
 },{"../expressions":2,"nlcst-to-string":23,"unist-util-modify-children":24}],14:[function(require,module,exports){
+/**
+ * @author Titus Wormer
+ * @copyright 2014-2015 Titus Wormer
+ * @license MIT
+ * @module parse-latin:plugin:merge-inner-word-symbol
+ * @fileoverview Merge words joined by certain punctuation
+ *   marks.
+ */
+
 'use strict';
 
 /* eslint-env commonjs */
@@ -1656,7 +1760,7 @@ var EXPRESSION_INNER_WORD_SYMBOL;
 EXPRESSION_INNER_WORD_SYMBOL = expressions.wordSymbolInner;
 
 /**
- * Merge two words surrounding certain punctuation marks.
+ * Merge words joined by certain punctuation marks.
  *
  * @param {NLCSTNode} child - Node.
  * @param {number} index - Position of `child` in `parent`.
@@ -1770,6 +1874,16 @@ function mergeInnerWordSymbol(child, index, parent) {
 module.exports = modifyChildren(mergeInnerWordSymbol);
 
 },{"../expressions":2,"nlcst-to-string":23,"unist-util-modify-children":24}],15:[function(require,module,exports){
+/**
+ * @author Titus Wormer
+ * @copyright 2014-2015 Titus Wormer
+ * @license MIT
+ * @module parse-latin:plugin:merge-non-word-sentences
+ * @fileoverview Merge a sentence into the following
+ *   sentence, when the sentence does not contain word
+ *   tokens.
+ */
+
 'use strict';
 
 /* eslint-env commonjs */
@@ -1860,6 +1974,15 @@ function mergeNonWordSentences(child, index, parent) {
 module.exports = modifyChildren(mergeNonWordSentences);
 
 },{"unist-util-modify-children":24}],16:[function(require,module,exports){
+/**
+ * @author Titus Wormer
+ * @copyright 2014-2015 Titus Wormer
+ * @license MIT
+ * @module parse-latin:plugin:merge-prefix-exceptions
+ * @fileoverview Merge a sentence into its next sentence,
+ *   when the sentence ends with a certain word.
+ */
+
 'use strict';
 
 /* eslint-env commonjs */
@@ -1973,6 +2096,15 @@ function mergePrefixExceptions(child, index, parent) {
 module.exports = modifyChildren(mergePrefixExceptions);
 
 },{"nlcst-to-string":23,"unist-util-modify-children":24}],17:[function(require,module,exports){
+/**
+ * @author Titus Wormer
+ * @copyright 2014-2015 Titus Wormer
+ * @license MIT
+ * @module parse-latin:plugin:merge-remaining-full-stops
+ * @fileoverview Merge non-terminal-marker full stops into
+ *   previous or next adjacent words.
+ */
+
 'use strict';
 
 /* eslint-env commonjs */
@@ -2141,6 +2273,14 @@ function mergeRemainingFullStops(child) {
 module.exports = visitChildren(mergeRemainingFullStops);
 
 },{"../expressions":2,"nlcst-to-string":23,"unist-util-visit-children":25}],18:[function(require,module,exports){
+/**
+ * @author Titus Wormer
+ * @copyright 2014-2015 Titus Wormer
+ * @license MIT
+ * @module parse-latin:plugin:merge-words
+ * @fileoverview Merge adjacent words.
+ */
+
 'use strict';
 
 /* eslint-env commonjs */
@@ -2207,6 +2347,15 @@ function mergeFinalWordSymbol(child, index, parent) {
 module.exports = modifyChildren(mergeFinalWordSymbol);
 
 },{"unist-util-modify-children":24}],19:[function(require,module,exports){
+/**
+ * @author Titus Wormer
+ * @copyright 2014-2015 Titus Wormer
+ * @license MIT
+ * @module parse-latin:plugin:patch-position
+ * @fileoverview Patch `position` on a parent node based
+ *   on its first and last child.
+ */
+
 'use strict';
 
 /* eslint-env commonjs */
@@ -2266,6 +2415,14 @@ function patchPosition(child, index, node) {
 module.exports = visitChildren(patchPosition);
 
 },{"unist-util-visit-children":25}],20:[function(require,module,exports){
+/**
+ * @author Titus Wormer
+ * @copyright 2014-2015 Titus Wormer
+ * @license MIT
+ * @module parse-latin:plugin:remove-empty-nodes
+ * @fileoverview Remove empty child nodes without children.
+ */
+
 'use strict';
 
 /* eslint-env commonjs */
@@ -2305,6 +2462,15 @@ function removeEmptyNodes(child, index, parent) {
 module.exports = modifyChildren(removeEmptyNodes);
 
 },{"unist-util-modify-children":24}],21:[function(require,module,exports){
+/**
+ * @author Titus Wormer
+ * @copyright 2014-2015 Titus Wormer
+ * @license MIT
+ * @module parse-latin:tokenizer
+ * @fileoverview Tokenize tokens matching an expression as
+ *   a given node-type.
+ */
+
 'use strict';
 
 /* eslint-env commonjs */
