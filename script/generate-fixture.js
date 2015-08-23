@@ -1,5 +1,9 @@
 'use strict';
 
+/* eslint-env node */
+
+/* eslint-disable no-console */
+
 /*
  * Dependencies.
  */

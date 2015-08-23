@@ -1,5 +1,9 @@
 'use strict';
 
+/* global suite, set, bench */
+
+/* eslint-env node */
+
 /*
  * Dependencies.
  */

@@ -12,8 +12,8 @@
     "parser"
   ],
   "dependencies": {
-    "array-iterate": "^0.1.0",
-    "nlcst-to-string": "^0.1.0"
+    "array-iterate": "^1.0.0",
+    "nlcst-to-string": "^1.0.0"
   },
   "repository": {
     "type": "git",
@@ -27,11 +27,11 @@
   "devDependencies": {
     "browserify": "^11.0.0",
     "chalk": "^1.0.0",
-    "diff": "^1.0.0",
-    "eslint": "^0.24.0",
+    "diff": "^2.0.0",
+    "eslint": "^1.0.0",
     "esmangle": "^1.0.0",
     "istanbul": "^0.3.0",
-    "jscs": "^1.0.0",
+    "jscs": "^2.0.0",
     "jscs-jsdoc": "^1.0.0",
     "matcha": "^0.6.0",
     "mocha": "^2.0.0",
@@ -45,13 +45,9 @@
     "test-coverage": "istanbul cover _mocha -- -- test/index.js",
     "test-travis": "npm run test-coveralls",
     "test": "npm run test-api",
-    "lint-api": "eslint index.js lib/*.js",
-    "lint-plugin": "eslint --rule consistent-return:[0] lib/plugin/*.js",
-    "lint-test": "eslint --env mocha test/index.js",
-    "lint-benchmark": "eslint --global suite,set,bench benchmark.js",
-    "lint-script": "eslint script/build-expressions.js script/generate-fixture.js",
+    "lint-api": "eslint .",
     "lint-style": "jscs --reporter inline .",
-    "lint": "npm run lint-api && npm run lint-plugin && npm run lint-script && npm run lint-test && npm run lint-benchmark && npm run lint-style",
+    "lint": "npm run lint-api && npm run lint-style",
     "make": "npm run lint && npm run test-coverage",
     "benchmark": "matcha benchmark.js",
     "fixture": "node script/generate-fixture",

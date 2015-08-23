@@ -1,0 +1,6 @@
+build/
+components/
+coverage/
+build.js
+parse-latin.js
+parse-latin.min.js
