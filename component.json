@@ -1,6 +1,6 @@
 {
   "name": "parse-latin",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Latin-script (natural language) parser",
   "license": "MIT",
   "keywords": [
