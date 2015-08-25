@@ -40,7 +40,8 @@
     "mocha": "^2.0.0",
     "nlcst-test": "^0.2.0",
     "regenerate": "^1.0.0",
-    "unicode-8.0.0": "^0.1.0"
+    "unicode-8.0.0": "^0.1.0",
+    "vfile": "^1.1.0"
   },
   "scripts": {
     "test-api": "mocha --check-leaks test/index.js",

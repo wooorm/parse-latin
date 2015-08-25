@@ -16,6 +16,7 @@
 
 var assert = require('assert');
 var nlcstTest = require('nlcst-test');
+var VFile = require('vfile');
 var ParseLatin = require('..');
 
 /*
@@ -107,6 +108,13 @@ describe('ParseLatin', function () {
             }).position === true);
         }
     );
+
+    it('should accept a VFile', function () {
+        var fixture = 'Foo bar baz.';
+        var instance = new ParseLatin(new VFile(fixture));
+
+        assert.deepEqual(instance.parse(), latin.parse(fixture));
+    });
 });
 
 describe('new ParseLatin()', function () {
