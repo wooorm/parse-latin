@@ -32,8 +32,8 @@ var deepEqual = assert.deepEqual;
 
 var latin = new ParseLatin();
 
-var latinPosition = new ParseLatin({
-    'position': true
+var latinNoPosition = new ParseLatin({
+    'position': false
 });
 
 /**
@@ -70,14 +70,14 @@ function clean(object) {
  */
 function describeFixture(name, document, method) {
     var nlcstA = latin[method || 'parse'](document);
-    var nlcstB = latinPosition[method || 'parse'](document);
+    var nlcstB = latinNoPosition[method || 'parse'](document);
     var fixture = require('./fixture/' + name);
 
     nlcstTest(nlcstA);
     nlcstTest(nlcstB);
 
-    deepEqual(nlcstA, clean(fixture));
-    deepEqual(nlcstB, fixture);
+    deepEqual(nlcstA, fixture);
+    deepEqual(nlcstB, clean(fixture));
 }
 
 /*
@@ -98,7 +98,7 @@ describe('ParseLatin', function () {
     );
 
     it('should set `position`', function () {
-        assert(new ParseLatin().position === false);
+        assert(new ParseLatin().position === true);
     });
 
     it('should accept `{position: boolean}`',
@@ -106,6 +106,10 @@ describe('ParseLatin', function () {
             assert(new ParseLatin({
                 'position': true
             }).position === true);
+
+            assert(new ParseLatin({
+                'position': false
+            }).position === false);
         }
     );
 
@@ -1199,7 +1203,7 @@ describe('White space characters', function () {
         it('should treat `' + character + '` as white-space',
             function () {
                 assert(
-                    stringify(latin.parse(
+                    stringify(latinNoPosition.parse(
                         sentenceStart + character + sentenceEnd
                     ).children[0].children[0]) ===
                     stringify({
@@ -1396,7 +1400,7 @@ describe('Combining diacritical marks', function () {
     ].forEach(function (diacritic) {
         it('should treat \u25CC' + diacritic + ' as a word', function () {
             assert(
-                stringify(latin.parse(
+                stringify(latinNoPosition.parse(
                     'This a' + diacritic + ' house.'
                 ).children[0].children[0]) ===
                 stringify({

@@ -23,9 +23,7 @@ var ParseLatin = require('..');
  * Parser.
  */
 
-var latin = new ParseLatin({
-    'position': true
-});
+var latin = new ParseLatin();
 
 /*
  * Find fixtures.

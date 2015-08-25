@@ -23,9 +23,7 @@ var ParseLatin = require('..');
  * `ParseLatin`.
  */
 
-var latin = new ParseLatin({
-    'position': true
-});
+var latin = new ParseLatin();
 
 /*
  * Exit with info on too-few parameters.

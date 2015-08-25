@@ -73,7 +73,7 @@ Parameters:
 
 *   `options` (`Object`, optional)
 
-    *   `position` (`boolean`, default: `false`) - Whether to add positional
+    *   `position` (`boolean`, default: `true`) - Whether to add positional
         information to nodes.
 
 #### ParseLatin#tokenize(value)
