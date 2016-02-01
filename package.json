@@ -48,19 +48,17 @@
     "vfile": "^1.1.0"
   },
   "scripts": {
-    "test-api": "mocha --check-leaks test/index.js",
-    "test-coverage": "istanbul cover _mocha -- test/index.js",
-    "test-travis": "npm run test-coverage",
-    "test": "npm run test-api",
+    "fixture": "node script/generate-fixture",
+    "build-md": "remark . --quiet --frail",
+    "build-expressions": "node script/build-expressions",
+    "build-bundle": "browserify index.js -s ParseLatin > parse-latin.js",
+    "build-mangle": "esmangle parse-latin.js > parse-latin.min.js",
+    "build": "npm run build-md && npm run build-expressions && npm run build-bundle && npm run build-mangle",
     "lint-api": "eslint .",
     "lint-style": "jscs --reporter inline .",
     "lint": "npm run lint-api && npm run lint-style",
-    "make": "npm run lint && npm run test-coverage",
-    "fixture": "node script/generate-fixture",
-    "bundle": "browserify index.js -s ParseLatin > parse-latin.js",
-    "postbundle": "esmangle parse-latin.js > parse-latin.min.js",
-    "build-md": "remark . --quiet --frail",
-    "build-expressions": "node script/build-expressions",
-    "build": "npm run build-md && npm run build-expressions && npm run bundle"
+    "test-api": "mocha --check-leaks test/index.js",
+    "test-coverage": "istanbul cover _mocha -- test/index.js",
+    "test": "npm run build && npm run lint && npm run test-coverage"
   }
 }
