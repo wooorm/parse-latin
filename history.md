@@ -4,6 +4,14 @@
 
 <!--lint disable maximum-line-length-->
 
+3.0.0 / 2016-02-01
+==================
+
+*   Change inner-word slash handling ([`bdfe1ed`](https://github.com/wooorm/parse-latin/commit/bdfe1ed))
+*   Update `readme.md` ([`1fdd801`](https://github.com/wooorm/parse-latin/commit/1fdd801))
+*   Remove history before `1.0.0` ([`603bafd`](https://github.com/wooorm/parse-latin/commit/603bafd))
+*   Remove support for `Bower`, `Component` ([`d496430`](https://github.com/wooorm/parse-latin/commit/d496430))
+
 2.0.0 / 2015-08-25
 ==================
 
