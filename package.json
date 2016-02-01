@@ -17,7 +17,11 @@
     "unist-util-modify-children": "^1.0.0",
     "unist-util-visit-children": "^1.0.0"
   },
-  "repository": "wooorm/parse-latin",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wooorm/parse-latin.git"
+  },
+  "bugs": "https://github.com/wooorm/parse-latin/issues",
   "author": "Titus Wormer <tituswormer@gmail.com>",
   "files": [
     "index.js",
