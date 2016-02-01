@@ -152,13 +152,11 @@ var WORD_SYMBOL_INNER = regenerate()
  *
  * Includes:
  *
- * - Slash;
  * - Underscore.
  */
 
 var WORD_SYMBOL_INNER_MULTI = regenerate()
-    .add('_')
-    .add('/');
+    .add('_');
 
 /*
  * Match closing or final punctuation, or terminal markers that should

@@ -10,4 +10,4 @@
 
 /* eslint-env commonjs */
 
-module.exports = require('./lib/parse-latin');
+module.exports = require('./lib/index.js');

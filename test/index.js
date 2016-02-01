@@ -1593,6 +1593,27 @@ describe('Inner-word punctuation', function () {
         );
     });
 
+    it('should merge a slash trailing to a word', function () {
+        describeFixture(
+            'word-inner-slash-no-next',
+            'W/ or w/o are common abbreviations.'
+        );
+    });
+
+    it('should merge small words around slashes', function () {
+        describeFixture(
+            'word-inner-slash-short',
+            'km/h is a dutch abbreviation, just like t/m.'
+        );
+    });
+
+    it('should not merge larger words around slashes', function () {
+        describeFixture(
+            'word-inner-slash-long',
+            'This and/or that are not abbreviations.'
+        );
+    });
+
     it('should merge an ampersand in a word', function () {
         describeFixture(
             'word-inner-ampersand',
