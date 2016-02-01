@@ -24,8 +24,7 @@ scripts, Cyrillic (“Добро пожаловать!”), Georgian (“რო�
 npm install parse-latin
 ```
 
-**parse-latin** is also available for [bower](http://bower.io/#install-packages),
-[component](https://github.com/componentjs/component), and
+**parse-latin** is also available for
 [duo](http://duojs.org/#getting-started), and as an AMD, CommonJS, and globals
 module, [uncompressed](parse-latin.js) and [compressed](parse-latin.min.js).
 
