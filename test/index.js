@@ -67,6 +67,7 @@ function clean(object) {
  *
  * @param {string} name - Filename of fixture.
  * @param {string} document - Source to validate.
+ * @param {string} method - Method to use.
  */
 function describeFixture(name, document, method) {
     var nlcstA = latin[method || 'parse'](document);
