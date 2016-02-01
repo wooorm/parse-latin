@@ -1,12 +1,6 @@
-# parse-latin [![Build Status](https://img.shields.io/travis/wooorm/parse-latin.svg)](https://travis-ci.org/wooorm/parse-latin) [![Coverage Status](https://img.shields.io/codecov/c/github/wooorm/parse-latin.svg)](https://codecov.io/github/wooorm/parse-latin)
+# parse-latin [![Build Status][travis-badge]][travis] [![Coverage Status][coverage-badge]][coverage]
 
-A Latin script language parser producing [NLCST](https://github.com/wooorm/nlcst)
-nodes.
-
-*   For semantics of nodes, see [NLCST](https://github.com/wooorm/nlcst);
-
-*   For a pluggable system to analyze and manipulate language, see
-    [retext](https://github.com/wooorm/retext).
+A Latin script language parser for [retext][] producing [NLCST][] nodes.
 
 Whether Old-English (“þā gewearþ þǣm hlāforde and þǣm hȳrigmannum wiþ ānum
 penninge”), Icelandic (“Hvað er að frétta”), French (“Où sont les toilettes?”),
@@ -18,117 +12,83 @@ scripts, Cyrillic (“Добро пожаловать!”), Georgian (“რო�
 
 ## Installation
 
-[npm](https://docs.npmjs.com/cli/install):
+[npm][npm-install]:
 
 ```bash
 npm install parse-latin
 ```
 
-**parse-latin** is also available for [duo](http://duojs.org/#getting-started),
-and as an AMD, CommonJS, and globals module, [uncompressed and
-compressed](https://github.com/wooorm/parse-latin/releases).
+**parse-latin** is also available for [duo][], and as an AMD, CommonJS,
+and globals module, [uncompressed and compressed][releases].
 
 ## Usage
 
+Dependencies:
+
 ```javascript
-var ParseLatin = require('parse-latin'),
-    latin = new ParseLatin();
+var inspect = require('unist-util-inspect');
+var ParseLatin = require('parse-latin');
+var latin = new ParseLatin();
+```
 
-latin.parse('A simple sentence.');
-/**
- * Logs something like:
- * ˅ Object
- *    ˃ children: Array[1]
- *      type: "RootNode"
- *    ˃ __proto__: Object
- */
+Invoking `parse`:
 
-latin.parse(
-    'The \xC5 symbol invented by A. J. A\u030Angstro\u0308m ' +
-    '(1814, Lo\u0308gdo\u0308, \u2013 1874) denotes the ' +
-    'length 10\u207B\xB9\u2070 m.'
-);
-/**
- * Logs something like:
- * ˅ Object
- *    ˃ children: Array[1]
- *      type: "RootNode"
- *    ˃ __proto__: Object
- */
+```javascript
+var ast = latin.parse('A simple sentence.');
+```
+
+Yields:
+
+```txt
+RootNode[1] (1:1-1:19, 0-18)
+└─ ParagraphNode[1] (1:1-1:19, 0-18)
+   └─ SentenceNode[6] (1:1-1:19, 0-18)
+      ├─ WordNode[1] (1:1-1:2, 0-1)
+      │  └─ TextNode: "A" (1:1-1:2, 0-1)
+      ├─ WhiteSpaceNode: " " (1:2-1:3, 1-2)
+      ├─ WordNode[1] (1:3-1:9, 2-8)
+      │  └─ TextNode: "simple" (1:3-1:9, 2-8)
+      ├─ WhiteSpaceNode: " " (1:9-1:10, 8-9)
+      ├─ WordNode[1] (1:10-1:18, 9-17)
+      │  └─ TextNode: "sentence" (1:10-1:18, 9-17)
+      └─ PunctuationNode: "." (1:18-1:19, 17-18)
 ```
 
 ## API
 
-*   [ParseLatin(options?)](#parselatinoptions)
-*   [ParseLatin#tokenize(value)](#parselatintokenizevalue)
-*   [ParseLatin#parse(value)](#parselatinparsevalue)
-
-### ParseLatin(options?)
+### `ParseLatin([options])`
 
 Exposes the functionality needed to tokenize natural Latin-script languages
 into a syntax tree.
 
-Parameters:
+**Parameters**:
 
 *   `options` (`Object`, optional)
 
     *   `position` (`boolean`, default: `true`) - Whether to add positional
         information to nodes.
 
-#### ParseLatin#tokenize(value)
+#### `ParseLatin#tokenize(value)`
 
 Tokenize natural Latin-script language into letter and numbers (words), white
 space, and everything else (punctuation).
 
-#### ParseLatin#parse(value)
+**Parameters**:
+
+*   `value` (`string`) — Value to parse.
+
+**Returns**: [`Array.<NLCSTNode>`][nlcst] — Nodes.
+
+#### `ParseLatin#parse(value)`
 
 Tokenize natural Latin-script languages into an [NLCST](https://github.com/wooorm/nlcst)
 [syntax tree](#syntax-tree-format).
 
-```javascript
-var ParseLatin = require('parse-latin'),
-    latin = new ParseLatin();
+**Parameters**:
 
-latin.parse('A simple sentence.');
-/**
- * Object
- * ├─ type: "RootNode"
- * └─ children: Array[1]
- *     └─ 0: Object
- *           ├─ type: "ParagraphNode"
- *           └─ children: Array[1]
- *              └─ 0: Object
- *                    ├─ type: "SentenceNode"
- *                    └─ children: Array[6]
- *                       ├─ 0: Object
- *                       |     ├─ type: "WordNode"
- *                       |     └─ children: Array[1]
- *                       |        └─ 0: Object
- *                       |              ├─ type: "TextNode"
- *                       |              └─ value: "A"
- *                       ├─ 1: Object
- *                       |     ├─ type: "WhiteSpaceNode"
- *                       |     └─ value: " "
- *                       ├─ 2: Object
- *                       |     ├─ type: "WordNode"
- *                       |     └─ children: Array[1]
- *                       |        └─ 0: Object
- *                       |              ├─ type: "TextNode"
- *                       |              └─ value: "simple"
- *                       ├─ 3: Object
- *                       |     ├─ type: "WhiteSpaceNode"
- *                       |     └─ value: " "
- *                       ├─ 4: Object
- *                       |     ├─ type: "WordNode"
- *                       |     └─ children: Array[1]
- *                       |        └─ 0: Object
- *                       |              ├─ type: "TextNode"
- *                       |              └─ value: "sentence"
- *                       └─ 5: Object
- *                             ├─ type: "PunctuationNode"
- *                             └─ value: "."
- */
-```
+*   `value` (`string`) — Value to parse.
+
+**Returns**: [`NLCSTNode`][nlcst] — Root node.
 
 ## Syntax Tree Format
 
@@ -160,11 +120,39 @@ syntax tree, adding sentences and paragraphs where needed.
 
 ## Related
 
-*   [nlcst](https://github.com/wooorm/nlcst)
-*   [retext](https://github.com/wooorm/retext)
-*   [parse-dutch](https://github.com/wooorm/parse-dutch)
-*   [parse-english](https://github.com/wooorm/parse-english)
+*   [nlcst][]
+*   [retext][]
+*   [parse-dutch][]
+*   [parse-english][]
 
 ## License
 
-[MIT](LICENSE) © [Titus Wormer](http://wooorm.com)
+[MIT][license] © [Titus Wormer][home]
+
+<!-- Definitions -->
+
+[travis-badge]: https://img.shields.io/travis/wooorm/parse-latin.svg
+
+[travis]: https://travis-ci.org/wooorm/parse-latin
+
+[coverage-badge]: https://img.shields.io/codecov/c/github/wooorm/parse-latin.svg
+
+[coverage]: https://codecov.io/github/wooorm/parse-latin
+
+[npm-install]: https://docs.npmjs.com/cli/install
+
+[duo]: http://duojs.org/#getting-started
+
+[releases]: https://github.com/wooorm/parse-latin/releases
+
+[license]: LICENSE
+
+[home]: http://wooorm.com
+
+[nlcst]: https://github.com/wooorm/nlcst
+
+[retext]: https://github.com/wooorm/retext
+
+[parse-dutch]: https://github.com/wooorm/parse-dutch
+
+[parse-english]: https://github.com/wooorm/parse-english
