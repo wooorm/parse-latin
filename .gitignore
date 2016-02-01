@@ -3,3 +3,5 @@
 components/
 coverage/
 node_modules/
+parse-latin.js
+parse-latin.min.js
