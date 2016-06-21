@@ -32,6 +32,7 @@
   },
   "devDependencies": {
     "browserify": "^13.0.1",
+    "bundle-collapser": "^1.2.1",
     "eslint": "^2.0.0",
     "esmangle": "^1.0.1",
     "istanbul": "^0.4.0",
@@ -53,7 +54,7 @@
   "scripts": {
     "build-md": "remark . --quiet --frail",
     "build-expressions": "node script/build-expressions",
-    "build-bundle": "browserify index.js --bare -s ParseLatin > parse-latin.js",
+    "build-bundle": "browserify index.js -p bundle-collapser/plugin --bare -s ParseLatin > parse-latin.js",
     "build-mangle": "esmangle parse-latin.js > parse-latin.min.js",
     "build": "npm run build-expressions && npm run build-md && npm run build-bundle && npm run build-mangle",
     "lint-api": "eslint .",
