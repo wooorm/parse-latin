@@ -1,10 +1,9 @@
 // Dependencies:
 var inspect = require('unist-util-inspect');
-var ParseLatin = require('./index.js');
-var latin = new ParseLatin();
+var Latin = require('./index.js');
 
-// Invoking `parse`:
-var ast = latin.parse('A simple sentence.');
+// Parse:
+var tree = new Latin().parse('A simple sentence.');
 
-// Yields:
-console.log('txt', inspect.noColor(ast));
+// Which, when inspecting, yields:
+console.log('txt', inspect.noColor(tree));

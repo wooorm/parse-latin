@@ -1,6 +1,6 @@
 /**
  * @author Titus Wormer
- * @copyright 2014-2015 Titus Wormer
+ * @copyright 2014 Titus Wormer
  * @license MIT
  * @module parse-latin
  * @fileoverview Latin-script (natural language) parser.
@@ -10,4 +10,5 @@
 
 /* eslint-env commonjs */
 
+/* Expose. */
 module.exports = require('./lib/index.js');

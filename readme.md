@@ -1,14 +1,17 @@
-# parse-latin [![Build Status][travis-badge]][travis] [![Coverage Status][coverage-badge]][coverage]
+# parse-latin [![Build Status][travis-badge]][travis] [![Coverage Status][codecov-badge]][codecov]
 
-A Latin script language parser for [retext][] producing [NLCST][] nodes.
+<!--lint disable heading-increment list-item-spacing no-duplicate-headings-->
 
-Whether Old-English (“þā gewearþ þǣm hlāforde and þǣm hȳrigmannum wiþ ānum
-penninge”), Icelandic (“Hvað er að frétta”), French (“Où sont les toilettes?”),
-**parse-latin** does a good job at tokenizing it.
+A Latin script language parser for [**retext**][retext] producing
+[**NLCST**][nlcst] nodes.
 
-Note also that **parse-latin** does a decent job at tokenizing Latin-like
-scripts, Cyrillic (“Добро пожаловать!”), Georgian (“როგორა ხარ?”), Armenian
-(“Շատ հաճելի է”), and such.
+Whether Old-English (“þā gewearþ þǣm hlāforde and þǣm hȳrigmannum wiþ
+ānum penninge”), Icelandic (“Hvað er að frétta”), French (“Où sont
+les toilettes?”), **parse-latin** does a good job at tokenising it.
+
+Note also that **parse-latin** does a decent job at tokenising
+Latin-like scripts, Cyrillic (“Добро пожаловать!”), Georgian (“როგორა
+ხარ?”), Armenian (“Շատ հաճելի է”), and such.
 
 ## Installation
 
@@ -18,26 +21,22 @@ scripts, Cyrillic (“Добро пожаловать!”), Georgian (“რო�
 npm install parse-latin
 ```
 
-**parse-latin** is also available for [duo][], and as an AMD, CommonJS,
-and globals module, [uncompressed and compressed][releases].
-
 ## Usage
 
 Dependencies:
 
 ```javascript
 var inspect = require('unist-util-inspect');
-var ParseLatin = require('parse-latin');
-var latin = new ParseLatin();
+var Latin = require('parse-latin');
 ```
 
-Invoking `parse`:
+Parse:
 
 ```javascript
-var ast = latin.parse('A simple sentence.');
+var tree = new Latin().parse('A simple sentence.');
 ```
 
-Yields:
+Which, when inspecting, yields:
 
 ```txt
 RootNode[1] (1:1-1:19, 0-18)
@@ -58,76 +57,74 @@ RootNode[1] (1:1-1:19, 0-18)
 
 ### `ParseLatin([options])`
 
-Exposes the functionality needed to tokenize natural Latin-script languages
-into a syntax tree.
+Exposes the functionality needed to tokenise natural Latin-script
+languages into a syntax tree.
 
-**Parameters**:
+###### `options`
 
-*   `options` (`Object`, optional)
+*   `position` (`boolean`, default: true).
 
-    *   `position` (`boolean`, default: `true`) - Whether to add positional
-        information to nodes.
+###### Returns
+
+A new instance.
 
 #### `ParseLatin#tokenize(value)`
 
-Tokenize natural Latin-script language into letter and numbers (words), white
-space, and everything else (punctuation).
+Tokenise natural Latin-script language into letters and numbers (words),
+white space, and everything else (punctuation).  The returned nodes
+are a flat list without paragraphs or sentences.
 
-**Parameters**:
+###### Parameters
 
 *   `value` (`string`) — Value to parse.
 
-**Returns**: [`Array.<NLCSTNode>`][nlcst] — Nodes.
+###### Returns
+
+[`Array.<NLCSTNode>`][nlcst] — Nodes.
 
 #### `ParseLatin#parse(value)`
 
-Tokenize natural Latin-script languages into an [NLCST](https://github.com/wooorm/nlcst)
-[syntax tree](#syntax-tree-format).
+Tokenise natural Latin-script languages into an [NLCST][nlcst].
+The returned node is a `RootNode` with in it paragraphs and sentences.
 
-**Parameters**:
+###### Parameters
 
 *   `value` (`string`) — Value to parse.
 
-**Returns**: [`NLCSTNode`][nlcst] — Root node.
+###### Returns
 
-## Syntax Tree Format
+[`NLCSTNode`][nlcst] — Root node.
 
-> Note: The easiest way to see **how parse-latin tokenizes and parses**, is by
-> using the [online parser demo](https://wooorm.github.io/parse-latin), which
-> shows the syntax tree corresponding to the typed text.
+## Algorithm
 
-Basically, **parse-latin** splits text into white space, word, and punctuation
-tokens. **parse-latin** starts out with a pretty easy definition, one that most
-other tokenizers use:
+> Note: The easiest way to see **how parse-latin tokenizes and parses**,
+> is by using the [online parser demo](https://wooorm.github.io/parse-latin),
+> which shows the syntax tree corresponding to the typed text.
+
+**parse-latin** splits text into white space, word, and punctuation
+tokens.  **parse-latin** starts out with a pretty easy definition,
+one that most other tokenisers use:
 
 *   A “word” is one or more letter or number characters;
 *   A “white space” is one or more white space characters;
-*   A “punctuation” is one or more of anything else;
+*   A “punctuation” is one or more of anything else.
 
-Then, it manipulates and merges those tokens into an [NLCST](https://github.com/wooorm/nlcst)
+Then, it manipulates and merges those tokens into an [NLCST][]
 syntax tree, adding sentences and paragraphs where needed.
 
 *   Some punctuation marks are part of the word they occur in, e.g.,
-    `non-profit`, `she’s`, `G.I.`, `11:00`, `N/A`, `&c`, `nineteenth- and...`;
-
-*   Some full-stops do not mark a sentence end, e.g., `1.`, `e.g.`, `id.`;
-
-*   Although full-stops, question marks, and exclamation marks (sometimes) end
-    a sentence, that end might not occur directly after the mark, e.g., `.)`,
-    `."`;
-
+    `non-profit`, `she’s`, `G.I.`, `11:00`, `N/A`, `&c`,
+    `nineteenth- and...`;
+*   Some full-stops do not mark a sentence end, e.g., `1.`, `e.g.`,
+    `id.`;
+*   Although full-stops, question marks, and exclamation marks
+    (sometimes) end a sentence, that end might not occur directly
+    after the mark, e.g., `.)`, `."`;
 *   And many more exceptions.
-
-## Related
-
-*   [nlcst][]
-*   [retext][]
-*   [parse-dutch][]
-*   [parse-english][]
 
 ## License
 
-[MIT][license] © [Titus Wormer][home]
+[MIT][license] © [Titus Wormer][author]
 
 <!-- Definitions -->
 
@@ -135,24 +132,16 @@ syntax tree, adding sentences and paragraphs where needed.
 
 [travis]: https://travis-ci.org/wooorm/parse-latin
 
-[coverage-badge]: https://img.shields.io/codecov/c/github/wooorm/parse-latin.svg
+[codecov-badge]: https://img.shields.io/codecov/c/github/wooorm/parse-latin.svg
 
-[coverage]: https://codecov.io/github/wooorm/parse-latin
+[codecov]: https://codecov.io/github/wooorm/parse-latin
 
 [npm-install]: https://docs.npmjs.com/cli/install
 
-[duo]: http://duojs.org/#getting-started
-
-[releases]: https://github.com/wooorm/parse-latin/releases
-
 [license]: LICENSE
 
-[home]: http://wooorm.com
-
-[nlcst]: https://github.com/wooorm/nlcst
+[author]: http://wooorm.com
 
 [retext]: https://github.com/wooorm/retext
 
-[parse-dutch]: https://github.com/wooorm/parse-dutch
-
-[parse-english]: https://github.com/wooorm/parse-english
+[nlcst]: https://github.com/wooorm/nlcst

@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 /**
  * @author Titus Wormer
  * @copyright 2014-2015 Titus Wormer

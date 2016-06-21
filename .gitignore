@@ -1,6 +1,5 @@
-.DS_STORE
+.DS_Store
 *.log
-components/
 coverage/
 node_modules/
 parse-latin.js

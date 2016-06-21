@@ -2,8 +2,6 @@
 
 <!--lint disable no-multiple-toplevel-headings-->
 
-<!--lint disable maximum-line-length-->
-
 3.0.0 / 2016-02-01
 ==================
 

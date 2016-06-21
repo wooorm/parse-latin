@@ -1,14 +1,22 @@
 {
   "excludeFiles": [
-    "components/",
     "coverage/",
     "node_modules/",
     "parse-latin.js",
     "parse-latin.min.js"
   ],
-  "preset": "yandex",
-  "requireQuotedKeysInObjects": true,
-  "disallowQuotedKeysInObjects": false,
+  "preset": "crockford",
+  "requireMultipleVarDecl": false,
+  "requireVarDeclFirst": false,
+  "disallowDanglingUnderscores": false,
+  "disallowQuotedKeysInObjects": {
+    "allExcept": [
+      "reserved"
+    ]
+  },
+  "disallowKeywords": [
+    "with"
+  ],
   "maximumLineLength": {
     "value": 79,
     "allExcept": [
