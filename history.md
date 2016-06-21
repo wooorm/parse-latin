@@ -2,6 +2,13 @@
 
 <!--lint disable no-multiple-toplevel-headings-->
 
+3.1.0 / 2016-06-21
+==================
+
+*   Add `bundle-collapser` ([`c19ca01`](https://github.com/wooorm/parse-latin/commit/c19ca01))
+*   Refactor to remove one expression ([`1032f53`](https://github.com/wooorm/parse-latin/commit/1032f53))
+*   Refactor module ([`5882756`](https://github.com/wooorm/parse-latin/commit/5882756))
+
 3.0.0 / 2016-02-01
 ==================
 
