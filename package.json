@@ -55,7 +55,7 @@
     "build-expressions": "node script/build-expressions",
     "build-bundle": "browserify index.js --bare -s ParseLatin > parse-latin.js",
     "build-mangle": "esmangle parse-latin.js > parse-latin.min.js",
-    "build": "npm run build-md && npm run build-expressions && npm run build-bundle && npm run build-mangle",
+    "build": "npm run build-expressions && npm run build-md && npm run build-bundle && npm run build-mangle",
     "lint-api": "eslint .",
     "lint-style": "jscs --reporter inline .",
     "lint": "npm run lint-api && npm run lint-style",

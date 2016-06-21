@@ -18,7 +18,6 @@ var regenerate = require('regenerate');
 /**
  * Get unicode data.
  *
- * @param {string} path - File-path.
  * @return {*} - A unicode category.
  */
 function unicode() {
@@ -39,7 +38,9 @@ var Pi = unicode('General_Category', 'Initial_Punctuation');
 var Po = unicode('General_Category', 'Other_Punctuation');
 var Ps = unicode('General_Category', 'Open_Punctuation');
 var whiteSpace = unicode('Binary_Property', 'White_Space');
-var combiningDiacriticalMarks = unicode('Block', 'Combining_Diacritical_Marks');
+var combiningDiacriticalMarks = unicode(
+    'Block', 'Combining_Diacritical_Marks'
+);
 
 /* Character groups. */
 
@@ -193,9 +194,7 @@ var EXPRESSION_WORD_SYMBOL_INNER = new RegExp(
 /* Match punctuation marks.
  *
  * See: PUNCTUATION. */
-var EXPRESSION_PUNCTUATION = new RegExp(
-    '^(?:' + PUNCTUATION + ')+$'
-);
+var EXPRESSION_PUNCTUATION = new RegExp(PUNCTUATION);
 
 /* Match numbers. */
 var EXPRESSION_NUMERICAL = new RegExp(
@@ -208,23 +207,13 @@ var EXPRESSION_LOWER_INITIAL = new RegExp(
 );
 
 /* Match anything, when possible words, white spaces, or astrals. */
-var EXPRESSION_TOKEN = new RegExp(
-    '(?:' + WORD + ')+|' +
-    '(?:' + WHITE_SPACE + ')+|' +
-    '(?:[\\uD800-\\uDFFF])+|' +
-    '([\\s\\S])\\1*',
-    'g'
-);
+var EXPRESSION_SURROGATES = new RegExp('[\\uD800-\\uDFFF]');
 
 /* Match a word. */
-var EXPRESSION_WORD = new RegExp(
-    '^(?:' + WORD + ')+$'
-);
+var EXPRESSION_WORD = new RegExp(WORD);
 
 /* Match white space. */
-var EXPRESSION_WHITE_SPACE = new RegExp(
-    '^(?:' + WHITE_SPACE + ')+$'
-);
+var EXPRESSION_WHITE_SPACE = new RegExp(WHITE_SPACE);
 
 /* Build file. */
 var file =
@@ -238,10 +227,10 @@ var file =
         'newLineMulti: ' + EXPRESSION_NEW_LINE_MULTI,
         'terminalMarker: ' + EXPRESSION_TERMINAL_MARKER,
         'wordSymbolInner: ' + EXPRESSION_WORD_SYMBOL_INNER,
-        'punctuation: ' + EXPRESSION_PUNCTUATION,
         'numerical: ' + EXPRESSION_NUMERICAL,
         'lowerInitial: ' + EXPRESSION_LOWER_INITIAL,
-        'token: ' + EXPRESSION_TOKEN,
+        'surrogates: ' + EXPRESSION_SURROGATES,
+        'punctuation: ' + EXPRESSION_PUNCTUATION,
         'word: ' + EXPRESSION_WORD,
         'whiteSpace: ' + EXPRESSION_WHITE_SPACE
     ].join(',\n    ') +
