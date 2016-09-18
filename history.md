@@ -2,6 +2,12 @@
 
 <!--lint disable no-multiple-toplevel-headings heading-style-->
 
+3.1.1 / 2016-09-18
+==================
+
+*   [`f811213`](https://github.com/wooorm/parse-latin/commit/f811213)
+    Refactor code-style
+
 3.1.0 / 2016-06-21
 ==================
 
