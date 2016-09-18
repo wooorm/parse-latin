@@ -1,7 +1,5 @@
 # parse-latin [![Build Status][travis-badge]][travis] [![Coverage Status][codecov-badge]][codecov]
 
-<!--lint disable heading-increment list-item-spacing no-duplicate-headings-->
-
 A Latin script language parser for [**retext**][retext] producing
 [**NLCST**][nlcst] nodes.
 
@@ -15,7 +13,7 @@ Latin-like scripts, Cyrillic (“Добро пожаловать!”), Georgian 
 
 ## Installation
 
-[npm][npm-install]:
+[npm][]:
 
 ```bash
 npm install parse-latin
@@ -136,7 +134,7 @@ syntax tree, adding sentences and paragraphs where needed.
 
 [codecov]: https://codecov.io/github/wooorm/parse-latin
 
-[npm-install]: https://docs.npmjs.com/cli/install
+[npm]: https://docs.npmjs.com/cli/install
 
 [license]: LICENSE
 

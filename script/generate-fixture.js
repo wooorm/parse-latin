@@ -8,41 +8,25 @@
 
 'use strict';
 
-/* eslint-env node */
-
-/* eslint-disable no-console */
-
-/*
- * Dependencies.
- */
-
+/* Dependencies. */
 var fs = require('fs');
 var ParseLatin = require('..');
 
-/*
- * `ParseLatin`.
- */
-
+/* `ParseLatin`. */
 var latin = new ParseLatin();
 
-/*
- * Exit with info on too-few parameters.
- */
-
+/* Exit with info on too-few parameters. */
 var parameters = process.argv.splice(2);
 
 if (parameters.length < 2) {
-    console.log('Usage:');
-    console.log('  npm run fixture name document [method]');
+  console.log('Usage:');
+  console.log('  npm run fixture name document [method]');
 } else {
-    var filePath = 'test/fixture/' + parameters[0] + '.json';
-    var nlcst = latin[parameters[2] || 'parse'](parameters[1]);
+  var filePath = 'test/fixture/' + parameters[0] + '.json';
+  var nlcst = latin[parameters[2] || 'parse'](parameters[1]);
 
-    /*
-     * Write fixture.
-     */
+  /* Write fixture. */
+  fs.writeFileSync(filePath, JSON.stringify(nlcst, 0, 2) + '\n');
 
-    fs.writeFileSync(filePath, JSON.stringify(nlcst, 0, 2) + '\n');
-
-    console.log('Wrote file to `' + filePath + '`');
+  console.log('Wrote file to `' + filePath + '`');
 }

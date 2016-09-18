@@ -8,40 +8,35 @@
 
 'use strict';
 
-/* eslint-env node */
-
-/*
- * Dependencies.
- */
-
+/* Dependencies. */
 var fs = require('fs');
+var path = require('path');
+var hidden = require('is-hidden');
+var negate = require('negate');
 var toString = require('nlcst-to-string');
 var ParseLatin = require('..');
 
-/*
- * Parser.
- */
-
+/* Parser. */
 var latin = new ParseLatin();
 
-/*
- * Find fixtures.
- */
+var root = path.join('test', 'fixture');
 
-fs.readdirSync('test/fixture').filter(function (name) {
-    return name.charAt(0) !== '.';
-}).forEach(function (name) {
-    var doc = fs.readFileSync('test/fixture/' + name, 'utf8');
+/* Find fixtures. */
+fs.readdirSync(root)
+  .filter(negate(hidden))
+  .forEach(function (name) {
+    var filePath = path.join(root, name);
+    var doc = fs.readFileSync(filePath);
     var json = JSON.parse(doc);
     var fn = 'tokenize' + json.type.slice(0, json.type.indexOf('Node'));
     var nlcst;
 
     if (fn === 'tokenizeRoot') {
-        fn = 'parse';
+      fn = 'parse';
     }
 
     nlcst = latin[fn](toString(json));
-    nlcst = JSON.stringify(nlcst, 0, 2) + '\n';
+    nlcst = JSON.stringify(nlcst, 0, 2);
 
-    fs.writeFileSync('test/fixture/' + name, nlcst);
-});
+    fs.writeFileSync(filePath, nlcst + '\n');
+  });
