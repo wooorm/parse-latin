@@ -1748,6 +1748,19 @@ test('Terminal markers', function (t) {
     st.end();
   });
 
+  t.test('should break sentences at two or more new lines, permissive of whitespace', function (st) {
+    var tree = latin.parse(
+      'A sentence.\n' +
+      '\n' +
+      'This is an implicit sentence \n' +
+      '\n' +
+      'Another sentence.\n'
+    );
+    t.equal(tree.children.length, 6, 'three paragraphs and three whitespace nodes');
+
+    st.end();
+  });
+
   t.end();
 });
 
