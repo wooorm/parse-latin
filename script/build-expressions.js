@@ -128,7 +128,7 @@ var EXPRESSION_AFFIX_SYMBOL = new RegExp(
 );
 
 /* Match one or more new line characters. */
-var EXPRESSION_NEW_LINE = /^(\r?\n|\r)+$/;
+var EXPRESSION_NEW_LINE = /^[ \t]*((\r?\n|\r)[\t ]*)+$/;
 
 /* Match two or more new line characters. */
 var EXPRESSION_NEW_LINE_MULTI = /^(\r?\n|\r){2,}$/;

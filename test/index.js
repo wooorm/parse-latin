@@ -494,6 +494,30 @@ test('Root: Given two paragraphs', function (t) {
   t.end();
 });
 
+test('Root: Given two paragraphs - extra whitespace', function (t) {
+  /* Modified first paragraph, split in two, from:
+   * http://en.wikipedia.org/wiki/Paragraph */
+  var tree = latin.parse(
+    'A paragraph (from the Greek paragraphos, ' +
+    '“to write beside” or “written beside”) is ' +
+    'a self-contained unit of a discourse in ' +
+    'writing dealing with a particular point ' +
+    'or idea. ' +
+    'A paragraph has 5 types (Anton Heitman).  ' +
+    '\n ' +
+    '\n  ' +
+    'A paragraph consists of one or more ' +
+    'sentences. ' +
+    'Though not required by the syntax of ' +
+    'any language, paragraphs are usually an ' +
+    'expected part of formal writing, used to ' +
+    'organize longer prose.'
+  );
+  t.equal(tree.children.length, 3,
+      'should be resilient to whitespace before or after a newline'); // Two paragraphs and one whitespace node.
+  t.end();
+});
+
 test('A whitespace only document', function (t) {
   describeFixture(t, 'white-space-only', '\n\n');
   t.end();
