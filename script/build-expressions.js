@@ -1,11 +1,3 @@
-/**
- * @author Titus Wormer
- * @copyright 2014-2015 Titus Wormer
- * @license MIT
- * @module parse-latin:script:build-expressions
- * @fileoverview Generate regexes for `parse-latin`.
- */
-
 'use strict';
 
 /* Dependencies. */
@@ -119,7 +111,7 @@ var WORD_SYMBOL_INNER_MULTI = regenerate()
 /* Match closing or final punctuation, or terminal markers that
  * should still be included in the previous sentence, even though
  * they follow the sentence's terminal marker. */
-var EXPRESSION_AFFIX_SYMBOL = new RegExp(
+var RE_AFFIX_SYMBOL = new RegExp(
   '^(' +
     PUNCTUATION_CLOSING + '|' +
     PUNCTUATION_FINAL + '|' +
@@ -128,18 +120,18 @@ var EXPRESSION_AFFIX_SYMBOL = new RegExp(
 );
 
 /* Match one or more new line characters. */
-var EXPRESSION_NEW_LINE = /^[ \t]*((\r?\n|\r)[\t ]*)+$/;
+var RE_NEW_LINE = /^[ \t]*((\r?\n|\r)[\t ]*)+$/;
 
 /* Match two or more new line characters. */
-var EXPRESSION_NEW_LINE_MULTI = /^[ \t]*((\r?\n|\r)[\t ]*){2,}$/;
+var RE_NEW_LINE_MULTI = /^[ \t]*((\r?\n|\r)[\t ]*){2,}$/;
 
 /* Match sentence-ending markers. */
-var EXPRESSION_TERMINAL_MARKER = new RegExp(
+var RE_TERMINAL_MARKER = new RegExp(
   '^((?:' + TERMINAL_MARKER + ')+)$'
 );
 
 /* Match punctuation marks part of surrounding words. */
-var EXPRESSION_WORD_SYMBOL_INNER = new RegExp(
+var RE_WORD_SYMBOL_INNER = new RegExp(
   '^(' +
     '(?:' +
       WORD_SYMBOL_INNER +
@@ -152,26 +144,26 @@ var EXPRESSION_WORD_SYMBOL_INNER = new RegExp(
 );
 
 /* Match punctuation marks. */
-var EXPRESSION_PUNCTUATION = new RegExp(PUNCTUATION);
+var RE_PUNCTUATION = new RegExp(PUNCTUATION);
 
 /* Match numbers. */
-var EXPRESSION_NUMERICAL = new RegExp(
+var RE_NUMERICAL = new RegExp(
   '^(?:' + NUMERICAL + ')+$'
 );
 
 /* Match initial lowercase letter. */
-var EXPRESSION_LOWER_INITIAL = new RegExp(
+var RE_LOWER_INITIAL = new RegExp(
   '^(?:' + LETTER_LOWER + ')'
 );
 
 /* Match anything, when possible words, white spaces, or astrals. */
-var EXPRESSION_SURROGATES = new RegExp('[\\uD800-\\uDFFF]');
+var RE_SURROGATES = new RegExp('[\\uD800-\\uDFFF]');
 
 /* Match a word. */
-var EXPRESSION_WORD = new RegExp(WORD);
+var RE_WORD = new RegExp(WORD);
 
 /* Match white space. */
-var EXPRESSION_WHITE_SPACE = new RegExp(WHITE_SPACE);
+var RE_WHITE_SPACE = new RegExp(WHITE_SPACE);
 
 /* Build file. */
 var file = [
@@ -180,17 +172,17 @@ var file = [
   '',
   'module.exports = {',
   '  ' + [
-    'affixSymbol: ' + EXPRESSION_AFFIX_SYMBOL,
-    'newLine: ' + EXPRESSION_NEW_LINE,
-    'newLineMulti: ' + EXPRESSION_NEW_LINE_MULTI,
-    'terminalMarker: ' + EXPRESSION_TERMINAL_MARKER,
-    'wordSymbolInner: ' + EXPRESSION_WORD_SYMBOL_INNER,
-    'numerical: ' + EXPRESSION_NUMERICAL,
-    'lowerInitial: ' + EXPRESSION_LOWER_INITIAL,
-    'surrogates: ' + EXPRESSION_SURROGATES,
-    'punctuation: ' + EXPRESSION_PUNCTUATION,
-    'word: ' + EXPRESSION_WORD,
-    'whiteSpace: ' + EXPRESSION_WHITE_SPACE
+    'affixSymbol: ' + RE_AFFIX_SYMBOL,
+    'newLine: ' + RE_NEW_LINE,
+    'newLineMulti: ' + RE_NEW_LINE_MULTI,
+    'terminalMarker: ' + RE_TERMINAL_MARKER,
+    'wordSymbolInner: ' + RE_WORD_SYMBOL_INNER,
+    'numerical: ' + RE_NUMERICAL,
+    'lowerInitial: ' + RE_LOWER_INITIAL,
+    'surrogates: ' + RE_SURROGATES,
+    'punctuation: ' + RE_PUNCTUATION,
+    'word: ' + RE_WORD,
+    'whiteSpace: ' + RE_WHITE_SPACE
   ].join(',\n  '),
   '};',
   ''
@@ -207,5 +199,6 @@ fs.writeFileSync(path.join('lib', 'expressions.js'), file);
 function unicode() {
   var args = [].slice.call(arguments);
   args = ['unicode-8.0.0'].concat(args, 'code-points');
+  // eslint-disable-next-line import/no-dynamic-require
   return require(path.join.apply(null, args));
 }

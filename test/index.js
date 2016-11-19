@@ -1,32 +1,22 @@
-/**
- * @author Titus Wormer
- * @copyright 2014-2015 Titus Wormer
- * @license MIT
- * @module parse-latin:test
- * @fileoverview Test suite for `parse-latin`.
- */
-
 'use strict';
 
-/* Dependencies. */
+var fs = require('fs');
+var path = require('path');
 var test = require('tape');
 var nlcstTest = require('nlcst-test');
 var VFile = require('vfile');
 var ParseLatin = require('..');
 
-/* `ParseLatin`. */
 var latin = new ParseLatin();
 var latinNoPosition = new ParseLatin({position: false});
 
-/* Tests. */
 test('ParseLatin', function (t) {
   t.equal(typeof ParseLatin, 'function', 'should be a `function`');
 
   t.ok(new ParseLatin() instanceof ParseLatin, 'should instantiate');
 
-  /* eslint-disable babel/new-cap */
+  // eslint-disable-next-line new-cap
   t.ok(ParseLatin() instanceof ParseLatin, 'should instantiate (#2)');
-  /* eslint-enable babel/new-cap */
 
   t.equal(new ParseLatin().position, true, 'should set `position`');
 
@@ -944,16 +934,13 @@ test('Ellipsis at sentence-start', function (t) {
         '. . . to be continued.'
       );
 
-      /*
-       * This, perhaps correctly, doesn't work yet:
+      /* This, perhaps correctly, doesn't work yet:
        * the last full-stop is classified as part of
        * the first word.
-       *
        *   describeFixture(
        *       'ellipsis-sentence-start-spaces',
        *       '. . .to be continued.'
-       *   );
-       */
+       *   ); */
 
       describeFixture(
         st,
@@ -1840,18 +1827,12 @@ test('Abbreviations: Initialisms', function (t) {
   t.end();
 });
 
-/**
- * Utility to test if a given document is both a valid
- * node, and matches a fixture.
- *
- * @param {string} name - Filename of fixture.
- * @param {string} document - Source to validate.
- * @param {string} method - Method to use.
- */
+/* Utility to test if a given document is both a valid
+ * node, and matches a fixture. */
 function describeFixture(t, name, doc, method) {
   var nlcstA = latin[method || 'parse'](doc);
   var nlcstB = latinNoPosition[method || 'parse'](doc);
-  var fixture = require('./fixture/' + name);
+  var fixture = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixture', name + '.json')));
 
   nlcstTest(nlcstA);
   nlcstTest(nlcstB);
