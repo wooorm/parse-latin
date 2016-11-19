@@ -1,4 +1,4 @@
-# parse-latin [![Build Status][travis-badge]][travis] [![Coverage Status][codecov-badge]][codecov]
+# parse-latin [![Build Status][travis-badge]][travis] [![Coverage Status][codecov-badge]][codecov] [![Chat][chat-badge]][chat]
 
 A Latin script language parser for [**retext**][retext] producing
 [**NLCST**][nlcst] nodes.
@@ -133,6 +133,10 @@ syntax tree, adding sentences and paragraphs where needed.
 [codecov-badge]: https://img.shields.io/codecov/c/github/wooorm/parse-latin.svg
 
 [codecov]: https://codecov.io/github/wooorm/parse-latin
+
+[chat-badge]: https://img.shields.io/gitter/room/wooorm/retext.svg
+
+[chat]: https://gitter.im/wooorm/retext
 
 [npm]: https://docs.npmjs.com/cli/install
 
