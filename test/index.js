@@ -9,7 +9,8 @@ var removePosition = require('unist-util-remove-position');
 var ParseLatin = require('..');
 
 var latin = new ParseLatin();
-var latinNoPosition = new ParseLatin({position: false});
+var latinNoPosition = new ParseLatin();
+latinNoPosition.position = false;
 
 test('ParseLatin', function (t) {
   t.equal(typeof ParseLatin, 'function', 'should be a `function`');
@@ -21,19 +22,14 @@ test('ParseLatin', function (t) {
 
   t.equal(new ParseLatin().position, true, 'should set `position`');
 
-  t.equal(
-    new ParseLatin({position: true}).position, true,
-    'should support `position: true`'
-  );
-
-  t.equal(
-    new ParseLatin({position: false}).position,
-    false,
-    'should support `position: false`'
+  t.deepEqual(
+    new ParseLatin('Alpha bravo charlie').parse(),
+    latin.parse('Alpha bravo charlie'),
+    'should accept a string'
   );
 
   t.deepEqual(
-    new ParseLatin(new VFile('Alpha bravo charlie')).parse(),
+    new ParseLatin('Alpha bravo charlie', new VFile('Alpha bravo charlie')).parse(),
     latin.parse('Alpha bravo charlie'),
     'should accept a vfile'
   );

@@ -53,18 +53,11 @@ RootNode[1] (1:1-1:19, 0-18)
 
 ## API
 
-### `ParseLatin([options])`
+### `ParseLatin(value)`
 
 Exposes the functionality needed to tokenise natural Latin-script
 languages into a syntax tree.
-
-###### `options`
-
-*   `position` (`boolean`, default: true).
-
-###### Returns
-
-A new instance.
+If `value` is passed here, it’s not needed to give it to `#parse()`.
 
 #### `ParseLatin#tokenize(value)`
 
