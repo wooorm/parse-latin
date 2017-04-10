@@ -151,6 +151,9 @@ var RE_NUMERICAL = new RegExp(
   '^(?:' + NUMERICAL + ')+$'
 );
 
+/* Match initial digit. */
+var RE_DIGIT_START = new RegExp('^[0-9]');
+
 /* Match initial lowercase letter. */
 var RE_LOWER_INITIAL = new RegExp(
   '^(?:' + LETTER_LOWER + ')'
@@ -178,6 +181,7 @@ var file = [
     'terminalMarker: ' + RE_TERMINAL_MARKER,
     'wordSymbolInner: ' + RE_WORD_SYMBOL_INNER,
     'numerical: ' + RE_NUMERICAL,
+    'digitStart: ' + RE_DIGIT_START,
     'lowerInitial: ' + RE_LOWER_INITIAL,
     'surrogates: ' + RE_SURROGATES,
     'punctuation: ' + RE_PUNCTUATION,

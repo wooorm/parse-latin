@@ -920,6 +920,23 @@ test('Before comma', function (t) {
   t.end();
 });
 
+test('Before digit', function (t) {
+  t.test('should not treat full-stops before digits as terminal markers',
+    function (st) {
+      /* Source: part of the wikipedia license note. */
+      describeFixture(
+        st,
+        'full-stop-followed-by-digit',
+        'Of .5 percent.'
+      );
+
+      st.end();
+    }
+  );
+
+  t.end();
+});
+
 test('Ellipsis at sentence-start', function (t) {
   t.test(
     'should not treat multiple full-stops at the start of a sentence' +
