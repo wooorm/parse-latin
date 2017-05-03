@@ -934,6 +934,18 @@ test('Before digit', function (t) {
     }
   );
 
+  t.test('should not fail on digit only sentences',
+    function (st) {
+      describeFixture(
+        st,
+        'digit-only-sentence',
+        '123456'
+      );
+
+      st.end();
+    }
+  );
+
   t.end();
 });
 
