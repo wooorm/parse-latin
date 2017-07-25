@@ -5,9 +5,9 @@ A Latin script language parser for [**retext**][retext] producing
 
 Whether Old-English (“þā gewearþ þǣm hlāforde and þǣm hȳrigmannum wiþ
 ānum penninge”), Icelandic (“Hvað er að frétta”), French (“Où sont
-les toilettes?”), **parse-latin** does a good job at tokenising it.
+les toilettes?”), `parse-latin` does a good job at tokenising it.
 
-Note also that **parse-latin** does a decent job at tokenising
+Note also that `parse-latin` does a decent job at tokenising
 Latin-like scripts, Cyrillic (“Добро пожаловать!”), Georgian (“როგორა
 ხარ?”), Armenian (“Շատ հաճելի է”), and such.
 
@@ -21,17 +21,13 @@ npm install parse-latin
 
 ## Usage
 
-Dependencies:
-
 ```javascript
 var inspect = require('unist-util-inspect');
 var Latin = require('parse-latin');
-```
 
-Parse:
-
-```javascript
 var tree = new Latin().parse('A simple sentence.');
+
+console.log(inspect(tree));
 ```
 
 Which, when inspecting, yields:
@@ -61,13 +57,9 @@ If `value` is passed here, it’s not needed to give it to `#parse()`.
 
 #### `ParseLatin#tokenize(value)`
 
-Tokenise natural Latin-script language into letters and numbers (words),
-white space, and everything else (punctuation).  The returned nodes
-are a flat list without paragraphs or sentences.
-
-###### Parameters
-
-*   `value` (`string`) — Value to parse.
+Tokenise `value` (`string`) into letters and numbers (words), white space, and
+everything else (punctuation).  The returned nodes are a flat list without
+paragraphs or sentences.
 
 ###### Returns
 
@@ -75,12 +67,8 @@ are a flat list without paragraphs or sentences.
 
 #### `ParseLatin#parse(value)`
 
-Tokenise natural Latin-script languages into an [NLCST][nlcst].
-The returned node is a `RootNode` with in it paragraphs and sentences.
-
-###### Parameters
-
-*   `value` (`string`) — Value to parse.
+Tokenise `value` (`string`) into an [NLCST][nlcst] tree.  The returned node is
+a `RootNode` with in it paragraphs and sentences.
 
 ###### Returns
 
@@ -92,26 +80,26 @@ The returned node is a `RootNode` with in it paragraphs and sentences.
 > is by using the [online parser demo](https://wooorm.github.io/parse-latin),
 > which shows the syntax tree corresponding to the typed text.
 
-**parse-latin** splits text into white space, word, and punctuation
-tokens.  **parse-latin** starts out with a pretty easy definition,
+`parse-latin` splits text into white space, word, and punctuation
+tokens.  `parse-latin` starts out with a pretty easy definition,
 one that most other tokenisers use:
 
-*   A “word” is one or more letter or number characters;
-*   A “white space” is one or more white space characters;
-*   A “punctuation” is one or more of anything else.
+*   A “word” is one or more letter or number characters
+*   A “white space” is one or more white space characters
+*   A “punctuation” is one or more of anything else
 
 Then, it manipulates and merges those tokens into an [NLCST][]
 syntax tree, adding sentences and paragraphs where needed.
 
 *   Some punctuation marks are part of the word they occur in, e.g.,
     `non-profit`, `she’s`, `G.I.`, `11:00`, `N/A`, `&c`,
-    `nineteenth- and...`;
+    `nineteenth- and...`
 *   Some full-stops do not mark a sentence end, e.g., `1.`, `e.g.`,
-    `id.`;
+    `id.`
 *   Although full-stops, question marks, and exclamation marks
     (sometimes) end a sentence, that end might not occur directly
-    after the mark, e.g., `.)`, `."`;
-*   And many more exceptions.
+    after the mark, e.g., `.)`, `."`
+*   And many more exceptions
 
 ## License
 
