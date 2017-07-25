@@ -1,6 +1,5 @@
 'use strict';
 
-/* Dependencies. */
 var fs = require('fs');
 var path = require('path');
 var regenerate = require('regenerate');
@@ -20,8 +19,6 @@ var whiteSpace = unicode('Binary_Property', 'White_Space');
 var combiningDiacriticalMarks = unicode(
     'Block', 'Combining_Diacritical_Marks'
 );
-
-/* Character groups. */
 
 var COMBINING_DIACRITICAL_MARK = regenerate()
   .add(combiningDiacriticalMarks);
@@ -48,7 +45,6 @@ var PUNCTUATION = regenerate()
   .add(Ps)
 
   /* Remove few weirdly-classified symbols:
-   *
    * Source: http://www.unicode.org/faq/punctuation_symbols.html#4
    */
   .remove('#')
