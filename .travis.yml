@@ -1,7 +1,7 @@
 language: node_js
 node_js:
 - '4.0'
-- '7.0'
+- '8.0'
 sudo: false
 after_script: bash <(curl -s https://codecov.io/bash)
 deploy:
@@ -11,7 +11,7 @@ deploy:
       secure: C7WJeGqLkornmqrIIfWwEDNmvIWmzzk0qPTp8M1phXbqcxK4bGotvZtOXVeD0RqIr30FU6RQmdGcHVndEeGmOar3obYzE7LcDzthc1fkE7ZfRLZucY5EdkWMrhG1PZ6nc6m48r5FdNyQTedA0bXzReTZAZ6CE8Ghb2WH6KbZk5g=
     on:
       tags: true
-      node: '4.0'
+      node: '8.0'
   - provider: releases
     api_key:
       secure: SDs5HT5oa8ECsHlcdpZNpxZb6HhTgMCi+iyA9+iWqpl3r9gkltXQQA5P698VsyQDHic3hUMOSszSk1VpFNBiDfSzfEv5cuWSR88LRBs1T0cV5Zjo5auCo97mjZYPWRTWhA6Q/TYiMLfdgMGaIGlxxxgxu3eG3ngzgZ0EzjKLqTI=
@@ -20,4 +20,4 @@ deploy:
       - "parse-latin.min.js"
     on:
       tags: true
-      node: '7.0'
+      node: '8.0'
