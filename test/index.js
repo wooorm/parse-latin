@@ -782,9 +782,7 @@ test('Alphabetic exceptions', function (t) {
 });
 
 test('Numerical exceptions', function (t) {
-  (
-    '0|1|2|3|4|5|6|7|8|9|11|111|1111'
-  ).split('|').forEach(function (number) {
+  '0|1|2|3|4|5|6|7|8|9|11|111'.split('|').forEach(function (number) {
     t.test('should not treat `' + number + '.` as a terminal marker',
       function (st) {
         describeFixture(
