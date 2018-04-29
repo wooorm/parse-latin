@@ -501,7 +501,7 @@ test('Root: Given two paragraphs - extra whitespace', function (t) {
     'organize longer prose.'
   );
   t.equal(tree.children.length, 3,
-      'should be resilient to whitespace before or after a newline'); // Two paragraphs and one whitespace node.
+    'should be resilient to whitespace before or after a newline'); // Two paragraphs and one whitespace node.
   t.end();
 });
 
@@ -525,7 +525,7 @@ test('Root: Without a value', function (t) {
 test('Root: Given a String object', function (t) {
   var source = 'Test.';
 
-  /* eslint-disable no-new-wrappers */
+  /* eslint-disable no-new-wrappers, unicorn/new-for-builtins */
   t.deepEqual(
     latin.parse(new String(source)),
     latin.parse(source),
@@ -533,7 +533,7 @@ test('Root: Given a String object', function (t) {
     'given object when the given object is an instance of ' +
     'String'
   );
-  /* eslint-enable no-new-wrappers */
+  /* eslint-enable no-new-wrappers, unicorn/new-for-builtins */
 
   t.end();
 });
@@ -578,10 +578,10 @@ test('Root: Given an array', function (t) {
             children: [
               {type: 'TextNode', value: 'hoot'},
               {type: 'TextNode', value: 's'}
-            ]}
-          ]}
-        ]}
-      ]
+            ]
+          }]
+        }]
+      }]
     },
     latin.parse([
       {
@@ -821,17 +821,17 @@ test('Initialisms', function (t) {
 test('Lower-case letters', function (t) {
   t.test('should not treat full-stops followed by a lower-case letter ' +
     'as terminal marker',
-    function (st) {
-      /* Source: http://en.wikipedia.org/wiki/Park_Ave. */
-      describeFixture(
-        st,
-        'lower-case-exception',
-        'Park Ave. was an indie pop band which started in ' +
+  function (st) {
+    /* Source: http://en.wikipedia.org/wiki/Park_Ave. */
+    describeFixture(
+      st,
+      'lower-case-exception',
+      'Park Ave. was an indie pop band which started in ' +
         'January 1996 in Nebraska (Omaha).'
-      );
+    );
 
-      st.end();
-    }
+    st.end();
+  }
   );
 
   t.end();
@@ -859,19 +859,19 @@ test('Domain names', function (t) {
 test('Inside quotes', function (t) {
   t.test('should treat closing quotes after full-stops as part of ' +
     'the previous sentence',
-    function (st) {
-      /* Source: the web. */
-      describeFixture(
-        st,
-        'full-stop-followed-by-closing-quote',
-        '“However,” says my Grade 8 ' +
+  function (st) {
+    /* Source: the web. */
+    describeFixture(
+      st,
+      'full-stop-followed-by-closing-quote',
+      '“However,” says my Grade 8 ' +
         'teacher, “the period goes inside ' +
         'quotes.” ' +
         'This is another sentence.'
-      );
+    );
 
-      st.end();
-    }
+    st.end();
+  }
   );
 
   t.end();
@@ -1144,7 +1144,7 @@ test('White space characters', function (t) {
     '\u2029', /* PARAGRAPH SEPARATOR */
     '\u202F', /* NARROW NO-BREAK SPACE */
     '\u205F', /* MEDIUM MATHEMATICAL SPACE */
-    '\u3000'  /* IDEOGRAPHIC SPACE */
+    '\u3000' /* IDEOGRAPHIC SPACE */
   ].forEach(function (character) {
     t.deepEqual(
       latinNoPosition.parse(
@@ -1332,7 +1332,7 @@ test('Combining diacritical marks', function (t) {
     '\u036C', /* LATIN SMALL LETTER R (U+036C) */
     '\u036D', /* LATIN SMALL LETTER T (U+036D) */
     '\u036E', /* LATIN SMALL LETTER V (U+036E) */
-    '\u036F'  /* LATIN SMALL LETTER X (U+036F) */
+    '\u036F' /* LATIN SMALL LETTER X (U+036F) */
   ].forEach(function (diacritic) {
     t.deepEqual(
       latinNoPosition.parse(

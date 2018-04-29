@@ -17,7 +17,7 @@ var Po = unicode('General_Category', 'Other_Punctuation');
 var Ps = unicode('General_Category', 'Open_Punctuation');
 var whiteSpace = unicode('Binary_Property', 'White_Space');
 var combiningDiacriticalMarks = unicode(
-    'Block', 'Combining_Diacritical_Marks'
+  'Block', 'Combining_Diacritical_Marks'
 );
 
 var COMBINING_DIACRITICAL_MARK = regenerate()
@@ -148,7 +148,7 @@ var RE_NUMERICAL = new RegExp(
 );
 
 /* Match initial digit. */
-var RE_DIGIT_START = new RegExp('^[0-9]');
+var RE_DIGIT_START = new RegExp('^\\d');
 
 /* Match initial lowercase letter. */
 var RE_LOWER_INITIAL = new RegExp(
