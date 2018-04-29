@@ -1,39 +1,32 @@
-'use strict';
+'use strict'
 
-var fs = require('fs');
-var path = require('path');
-var regenerate = require('regenerate');
+var fs = require('fs')
+var path = require('path')
+var regenerate = require('regenerate')
 
-var N = unicode('General_Category', 'Number');
-var L = unicode('General_Category', 'Letter');
-var Ll = unicode('General_Category', 'Lowercase_Letter');
-var M = unicode('General_Category', 'Mark');
-var Pc = unicode('General_Category', 'Connector_Punctuation');
-var Pd = unicode('General_Category', 'Dash_Punctuation');
-var Pe = unicode('General_Category', 'Close_Punctuation');
-var Pf = unicode('General_Category', 'Final_Punctuation');
-var Pi = unicode('General_Category', 'Initial_Punctuation');
-var Po = unicode('General_Category', 'Other_Punctuation');
-var Ps = unicode('General_Category', 'Open_Punctuation');
-var whiteSpace = unicode('Binary_Property', 'White_Space');
-var combiningDiacriticalMarks = unicode(
-  'Block', 'Combining_Diacritical_Marks'
-);
+var N = unicode('General_Category', 'Number')
+var L = unicode('General_Category', 'Letter')
+var Ll = unicode('General_Category', 'Lowercase_Letter')
+var M = unicode('General_Category', 'Mark')
+var Pc = unicode('General_Category', 'Connector_Punctuation')
+var Pd = unicode('General_Category', 'Dash_Punctuation')
+var Pe = unicode('General_Category', 'Close_Punctuation')
+var Pf = unicode('General_Category', 'Final_Punctuation')
+var Pi = unicode('General_Category', 'Initial_Punctuation')
+var Po = unicode('General_Category', 'Other_Punctuation')
+var Ps = unicode('General_Category', 'Open_Punctuation')
+var whiteSpace = unicode('Binary_Property', 'White_Space')
+var combiningDiacriticalMarks = unicode('Block', 'Combining_Diacritical_Marks')
 
-var COMBINING_DIACRITICAL_MARK = regenerate()
-  .add(combiningDiacriticalMarks);
+var COMBINING_DIACRITICAL_MARK = regenerate().add(combiningDiacriticalMarks)
 
-var COMBINING_NONSPACING_MARK = regenerate()
-  .add(M);
+var COMBINING_NONSPACING_MARK = regenerate().add(M)
 
-var LETTER = regenerate()
-  .add(L);
+var LETTER = regenerate().add(L)
 
-var LETTER_LOWER = regenerate()
-  .add(Ll);
+var LETTER_LOWER = regenerate().add(Ll)
 
-var NUMERICAL = regenerate()
-  .add(N);
+var NUMERICAL = regenerate().add(N)
 
 var PUNCTUATION = regenerate()
   .add(Pc)
@@ -56,31 +49,29 @@ var PUNCTUATION = regenerate()
   .remove('*')
   .remove('†')
   .remove('‡')
-  .remove('※');
+  .remove('※')
 
-var PUNCTUATION_CLOSING = regenerate()
-  .add(Pe);
+var PUNCTUATION_CLOSING = regenerate().add(Pe)
 
 var PUNCTUATION_FINAL = regenerate()
   .add(Pf)
   .add('"')
-  .add('\'');
+  .add("'")
 
-var WHITE_SPACE = regenerate()
-  .add(whiteSpace);
+var WHITE_SPACE = regenerate().add(whiteSpace)
 
 var WORD = regenerate()
   .add(COMBINING_DIACRITICAL_MARK)
   .add(COMBINING_NONSPACING_MARK)
   .add(LETTER)
-  .add(NUMERICAL);
+  .add(NUMERICAL)
 
 var TERMINAL_MARKER = regenerate()
   .add('.')
-  .add(0x203D)
+  .add(0x203d)
   .add('?')
   .add('!')
-  .add(0x2026);
+  .add(0x2026)
 
 /* Symbols part of surrounding words. */
 var WORD_SYMBOL_INNER = regenerate()
@@ -90,106 +81,102 @@ var WORD_SYMBOL_INNER = regenerate()
   .add('=')
   .add('.')
   .add(':')
-  .add('\'')
+  .add("'")
   .add('&')
   .add(0x2019) // Right single quote
-  .add(0x00AD) // Soft hyphen
-  .add(0x00B7) // Hyphen
+  .add(0x00ad) // Soft hyphen
+  .add(0x00b7) // Hyphen
   .add(0x2010) // Non-breaking hyphen
   .add(0x2011) // Hyphenation point
-  .add(0x2027); // Middle dot
+  .add(0x2027) // Middle dot
 
 /* Symbols which can occur multiple times and
  * still be part of surrounding words. */
-var WORD_SYMBOL_INNER_MULTI = regenerate()
-  .add('_');
+var WORD_SYMBOL_INNER_MULTI = regenerate().add('_')
 
 /* Match closing or final punctuation, or terminal markers that
  * should still be included in the previous sentence, even though
  * they follow the sentence's terminal marker. */
 var RE_AFFIX_SYMBOL = new RegExp(
   '^(' +
-    PUNCTUATION_CLOSING + '|' +
-    PUNCTUATION_FINAL + '|' +
+    PUNCTUATION_CLOSING +
+    '|' +
+    PUNCTUATION_FINAL +
+    '|' +
     TERMINAL_MARKER +
-  ')\\1*$'
-);
+    ')\\1*$'
+)
 
 /* Match one or more new line characters. */
-var RE_NEW_LINE = /^[ \t]*((\r?\n|\r)[\t ]*)+$/;
+var RE_NEW_LINE = /^[ \t]*((\r?\n|\r)[\t ]*)+$/
 
 /* Match two or more new line characters. */
-var RE_NEW_LINE_MULTI = /^[ \t]*((\r?\n|\r)[\t ]*){2,}$/;
+var RE_NEW_LINE_MULTI = /^[ \t]*((\r?\n|\r)[\t ]*){2,}$/
 
 /* Match sentence-ending markers. */
-var RE_TERMINAL_MARKER = new RegExp(
-  '^((?:' + TERMINAL_MARKER + ')+)$'
-);
+var RE_TERMINAL_MARKER = new RegExp('^((?:' + TERMINAL_MARKER + ')+)$')
 
 /* Match punctuation marks part of surrounding words. */
 var RE_WORD_SYMBOL_INNER = new RegExp(
   '^(' +
     '(?:' +
-      WORD_SYMBOL_INNER +
+    WORD_SYMBOL_INNER +
     ')' +
     '|' +
     '(?:' +
-      WORD_SYMBOL_INNER_MULTI +
+    WORD_SYMBOL_INNER_MULTI +
     ')+' +
-  ')$'
-);
+    ')$'
+)
 
 /* Match punctuation marks. */
-var RE_PUNCTUATION = new RegExp(PUNCTUATION);
+var RE_PUNCTUATION = new RegExp(PUNCTUATION)
 
 /* Match numbers. */
-var RE_NUMERICAL = new RegExp(
-  '^(?:' + NUMERICAL + ')+$'
-);
+var RE_NUMERICAL = new RegExp('^(?:' + NUMERICAL + ')+$')
 
 /* Match initial digit. */
-var RE_DIGIT_START = new RegExp('^\\d');
+var RE_DIGIT_START = new RegExp('^\\d')
 
 /* Match initial lowercase letter. */
-var RE_LOWER_INITIAL = new RegExp(
-  '^(?:' + LETTER_LOWER + ')'
-);
+var RE_LOWER_INITIAL = new RegExp('^(?:' + LETTER_LOWER + ')')
 
 /* Match anything, when possible words, white spaces, or astrals. */
-var RE_SURROGATES = new RegExp('[\\uD800-\\uDFFF]');
+var RE_SURROGATES = new RegExp('[\\uD800-\\uDFFF]')
 
 /* Match a word. */
-var RE_WORD = new RegExp(WORD);
+var RE_WORD = new RegExp(WORD)
 
 /* Match white space. */
-var RE_WHITE_SPACE = new RegExp(WHITE_SPACE);
+var RE_WHITE_SPACE = new RegExp(WHITE_SPACE)
 
 /* Build file. */
 var file = [
   '/* This module is generated by `script/build-expressions.js` */',
-  '\'use strict\';',
+  "'use strict'",
   '',
   'module.exports = {',
-  '  ' + [
-    'affixSymbol: ' + RE_AFFIX_SYMBOL,
-    'newLine: ' + RE_NEW_LINE,
-    'newLineMulti: ' + RE_NEW_LINE_MULTI,
-    'terminalMarker: ' + RE_TERMINAL_MARKER,
-    'wordSymbolInner: ' + RE_WORD_SYMBOL_INNER,
-    'numerical: ' + RE_NUMERICAL,
-    'digitStart: ' + RE_DIGIT_START,
-    'lowerInitial: ' + RE_LOWER_INITIAL,
-    'surrogates: ' + RE_SURROGATES,
-    'punctuation: ' + RE_PUNCTUATION,
-    'word: ' + RE_WORD,
-    'whiteSpace: ' + RE_WHITE_SPACE
-  ].join(',\n  '),
-  '};',
+  '  ' +
+    [
+      'affixSymbol: ' + RE_AFFIX_SYMBOL,
+      'newLine: ' + RE_NEW_LINE,
+      'newLineMulti: ' + RE_NEW_LINE_MULTI,
+      'terminalMarker: ' + RE_TERMINAL_MARKER,
+      'wordSymbolInner: ' + RE_WORD_SYMBOL_INNER,
+      'numerical: ' + RE_NUMERICAL,
+      'digitStart: ' + RE_DIGIT_START,
+      'lowerInitial: ' + RE_LOWER_INITIAL,
+      'surrogates: ' + RE_SURROGATES,
+      'punctuation: ' + RE_PUNCTUATION,
+      'word: ' + RE_WORD,
+      'whiteSpace: ' + RE_WHITE_SPACE
+    ].join(',\n  '),
+  '}',
   ''
-].join('\n');
+].join('\n')
 
 /* Write. */
-fs.writeFileSync(path.join('lib', 'expressions.js'), file);
+fs.writeFileSync(path.join('lib', 'expressions.js'), file)
 
 /**
  * Get unicode data.
@@ -197,8 +184,8 @@ fs.writeFileSync(path.join('lib', 'expressions.js'), file);
  * @return {*} - A unicode category.
  */
 function unicode() {
-  var args = [].slice.call(arguments);
-  args = ['unicode-8.0.0'].concat(args, 'code-points');
+  var args = [].slice.call(arguments)
+  args = ['unicode-8.0.0'].concat(args, 'code-points')
   // eslint-disable-next-line import/no-dynamic-require
-  return require(path.join.apply(null, args));
+  return require(path.join.apply(null, args))
 }

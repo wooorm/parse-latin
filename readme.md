@@ -22,12 +22,12 @@ npm install parse-latin
 ## Usage
 
 ```javascript
-var inspect = require('unist-util-inspect');
-var Latin = require('parse-latin');
+var inspect = require('unist-util-inspect')
+var Latin = require('parse-latin')
 
-var tree = new Latin().parse('A simple sentence.');
+var tree = new Latin().parse('A simple sentence.')
 
-console.log(inspect(tree));
+console.log(inspect(tree))
 ```
 
 Which, when inspecting, yields:
