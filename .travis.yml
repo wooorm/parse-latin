@@ -1,11 +1,12 @@
 language: node_js
 node_js:
-- '4.0'
-- '8.0'
+- lts/boron
+- node
 sudo: false
 after_script: bash <(curl -s https://codecov.io/bash)
 deploy:
   provider: releases
+  skip_cleanup: true
   api_key:
     secure: SDs5HT5oa8ECsHlcdpZNpxZb6HhTgMCi+iyA9+iWqpl3r9gkltXQQA5P698VsyQDHic3hUMOSszSk1VpFNBiDfSzfEv5cuWSR88LRBs1T0cV5Zjo5auCo97mjZYPWRTWhA6Q/TYiMLfdgMGaIGlxxxgxu3eG3ngzgZ0EzjKLqTI=
   file:
@@ -13,4 +14,3 @@ deploy:
     - "parse-latin.min.js"
   on:
     tags: true
-    node: '8.0'
