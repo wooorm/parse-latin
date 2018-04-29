@@ -11,7 +11,7 @@
     "language",
     "parser"
   ],
-  "repository": "https://github.com/wooorm/parse-latin",
+  "repository": "wooorm/parse-latin",
   "bugs": "https://github.com/wooorm/parse-latin/issues",
   "author": "Titus Wormer <tituswormer@gmail.com> (http://wooorm.com)",
   "contributors": [
