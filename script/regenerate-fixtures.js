@@ -10,8 +10,7 @@ var Latin = require('..')
 var root = path.join('test', 'fixture')
 var latin = new Latin()
 
-fs
-  .readdirSync(root)
+fs.readdirSync(root)
   .filter(negate(hidden))
   .forEach(function(name) {
     var doc = fs.readFileSync(path.join(root, name))

@@ -186,6 +186,5 @@ fs.writeFileSync(path.join('lib', 'expressions.js'), file)
 function unicode() {
   var args = [].slice.call(arguments)
   args = ['unicode-8.0.0'].concat(args, 'code-points')
-  // eslint-disable-next-line import/no-dynamic-require
   return require(path.join.apply(null, args))
 }
