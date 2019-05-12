@@ -75,10 +75,6 @@
       "no-useless-escape": "off",
       "guard-for-in": "off",
       "max-depth": "off",
-      "no-var": "off",
-      "object-shorthand": "off",
-      "prefer-arrow-callback": "off",
-      "unicorn/number-literal-case": "off",
       "unicorn/no-hex-escape": "off"
     },
     "ignores": [
