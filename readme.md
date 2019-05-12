@@ -139,6 +139,6 @@ syntax tree, adding sentences and paragraphs where needed.
 
 [author]: https://wooorm.com
 
-[retext]: https://github.com/wooorm/retext
+[retext]: https://github.com/retextjs/retext
 
-[nlcst]: https://github.com/wooorm/nlcst
+[nlcst]: https://github.com/syntax-tree/nlcst
