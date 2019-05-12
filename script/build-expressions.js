@@ -15,20 +15,20 @@ var Pf = unicode('General_Category', 'Final_Punctuation')
 var Pi = unicode('General_Category', 'Initial_Punctuation')
 var Po = unicode('General_Category', 'Other_Punctuation')
 var Ps = unicode('General_Category', 'Open_Punctuation')
-var whiteSpace = unicode('Binary_Property', 'White_Space')
+var BPWhiteSpace = unicode('Binary_Property', 'White_Space')
 var combiningDiacriticalMarks = unicode('Block', 'Combining_Diacritical_Marks')
 
-var COMBINING_DIACRITICAL_MARK = regenerate().add(combiningDiacriticalMarks)
+var combiningDiacriticalMark = regenerate().add(combiningDiacriticalMarks)
 
-var COMBINING_NONSPACING_MARK = regenerate().add(M)
+var combiningNonspacingMark = regenerate().add(M)
 
-var LETTER = regenerate().add(L)
+var letter = regenerate().add(L)
 
-var LETTER_LOWER = regenerate().add(Ll)
+var letterLower = regenerate().add(Ll)
 
-var NUMERICAL = regenerate().add(N)
+var numerical = regenerate().add(N)
 
-var PUNCTUATION = regenerate()
+var punctuation = regenerate()
   .add(Pc)
   .add(Pd)
   .add(Pe)
@@ -50,22 +50,22 @@ var PUNCTUATION = regenerate()
   .remove('‡')
   .remove('※')
 
-var PUNCTUATION_CLOSING = regenerate().add(Pe)
+var punctuationClosing = regenerate().add(Pe)
 
-var PUNCTUATION_FINAL = regenerate()
+var punctuationFinal = regenerate()
   .add(Pf)
   .add('"')
   .add("'")
 
-var WHITE_SPACE = regenerate().add(whiteSpace)
+var whiteSpace = regenerate().add(BPWhiteSpace)
 
-var WORD = regenerate()
-  .add(COMBINING_DIACRITICAL_MARK)
-  .add(COMBINING_NONSPACING_MARK)
-  .add(LETTER)
-  .add(NUMERICAL)
+var word = regenerate()
+  .add(combiningDiacriticalMark)
+  .add(combiningNonspacingMark)
+  .add(letter)
+  .add(numerical)
 
-var TERMINAL_MARKER = regenerate()
+var terminalMarker = regenerate()
   .add('.')
   .add(0x203d)
   .add('?')
@@ -73,7 +73,7 @@ var TERMINAL_MARKER = regenerate()
   .add(0x2026)
 
 // Symbols part of surrounding words.
-var WORD_SYMBOL_INNER = regenerate()
+var wordSymbolInner = regenerate()
   .add('-')
   .add('@')
   .add('?')
@@ -91,63 +91,63 @@ var WORD_SYMBOL_INNER = regenerate()
 
 // Symbols which can occur multiple times and still be part of surrounding
 // words.
-var WORD_SYMBOL_INNER_MULTI = regenerate().add('_')
+var wordSymbolInnerMulti = regenerate().add('_')
 
 // Match closing or final punctuation, or terminal markers that should still be
 // included in the previous sentence, even though they follow the sentence’s
 // terminal marker.
-var RE_AFFIX_SYMBOL = new RegExp(
+var reAffixSymbol = new RegExp(
   '^(' +
-    PUNCTUATION_CLOSING +
+    punctuationClosing +
     '|' +
-    PUNCTUATION_FINAL +
+    punctuationFinal +
     '|' +
-    TERMINAL_MARKER +
+    terminalMarker +
     ')\\1*$'
 )
 
 // Match one or more new line characters.
-var RE_NEW_LINE = /^[ \t]*((\r?\n|\r)[\t ]*)+$/
+var reNewLine = /^[ \t]*((\r?\n|\r)[\t ]*)+$/
 
 // Match two or more new line characters.
-var RE_NEW_LINE_MULTI = /^[ \t]*((\r?\n|\r)[\t ]*){2,}$/
+var reNewLineMulti = /^[ \t]*((\r?\n|\r)[\t ]*){2,}$/
 
 // Match sentence-ending markers.
-var RE_TERMINAL_MARKER = new RegExp('^((?:' + TERMINAL_MARKER + ')+)$')
+var reTerminalMarker = new RegExp('^((?:' + terminalMarker + ')+)$')
 
 // Match punctuation marks part of surrounding words.
-var RE_WORD_SYMBOL_INNER = new RegExp(
+var reWordSymbolInner = new RegExp(
   '^(' +
     '(?:' +
-    WORD_SYMBOL_INNER +
+    wordSymbolInner +
     ')' +
     '|' +
     '(?:' +
-    WORD_SYMBOL_INNER_MULTI +
+    wordSymbolInnerMulti +
     ')+' +
     ')$'
 )
 
 // Match punctuation marks.
-var RE_PUNCTUATION = new RegExp(PUNCTUATION)
+var rePunctuation = new RegExp(punctuation)
 
 // Match numbers.
-var RE_NUMERICAL = new RegExp('^(?:' + NUMERICAL + ')+$')
+var reNumerical = new RegExp('^(?:' + numerical + ')+$')
 
 // Match initial digit.
-var RE_DIGIT_START = new RegExp('^\\d')
+var reDigitStart = new RegExp('^\\d')
 
 // Match initial lowercase letter.
-var RE_LOWER_INITIAL = new RegExp('^(?:' + LETTER_LOWER + ')')
+var reLowerInitial = new RegExp('^(?:' + letterLower + ')')
 
 // Match anything, when possible words, white spaces, or astrals.
-var RE_SURROGATES = new RegExp('[\\uD800-\\uDFFF]')
+var reSurrogates = new RegExp('[\\uD800-\\uDFFF]')
 
 // Match a word.
-var RE_WORD = new RegExp(WORD)
+var reWord = new RegExp(word)
 
 // Match white space.
-var RE_WHITE_SPACE = new RegExp(WHITE_SPACE)
+var reWhiteSpace = new RegExp(whiteSpace)
 
 // Build file.
 var file = [
@@ -157,18 +157,18 @@ var file = [
   'module.exports = {',
   '  ' +
     [
-      'affixSymbol: ' + RE_AFFIX_SYMBOL,
-      'newLine: ' + RE_NEW_LINE,
-      'newLineMulti: ' + RE_NEW_LINE_MULTI,
-      'terminalMarker: ' + RE_TERMINAL_MARKER,
-      'wordSymbolInner: ' + RE_WORD_SYMBOL_INNER,
-      'numerical: ' + RE_NUMERICAL,
-      'digitStart: ' + RE_DIGIT_START,
-      'lowerInitial: ' + RE_LOWER_INITIAL,
-      'surrogates: ' + RE_SURROGATES,
-      'punctuation: ' + RE_PUNCTUATION,
-      'word: ' + RE_WORD,
-      'whiteSpace: ' + RE_WHITE_SPACE
+      'affixSymbol: ' + reAffixSymbol,
+      'newLine: ' + reNewLine,
+      'newLineMulti: ' + reNewLineMulti,
+      'terminalMarker: ' + reTerminalMarker,
+      'wordSymbolInner: ' + reWordSymbolInner,
+      'numerical: ' + reNumerical,
+      'digitStart: ' + reDigitStart,
+      'lowerInitial: ' + reLowerInitial,
+      'surrogates: ' + reSurrogates,
+      'punctuation: ' + rePunctuation,
+      'word: ' + reWord,
+      'whiteSpace: ' + reWhiteSpace
     ].join(',\n  '),
   '}',
   ''

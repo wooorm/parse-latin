@@ -4,7 +4,7 @@ var fs = require('fs')
 var path = require('path')
 var test = require('tape')
 var nlcstTest = require('nlcst-test')
-var VFile = require('vfile')
+var vfile = require('vfile')
 var removePosition = require('unist-util-remove-position')
 var ParseLatin = require('..')
 
@@ -29,10 +29,7 @@ test('ParseLatin', function(t) {
   )
 
   t.deepEqual(
-    new ParseLatin(
-      'Alpha bravo charlie',
-      new VFile('Alpha bravo charlie')
-    ).parse(),
+    new ParseLatin('Alpha bravo charlie', vfile('Alpha bravo charlie')).parse(),
     latin.parse('Alpha bravo charlie'),
     'should accept a vfile'
   )
