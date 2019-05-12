@@ -121,7 +121,7 @@ syntax tree, adding sentences and paragraphs where needed.
 
 [npm]: https://docs.npmjs.com/cli/install
 
-[license]: LICENSE
+[license]: license
 
 [author]: http://wooorm.com
 
