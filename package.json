@@ -39,7 +39,7 @@
     "remark-cli": "^6.0.0",
     "remark-preset-wooorm": "^4.0.0",
     "tape": "^4.0.0",
-    "unicode-8.0.0": "^0.7.0",
+    "unicode-12.1.0": "^0.8.0",
     "unist-util-remove-position": "^1.1.0",
     "vfile": "^4.0.0",
     "xo": "^0.24.0"

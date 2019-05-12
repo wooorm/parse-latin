@@ -185,6 +185,6 @@ fs.writeFileSync(path.join('lib', 'expressions.js'), file)
  */
 function unicode() {
   var args = [].slice.call(arguments)
-  args = ['unicode-8.0.0'].concat(args, 'code-points')
+  args = ['unicode-12.1.0'].concat(args, 'code-points')
   return require(path.join.apply(null, args))
 }
