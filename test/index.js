@@ -80,7 +80,7 @@ test('ParseLatin#use(key, plugin)', function(t) {
       'should invoke the plugin'
     )
 
-    /* Clean. */
+    // Clean.
     ParseLatin.prototype.tokenizeWordPlugins = null
 
     st.end()
@@ -109,7 +109,7 @@ test('ParseLatin#use(key, plugin)', function(t) {
       'should invoke the plugin'
     )
 
-    /* Clean. */
+    // Clean.
     ParseLatin.prototype.tokenizeWordPlugins = null
 
     st.end()
@@ -158,7 +158,7 @@ test('ParseLatin#useFirst(key, plugin)', function(t) {
       'should invoke the plugin'
     )
 
-    /* Clean. */
+    // Clean.
     ParseLatin.prototype.tokenizeWordPlugins = null
 
     st.end()
@@ -387,8 +387,8 @@ test('ParseLatin#tokenizeWord()', function(t) {
 })
 
 test('Root: Given two paragraphs', function(t) {
-  /* Modified first paragraph, split in two, from:
-   * https://en.wikipedia.org/wiki/Paragraph */
+  // Modified first paragraph, split in two, from:
+  // <https://en.wikipedia.org/wiki/Paragraph>
   describeFixture(
     t,
     'two-paragraphs',
@@ -407,8 +407,8 @@ test('Root: Given two paragraphs', function(t) {
 })
 
 test('Root: Given two paragraphs - extra whitespace', function(t) {
-  /* Modified first paragraph, split in two, from:
-   * https://en.wikipedia.org/wiki/Paragraph */
+  // Modified first paragraph, split in two, from:
+  // <https://en.wikipedia.org/wiki/Paragraph>
   var tree = latin.parse(
     [
       'A paragraph (from the Greek paragraphos, “to write beside” or ',
@@ -434,8 +434,7 @@ test('A whitespace only document', function(t) {
 })
 
 test('Root: Without a value', function(t) {
-  /* No fixture test because this fails in
-   * NLCST-test (which it should though). */
+  // No fixture test because this fails in NLCST-test (which it should though).
   t.deepEqual(
     latin.parse(),
     {type: 'RootNode', children: []},
@@ -656,7 +655,7 @@ test('Sentence: Without a value', function(t) {
 
 test('Digit-letter combinations in words', function(t) {
   t.test('should treat digit-letter as a word', function(st) {
-    /* Source: https://en.wikipedia.org/wiki/IPhone_5S */
+    // Source: <https://en.wikipedia.org/wiki/IPhone_5S>
     describeFixture(
       st,
       'digit-letter-combination',
@@ -746,9 +745,8 @@ test('Initialisms', function(t) {
   t.test(
     'should not treat full-stops in initialisms as a terminal marker',
     function(st) {
-      /* Source:
-       *   https://en.wikipedia.org/wiki/Natural_language#
-       *   Constructed_languages_and_international_auxiliary_languages */
+      // Source:
+      // <https://en.wikipedia.org/wiki/Natural_language#Constructed_languages_and_international_auxiliary_languages>
       describeFixture(
         st,
         'initialism-exception',
@@ -767,7 +765,7 @@ test('Lower-case letters', function(t) {
     'should not treat full-stops followed by a lower-case letter ' +
       'as terminal marker',
     function(st) {
-      /* Source: https://en.wikipedia.org/wiki/Park_Ave. */
+      // Source: <https://en.wikipedia.org/wiki/Park_Ave.>
       describeFixture(
         st,
         'lower-case-exception',
@@ -786,7 +784,7 @@ test('Domain names', function(t) {
   t.test(
     'should not treat full-stops preceding a word as terminal marker',
     function(st) {
-      /* Source: https://en.wikipedia.org/wiki/.com */
+      // Source: <https://en.wikipedia.org/wiki/.com>
       describeFixture(
         st,
         'domain-name-exception',
@@ -807,7 +805,7 @@ test('Inside quotes', function(t) {
     'should treat closing quotes after full-stops as part of ' +
       'the previous sentence',
     function(st) {
-      /* Source: the web. */
+      // Source: the web.
       describeFixture(
         st,
         'full-stop-followed-by-closing-quote',
@@ -829,7 +827,7 @@ test('Inside parens', function(t) {
     'should treat closing parens after full-stops as part of ' +
       'the previous sentence',
     function(st) {
-      /* Source: the web. */
+      // Source: the web.
       describeFixture(
         st,
         'full-stop-followed-by-closing-parenthesis',
@@ -850,7 +848,7 @@ test('Before comma', function(t) {
   t.test(
     "should not treat full-stops before comma's as terminal markers",
     function(st) {
-      /* Source: part of the wikipedia license note. */
+      // Source: part of the wikipedia license note.
       describeFixture(
         st,
         'full-stop-followed-by-comma',
@@ -870,7 +868,7 @@ test('Before digit', function(t) {
   t.test(
     'should not treat full-stops before digits as terminal markers',
     function(st) {
-      /* Source: part of the wikipedia license note. */
+      // Source: part of the wikipedia license note.
       describeFixture(st, 'full-stop-followed-by-digit', 'Of .5 percent.')
 
       st.end()
@@ -897,13 +895,9 @@ test('Ellipsis at sentence-start', function(t) {
         '. . . to be continued.'
       )
 
-      /* This, perhaps correctly, doesn't work yet:
-       * the last full-stop is classified as part of
-       * the first word.
-       *   describeFixture(
-       *       'ellipsis-sentence-start-spaces',
-       *       '. . .to be continued.'
-       *   ); */
+      // This, perhaps correctly, doesn’t work yet: the last full-stop is
+      // classified as part of the first word.
+      // describeFixture('ellipsis-sentence-start-spaces', '. . .to be continued.')
 
       describeFixture(st, 'ellipsis-sentence-start', '...to be continued.')
 
@@ -1026,31 +1020,31 @@ test('White space characters', function(t) {
   var sentenceStart = 'A'
   var sentenceEnd = 'house.'
   ;[
-    '\u0009' /* CHARACTER TABULATION */,
-    '\u000A' /* LINE FEED (LF) */,
-    '\u000B' /* LINE TABULATION */,
-    '\u000C' /* FORM FEED (FF) */,
-    '\u000D' /* CARRIAGE RETURN (CR) */,
-    '\u0020' /* SPACE */,
-    '\u0085' /* NEXT LINE (NEL) */,
-    '\u00A0' /* NO-BREAK SPACE */,
-    '\u1680' /* OGHAM SPACE MARK */,
-    '\u2000' /* EN QUAD */,
-    '\u2001' /* EM QUAD */,
-    '\u2002' /* EN SPACE */,
-    '\u2003' /* EM SPACE */,
-    '\u2004' /* THREE-PER-EM SPACE */,
-    '\u2005' /* FOUR-PER-EM SPACE */,
-    '\u2006' /* SIX-PER-EM SPACE */,
-    '\u2007' /* FIGURE SPACE */,
-    '\u2008' /* PUNCTUATION SPACE */,
-    '\u2009' /* THIN SPACE */,
-    '\u200A' /* HAIR SPACE */,
-    '\u2028' /* LINE SEPARATOR */,
-    '\u2029' /* PARAGRAPH SEPARATOR */,
-    '\u202F' /* NARROW NO-BREAK SPACE */,
-    '\u205F' /* MEDIUM MATHEMATICAL SPACE */,
-    '\u3000' /* IDEOGRAPHIC SPACE */
+    '\u0009', // CHARACTER TABULATION
+    '\u000A', // LINE FEED (LF)
+    '\u000B', // LINE TABULATION
+    '\u000C', // FORM FEED (FF)
+    '\u000D', // CARRIAGE RETURN (CR)
+    '\u0020', // SPACE
+    '\u0085', // NEXT LINE (NEL)
+    '\u00A0', // NO-BREAK SPACE
+    '\u1680', // OGHAM SPACE MARK
+    '\u2000', // EN QUAD
+    '\u2001', // EM QUAD
+    '\u2002', // EN SPACE
+    '\u2003', // EM SPACE
+    '\u2004', // THREE-PER-EM SPACE
+    '\u2005', // FOUR-PER-EM SPACE
+    '\u2006', // SIX-PER-EM SPACE
+    '\u2007', // FIGURE SPACE
+    '\u2008', // PUNCTUATION SPACE
+    '\u2009', // THIN SPACE
+    '\u200A', // HAIR SPACE
+    '\u2028', // LINE SEPARATOR
+    '\u2029', // PARAGRAPH SEPARATOR
+    '\u202F', // NARROW NO-BREAK SPACE
+    '\u205F', // MEDIUM MATHEMATICAL SPACE
+    '\u3000' // IDEOGRAPHIC SPACE
   ].forEach(function(character) {
     t.deepEqual(
       latinNoPosition.parse(sentenceStart + character + sentenceEnd).children[0]
@@ -1079,8 +1073,7 @@ test('White space characters', function(t) {
 
 test('Astral-plane surrogate pairs', function(t) {
   t.test('should classify \uD83D\uDCA9 as a punctuation', function(st) {
-    /* Note the pile of poo, in ECMAScript 5
-     * written using a surrogate pair. */
+    // Note the pile of poo, in ECMAScript 5 written using a surrogate pair.
     describeFixture(
       st,
       'astral-plane-surrogate-pair',
@@ -1101,10 +1094,8 @@ test('Combining marks and double combining marks', function(t) {
   })
 
   t.test('should classify 0\uFE0F\u20E3 as a word', function(st) {
-    /* Note the DIGIT ZERO, VARIATION
-     * SELECTOR-16, and COMBINING
-     * ENCLOSING KEYCAP, together,
-     * form a :zero: emoji. */
+    // Note the DIGIT ZERO, VARIATION SELECTOR-16, and COMBINING ENCLOSING
+    // KEYCAP, together, form a :zero: emoji.
     describeFixture(
       st,
       'combining-marks-double',
@@ -1119,118 +1110,118 @@ test('Combining marks and double combining marks', function(t) {
 
 test('Combining diacritical marks', function(t) {
   ;[
-    '\u0300' /* GRAVE ACCENT (U+0300) */,
-    '\u0301' /* ACUTE ACCENT (U+0301) */,
-    '\u0302' /* CIRCUMFLEX ACCENT (U+0302) */,
-    '\u0303' /* TILDE (U+0303) */,
-    '\u0304' /* MACRON (U+0304) */,
-    '\u0305' /* OVERLINE (U+0305) */,
-    '\u0306' /* BREVE (U+0306) */,
-    '\u0307' /* DOT ABOVE (U+0307) */,
-    '\u0308' /* DIAERESIS (U+0308) */,
-    '\u0309' /* HOOK ABOVE (U+0309) */,
-    '\u030A' /* RING ABOVE (U+030A) */,
-    '\u030B' /* DOUBLE ACUTE ACCENT (U+030B) */,
-    '\u030C' /* CARON (U+030C) */,
-    '\u030D' /* VERTICAL LINE ABOVE (U+030D) */,
-    '\u030E' /* DOUBLE VERTICAL LINE ABOVE (U+030E) */,
-    '\u030F' /* DOUBLE GRAVE ACCENT (U+030F) */,
-    '\u0310' /* CANDRABINDU (U+0310) */,
-    '\u0311' /* INVERTED BREVE (U+0311) */,
-    '\u0312' /* TURNED COMMA ABOVE (U+0312) */,
-    '\u0313' /* COMMA ABOVE (U+0313) */,
-    '\u0314' /* REVERSED COMMA ABOVE (U+0314) */,
-    '\u0315' /* COMMA ABOVE RIGHT (U+0315) */,
-    '\u0316' /* GRAVE ACCENT BELOW (U+0316) */,
-    '\u0317' /* ACUTE ACCENT BELOW (U+0317) */,
-    '\u0318' /* LEFT TACK BELOW (U+0318) */,
-    '\u0319' /* RIGHT TACK BELOW (U+0319) */,
-    '\u031A' /* LEFT ANGLE ABOVE (U+031A) */,
-    '\u031B' /* HORN (U+031B) */,
-    '\u031C' /* LEFT HALF RING BELOW (U+031C) */,
-    '\u031D' /* UP TACK BELOW (U+031D) */,
-    '\u031E' /* DOWN TACK BELOW (U+031E) */,
-    '\u031F' /* PLUS SIGN BELOW (U+031F) */,
-    '\u0320' /* MINUS SIGN BELOW (U+0320) */,
-    '\u0321' /* PALATALIZED HOOK BELOW (U+0321) */,
-    '\u0322' /* RETROFLEX HOOK BELOW (U+0322) */,
-    '\u0323' /* DOT BELOW (U+0323) */,
-    '\u0324' /* DIAERESIS BELOW (U+0324) */,
-    '\u0325' /* RING BELOW (U+0325) */,
-    '\u0326' /* COMMA BELOW (U+0326) */,
-    '\u0327' /* CEDILLA (U+0327) */,
-    '\u0328' /* OGONEK (U+0328) */,
-    '\u0329' /* VERTICAL LINE BELOW (U+0329) */,
-    '\u032A' /* BRIDGE BELOW (U+032A) */,
-    '\u032B' /* INVERTED DOUBLE ARCH BELOW (U+032B) */,
-    '\u032C' /* CARON BELOW (U+032C) */,
-    '\u032D' /* CIRCUMFLEX ACCENT BELOW (U+032D) */,
-    '\u032E' /* BREVE BELOW (U+032E) */,
-    '\u032F' /* INVERTED BREVE BELOW (U+032F) */,
-    '\u0330' /* TILDE BELOW (U+0330) */,
-    '\u0331' /* MACRON BELOW (U+0331) */,
-    '\u0332' /* LOW LINE (U+0332) */,
-    '\u0333' /* DOUBLE LOW LINE (U+0333) */,
-    '\u0334' /* TILDE OVERLAY (U+0334) */,
-    '\u0335' /* SHORT STROKE OVERLAY (U+0335) */,
-    '\u0336' /* LONG STROKE OVERLAY (U+0336) */,
-    '\u0337' /* SHORT SOLIDUS OVERLAY (U+0337) */,
-    '\u0338' /* LONG SOLIDUS OVERLAY (U+0338) */,
-    '\u0339' /* RIGHT HALF RING BELOW (U+0339) */,
-    '\u033A' /* INVERTED BRIDGE BELOW (U+033A) */,
-    '\u033B' /* SQUARE BELOW (U+033B) */,
-    '\u033C' /* SEAGULL BELOW (U+033C) */,
-    '\u033D' /* X ABOVE (U+033D) */,
-    '\u033E' /* VERTICAL TILDE (U+033E) */,
-    '\u033F' /* DOUBLE OVERLINE (U+033F) */,
-    '\u0340' /* GRAVE TONE MARK (U+0340) */,
-    '\u0341' /* ACUTE TONE MARK (U+0341) */,
-    '\u0342' /* GREEK PERISPOMENI (U+0342) */,
-    '\u0343' /* GREEK KORONIS (U+0343) */,
-    '\u0344' /* GREEK DIALYTIKA TONOS (U+0344) */,
-    '\u0345' /* GREEK YPOGEGRAMMENI (U+0345) */,
-    '\u0346' /* BRIDGE ABOVE (U+0346) */,
-    '\u0347' /* EQUALS SIGN BELOW (U+0347) */,
-    '\u0348' /* DOUBLE VERTICAL LINE BELOW (U+0348) */,
-    '\u0349' /* LEFT ANGLE BELOW (U+0349) */,
-    '\u034A' /* NOT TILDE ABOVE (U+034A) */,
-    '\u034B' /* HOMOTHETIC ABOVE (U+034B) */,
-    '\u034C' /* ALMOST EQUAL TO ABOVE (U+034C) */,
-    '\u034D' /* LEFT RIGHT ARROW BELOW (U+034D) */,
-    '\u034E' /* UPWARDS ARROW BELOW (U+034E) */,
-    '\u034F' /* GRAPHEME JOINER (U+034F) */,
-    '\u0350' /* RIGHT ARROWHEAD ABOVE (U+0350) */,
-    '\u0351' /* LEFT HALF RING ABOVE (U+0351) */,
-    '\u0352' /* FERMATA (U+0352) */,
-    '\u0353' /* X BELOW (U+0353) */,
-    '\u0354' /* LEFT ARROWHEAD BELOW (U+0354) */,
-    '\u0355' /* RIGHT ARROWHEAD BELOW (U+0355) */,
-    '\u0356' /* RIGHT ARROWHEAD AND UP ARROWHEAD BELOW (U+0356) */,
-    '\u0357' /* RIGHT HALF RING ABOVE (U+0357) */,
-    '\u0358' /* DOT ABOVE RIGHT (U+0358) */,
-    '\u0359' /* ASTERISK BELOW (U+0359) */,
-    '\u035A' /* DOUBLE RING BELOW (U+035A) */,
-    '\u035B' /* ZIGZAG ABOVE (U+035B) */,
-    '\u035C' /* DOUBLE BREVE BELOW (U+035C) */,
-    '\u035D' /* DOUBLE BREVE (U+035D) */,
-    '\u035E' /* DOUBLE MACRON (U+035E) */,
-    '\u035F' /* DOUBLE MACRON BELOW (U+035F) */,
-    '\u0360' /* DOUBLE TILDE (U+0360) */,
-    '\u0361' /* DOUBLE INVERTED BREVE (U+0361) */,
-    '\u0362' /* DOUBLE RIGHTWARDS ARROW BELOW (U+0362) */,
-    '\u0363' /* LATIN SMALL LETTER A (U+0363) */,
-    '\u0364' /* LATIN SMALL LETTER E (U+0364) */,
-    '\u0365' /* LATIN SMALL LETTER I (U+0365) */,
-    '\u0366' /* LATIN SMALL LETTER O (U+0366) */,
-    '\u0367' /* LATIN SMALL LETTER U (U+0367) */,
-    '\u0368' /* LATIN SMALL LETTER C (U+0368) */,
-    '\u0369' /* LATIN SMALL LETTER D (U+0369) */,
-    '\u036A' /* LATIN SMALL LETTER H (U+036A) */,
-    '\u036B' /* LATIN SMALL LETTER M (U+036B) */,
-    '\u036C' /* LATIN SMALL LETTER R (U+036C) */,
-    '\u036D' /* LATIN SMALL LETTER T (U+036D) */,
-    '\u036E' /* LATIN SMALL LETTER V (U+036E) */,
-    '\u036F' /* LATIN SMALL LETTER X (U+036F) */
+    '\u0300', // GRAVE ACCENT (U+0300)
+    '\u0301', // ACUTE ACCENT (U+0301)
+    '\u0302', // CIRCUMFLEX ACCENT (U+0302)
+    '\u0303', // TILDE (U+0303)
+    '\u0304', // MACRON (U+0304)
+    '\u0305', // OVERLINE (U+0305)
+    '\u0306', // BREVE (U+0306)
+    '\u0307', // DOT ABOVE (U+0307)
+    '\u0308', // DIAERESIS (U+0308)
+    '\u0309', // HOOK ABOVE (U+0309)
+    '\u030A', // RING ABOVE (U+030A)
+    '\u030B', // DOUBLE ACUTE ACCENT (U+030B)
+    '\u030C', // CARON (U+030C)
+    '\u030D', // VERTICAL LINE ABOVE (U+030D)
+    '\u030E', // DOUBLE VERTICAL LINE ABOVE (U+030E)
+    '\u030F', // DOUBLE GRAVE ACCENT (U+030F)
+    '\u0310', // CANDRABINDU (U+0310)
+    '\u0311', // INVERTED BREVE (U+0311)
+    '\u0312', // TURNED COMMA ABOVE (U+0312)
+    '\u0313', // COMMA ABOVE (U+0313)
+    '\u0314', // REVERSED COMMA ABOVE (U+0314)
+    '\u0315', // COMMA ABOVE RIGHT (U+0315)
+    '\u0316', // GRAVE ACCENT BELOW (U+0316)
+    '\u0317', // ACUTE ACCENT BELOW (U+0317)
+    '\u0318', // LEFT TACK BELOW (U+0318)
+    '\u0319', // RIGHT TACK BELOW (U+0319)
+    '\u031A', // LEFT ANGLE ABOVE (U+031A)
+    '\u031B', // HORN (U+031B)
+    '\u031C', // LEFT HALF RING BELOW (U+031C)
+    '\u031D', // UP TACK BELOW (U+031D)
+    '\u031E', // DOWN TACK BELOW (U+031E)
+    '\u031F', // PLUS SIGN BELOW (U+031F)
+    '\u0320', // MINUS SIGN BELOW (U+0320)
+    '\u0321', // PALATALIZED HOOK BELOW (U+0321)
+    '\u0322', // RETROFLEX HOOK BELOW (U+0322)
+    '\u0323', // DOT BELOW (U+0323)
+    '\u0324', // DIAERESIS BELOW (U+0324)
+    '\u0325', // RING BELOW (U+0325)
+    '\u0326', // COMMA BELOW (U+0326)
+    '\u0327', // CEDILLA (U+0327)
+    '\u0328', // OGONEK (U+0328)
+    '\u0329', // VERTICAL LINE BELOW (U+0329)
+    '\u032A', // BRIDGE BELOW (U+032A)
+    '\u032B', // INVERTED DOUBLE ARCH BELOW (U+032B)
+    '\u032C', // CARON BELOW (U+032C)
+    '\u032D', // CIRCUMFLEX ACCENT BELOW (U+032D)
+    '\u032E', // BREVE BELOW (U+032E)
+    '\u032F', // INVERTED BREVE BELOW (U+032F)
+    '\u0330', // TILDE BELOW (U+0330)
+    '\u0331', // MACRON BELOW (U+0331)
+    '\u0332', // LOW LINE (U+0332)
+    '\u0333', // DOUBLE LOW LINE (U+0333)
+    '\u0334', // TILDE OVERLAY (U+0334)
+    '\u0335', // SHORT STROKE OVERLAY (U+0335)
+    '\u0336', // LONG STROKE OVERLAY (U+0336)
+    '\u0337', // SHORT SOLIDUS OVERLAY (U+0337)
+    '\u0338', // LONG SOLIDUS OVERLAY (U+0338)
+    '\u0339', // RIGHT HALF RING BELOW (U+0339)
+    '\u033A', // INVERTED BRIDGE BELOW (U+033A)
+    '\u033B', // SQUARE BELOW (U+033B)
+    '\u033C', // SEAGULL BELOW (U+033C)
+    '\u033D', // X ABOVE (U+033D)
+    '\u033E', // VERTICAL TILDE (U+033E)
+    '\u033F', // DOUBLE OVERLINE (U+033F)
+    '\u0340', // GRAVE TONE MARK (U+0340)
+    '\u0341', // ACUTE TONE MARK (U+0341)
+    '\u0342', // GREEK PERISPOMENI (U+0342)
+    '\u0343', // GREEK KORONIS (U+0343)
+    '\u0344', // GREEK DIALYTIKA TONOS (U+0344)
+    '\u0345', // GREEK YPOGEGRAMMENI (U+0345)
+    '\u0346', // BRIDGE ABOVE (U+0346)
+    '\u0347', // EQUALS SIGN BELOW (U+0347)
+    '\u0348', // DOUBLE VERTICAL LINE BELOW (U+0348)
+    '\u0349', // LEFT ANGLE BELOW (U+0349)
+    '\u034A', // NOT TILDE ABOVE (U+034A)
+    '\u034B', // HOMOTHETIC ABOVE (U+034B)
+    '\u034C', // ALMOST EQUAL TO ABOVE (U+034C)
+    '\u034D', // LEFT RIGHT ARROW BELOW (U+034D)
+    '\u034E', // UPWARDS ARROW BELOW (U+034E)
+    '\u034F', // GRAPHEME JOINER (U+034F)
+    '\u0350', // RIGHT ARROWHEAD ABOVE (U+0350)
+    '\u0351', // LEFT HALF RING ABOVE (U+0351)
+    '\u0352', // FERMATA (U+0352)
+    '\u0353', // X BELOW (U+0353)
+    '\u0354', // LEFT ARROWHEAD BELOW (U+0354)
+    '\u0355', // RIGHT ARROWHEAD BELOW (U+0355)
+    '\u0356', // RIGHT ARROWHEAD AND UP ARROWHEAD BELOW (U+0356)
+    '\u0357', // RIGHT HALF RING ABOVE (U+0357)
+    '\u0358', // DOT ABOVE RIGHT (U+0358)
+    '\u0359', // ASTERISK BELOW (U+0359)
+    '\u035A', // DOUBLE RING BELOW (U+035A)
+    '\u035B', // ZIGZAG ABOVE (U+035B)
+    '\u035C', // DOUBLE BREVE BELOW (U+035C)
+    '\u035D', // DOUBLE BREVE (U+035D)
+    '\u035E', // DOUBLE MACRON (U+035E)
+    '\u035F', // DOUBLE MACRON BELOW (U+035F)
+    '\u0360', // DOUBLE TILDE (U+0360)
+    '\u0361', // DOUBLE INVERTED BREVE (U+0361)
+    '\u0362', // DOUBLE RIGHTWARDS ARROW BELOW (U+0362)
+    '\u0363', // LATIN SMALL LETTER A (U+0363)
+    '\u0364', // LATIN SMALL LETTER E (U+0364)
+    '\u0365', // LATIN SMALL LETTER I (U+0365)
+    '\u0366', // LATIN SMALL LETTER O (U+0366)
+    '\u0367', // LATIN SMALL LETTER U (U+0367)
+    '\u0368', // LATIN SMALL LETTER C (U+0368)
+    '\u0369', // LATIN SMALL LETTER D (U+0369)
+    '\u036A', // LATIN SMALL LETTER H (U+036A)
+    '\u036B', // LATIN SMALL LETTER M (U+036B)
+    '\u036C', // LATIN SMALL LETTER R (U+036C)
+    '\u036D', // LATIN SMALL LETTER T (U+036D)
+    '\u036E', // LATIN SMALL LETTER V (U+036E)
+    '\u036F' // LATIN SMALL LETTER X (U+036F)
   ].forEach(function(diacritic) {
     t.deepEqual(
       latinNoPosition.parse('This a' + diacritic + ' house.').children[0]
@@ -1263,8 +1254,8 @@ test('Combining diacritical marks', function(t) {
 })
 
 test('Tie characters in words', function(t) {
-  /* From wikipedia’s list:
-   * https://en.wikipedia.org/wiki/Tie_(typography) */
+  // From wikipedia’s list:
+  // <https://en.wikipedia.org/wiki/Tie_(typography)>
   t.test('Combinding Double Breve: \u25CC\u035D\u25CC', function(st) {
     describeFixture(st, 'combining-double-breve', 'Such as the o\u035Do.')
 
@@ -1371,7 +1362,7 @@ test('Intelectual property marks', function(t) {
 })
 
 test('Single and double Grapheme Clusters', function(t) {
-  /* Modified from: https://mathiasbynens.be/notes/javascript-unicode */
+  // Modified from: <https://mathiasbynens.be/notes/javascript-unicode>
   t.test('should classify `\u0BA8\u0BBF` as a word', function(st) {
     describeFixture(
       st,
@@ -1712,8 +1703,8 @@ test('Abbreviations: Initialisms', function(t) {
   t.end()
 })
 
-/* Utility to test if a given document is both a valid
- * node, and matches a fixture. */
+// Utility to test if a given document is both a valid node, and matches a
+// fixture.
 function describeFixture(t, name, doc, method) {
   var nlcstA = latin[method || 'parse'](doc)
   var nlcstB = latinNoPosition[method || 'parse'](doc)
