@@ -46,7 +46,7 @@
   },
   "scripts": {
     "generate": "node script/build-expressions",
-    "format": "remark . -qfo && prettier --write '**/*.js' && xo --fix",
+    "format": "remark . -qfo && prettier --write \"**/*.js\" && xo --fix",
     "build-bundle": "browserify index.js -p bundle-collapser/plugin --bare -s ParseLatin > parse-latin.js",
     "build-mangle": "esmangle parse-latin.js > parse-latin.min.js",
     "build": "npm run build-bundle && npm run build-mangle",
