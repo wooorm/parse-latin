@@ -38,7 +38,7 @@ var PUNCTUATION = regenerate()
   .add(Ps)
 
   /* Remove few weirdly-classified symbols:
-   * Source: http://www.unicode.org/faq/punctuation_symbols.html#4
+   * Source: https://www.unicode.org/faq/punctuation_symbols.html#4
    */
   .remove('#')
   .remove('&')

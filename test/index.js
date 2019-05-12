@@ -388,7 +388,7 @@ test('ParseLatin#tokenizeWord()', function(t) {
 
 test('Root: Given two paragraphs', function(t) {
   /* Modified first paragraph, split in two, from:
-   * http://en.wikipedia.org/wiki/Paragraph */
+   * https://en.wikipedia.org/wiki/Paragraph */
   describeFixture(
     t,
     'two-paragraphs',
@@ -408,7 +408,7 @@ test('Root: Given two paragraphs', function(t) {
 
 test('Root: Given two paragraphs - extra whitespace', function(t) {
   /* Modified first paragraph, split in two, from:
-   * http://en.wikipedia.org/wiki/Paragraph */
+   * https://en.wikipedia.org/wiki/Paragraph */
   var tree = latin.parse(
     [
       'A paragraph (from the Greek paragraphos, “to write beside” or ',
@@ -656,7 +656,7 @@ test('Sentence: Without a value', function(t) {
 
 test('Digit-letter combinations in words', function(t) {
   t.test('should treat digit-letter as a word', function(st) {
-    /* Source: http://en.wikipedia.org/wiki/IPhone_5S */
+    /* Source: https://en.wikipedia.org/wiki/IPhone_5S */
     describeFixture(
       st,
       'digit-letter-combination',
@@ -747,7 +747,7 @@ test('Initialisms', function(t) {
     'should not treat full-stops in initialisms as a terminal marker',
     function(st) {
       /* Source:
-       *   http://en.wikipedia.org/wiki/Natural_language#
+       *   https://en.wikipedia.org/wiki/Natural_language#
        *   Constructed_languages_and_international_auxiliary_languages */
       describeFixture(
         st,
@@ -767,7 +767,7 @@ test('Lower-case letters', function(t) {
     'should not treat full-stops followed by a lower-case letter ' +
       'as terminal marker',
     function(st) {
-      /* Source: http://en.wikipedia.org/wiki/Park_Ave. */
+      /* Source: https://en.wikipedia.org/wiki/Park_Ave. */
       describeFixture(
         st,
         'lower-case-exception',
@@ -786,7 +786,7 @@ test('Domain names', function(t) {
   t.test(
     'should not treat full-stops preceding a word as terminal marker',
     function(st) {
-      /* Source: http://en.wikipedia.org/wiki/.com */
+      /* Source: https://en.wikipedia.org/wiki/.com */
       describeFixture(
         st,
         'domain-name-exception',
@@ -1080,7 +1080,7 @@ test('White space characters', function(t) {
 test('Astral-plane surrogate pairs', function(t) {
   t.test('should classify \uD83D\uDCA9 as a punctuation', function(st) {
     /* Note the pile of poo, in ECMAScript 5
-       * written using a surrogate pair. */
+     * written using a surrogate pair. */
     describeFixture(
       st,
       'astral-plane-surrogate-pair',
@@ -1264,7 +1264,7 @@ test('Combining diacritical marks', function(t) {
 
 test('Tie characters in words', function(t) {
   /* From wikipedia’s list:
-   * http://en.wikipedia.org/wiki/Tie_(typography) */
+   * https://en.wikipedia.org/wiki/Tie_(typography) */
   t.test('Combinding Double Breve: \u25CC\u035D\u25CC', function(st) {
     describeFixture(st, 'combining-double-breve', 'Such as the o\u035Do.')
 
@@ -1371,7 +1371,7 @@ test('Intelectual property marks', function(t) {
 })
 
 test('Single and double Grapheme Clusters', function(t) {
-  /* Modified from: http://mathiasbynens.be/notes/javascript-unicode */
+  /* Modified from: https://mathiasbynens.be/notes/javascript-unicode */
   t.test('should classify `\u0BA8\u0BBF` as a word', function(st) {
     describeFixture(
       st,

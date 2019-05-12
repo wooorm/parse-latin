@@ -123,7 +123,7 @@ syntax tree, adding sentences and paragraphs where needed.
 
 [license]: license
 
-[author]: http://wooorm.com
+[author]: https://wooorm.com
 
 [retext]: https://github.com/wooorm/retext
 
