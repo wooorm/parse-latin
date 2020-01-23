@@ -135,13 +135,13 @@ var rePunctuation = new RegExp(punctuation)
 var reNumerical = new RegExp('^(?:' + numerical + ')+$')
 
 // Match initial digit.
-var reDigitStart = new RegExp('^\\d')
+var reDigitStart = /^\d/
 
 // Match initial lowercase letter.
 var reLowerInitial = new RegExp('^(?:' + letterLower + ')')
 
 // Match anything, when possible words, white spaces, or astrals.
-var reSurrogates = new RegExp('[\\uD800-\\uDFFF]')
+var reSurrogates = /[\uD800-\uDFFF]/
 
 // Match a word.
 var reWord = new RegExp(word)
