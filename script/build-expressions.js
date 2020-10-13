@@ -52,10 +52,7 @@ var punctuation = regenerate()
 
 var punctuationClosing = regenerate().add(Pe)
 
-var punctuationFinal = regenerate()
-  .add(Pf)
-  .add('"')
-  .add("'")
+var punctuationFinal = regenerate().add(Pf).add('"').add("'")
 
 var whiteSpace = regenerate().add(BPWhiteSpace)
 

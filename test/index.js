@@ -12,7 +12,7 @@ var latin = new ParseLatin()
 var latinNoPosition = new ParseLatin()
 latinNoPosition.position = false
 
-test('ParseLatin', function(t) {
+test('ParseLatin', function (t) {
   t.equal(typeof ParseLatin, 'function', 'should be a `function`')
 
   t.ok(new ParseLatin() instanceof ParseLatin, 'should instantiate')
@@ -22,13 +22,13 @@ test('ParseLatin', function(t) {
 
   t.equal(new ParseLatin().position, true, 'should set `position`')
 
-  t.deepEqual(
+  t.deepLooseEqual(
     new ParseLatin('Alpha bravo charlie').parse(),
     latin.parse('Alpha bravo charlie'),
     'should accept a string'
   )
 
-  t.deepEqual(
+  t.deepLooseEqual(
     new ParseLatin('Alpha bravo charlie', vfile('Alpha bravo charlie')).parse(),
     latin.parse('Alpha bravo charlie'),
     'should accept a vfile'
@@ -37,20 +37,20 @@ test('ParseLatin', function(t) {
   t.end()
 })
 
-test('ParseLatin#use(key, plugin)', function(t) {
+test('ParseLatin#use(key, plugin)', function (t) {
   t.throws(
-    function() {
+    function () {
       ParseLatin.prototype.use('alfred')
     },
     /Make sure `key` is a supported function/,
     'should throw when a non-pluggable `key` is given'
   )
 
-  t.doesNotThrow(function() {
+  t.doesNotThrow(function () {
     ParseLatin.prototype.use('tokenizeWord')
   }, 'should NOT throw when no plugin is given')
 
-  t.test('should add a plugin on the prototype', function(st) {
+  t.test('should add a plugin on the prototype', function (t) {
     var parser
 
     function thrower() {
@@ -61,7 +61,7 @@ test('ParseLatin#use(key, plugin)', function(t) {
 
     parser = new ParseLatin()
 
-    st.equal(
+    t.equal(
       ParseLatin.prototype.tokenizeWordPlugins[
         ParseLatin.prototype.tokenizeWordPlugins.length - 1
       ],
@@ -69,8 +69,8 @@ test('ParseLatin#use(key, plugin)', function(t) {
       'should patch the plugin'
     )
 
-    st.throws(
-      function() {
+    t.throws(
+      function () {
         parser.parse('Alfred.')
       },
       /thrower was invoked/,
@@ -80,10 +80,10 @@ test('ParseLatin#use(key, plugin)', function(t) {
     // Clean.
     ParseLatin.prototype.tokenizeWordPlugins = null
 
-    st.end()
+    t.end()
   })
 
-  t.test('should add a plugin on an instance', function(st) {
+  t.test('should add a plugin on an instance', function (t) {
     var parser = new ParseLatin()
 
     function thrower() {
@@ -92,14 +92,14 @@ test('ParseLatin#use(key, plugin)', function(t) {
 
     parser.use('tokenizeWord', thrower)
 
-    st.equal(
+    t.equal(
       parser.tokenizeWordPlugins[parser.tokenizeWordPlugins.length - 1],
       thrower,
       'should add the plugin'
     )
 
-    st.throws(
-      function() {
+    t.throws(
+      function () {
         parser.parse('Alfred.')
       },
       /instance thrower was invoked/,
@@ -109,26 +109,26 @@ test('ParseLatin#use(key, plugin)', function(t) {
     // Clean.
     ParseLatin.prototype.tokenizeWordPlugins = null
 
-    st.end()
+    t.end()
   })
 
   t.end()
 })
 
-test('ParseLatin#useFirst(key, plugin)', function(t) {
+test('ParseLatin#useFirst(key, plugin)', function (t) {
   t.throws(
-    function() {
+    function () {
       ParseLatin.prototype.useFirst('alfred')
     },
     /Make sure `key` is a supported function/,
     'should throw when a non-pluggable `key` is given'
   )
 
-  t.doesNotThrow(function() {
+  t.doesNotThrow(function () {
     ParseLatin.prototype.useFirst('tokenizeWord')
   }, 'should NOT throw when no plugin is given')
 
-  t.test('should add a plugin on the prototype', function(st) {
+  t.test('should add a plugin on the prototype', function (t) {
     var parser
 
     function thrower() {
@@ -139,7 +139,7 @@ test('ParseLatin#useFirst(key, plugin)', function(t) {
 
     parser = new ParseLatin()
 
-    st.equal(
+    t.equal(
       ParseLatin.prototype.tokenizeWordPlugins[
         ParseLatin.prototype.tokenizeWordPlugins.length - 1
       ],
@@ -147,8 +147,8 @@ test('ParseLatin#useFirst(key, plugin)', function(t) {
       'should add the plugin'
     )
 
-    st.throws(
-      function() {
+    t.throws(
+      function () {
         parser.parse('Alfred.')
       },
       /thrower was invoked/,
@@ -158,10 +158,10 @@ test('ParseLatin#useFirst(key, plugin)', function(t) {
     // Clean.
     ParseLatin.prototype.tokenizeWordPlugins = null
 
-    st.end()
+    t.end()
   })
 
-  t.test('should add a plugin on an instance', function(st) {
+  t.test('should add a plugin on an instance', function (t) {
     var parser = new ParseLatin()
     var wasInvoked
 
@@ -170,14 +170,14 @@ test('ParseLatin#useFirst(key, plugin)', function(t) {
     }
 
     function thrower() {
-      st.equal(wasInvoked, true, 'should invoke the plugin (#1)')
+      t.equal(wasInvoked, true, 'should invoke the plugin (#1)')
 
       throw new Error('instance thrower was invoked')
     }
 
     parser.useFirst('tokenizeWord', thrower)
 
-    st.equal(
+    t.equal(
       parser.tokenizeWordPlugins[0],
       thrower,
       'should add the plugin (#1)'
@@ -185,27 +185,27 @@ test('ParseLatin#useFirst(key, plugin)', function(t) {
 
     parser.useFirst('tokenizeWord', first)
 
-    st.equal(parser.tokenizeWordPlugins[0], first, 'should add the plugin (#2)')
+    t.equal(parser.tokenizeWordPlugins[0], first, 'should add the plugin (#2)')
 
-    st.throws(
-      function() {
+    t.throws(
+      function () {
         parser.parse('Alfred.')
       },
       /instance thrower was invoked/,
       'should invoke the plugin (#2)'
     )
 
-    st.equal(wasInvoked, true, 'should invoke the plugin (#3)')
+    t.equal(wasInvoked, true, 'should invoke the plugin (#3)')
 
     ParseLatin.prototype.tokenizeWordPlugins = null
 
-    st.end()
+    t.end()
   })
 
   t.end()
 })
 
-test('ParseLatin#tokenizeText()', function(t) {
+test('ParseLatin#tokenizeText()', function (t) {
   t.equal(latin.tokenizeText().type, 'TextNode', 'should return a text node')
 
   t.equal(
@@ -229,7 +229,7 @@ test('ParseLatin#tokenizeText()', function(t) {
   t.end()
 })
 
-test('ParseLatin#tokenizeSource()', function(t) {
+test('ParseLatin#tokenizeSource()', function (t) {
   t.equal(
     latin.tokenizeSource().type,
     'SourceNode',
@@ -257,7 +257,7 @@ test('ParseLatin#tokenizeSource()', function(t) {
   t.end()
 })
 
-test('ParseLatin#tokenizeSymbol()', function(t) {
+test('ParseLatin#tokenizeSymbol()', function (t) {
   t.equal(
     latin.tokenizeSymbol().type,
     'SymbolNode',
@@ -285,7 +285,7 @@ test('ParseLatin#tokenizeSymbol()', function(t) {
   t.end()
 })
 
-test('ParseLatin#tokenizeWhiteSpace()', function(t) {
+test('ParseLatin#tokenizeWhiteSpace()', function (t) {
   t.equal(
     latin.tokenizeWhiteSpace().type,
     'WhiteSpaceNode',
@@ -316,7 +316,7 @@ test('ParseLatin#tokenizeWhiteSpace()', function(t) {
   t.end()
 })
 
-test('ParseLatin#tokenizePunctuation()', function(t) {
+test('ParseLatin#tokenizePunctuation()', function (t) {
   t.equal(
     latin.tokenizePunctuation().type,
     'PunctuationNode',
@@ -351,28 +351,28 @@ test('ParseLatin#tokenizePunctuation()', function(t) {
   t.end()
 })
 
-test('ParseLatin#tokenizeWord()', function(t) {
+test('ParseLatin#tokenizeWord()', function (t) {
   t.equal(latin.tokenizeWord().type, 'WordNode', 'should return a source node')
 
-  t.deepEqual(
+  t.deepLooseEqual(
     latin.tokenizeWord('foo').children,
     [{type: 'TextNode', value: 'foo'}],
     'should set `children`'
   )
 
-  t.deepEqual(
+  t.deepLooseEqual(
     latin.tokenizeWord().children,
     [{type: 'TextNode', value: ''}],
     'should support undefined (#1)'
   )
 
-  t.deepEqual(
+  t.deepLooseEqual(
     latin.tokenizeWord(undefined).children,
     [{type: 'TextNode', value: ''}],
     'should support `undefined` (#2)'
   )
 
-  t.deepEqual(
+  t.deepLooseEqual(
     latin.tokenizeWord(null).children,
     [{type: 'TextNode', value: ''}],
     'should support `null`'
@@ -383,7 +383,7 @@ test('ParseLatin#tokenizeWord()', function(t) {
   t.end()
 })
 
-test('Root: Given two paragraphs', function(t) {
+test('Root: Given two paragraphs', function (t) {
   // Modified first paragraph, split in two, from:
   // <https://en.wikipedia.org/wiki/Paragraph>
   describeFixture(
@@ -403,7 +403,7 @@ test('Root: Given two paragraphs', function(t) {
   t.end()
 })
 
-test('Root: Given two paragraphs - extra whitespace', function(t) {
+test('Root: Given two paragraphs - extra whitespace', function (t) {
   // Modified first paragraph, split in two, from:
   // <https://en.wikipedia.org/wiki/Paragraph>
   var tree = latin.parse(
@@ -425,14 +425,14 @@ test('Root: Given two paragraphs - extra whitespace', function(t) {
   t.end()
 })
 
-test('A whitespace only document', function(t) {
+test('A whitespace only document', function (t) {
   describeFixture(t, 'white-space-only', '\n\n')
   t.end()
 })
 
-test('Root: Without a value', function(t) {
+test('Root: Without a value', function (t) {
   // No fixture test because this fails in NLCST-test (which it should though).
-  t.deepEqual(
+  t.deepLooseEqual(
     latin.parse(),
     {type: 'RootNode', children: []},
     'should return an empty RootNode when invoked without value'
@@ -441,11 +441,11 @@ test('Root: Without a value', function(t) {
   t.end()
 })
 
-test('Root: Given a String object', function(t) {
+test('Root: Given a String object', function (t) {
   var source = 'Test.'
 
   /* eslint-disable no-new-wrappers, unicorn/new-for-builtins */
-  t.deepEqual(
+  t.deepLooseEqual(
     latin.parse(new String(source)),
     latin.parse(source),
     'should tokenize the toString representation of the given object when the given object is an instance of String'
@@ -455,14 +455,14 @@ test('Root: Given a String object', function(t) {
   t.end()
 })
 
-test('Root: Given an array', function(t) {
-  t.deepEqual(
+test('Root: Given an array', function (t) {
+  t.deepLooseEqual(
     latin.parse([]),
     {type: 'RootNode', children: []},
     'should work when empty'
   )
 
-  t.deepEqual(
+  t.deepLooseEqual(
     {
       type: 'RootNode',
       children: [
@@ -491,7 +491,7 @@ test('Root: Given an array', function(t) {
     'should work when given tokens'
   )
 
-  t.deepEqual(
+  t.deepLooseEqual(
     {
       type: 'RootNode',
       children: [
@@ -527,7 +527,7 @@ test('Root: Given an array', function(t) {
     'should merge adjacent words'
   )
 
-  t.deepEqual(
+  t.deepLooseEqual(
     {
       type: 'RootNode',
       children: [
@@ -622,16 +622,16 @@ test('Root: Given an array', function(t) {
   t.end()
 })
 
-test('Root: Given any other value', function(t) {
-  t.throws(function() {
+test('Root: Given any other value', function (t) {
+  t.throws(function () {
     latin.parse({})
   }, 'should throw when the object is neither null, undefined, string, nor String object')
 
   t.end()
 })
 
-test('Paragraph: Without a value', function(t) {
-  t.deepEqual(
+test('Paragraph: Without a value', function (t) {
+  t.deepLooseEqual(
     latin.tokenizeParagraph(),
     {type: 'ParagraphNode', children: []},
     'should return an empty ParagraphNode when invoked without value'
@@ -640,8 +640,8 @@ test('Paragraph: Without a value', function(t) {
   t.end()
 })
 
-test('Sentence: Without a value', function(t) {
-  t.deepEqual(
+test('Sentence: Without a value', function (t) {
+  t.deepLooseEqual(
     latin.tokenizeSentence(),
     {type: 'SentenceNode', children: []},
     'should return an empty SentenceNode when invoked without value'
@@ -650,48 +650,48 @@ test('Sentence: Without a value', function(t) {
   t.end()
 })
 
-test('Digit-letter combinations in words', function(t) {
-  t.test('should treat digit-letter as a word', function(st) {
+test('Digit-letter combinations in words', function (t) {
+  t.test('should treat digit-letter as a word', function (t) {
     // Source: <https://en.wikipedia.org/wiki/IPhone_5S>
     describeFixture(
-      st,
+      t,
       'digit-letter-combination',
       'iPhone 5S is a high-end smartphone developed by Apple.'
     )
 
-    st.end()
+    t.end()
   })
 
-  t.test('should treat letter-digit as a word', function(st) {
+  t.test('should treat letter-digit as a word', function (t) {
     describeFixture(
-      st,
+      t,
       'letter-digit-combination',
       'Galaxy S3 is a high-end smartphone developed by Samsung.'
     )
 
-    st.end()
+    t.end()
   })
 
   t.end()
 })
 
-test('Latin exceptions', function(t) {
+test('Latin exceptions', function (t) {
   ;(
     'Al|Ca|Cap|Cca|Cent|Cf|Cit|Con|Cp|Cwt|Ead|' +
     'Etc|Ff|Fl|Ibid|Id|Nem|Op|Pro|Seq|Sic|Stat|Tem|Viz'
   )
     .split('|')
-    .forEach(function(abbreviation) {
+    .forEach(function (abbreviation) {
       t.test(
         'should not treat `' + abbreviation + '.` as a terminal marker',
-        function(st) {
+        function (t) {
           describeFixture(
-            st,
+            t,
             'latin-exception-' + abbreviation.toLowerCase(),
             'Gibberish something ' + abbreviation + '. Gobbledygook.'
           )
 
-          st.end()
+          t.end()
         }
       )
     })
@@ -699,20 +699,20 @@ test('Latin exceptions', function(t) {
   t.end()
 })
 
-test('Alphabetic exceptions', function(t) {
+test('Alphabetic exceptions', function (t) {
   'A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z'
     .split('|')
-    .forEach(function(letter) {
+    .forEach(function (letter) {
       t.test(
         'should not treat `' + letter + '.` as a terminal marker',
-        function(st) {
+        function (t) {
           describeFixture(
-            st,
+            t,
             'alphabetic-exception-' + letter.toLowerCase(),
             'Gibberish something ' + letter + '. Gobbledygook.'
           )
 
-          st.end()
+          t.end()
         }
       )
     })
@@ -720,91 +720,91 @@ test('Alphabetic exceptions', function(t) {
   t.end()
 })
 
-test('Numerical exceptions', function(t) {
-  '0|1|2|3|4|5|6|7|8|9|11|111'.split('|').forEach(function(number) {
-    t.test('should not treat `' + number + '.` as a terminal marker', function(
-      st
+test('Numerical exceptions', function (t) {
+  '0|1|2|3|4|5|6|7|8|9|11|111'.split('|').forEach(function (number) {
+    t.test('should not treat `' + number + '.` as a terminal marker', function (
+      t
     ) {
       describeFixture(
-        st,
+        t,
         'numerical-exception-' + number.toLowerCase(),
         'Gibberish something ' + number + '. Gobbledygook.'
       )
 
-      st.end()
+      t.end()
     })
   })
 
   t.end()
 })
 
-test('Initialisms', function(t) {
+test('Initialisms', function (t) {
   t.test(
     'should not treat full-stops in initialisms as a terminal marker',
-    function(st) {
+    function (t) {
       // Source:
       // <https://en.wikipedia.org/wiki/Natural_language#Constructed_languages_and_international_auxiliary_languages>
       describeFixture(
-        st,
+        t,
         'initialism-exception',
         'Esperanto was designed by L.L. Zamenhof from languages'
       )
 
-      st.end()
+      t.end()
     }
   )
 
   t.end()
 })
 
-test('Lower-case letters', function(t) {
+test('Lower-case letters', function (t) {
   t.test(
     'should not treat full-stops followed by a lower-case letter ' +
       'as terminal marker',
-    function(st) {
+    function (t) {
       // Source: <https://en.wikipedia.org/wiki/Park_Ave.>
       describeFixture(
-        st,
+        t,
         'lower-case-exception',
         'Park Ave. was an indie pop band which started in ' +
           'January 1996 in Nebraska (Omaha).'
       )
 
-      st.end()
+      t.end()
     }
   )
 
   t.end()
 })
 
-test('Domain names', function(t) {
+test('Domain names', function (t) {
   t.test(
     'should not treat full-stops preceding a word as terminal marker',
-    function(st) {
+    function (t) {
       // Source: <https://en.wikipedia.org/wiki/.com>
       describeFixture(
-        st,
+        t,
         'domain-name-exception',
         'However, eventually the distinction ' +
           'was lost when .com, .org and .net were ' +
           'opened for unrestricted registration.'
       )
 
-      st.end()
+      t.end()
     }
   )
 
   t.end()
 })
 
-test('Inside quotes', function(t) {
+test('Inside quotes', function (t) {
   t.test(
     'should treat closing quotes after full-stops as part of ' +
       'the previous sentence',
-    function(st) {
+    function (t) {
       // Source: the web.
       describeFixture(
-        st,
+        t,
         'full-stop-followed-by-closing-quote',
         '“However,” says my Grade 8 ' +
           'teacher, “the period goes inside ' +
@@ -812,21 +812,21 @@ test('Inside quotes', function(t) {
           'This is another sentence.'
       )
 
-      st.end()
+      t.end()
     }
   )
 
   t.end()
 })
 
-test('Inside parens', function(t) {
+test('Inside parens', function (t) {
   t.test(
     'should treat closing parens after full-stops as part of ' +
       'the previous sentence',
-    function(st) {
+    function (t) {
       // Source: the web.
       describeFixture(
-        st,
+        t,
         'full-stop-followed-by-closing-parenthesis',
         '“However,” says my Grade 8 ' +
           'teacher, (the period goes inside ' +
@@ -834,60 +834,60 @@ test('Inside parens', function(t) {
           'This is another sentence.'
       )
 
-      st.end()
+      t.end()
     }
   )
 
   t.end()
 })
 
-test('Before comma', function(t) {
+test('Before comma', function (t) {
   t.test(
     "should not treat full-stops before comma's as terminal markers",
-    function(st) {
+    function (t) {
       // Source: part of the wikipedia license note.
       describeFixture(
-        st,
+        t,
         'full-stop-followed-by-comma',
         'Wikipedia® is a registered trademark ' +
           'of the Wikimedia Foundation, Inc., a ' +
           'non-profit organization.'
       )
 
-      st.end()
+      t.end()
     }
   )
 
   t.end()
 })
 
-test('Before digit', function(t) {
+test('Before digit', function (t) {
   t.test(
     'should not treat full-stops before digits as terminal markers',
-    function(st) {
+    function (t) {
       // Source: part of the wikipedia license note.
-      describeFixture(st, 'full-stop-followed-by-digit', 'Of .5 percent.')
+      describeFixture(t, 'full-stop-followed-by-digit', 'Of .5 percent.')
 
-      st.end()
+      t.end()
     }
   )
 
-  t.test('should not fail on digit only sentences', function(st) {
-    describeFixture(st, 'digit-only-sentence', '123456')
+  t.test('should not fail on digit only sentences', function (t) {
+    describeFixture(t, 'digit-only-sentence', '123456')
 
-    st.end()
+    t.end()
   })
 
   t.end()
 })
 
-test('Ellipsis at sentence-start', function(t) {
+test('Ellipsis at sentence-start', function (t) {
   t.test(
     'should not treat multiple full-stops at the start of a sentence' +
       'as terminal markers',
-    function(st) {
+    function (t) {
       describeFixture(
-        st,
+        t,
         'ellipsis-sentence-start-spaces-padded',
         '. . . to be continued.'
       )
@@ -896,124 +896,116 @@ test('Ellipsis at sentence-start', function(t) {
       // classified as part of the first word.
       // describeFixture('ellipsis-sentence-start-spaces', '. . .to be continued.')
 
-      describeFixture(st, 'ellipsis-sentence-start', '...to be continued.')
+      describeFixture(t, 'ellipsis-sentence-start', '...to be continued.')
 
-      describeFixture(
-        st,
-        'ellipsis-sentence-start-unicode',
-        '…to be continued.'
-      )
+      describeFixture(t, 'ellipsis-sentence-start-unicode', '…to be continued.')
 
-      st.end()
+      t.end()
     }
   )
 
   t.end()
 })
 
-test('Ellipsis at sentence-end', function(t) {
+test('Ellipsis at sentence-end', function (t) {
   t.test(
     'should not treat multiple full-stops at the end of a sentence ' +
       'as terminal markers',
-    function(st) {
+    function (t) {
       describeFixture(
-        st,
+        t,
         'ellipsis-sentence-end-spaces-padded',
         'To be continued . . .'
       )
 
-      describeFixture(
-        st,
-        'ellipsis-sentence-end-spaces',
-        'To be continued. . .'
-      )
+      describeFixture(t, 'ellipsis-sentence-end-spaces', 'To be continued. . .')
 
-      describeFixture(st, 'ellipsis-sentence-end', 'To be continued...')
+      describeFixture(t, 'ellipsis-sentence-end', 'To be continued...')
 
-      describeFixture(st, 'ellipsis-sentence-end-unicode', 'To be continued…')
+      describeFixture(t, 'ellipsis-sentence-end-unicode', 'To be continued…')
 
-      st.end()
+      t.end()
     }
   )
 
   t.end()
 })
 
-test('Initial trailing white-space', function(t) {
+test('Initial trailing white-space', function (t) {
   t.test(
     'should move trailing white-space up to the highest possible level',
-    function(st) {
+    function (t) {
       describeFixture(
-        st,
+        t,
         'trailing-white-space-initial-sentence',
         '\nA sentence.',
         'tokenizeSentence'
       )
 
       describeFixture(
-        st,
+        t,
         'trailing-white-space-initial-paragraph',
         '\nA sentence.',
         'tokenizeParagraph'
       )
 
-      describeFixture(st, 'trailing-white-space-initial', '\nA sentence.')
+      describeFixture(t, 'trailing-white-space-initial', '\nA sentence.')
 
-      st.end()
+      t.end()
     }
   )
 
   t.end()
 })
 
-test('Final trailing white-space', function(t) {
+test('Final trailing white-space', function (t) {
   t.test(
     'should move trailing white-space up to the highest possible level',
-    function(st) {
+    function (t) {
       describeFixture(
-        st,
+        t,
         'trailing-white-space-final-sentence',
         'A sentence. ',
         'tokenizeSentence'
       )
 
       describeFixture(
-        st,
+        t,
         'trailing-white-space-final-paragraph',
         'A sentence. ',
         'tokenizeParagraph'
       )
 
-      describeFixture(st, 'trailing-white-space-final', 'A sentence. ')
+      describeFixture(t, 'trailing-white-space-final', 'A sentence. ')
 
-      st.end()
+      t.end()
     }
   )
 
   t.end()
 })
 
-test('Implicit terminal marker', function(t) {
-  t.test('should close a sentence without a terminal marker', function(st) {
-    describeFixture(st, 'implicit-sentence-end', 'One sentence. Two sentences')
+test('Implicit terminal marker', function (t) {
+  t.test('should close a sentence without a terminal marker', function (t) {
+    describeFixture(t, 'implicit-sentence-end', 'One sentence. Two sentences')
 
-    st.end()
+    t.end()
   })
 
   t.end()
 })
 
-test('Non-alphabetic sentences', function(t) {
-  t.test('should accept non-alphabetic sentences', function(st) {
-    describeFixture(st, 'non-alphabetic-sentence', '\uD83D\uDC38.')
+test('Non-alphabetic sentences', function (t) {
+  t.test('should accept non-alphabetic sentences', function (t) {
+    describeFixture(t, 'non-alphabetic-sentence', '\uD83D\uDC38.')
 
-    st.end()
+    t.end()
   })
 
   t.end()
 })
 
-test('White space characters', function(t) {
+test('White space characters', function (t) {
   var sentenceStart = 'A'
   var sentenceEnd = 'house.'
   ;[
@@ -1042,8 +1034,8 @@ test('White space characters', function(t) {
     '\u202F', // NARROW NO-BREAK SPACE
     '\u205F', // MEDIUM MATHEMATICAL SPACE
     '\u3000' // IDEOGRAPHIC SPACE
-  ].forEach(function(character) {
-    t.deepEqual(
+  ].forEach(function (character) {
+    t.deepLooseEqual(
       latinNoPosition.parse(sentenceStart + character + sentenceEnd).children[0]
         .children[0],
       {
@@ -1068,44 +1060,44 @@ test('White space characters', function(t) {
   t.end()
 })
 
-test('Astral-plane surrogate pairs', function(t) {
-  t.test('should classify \uD83D\uDCA9 as a punctuation', function(st) {
+test('Astral-plane surrogate pairs', function (t) {
+  t.test('should classify \uD83D\uDCA9 as a punctuation', function (t) {
     // Note the pile of poo, in ECMAScript 5 written using a surrogate pair.
     describeFixture(
-      st,
+      t,
       'astral-plane-surrogate-pair',
       'The unicode character \uD83D\uDCA9 is pile of poo.'
     )
 
-    st.end()
+    t.end()
   })
 
   t.end()
 })
 
-test('Combining marks and double combining marks', function(t) {
-  t.test('should classify `A\u030Angstro\u0308m` as a word', function(st) {
-    describeFixture(st, 'combining-marks', 'A\u030Angstro\u0308m.')
+test('Combining marks and double combining marks', function (t) {
+  t.test('should classify `A\u030Angstro\u0308m` as a word', function (t) {
+    describeFixture(t, 'combining-marks', 'A\u030Angstro\u0308m.')
 
-    st.end()
+    t.end()
   })
 
-  t.test('should classify 0\uFE0F\u20E3 as a word', function(st) {
+  t.test('should classify 0\uFE0F\u20E3 as a word', function (t) {
     // Note the DIGIT ZERO, VARIATION SELECTOR-16, and COMBINING ENCLOSING
     // KEYCAP, together, form a :zero: emoji.
     describeFixture(
-      st,
+      t,
       'combining-marks-double',
       'He scored 0\uFE0F\u20E3 points.'
     )
 
-    st.end()
+    t.end()
   })
 
   t.end()
 })
 
-test('Combining diacritical marks', function(t) {
+test('Combining diacritical marks', function (t) {
   ;[
     '\u0300', // GRAVE ACCENT (U+0300)
     '\u0301', // ACUTE ACCENT (U+0301)
@@ -1219,8 +1211,8 @@ test('Combining diacritical marks', function(t) {
     '\u036D', // LATIN SMALL LETTER T (U+036D)
     '\u036E', // LATIN SMALL LETTER V (U+036E)
     '\u036F' // LATIN SMALL LETTER X (U+036F)
-  ].forEach(function(diacritic) {
-    t.deepEqual(
+  ].forEach(function (diacritic) {
+    t.deepLooseEqual(
       latinNoPosition.parse('This a' + diacritic + ' house.').children[0]
         .children[0],
       {
@@ -1250,317 +1242,313 @@ test('Combining diacritical marks', function(t) {
   t.end()
 })
 
-test('Tie characters in words', function(t) {
+test('Tie characters in words', function (t) {
   // From wikipedia’s list:
   // <https://en.wikipedia.org/wiki/Tie_(typography)>
-  t.test('Combinding Double Breve: \u25CC\u035D\u25CC', function(st) {
-    describeFixture(st, 'combining-double-breve', 'Such as the o\u035Do.')
+  t.test('Combinding Double Breve: \u25CC\u035D\u25CC', function (t) {
+    describeFixture(t, 'combining-double-breve', 'Such as the o\u035Do.')
 
-    st.end()
+    t.end()
   })
 
-  t.test('Combinding Double Inverted Breve: \u25CC\u0361\u25CC', function(st) {
+  t.test('Combinding Double Inverted Breve: \u25CC\u0361\u25CC', function (t) {
     describeFixture(
-      st,
+      t,
       'combining-double-inverted-breve',
       'Such as the /k\u0361p/.'
     )
 
-    st.end()
+    t.end()
   })
 
-  t.test('Combinding Double Breve Below: \u25CC\u035C\u25CC', function(st) {
+  t.test('Combinding Double Breve Below: \u25CC\u035C\u25CC', function (t) {
     describeFixture(
-      st,
+      t,
       'combining-double-breve-below',
       'Such as the /k\u035Cp/.'
     )
 
-    st.end()
+    t.end()
   })
 
-  t.test('Undertie: \u203F', function(st) {
-    describeFixture(st, 'combining-tie-under', 'The undertie /vuz\u203Fave/')
+  t.test('Undertie: \u203F', function (t) {
+    describeFixture(t, 'combining-tie-under', 'The undertie /vuz\u203Fave/')
 
-    st.end()
+    t.end()
   })
 
-  t.test('Character Tie: \u2040', function(st) {
+  t.test('Character Tie: \u2040', function (t) {
     describeFixture(
-      st,
+      t,
       'combining-tie-character',
       'The character tie: s\u2040t.'
     )
 
-    st.end()
+    t.end()
   })
 
-  t.test('Inverted Undertie: \u2040', function(st) {
+  t.test('Inverted Undertie: \u2040', function (t) {
     describeFixture(
-      st,
+      t,
       'combining-tie-under-inverted',
       'The inverted undertie: o\u2054o.'
     )
 
-    st.end()
+    t.end()
   })
 
   t.end()
 })
 
-test('Intelectual property marks', function(t) {
-  t.test('Copyright symbol: \u00A9', function(st) {
-    describeFixture(st, 'intelectual-copyright-symbol', '\u00A9 John Smith.')
+test('Intelectual property marks', function (t) {
+  t.test('Copyright symbol: \u00A9', function (t) {
+    describeFixture(t, 'intelectual-copyright-symbol', '\u00A9 John Smith.')
 
-    st.end()
+    t.end()
   })
 
-  t.test('Sound Recording Copyright symbol: \u00A9', function(st) {
+  t.test('Sound Recording Copyright symbol: \u00A9', function (t) {
     describeFixture(
-      st,
+      t,
       'intelectual-sound-recording-copyright-symbol',
       'Designated by \u2117, the sound recording copyright symbol'
     )
 
-    st.end()
+    t.end()
   })
 
-  t.test('Registered Trademark symbol: \u00AE', function(st) {
+  t.test('Registered Trademark symbol: \u00AE', function (t) {
     describeFixture(
-      st,
+      t,
       'intelectual-registered-trademark-symbol',
       'Wikipedia\u00AE is a registered trademark.'
     )
 
-    st.end()
+    t.end()
   })
 
-  t.test('Service Mark: \u00AE', function(st) {
+  t.test('Service Mark: \u00AE', function (t) {
     describeFixture(
-      st,
+      t,
       'intelectual-service-mark',
       'ABC Law\u2120 legal services.'
     )
 
-    st.end()
+    t.end()
   })
 
-  t.test('Trademark: \u00AE', function(st) {
+  t.test('Trademark: \u00AE', function (t) {
     describeFixture(
-      st,
+      t,
       'intelectual-trademark',
       'Mytrademark\u2122 is a trademark.'
     )
 
-    st.end()
+    t.end()
   })
 
   t.end()
 })
 
-test('Single and double Grapheme Clusters', function(t) {
+test('Single and double Grapheme Clusters', function (t) {
   // Modified from: <https://mathiasbynens.be/notes/javascript-unicode>
-  t.test('should classify `\u0BA8\u0BBF` as a word', function(st) {
+  t.test('should classify `\u0BA8\u0BBF` as a word', function (t) {
     describeFixture(
-      st,
+      t,
       'grapheme-clusters',
       'Grapheme clusters such as \u0BA8\u0BBF and such.'
     )
 
-    st.end()
+    t.end()
   })
 
-  t.test('should classify `\u1101\u1161\u11A8` as a word', function(st) {
+  t.test('should classify `\u1101\u1161\u11A8` as a word', function (t) {
     describeFixture(
-      st,
+      t,
       'grapheme-clusters-double',
       'Hangul made of conjoining Jamo such as \u1101\u1161\u11A8 and such.'
     )
 
-    st.end()
+    t.end()
   })
 
   t.end()
 })
 
-test('Initial word punctuation', function(t) {
-  t.test('should merge an ampersand preceding a word', function(st) {
-    describeFixture(st, 'word-initial-ampersand', 'This, that, &c.')
+test('Initial word punctuation', function (t) {
+  t.test('should merge an ampersand preceding a word', function (t) {
+    describeFixture(t, 'word-initial-ampersand', 'This, that, &c.')
 
-    st.end()
+    t.end()
   })
 
   t.end()
 })
 
-test('Final word punctuation', function(t) {
-  t.test('should merge a non-terminal full stop following a word', function(
-    st
+test('Final word punctuation', function (t) {
+  t.test('should merge a non-terminal full stop following a word', function (
+    t
   ) {
-    describeFixture(
-      st,
-      'word-final-full-stop',
-      'Burnside St. in April of 1959.'
-    )
+    describeFixture(t, 'word-final-full-stop', 'Burnside St. in April of 1959.')
 
-    st.end()
+    t.end()
   })
 
-  t.test('should merge a dash following a word', function(st) {
+  t.test('should merge a dash following a word', function (t) {
     describeFixture(
-      st,
+      t,
       'word-final-dash',
       'Nineteenth- and twentieth-century writers.'
     )
 
-    st.end()
+    t.end()
   })
 
   t.end()
 })
 
-test('Inner-word punctuation', function(t) {
-  t.test('should merge a slash in a word', function(st) {
+test('Inner-word punctuation', function (t) {
+  t.test('should merge a slash in a word', function (t) {
     describeFixture(
-      st,
+      t,
       'word-inner-slash',
       'N/A or n/a is a common abbreviation.'
     )
 
-    st.end()
+    t.end()
   })
 
-  t.test('should merge a slash trailing to a word', function(st) {
+  t.test('should merge a slash trailing to a word', function (t) {
     describeFixture(
-      st,
+      t,
       'word-inner-slash-no-next',
       'W/ or w/o are common abbreviations.'
     )
 
-    st.end()
+    t.end()
   })
 
-  t.test('should merge small words around slashes', function(st) {
+  t.test('should merge small words around slashes', function (t) {
     describeFixture(
-      st,
+      t,
       'word-inner-slash-short',
       'km/h is a dutch abbreviation, just like t/m.'
     )
 
-    st.end()
+    t.end()
   })
 
-  t.test('should not merge larger words around slashes', function(st) {
+  t.test('should not merge larger words around slashes', function (t) {
     describeFixture(
-      st,
+      t,
       'word-inner-slash-long',
       'This and/or that are not abbreviations.'
     )
 
-    st.end()
+    t.end()
   })
 
-  t.test('should merge an ampersand in a word', function(st) {
-    describeFixture(st, 'word-inner-ampersand', 'AT&Ts R&D and such.')
+  t.test('should merge an ampersand in a word', function (t) {
+    describeFixture(t, 'word-inner-ampersand', 'AT&Ts R&D and such.')
 
-    st.end()
+    t.end()
   })
 
-  t.test('should merge an underscore in a word', function(st) {
+  t.test('should merge an underscore in a word', function (t) {
     describeFixture(
-      st,
+      t,
       'word-inner-underscore',
       'Some file_name.json. Another sentence.'
     )
 
-    st.end()
+    t.end()
   })
 
-  t.test('should merge an at-sign in a word', function(st) {
+  t.test('should merge an at-sign in a word', function (t) {
     describeFixture(
-      st,
+      t,
       'word-inner-at',
       'Some name@example.com. Another sentence.'
     )
 
-    st.end()
+    t.end()
   })
 
-  t.test('should merge a full-stop in a word', function(st) {
+  t.test('should merge a full-stop in a word', function (t) {
     describeFixture(
-      st,
+      t,
       'word-inner-full-stop',
       'You will need to arrive by 14.30.'
     )
 
-    st.end()
+    t.end()
   })
 
-  t.test('should merge a colon in a word', function(st) {
-    describeFixture(st, 'word-inner-colon', 'You will need to arrive by 14:30.')
+  t.test('should merge a colon in a word', function (t) {
+    describeFixture(t, 'word-inner-colon', 'You will need to arrive by 14:30.')
 
-    st.end()
+    t.end()
   })
 
-  t.test('should merge URL-symbols, like `?` and `=`', function(st) {
+  t.test('should merge URL-symbols, like `?` and `=`', function (t) {
     describeFixture(
-      st,
+      t,
       'word-inner-url',
       'Like http://example.com/?foo=1&bar=2. Another sentence.'
     )
 
-    st.end()
+    t.end()
   })
 
   t.end()
 })
 
-test('Terminal markers', function(t) {
-  t.test('should break sentences at a full-stop', function(st) {
+test('Terminal markers', function (t) {
+  t.test('should break sentences at a full-stop', function (t) {
     describeFixture(
-      st,
+      t,
       'terminal-marker-full-stop',
       'A sentence. Another sentence.'
     )
 
-    st.end()
+    t.end()
   })
 
-  t.test('should break sentences at a question mark', function(st) {
+  t.test('should break sentences at a question mark', function (t) {
     describeFixture(
-      st,
+      t,
       'terminal-marker-question-mark',
       'Is it good in form? style? meaning? Yes.'
     )
 
-    st.end()
+    t.end()
   })
 
-  t.test('should break sentences at an exclamation mark', function(st) {
+  t.test('should break sentences at an exclamation mark', function (t) {
     describeFixture(
-      st,
+      t,
       'terminal-marker-exclamation-mark',
       '“No!” he yelled. “Buy it now!” ' +
         'They have some really(!) low-priced ' +
         'rugs on sale this week.'
     )
 
-    st.end()
+    t.end()
   })
 
-  t.test('should break sentences at an interrobang', function(st) {
+  t.test('should break sentences at an interrobang', function (t) {
     describeFixture(
-      st,
+      t,
       'terminal-marker-interrobang',
       'Say what\u203D She\u2019s pregnant?! Realy!? Wow.'
     )
 
-    st.end()
+    t.end()
   })
 
-  t.test('should break sentences at an ellipsis', function(st) {
+  t.test('should break sentences at an ellipsis', function (t) {
     describeFixture(
-      st,
+      t,
       'terminal-marker-ellipsis',
       'This is rather straightforward... ' +
         'Most of the time\u2026 She said that ' +
@@ -1568,34 +1556,34 @@ test('Terminal markers', function(t) {
         'ellipsis.'
     )
 
-    st.end()
+    t.end()
   })
 
-  t.test('should NOT break terminal markers followed by a comma', function(st) {
+  t.test('should NOT break terminal markers followed by a comma', function (t) {
     describeFixture(
-      st,
+      t,
       'terminal-marker-comma',
       '"Oh no!", she screamed, "\u2026don\'t do it!" Another sentence.'
     )
 
-    st.end()
+    t.end()
   })
 
-  t.test('should NOT break terminal markers followed by a semicolon', function(
-    st
+  t.test('should NOT break terminal markers followed by a semicolon', function (
+    t
   ) {
     describeFixture(
-      st,
+      t,
       'terminal-marker-semicolon',
       '"Oh no!"; she screamed; "\u2026don\'t do it!" Another sentence.'
     )
 
-    st.end()
+    t.end()
   })
 
-  t.test('should break sentences at two or more new lines', function(st) {
+  t.test('should break sentences at two or more new lines', function (t) {
     describeFixture(
-      st,
+      t,
       'terminal-marker-new-line',
       'A sentence.\n' +
         '\n' +
@@ -1605,17 +1593,17 @@ test('Terminal markers', function(t) {
     )
 
     describeFixture(
-      st,
+      t,
       'terminal-marker-new-line-multiple',
       'Aha\n\noho\n\nuhu.\n'
     )
 
-    st.end()
+    t.end()
   })
 
   t.test(
     'should break sentences at two or more new lines, permissive of whitespace',
-    function(st) {
+    function (t) {
       var tree = latin.parse(
         'A sentence.\n' +
           '\n' +
@@ -1629,72 +1617,72 @@ test('Terminal markers', function(t) {
         'three paragraphs and three whitespace nodes'
       )
 
-      st.end()
+      t.end()
     }
   )
 
   t.end()
 })
 
-test('Abbreviations: Initialisms', function(t) {
-  t.test('should merge full-stops in preceding initialisms', function(st) {
-    describeFixture(st, 'initialism', 'Something C.I.A. something.')
+test('Abbreviations: Initialisms', function (t) {
+  t.test('should merge full-stops in preceding initialisms', function (t) {
+    describeFixture(t, 'initialism', 'Something C.I.A. something.')
 
-    st.end()
+    t.end()
   })
 
-  t.test('should NOT merge full-stops in preceding normal words', function(st) {
-    describeFixture(st, 'initialism-like', 'Self-contained.')
+  t.test('should NOT merge full-stops in preceding normal words', function (t) {
+    describeFixture(t, 'initialism-like', 'Self-contained.')
 
-    st.end()
+    t.end()
   })
 
-  t.test('should merge pluralized single letters', function(st) {
+  t.test('should merge pluralized single letters', function (t) {
     describeFixture(
-      st,
+      t,
       'initialism-letter-plural',
       "What about A's and B\u2019s?"
     )
 
-    st.end()
+    t.end()
   })
 
-  t.test('should merge pluralized initialisms', function(st) {
+  t.test('should merge pluralized initialisms', function (t) {
     describeFixture(
-      st,
+      t,
       'initialism-plural',
       "What about C.D.'s, C.D.s, or CDs? " +
         'SOS\u2019s or SOSes? ' +
         "G.I.\u2019s or G.I's?"
     )
 
-    st.end()
+    t.end()
   })
 
-  t.test('should NOT merge multi-character “initialisms”', function(st) {
+  t.test('should NOT merge multi-character “initialisms”', function (t) {
     describeFixture(
-      st,
+      t,
       'initialism-like-multi-character',
       'Lets meet this Friday at 16.00.'
     )
 
-    st.end()
+    t.end()
   })
 
-  t.test('should NOT merge digits-only “initialisms”', function(st) {
+  t.test('should NOT merge digits-only “initialisms”', function (t) {
     describeFixture(
-      st,
+      t,
       'initialism-like-digits',
       'Version 0.1.2. Another sentence.'
     )
 
-    st.end()
+    t.end()
   })
 
-  t.test('should merge initialisms with other words', function(st) {
-    describeFixture(st, 'initialism-in-words', 'In the pre-C.I.A. era.')
+  t.test('should merge initialisms with other words', function (t) {
+    describeFixture(t, 'initialism-in-words', 'In the pre-C.I.A. era.')
 
-    st.end()
+    t.end()
   })
 
   t.end()
@@ -1712,8 +1700,8 @@ function describeFixture(t, name, doc, method) {
   nlcstTest(nlcstA)
   nlcstTest(nlcstB)
 
-  t.deepEqual(nlcstA, fixture, 'should match w/ position')
-  t.deepEqual(
+  t.deepLooseEqual(nlcstA, fixture, 'should match w/ position')
+  t.deepLooseEqual(
     nlcstB,
     removePosition(fixture, true),
     'should match w/o position'

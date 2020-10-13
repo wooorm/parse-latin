@@ -1,3 +1,5 @@
 coverage/
 parse-latin.js
 parse-latin.min.js
+*.json
+*.md
