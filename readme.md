@@ -111,9 +111,9 @@ adding sentences and paragraphs where needed.
 
 <!-- Definitions -->
 
-[build-badge]: https://img.shields.io/travis/wooorm/parse-latin.svg
+[build-badge]: https://github.com/wooorm/parse-latin/workflows/main/badge.svg
 
-[build]: https://travis-ci.org/wooorm/parse-latin
+[build]: https://github.com/wooorm/parse-latin/actions
 
 [coverage-badge]: https://img.shields.io/codecov/c/github/wooorm/parse-latin.svg
 
