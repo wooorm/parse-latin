@@ -1,29 +1,31 @@
-'use strict'
-
-var fs = require('fs')
-var path = require('path')
-var toString = require('nlcst-to-string')
-var negate = require('negate')
-var hidden = require('is-hidden')
-var Latin = require('..')
+import fs from 'fs'
+import path from 'path'
+import toString from 'nlcst-to-string'
+import negate from 'negate'
+import {isHidden} from 'is-hidden'
+import {ParseLatin} from '../index.js'
 
 var root = path.join('test', 'fixture')
-var latin = new Latin()
+var latin = new ParseLatin()
 
-fs.readdirSync(root)
-  .filter(negate(hidden))
-  .forEach(function (name) {
-    var doc = fs.readFileSync(path.join(root, name))
-    var tree = JSON.parse(doc)
-    var fn = 'tokenize' + tree.type.slice(0, tree.type.indexOf('Node'))
-    var nlcst
+var files = fs.readdirSync(root).filter(negate(isHidden))
+var index = -1
+var nlcst
+var doc
+var tree
+var fn
 
-    if (fn === 'tokenizeRoot') {
-      fn = 'parse'
-    }
+while (++index < files.length) {
+  doc = fs.readFileSync(path.join(root, files[index]))
+  tree = JSON.parse(doc)
+  fn = 'tokenize' + tree.type.slice(0, tree.type.indexOf('Node'))
 
-    nlcst = latin[fn](toString(tree))
-    nlcst = JSON.stringify(nlcst, 0, 2) + '\n'
+  if (fn === 'tokenizeRoot') fn = 'parse'
 
-    fs.writeFileSync(path.join(root, name), nlcst)
-  })
+  nlcst = latin[fn](toString(tree))
+
+  fs.writeFileSync(
+    path.join(root, files[index]),
+    JSON.stringify(nlcst, null, 2) + '\n'
+  )
+}

@@ -1,12 +1,10 @@
-'use strict'
-
-var fs = require('fs')
-var path = require('path')
-var test = require('tape')
-var nlcstTest = require('nlcst-test')
-var vfile = require('vfile')
-var removePosition = require('unist-util-remove-position')
-var ParseLatin = require('..')
+import fs from 'fs'
+import path from 'path'
+import test from 'tape'
+import nlcstTest from 'nlcst-test'
+import vfile from 'vfile'
+import removePosition from 'unist-util-remove-position'
+import {ParseLatin} from '../index.js'
 
 var latin = new ParseLatin()
 var latinNoPosition = new ParseLatin()
@@ -1701,7 +1699,7 @@ function describeFixture(t, name, doc, method) {
   var nlcstA = latin[method || 'parse'](doc)
   var nlcstB = latinNoPosition[method || 'parse'](doc)
   var fixture = JSON.parse(
-    fs.readFileSync(path.join(__dirname, 'fixture', name + '.json'))
+    fs.readFileSync(path.join('test', 'fixture', name + '.json'))
   )
 
   nlcstTest(nlcstA)

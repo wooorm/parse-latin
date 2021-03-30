@@ -1,2 +1,1 @@
-'use strict'
-module.exports = require('./lib')
+export {ParseLatin} from './lib/index.js'

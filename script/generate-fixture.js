@@ -1,10 +1,8 @@
-'use strict'
+import fs from 'fs'
+import path from 'path'
+import {ParseLatin} from '../index.js'
 
-var fs = require('fs')
-var path = require('path')
-var Latin = require('..')
-
-var latin = new Latin()
+var latin = new ParseLatin()
 
 var parameters = process.argv.splice(2)
 var fp

@@ -19,6 +19,9 @@ Cyrillic (“Добро пожаловать!”), Georgian (“როგორ�
 
 ## Install
 
+This package is ESM only: Node 12+ is needed to use it and it must be `import`ed
+instead of `require`d.
+
 [npm][]:
 
 ```sh
@@ -28,10 +31,10 @@ npm install parse-latin
 ## Use
 
 ```js
-var inspect = require('unist-util-inspect')
-var Latin = require('parse-latin')
+import inspect from 'unist-util-inspect'
+import {ParseLatin} from 'parse-latin'
 
-var tree = new Latin().parse('A simple sentence.')
+var tree = new ParseLatin().parse('A simple sentence.')
 
 console.log(inspect(tree))
 ```
@@ -54,6 +57,9 @@ RootNode[1] (1:1-1:19, 0-18)
 ```
 
 ## API
+
+This package exports the following identifiers: `ParseLatin`.
+There is no default export.
 
 ### `ParseLatin(value)`
 
