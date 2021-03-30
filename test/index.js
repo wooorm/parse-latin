@@ -15,9 +15,6 @@ test('ParseLatin', function (t) {
 
   t.ok(new ParseLatin() instanceof ParseLatin, 'should instantiate')
 
-  // eslint-disable-next-line new-cap
-  t.ok(ParseLatin() instanceof ParseLatin, 'should instantiate (#2)')
-
   t.equal(new ParseLatin().position, true, 'should set `position`')
 
   t.deepLooseEqual(
