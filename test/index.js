@@ -722,17 +722,18 @@ test('Alphabetic exceptions', function (t) {
 
 test('Numerical exceptions', function (t) {
   '0|1|2|3|4|5|6|7|8|9|11|111'.split('|').forEach(function (number) {
-    t.test('should not treat `' + number + '.` as a terminal marker', function (
-      t
-    ) {
-      describeFixture(
-        t,
-        'numerical-exception-' + number.toLowerCase(),
-        'Gibberish something ' + number + '. Gobbledygook.'
-      )
+    t.test(
+      'should not treat `' + number + '.` as a terminal marker',
+      function (t) {
+        describeFixture(
+          t,
+          'numerical-exception-' + number.toLowerCase(),
+          'Gibberish something ' + number + '. Gobbledygook.'
+        )
 
-      t.end()
-    })
+        t.end()
+      }
+    )
   })
 
   t.end()
@@ -1386,13 +1387,18 @@ test('Initial word punctuation', function (t) {
 })
 
 test('Final word punctuation', function (t) {
-  t.test('should merge a non-terminal full stop following a word', function (
-    t
-  ) {
-    describeFixture(t, 'word-final-full-stop', 'Burnside St. in April of 1959.')
+  t.test(
+    'should merge a non-terminal full stop following a word',
+    function (t) {
+      describeFixture(
+        t,
+        'word-final-full-stop',
+        'Burnside St. in April of 1959.'
+      )
 
-    t.end()
-  })
+      t.end()
+    }
+  )
 
   t.test('should merge a dash following a word', function (t) {
     describeFixture(
@@ -1569,17 +1575,18 @@ test('Terminal markers', function (t) {
     t.end()
   })
 
-  t.test('should NOT break terminal markers followed by a semicolon', function (
-    t
-  ) {
-    describeFixture(
-      t,
-      'terminal-marker-semicolon',
-      '"Oh no!"; she screamed; "\u2026don\'t do it!" Another sentence.'
-    )
+  t.test(
+    'should NOT break terminal markers followed by a semicolon',
+    function (t) {
+      describeFixture(
+        t,
+        'terminal-marker-semicolon',
+        '"Oh no!"; she screamed; "\u2026don\'t do it!" Another sentence.'
+      )
 
-    t.end()
-  })
+      t.end()
+    }
+  )
 
   t.test('should break sentences at two or more new lines', function (t) {
     describeFixture(
