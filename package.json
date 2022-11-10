@@ -44,7 +44,6 @@
     "regenerate": "^1.0.0",
     "remark-cli": "^11.0.0",
     "remark-preset-wooorm": "^9.0.0",
-    "tape": "^5.0.0",
     "unist-util-remove-position": "^4.0.0",
     "vfile": "^5.0.0",
     "xo": "^0.52.0"
