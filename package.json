@@ -50,6 +50,7 @@
   },
   "scripts": {
     "prepack": "npm run generate && npm run format",
+    "fixture": "node script/generate-fixture.js",
     "generate": "node script/build-expressions.js",
     "format": "remark . -qfo && prettier . -w --loglevel warn && xo --fix",
     "test-api": "node --conditions development test/index.js",

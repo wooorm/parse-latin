@@ -857,6 +857,241 @@ test('Ellipsis at sentence-end', async function (t) {
   )
 })
 
+test('Line endings', function () {
+  assert.deepEqual(
+    loose(removePosition(latin.parse('alpha\rbravo'), true)),
+    {
+      type: 'RootNode',
+      children: [
+        {
+          type: 'ParagraphNode',
+          children: [
+            {
+              type: 'SentenceNode',
+              children: [
+                {
+                  type: 'WordNode',
+                  children: [{type: 'TextNode', value: 'alpha'}]
+                },
+                {type: 'WhiteSpaceNode', value: '\r'},
+                {
+                  type: 'WordNode',
+                  children: [{type: 'TextNode', value: 'bravo'}]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    'should support a CR line ending as whitespace'
+  )
+
+  assert.deepEqual(
+    loose(removePosition(latin.parse('alpha\nbravo'), true)),
+    {
+      type: 'RootNode',
+      children: [
+        {
+          type: 'ParagraphNode',
+          children: [
+            {
+              type: 'SentenceNode',
+              children: [
+                {
+                  type: 'WordNode',
+                  children: [{type: 'TextNode', value: 'alpha'}]
+                },
+                {type: 'WhiteSpaceNode', value: '\n'},
+                {
+                  type: 'WordNode',
+                  children: [{type: 'TextNode', value: 'bravo'}]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    'should support an LF line ending as whitespace'
+  )
+
+  assert.deepEqual(
+    loose(removePosition(latin.parse('alpha\r\nbravo'), true)),
+    {
+      type: 'RootNode',
+      children: [
+        {
+          type: 'ParagraphNode',
+          children: [
+            {
+              type: 'SentenceNode',
+              children: [
+                {
+                  type: 'WordNode',
+                  children: [{type: 'TextNode', value: 'alpha'}]
+                },
+                {type: 'WhiteSpaceNode', value: '\r\n'},
+                {
+                  type: 'WordNode',
+                  children: [{type: 'TextNode', value: 'bravo'}]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    'should support a CR+LF line ending as whitespace'
+  )
+
+  assert.deepEqual(
+    loose(removePosition(latin.parse('alpha \r\n\tbravo'), true)),
+    {
+      type: 'RootNode',
+      children: [
+        {
+          type: 'ParagraphNode',
+          children: [
+            {
+              type: 'SentenceNode',
+              children: [
+                {
+                  type: 'WordNode',
+                  children: [{type: 'TextNode', value: 'alpha'}]
+                },
+                {type: 'WhiteSpaceNode', value: ' \r\n\t'},
+                {
+                  type: 'WordNode',
+                  children: [{type: 'TextNode', value: 'bravo'}]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    'should support a padded CR+LF line ending as whitespace'
+  )
+
+  assert.deepEqual(
+    loose(removePosition(latin.parse('alpha\r \t\nbravo'), true)),
+    {
+      type: 'RootNode',
+      children: [
+        {
+          type: 'ParagraphNode',
+          children: [
+            {
+              type: 'SentenceNode',
+              children: [
+                {
+                  type: 'WordNode',
+                  children: [{type: 'TextNode', value: 'alpha'}]
+                }
+              ]
+            }
+          ]
+        },
+        {type: 'WhiteSpaceNode', value: '\r \t\n'},
+        {
+          type: 'ParagraphNode',
+          children: [
+            {
+              type: 'SentenceNode',
+              children: [
+                {
+                  type: 'WordNode',
+                  children: [{type: 'TextNode', value: 'bravo'}]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    'should support CR, whitespace, and then an LF, as a break between paragraphs'
+  )
+
+  assert.deepEqual(
+    loose(removePosition(latin.parse('alpha \r \t\rbravo'), true)),
+    {
+      type: 'RootNode',
+      children: [
+        {
+          type: 'ParagraphNode',
+          children: [
+            {
+              type: 'SentenceNode',
+              children: [
+                {
+                  type: 'WordNode',
+                  children: [{type: 'TextNode', value: 'alpha'}]
+                }
+              ]
+            }
+          ]
+        },
+        {type: 'WhiteSpaceNode', value: ' \r \t\r'},
+        {
+          type: 'ParagraphNode',
+          children: [
+            {
+              type: 'SentenceNode',
+              children: [
+                {
+                  type: 'WordNode',
+                  children: [{type: 'TextNode', value: 'bravo'}]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    'should support two CRs with whitespace as a break between paragraphs'
+  )
+
+  assert.deepEqual(
+    loose(removePosition(latin.parse('alpha\r\rbravo'), true)),
+    {
+      type: 'RootNode',
+      children: [
+        {
+          type: 'ParagraphNode',
+          children: [
+            {
+              type: 'SentenceNode',
+              children: [
+                {
+                  type: 'WordNode',
+                  children: [{type: 'TextNode', value: 'alpha'}]
+                }
+              ]
+            }
+          ]
+        },
+        {type: 'WhiteSpaceNode', value: '\r\r'},
+        {
+          type: 'ParagraphNode',
+          children: [
+            {
+              type: 'SentenceNode',
+              children: [
+                {
+                  type: 'WordNode',
+                  children: [{type: 'TextNode', value: 'bravo'}]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    'should support two CRs as a break between paragraphs'
+  )
+})
+
 test('Initial trailing white-space', async function (t) {
   await t.test(
     'should move trailing white-space up to the highest possible level',
