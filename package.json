@@ -29,26 +29,25 @@
     "index.js"
   ],
   "dependencies": {
-    "nlcst-to-string": "^2.0.0",
-    "unist-util-modify-children": "^2.0.0",
-    "unist-util-visit-children": "^1.0.0"
+    "nlcst-to-string": "^3.0.0",
+    "unist-util-modify-children": "^3.0.0",
+    "unist-util-visit-children": "^2.0.0"
   },
   "devDependencies": {
     "@unicode/unicode-13.0.0": "^1.0.0",
     "c8": "^7.0.0",
     "is-hidden": "^2.0.0",
     "negate": "^1.0.0",
-    "nlcst-test": "^2.0.0",
+    "nlcst-test": "^3.0.0",
     "nyc": "^15.0.0",
     "prettier": "^2.0.0",
     "regenerate": "^1.0.0",
-    "remark-cli": "^9.0.0",
-    "remark-preset-wooorm": "^8.0.0",
+    "remark-cli": "^11.0.0",
+    "remark-preset-wooorm": "^9.0.0",
     "tape": "^5.0.0",
-    "tinyify": "^3.0.0",
-    "unist-util-remove-position": "^3.0.0",
-    "vfile": "^4.0.0",
-    "xo": "^0.38.0"
+    "unist-util-remove-position": "^4.0.0",
+    "vfile": "^5.0.0",
+    "xo": "^0.52.0"
   },
   "scripts": {
     "generate": "node script/build-expressions",
@@ -68,6 +67,7 @@
   "xo": {
     "prettier": true,
     "rules": {
+      "unicorn/numeric-separators-style": "off",
       "import/no-mutable-exports": "off",
       "max-depth": "off",
       "no-var": "off",

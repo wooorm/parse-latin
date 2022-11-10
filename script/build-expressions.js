@@ -1,5 +1,5 @@
-import fs from 'fs'
-import path from 'path'
+import fs from 'node:fs'
+import path from 'node:path'
 import regenerate from 'regenerate'
 import N from '@unicode/unicode-13.0.0/General_Category/Number/code-points.js'
 import L from '@unicode/unicode-13.0.0/General_Category/Letter/code-points.js'

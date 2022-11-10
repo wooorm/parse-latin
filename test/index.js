@@ -1,9 +1,9 @@
-import fs from 'fs'
-import path from 'path'
+import fs from 'node:fs'
+import path from 'node:path'
 import test from 'tape'
-import nlcstTest from 'nlcst-test'
-import vfile from 'vfile'
-import removePosition from 'unist-util-remove-position'
+import {assert as nlcstTest} from 'nlcst-test'
+import {VFile} from 'vfile'
+import {removePosition} from 'unist-util-remove-position'
 import {ParseLatin} from '../index.js'
 
 var latin = new ParseLatin()
@@ -24,7 +24,10 @@ test('ParseLatin', function (t) {
   )
 
   t.deepLooseEqual(
-    new ParseLatin('Alpha bravo charlie', vfile('Alpha bravo charlie')).parse(),
+    new ParseLatin(
+      'Alpha bravo charlie',
+      new VFile('Alpha bravo charlie')
+    ).parse(),
     latin.parse('Alpha bravo charlie'),
     'should accept a vfile'
   )
