@@ -31,10 +31,10 @@ npm install parse-latin
 ## Use
 
 ```js
-import inspect from 'unist-util-inspect'
+import {inspect} from 'unist-util-inspect'
 import {ParseLatin} from 'parse-latin'
 
-var tree = new ParseLatin().parse('A simple sentence.')
+const tree = new ParseLatin().parse('A simple sentence.')
 
 console.log(inspect(tree))
 ```
@@ -43,17 +43,17 @@ Which, when inspecting, yields:
 
 ```txt
 RootNode[1] (1:1-1:19, 0-18)
-└─ ParagraphNode[1] (1:1-1:19, 0-18)
-   └─ SentenceNode[6] (1:1-1:19, 0-18)
-      ├─ WordNode[1] (1:1-1:2, 0-1)
-      │  └─ TextNode: "A" (1:1-1:2, 0-1)
-      ├─ WhiteSpaceNode: " " (1:2-1:3, 1-2)
-      ├─ WordNode[1] (1:3-1:9, 2-8)
-      │  └─ TextNode: "simple" (1:3-1:9, 2-8)
-      ├─ WhiteSpaceNode: " " (1:9-1:10, 8-9)
-      ├─ WordNode[1] (1:10-1:18, 9-17)
-      │  └─ TextNode: "sentence" (1:10-1:18, 9-17)
-      └─ PunctuationNode: "." (1:18-1:19, 17-18)
+└─0 ParagraphNode[1] (1:1-1:19, 0-18)
+    └─0 SentenceNode[6] (1:1-1:19, 0-18)
+        ├─0 WordNode[1] (1:1-1:2, 0-1)
+        │   └─0 TextNode "A" (1:1-1:2, 0-1)
+        ├─1 WhiteSpaceNode " " (1:2-1:3, 1-2)
+        ├─2 WordNode[1] (1:3-1:9, 2-8)
+        │   └─0 TextNode "simple" (1:3-1:9, 2-8)
+        ├─3 WhiteSpaceNode " " (1:9-1:10, 8-9)
+        ├─4 WordNode[1] (1:10-1:18, 9-17)
+        │   └─0 TextNode "sentence" (1:10-1:18, 9-17)
+        └─5 PunctuationNode "." (1:18-1:19, 17-18)
 ```
 
 ## API
