@@ -3,18 +3,16 @@ import path from 'node:path'
 import process from 'node:process'
 import {ParseLatin} from '../index.js'
 
-var latin = new ParseLatin()
+const latin = new ParseLatin()
 
-var parameters = process.argv.splice(2)
-var fp
-var nlcst
+const parameters = process.argv.splice(2)
 
 if (parameters.length < 2) {
   console.log('Usage:')
   console.log('  npm run fixture name document [method]')
 } else {
-  fp = path.join('test', 'fixture', parameters[0] + '.json')
-  nlcst = latin[parameters[2] || 'parse'](parameters[1])
+  const fp = path.join('test', 'fixture', parameters[0] + '.json')
+  const nlcst = latin[parameters[2] || 'parse'](parameters[1])
 
   fs.writeFileSync(fp, JSON.stringify(nlcst, 0, 2) + '\n')
 

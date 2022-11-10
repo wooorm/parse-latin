@@ -6,8 +6,8 @@ import {VFile} from 'vfile'
 import {removePosition} from 'unist-util-remove-position'
 import {ParseLatin} from '../index.js'
 
-var latin = new ParseLatin()
-var latinNoPosition = new ParseLatin()
+const latin = new ParseLatin()
+const latinNoPosition = new ParseLatin()
 latinNoPosition.position = false
 
 test('ParseLatin', function (t) {
@@ -49,15 +49,13 @@ test('ParseLatin#use(key, plugin)', function (t) {
   }, 'should NOT throw when no plugin is given')
 
   t.test('should add a plugin on the prototype', function (t) {
-    var parser
-
     function thrower() {
       throw new Error('prototypal thrower was invoked')
     }
 
     ParseLatin.prototype.use('tokenizeWord', thrower)
 
-    parser = new ParseLatin()
+    const parser = new ParseLatin()
 
     t.equal(
       ParseLatin.prototype.tokenizeWordPlugins[
@@ -82,7 +80,7 @@ test('ParseLatin#use(key, plugin)', function (t) {
   })
 
   t.test('should add a plugin on an instance', function (t) {
-    var parser = new ParseLatin()
+    const parser = new ParseLatin()
 
     function thrower() {
       throw new Error('instance thrower was invoked')
@@ -127,15 +125,13 @@ test('ParseLatin#useFirst(key, plugin)', function (t) {
   }, 'should NOT throw when no plugin is given')
 
   t.test('should add a plugin on the prototype', function (t) {
-    var parser
-
     function thrower() {
       throw new Error('prototypal thrower was invoked')
     }
 
     ParseLatin.prototype.useFirst('tokenizeWord', thrower)
 
-    parser = new ParseLatin()
+    const parser = new ParseLatin()
 
     t.equal(
       ParseLatin.prototype.tokenizeWordPlugins[
@@ -160,8 +156,8 @@ test('ParseLatin#useFirst(key, plugin)', function (t) {
   })
 
   t.test('should add a plugin on an instance', function (t) {
-    var parser = new ParseLatin()
-    var wasInvoked
+    const parser = new ParseLatin()
+    let wasInvoked = false
 
     function first() {
       wasInvoked = true
@@ -404,7 +400,7 @@ test('Root: Given two paragraphs', function (t) {
 test('Root: Given two paragraphs - extra whitespace', function (t) {
   // Modified first paragraph, split in two, from:
   // <https://en.wikipedia.org/wiki/Paragraph>
-  var tree = latin.parse(
+  const tree = latin.parse(
     [
       'A paragraph (from the Greek paragraphos, “to write beside” or ',
       '“written beside”) is a self-contained unit of a discourse in ',
@@ -440,7 +436,7 @@ test('Root: Without a value', function (t) {
 })
 
 test('Root: Given a String object', function (t) {
-  var source = 'Test.'
+  const source = 'Test.'
 
   /* eslint-disable no-new-wrappers, unicorn/new-for-builtins */
   t.deepLooseEqual(
@@ -674,52 +670,50 @@ test('Digit-letter combinations in words', function (t) {
 })
 
 test('Latin exceptions', function (t) {
-  ;(
+  for (const abbreviation of (
     'Al|Ca|Cap|Cca|Cent|Cf|Cit|Con|Cp|Cwt|Ead|' +
     'Etc|Ff|Fl|Ibid|Id|Nem|Op|Pro|Seq|Sic|Stat|Tem|Viz'
-  )
-    .split('|')
-    .forEach(function (abbreviation) {
-      t.test(
-        'should not treat `' + abbreviation + '.` as a terminal marker',
-        function (t) {
-          describeFixture(
-            t,
-            'latin-exception-' + abbreviation.toLowerCase(),
-            'Gibberish something ' + abbreviation + '. Gobbledygook.'
-          )
+  ).split('|')) {
+    t.test(
+      'should not treat `' + abbreviation + '.` as a terminal marker',
+      function (t) {
+        describeFixture(
+          t,
+          'latin-exception-' + abbreviation.toLowerCase(),
+          'Gibberish something ' + abbreviation + '. Gobbledygook.'
+        )
 
-          t.end()
-        }
-      )
-    })
+        t.end()
+      }
+    )
+  }
 
   t.end()
 })
 
 test('Alphabetic exceptions', function (t) {
-  'A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z'
-    .split('|')
-    .forEach(function (letter) {
-      t.test(
-        'should not treat `' + letter + '.` as a terminal marker',
-        function (t) {
-          describeFixture(
-            t,
-            'alphabetic-exception-' + letter.toLowerCase(),
-            'Gibberish something ' + letter + '. Gobbledygook.'
-          )
+  for (const letter of 'A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z'.split(
+    '|'
+  )) {
+    t.test(
+      'should not treat `' + letter + '.` as a terminal marker',
+      function (t) {
+        describeFixture(
+          t,
+          'alphabetic-exception-' + letter.toLowerCase(),
+          'Gibberish something ' + letter + '. Gobbledygook.'
+        )
 
-          t.end()
-        }
-      )
-    })
+        t.end()
+      }
+    )
+  }
 
   t.end()
 })
 
 test('Numerical exceptions', function (t) {
-  '0|1|2|3|4|5|6|7|8|9|11|111'.split('|').forEach(function (number) {
+  for (const number of '0|1|2|3|4|5|6|7|8|9|11|111'.split('|')) {
     t.test(
       'should not treat `' + number + '.` as a terminal marker',
       function (t) {
@@ -732,7 +726,7 @@ test('Numerical exceptions', function (t) {
         t.end()
       }
     )
-  })
+  }
 
   t.end()
 })
@@ -1005,9 +999,9 @@ test('Non-alphabetic sentences', function (t) {
 })
 
 test('White space characters', function (t) {
-  var sentenceStart = 'A'
-  var sentenceEnd = 'house.'
-  ;[
+  const sentenceStart = 'A'
+  const sentenceEnd = 'house.'
+  for (const character of [
     '\u0009', // CHARACTER TABULATION
     '\u000A', // LINE FEED (LF)
     '\u000B', // LINE TABULATION
@@ -1033,7 +1027,7 @@ test('White space characters', function (t) {
     '\u202F', // NARROW NO-BREAK SPACE
     '\u205F', // MEDIUM MATHEMATICAL SPACE
     '\u3000' // IDEOGRAPHIC SPACE
-  ].forEach(function (character) {
+  ]) {
     t.deepLooseEqual(
       latinNoPosition.parse(sentenceStart + character + sentenceEnd).children[0]
         .children[0],
@@ -1054,7 +1048,7 @@ test('White space characters', function (t) {
       },
       'should treat `' + character + '` as white-space'
     )
-  })
+  }
 
   t.end()
 })
@@ -1097,7 +1091,7 @@ test('Combining marks and double combining marks', function (t) {
 })
 
 test('Combining diacritical marks', function (t) {
-  ;[
+  for (const diacritic of [
     '\u0300', // GRAVE ACCENT (U+0300)
     '\u0301', // ACUTE ACCENT (U+0301)
     '\u0302', // CIRCUMFLEX ACCENT (U+0302)
@@ -1210,7 +1204,7 @@ test('Combining diacritical marks', function (t) {
     '\u036D', // LATIN SMALL LETTER T (U+036D)
     '\u036E', // LATIN SMALL LETTER V (U+036E)
     '\u036F' // LATIN SMALL LETTER X (U+036F)
-  ].forEach(function (diacritic) {
+  ]) {
     t.deepLooseEqual(
       latinNoPosition.parse('This a' + diacritic + ' house.').children[0]
         .children[0],
@@ -1236,7 +1230,7 @@ test('Combining diacritical marks', function (t) {
       },
       'should treat \u25CC' + diacritic + ' as a word'
     )
-  })
+  }
 
   t.end()
 })
@@ -1609,7 +1603,7 @@ test('Terminal markers', function (t) {
   t.test(
     'should break sentences at two or more new lines, permissive of whitespace',
     function (t) {
-      var tree = latin.parse(
+      const tree = latin.parse(
         'A sentence.\n' +
           '\n' +
           'This is an implicit sentence \n' +
@@ -1696,9 +1690,9 @@ test('Abbreviations: Initialisms', function (t) {
 // Utility to test if a given document is both a valid node, and matches a
 // fixture.
 function describeFixture(t, name, doc, method) {
-  var nlcstA = latin[method || 'parse'](doc)
-  var nlcstB = latinNoPosition[method || 'parse'](doc)
-  var fixture = JSON.parse(
+  const nlcstA = latin[method || 'parse'](doc)
+  const nlcstB = latinNoPosition[method || 'parse'](doc)
+  const fixture = JSON.parse(
     fs.readFileSync(path.join('test', 'fixture', name + '.json'))
   )
 

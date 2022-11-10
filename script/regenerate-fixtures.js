@@ -5,24 +5,20 @@ import negate from 'negate'
 import {isHidden} from 'is-hidden'
 import {ParseLatin} from '../index.js'
 
-var root = path.join('test', 'fixture')
-var latin = new ParseLatin()
+const root = path.join('test', 'fixture')
+const latin = new ParseLatin()
 
-var files = fs.readdirSync(root).filter(negate(isHidden))
-var index = -1
-var nlcst
-var doc
-var tree
-var fn
+const files = fs.readdirSync(root).filter(negate(isHidden))
+let index = -1
 
 while (++index < files.length) {
-  doc = fs.readFileSync(path.join(root, files[index]))
-  tree = JSON.parse(doc)
-  fn = 'tokenize' + tree.type.slice(0, tree.type.indexOf('Node'))
+  const doc = fs.readFileSync(path.join(root, files[index]))
+  const tree = JSON.parse(doc)
+  let fn = 'tokenize' + tree.type.slice(0, tree.type.indexOf('Node'))
 
   if (fn === 'tokenizeRoot') fn = 'parse'
 
-  nlcst = latin[fn](toString(tree))
+  const nlcst = latin[fn](toString(tree))
 
   fs.writeFileSync(
     path.join(root, files[index]),
