@@ -1,18 +1,44 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import regenerate from 'regenerate'
+/** @type {{default: Array<number>}} */
+// @ts-expect-error
 import N from '@unicode/unicode-13.0.0/General_Category/Number/code-points.js'
+/** @type {{default: Array<number>}} */
+// @ts-expect-error
 import L from '@unicode/unicode-13.0.0/General_Category/Letter/code-points.js'
+/** @type {{default: Array<number>}} */
+// @ts-expect-error
 import Ll from '@unicode/unicode-13.0.0/General_Category/Lowercase_Letter/code-points.js'
+/** @type {{default: Array<number>}} */
+// @ts-expect-error
 import M from '@unicode/unicode-13.0.0/General_Category/Mark/code-points.js'
+/** @type {{default: Array<number>}} */
+// @ts-expect-error
 import Pc from '@unicode/unicode-13.0.0/General_Category/Connector_Punctuation/code-points.js'
+/** @type {{default: Array<number>}} */
+// @ts-expect-error
 import Pd from '@unicode/unicode-13.0.0/General_Category/Dash_Punctuation/code-points.js'
+/** @type {{default: Array<number>}} */
+// @ts-expect-error
 import Pe from '@unicode/unicode-13.0.0/General_Category/Close_Punctuation/code-points.js'
+/** @type {{default: Array<number>}} */
+// @ts-expect-error
 import Pf from '@unicode/unicode-13.0.0/General_Category/Final_Punctuation/code-points.js'
+/** @type {{default: Array<number>}} */
+// @ts-expect-error
 import Pi from '@unicode/unicode-13.0.0/General_Category/Initial_Punctuation/code-points.js'
+/** @type {{default: Array<number>}} */
+// @ts-expect-error
 import Po from '@unicode/unicode-13.0.0/General_Category/Other_Punctuation/code-points.js'
+/** @type {{default: Array<number>}} */
+// @ts-expect-error
 import Ps from '@unicode/unicode-13.0.0/General_Category/Open_Punctuation/code-points.js'
+/** @type {{default: Array<number>}} */
+// @ts-expect-error
 import BPWhiteSpace from '@unicode/unicode-13.0.0/Binary_Property/White_Space/code-points.js'
+/** @type {{default: Array<number>}} */
+// @ts-expect-error
 import combiningDiacriticalMarks from '@unicode/unicode-13.0.0/Block/Combining_Diacritical_Marks/code-points.js'
 
 const combiningDiacriticalMark = regenerate().add(combiningDiacriticalMarks)
@@ -120,7 +146,7 @@ const reWordSymbolInner = new RegExp(
 )
 
 // Match punctuation marks.
-const rePunctuation = new RegExp(punctuation)
+const rePunctuation = new RegExp(String(punctuation))
 
 // Match numbers.
 const reNumerical = new RegExp('^(?:' + numerical + ')+$')
@@ -135,10 +161,10 @@ const reLowerInitial = new RegExp('^(?:' + letterLower + ')')
 const reSurrogates = /[\uD800-\uDFFF]/
 
 // Match a word.
-const reWord = new RegExp(word)
+const reWord = new RegExp(String(word))
 
 // Match white space.
-const reWhiteSpace = new RegExp(whiteSpace)
+const reWhiteSpace = new RegExp(String(whiteSpace))
 
 fs.writeFileSync(
   path.join('lib', 'expressions.js'),

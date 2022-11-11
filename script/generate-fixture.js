@@ -12,9 +12,20 @@ if (parameters.length < 2) {
   console.log('  npm run fixture name document [method]')
 } else {
   const fp = path.join('test', 'fixture', parameters[0] + '.json')
-  const nlcst = latin[parameters[2] || 'parse'](parameters[1])
+  const name = parameters[2] || 'parse'
 
-  fs.writeFileSync(fp, JSON.stringify(nlcst, 0, 2) + '\n')
+  if (
+    name !== 'parse' &&
+    name !== 'tokenizeRoot' &&
+    name !== 'tokenizeParagraph' &&
+    name !== 'tokenizeSentence'
+  ) {
+    throw new Error('Expected valid parse name')
+  }
+
+  const nlcst = latin[name](parameters[1])
+
+  fs.writeFileSync(fp, JSON.stringify(nlcst, null, 2) + '\n')
 
   console.log('Wrote file to `' + fp + '`')
 }

@@ -1,27 +1,35 @@
-import fs from 'node:fs'
+/**
+ * @typedef {import('nlcst').Root} Root
+ * @typedef {import('nlcst').Paragraph} Paragraph
+ * @typedef {import('nlcst').Sentence} Sentence
+ */
+
+import fs from 'node:fs/promises'
 import path from 'node:path'
 import {toString} from 'nlcst-to-string'
-import negate from 'negate'
 import {isHidden} from 'is-hidden'
 import {ParseLatin} from '../index.js'
 
 const root = path.join('test', 'fixture')
 const latin = new ParseLatin()
 
-const files = fs.readdirSync(root).filter(negate(isHidden))
+const files = await fs.readdir(root)
+const applicable = files.filter((d) => !isHidden(d))
 let index = -1
 
-while (++index < files.length) {
-  const doc = fs.readFileSync(path.join(root, files[index]))
+/* eslint-disable no-await-in-loop */
+while (++index < applicable.length) {
+  const doc = String(await fs.readFile(path.join(root, applicable[index])))
+  /** @type {Root|Paragraph|Sentence} */
   const tree = JSON.parse(doc)
-  let fn = 'tokenize' + tree.type.slice(0, tree.type.indexOf('Node'))
+  const name = /** @type {'Root'|'Paragraph'|'Sentence'} */ (
+    tree.type.slice(0, tree.type.indexOf('Node'))
+  )
+  const nlcst = latin[`tokenize${name}`](toString(tree))
 
-  if (fn === 'tokenizeRoot') fn = 'parse'
-
-  const nlcst = latin[fn](toString(tree))
-
-  fs.writeFileSync(
-    path.join(root, files[index]),
+  await fs.writeFile(
+    path.join(root, applicable[index]),
     JSON.stringify(nlcst, null, 2) + '\n'
   )
 }
+/* eslint-enable no-await-in-loop */

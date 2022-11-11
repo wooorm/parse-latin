@@ -1,5 +1,10 @@
+/**
+ * @typedef {import('nlcst').Content} Content
+ * @typedef {import('nlcst').Root} Root
+ */
+
 import assert from 'node:assert/strict'
-import fs from 'node:fs'
+import fs from 'node:fs/promises'
 import path from 'node:path'
 import test from 'node:test'
 import {assert as nlcstTest} from 'nlcst-test'
@@ -10,397 +15,32 @@ import {ParseLatin} from '../index.js'
 /* eslint-disable no-await-in-loop */
 
 const latin = new ParseLatin()
-const latinNoPosition = new ParseLatin()
-latinNoPosition.position = false
 
 test('ParseLatin', function () {
   assert.equal(typeof ParseLatin, 'function', 'should be a `function`')
 
   assert.ok(new ParseLatin() instanceof ParseLatin, 'should instantiate')
 
-  assert.equal(new ParseLatin().position, true, 'should set `position`')
-
   assert.deepEqual(
-    loose(new ParseLatin('Alpha bravo charlie').parse()),
-    loose(latin.parse('Alpha bravo charlie')),
+    new ParseLatin('Alpha bravo charlie').parse(),
+    latin.parse('Alpha bravo charlie'),
     'should accept a string'
   )
 
   assert.deepEqual(
-    loose(
-      new ParseLatin(
-        'Alpha bravo charlie',
-        new VFile('Alpha bravo charlie')
-      ).parse()
-    ),
-    loose(latin.parse('Alpha bravo charlie')),
+    new ParseLatin(
+      'Alpha bravo charlie',
+      new VFile('Alpha bravo charlie')
+    ).parse(),
+    latin.parse('Alpha bravo charlie'),
     'should accept a vfile'
   )
 })
 
-test('ParseLatin#use(key, plugin)', async function (t) {
-  assert.throws(
-    function () {
-      ParseLatin.prototype.use('alfred')
-    },
-    /Make sure `key` is a supported function/,
-    'should throw when a non-pluggable `key` is given'
-  )
-
-  assert.doesNotThrow(function () {
-    ParseLatin.prototype.use('tokenizeWord')
-  }, 'should NOT throw when no plugin is given')
-
-  await t.test('should add a plugin on the prototype', function () {
-    function thrower() {
-      throw new Error('prototypal thrower was invoked')
-    }
-
-    ParseLatin.prototype.use('tokenizeWord', thrower)
-
-    const parser = new ParseLatin()
-
-    assert.equal(
-      ParseLatin.prototype.tokenizeWordPlugins[
-        ParseLatin.prototype.tokenizeWordPlugins.length - 1
-      ],
-      thrower,
-      'should patch the plugin'
-    )
-
-    assert.throws(
-      function () {
-        parser.parse('Alfred.')
-      },
-      /thrower was invoked/,
-      'should invoke the plugin'
-    )
-
-    // Clean.
-    ParseLatin.prototype.tokenizeWordPlugins = null
-  })
-
-  await t.test('should add a plugin on an instance', function () {
-    const parser = new ParseLatin()
-
-    function thrower() {
-      throw new Error('instance thrower was invoked')
-    }
-
-    parser.use('tokenizeWord', thrower)
-
-    assert.equal(
-      parser.tokenizeWordPlugins[parser.tokenizeWordPlugins.length - 1],
-      thrower,
-      'should add the plugin'
-    )
-
-    assert.throws(
-      function () {
-        parser.parse('Alfred.')
-      },
-      /instance thrower was invoked/,
-      'should invoke the plugin'
-    )
-
-    // Clean.
-    ParseLatin.prototype.tokenizeWordPlugins = null
-  })
-})
-
-test('ParseLatin#useFirst(key, plugin)', async function (t) {
-  assert.throws(
-    function () {
-      ParseLatin.prototype.useFirst('alfred')
-    },
-    /Make sure `key` is a supported function/,
-    'should throw when a non-pluggable `key` is given'
-  )
-
-  assert.doesNotThrow(function () {
-    ParseLatin.prototype.useFirst('tokenizeWord')
-  }, 'should NOT throw when no plugin is given')
-
-  await t.test('should add a plugin on the prototype', function () {
-    function thrower() {
-      throw new Error('prototypal thrower was invoked')
-    }
-
-    ParseLatin.prototype.useFirst('tokenizeWord', thrower)
-
-    const parser = new ParseLatin()
-
-    assert.equal(
-      ParseLatin.prototype.tokenizeWordPlugins[
-        ParseLatin.prototype.tokenizeWordPlugins.length - 1
-      ],
-      thrower,
-      'should add the plugin'
-    )
-
-    assert.throws(
-      function () {
-        parser.parse('Alfred.')
-      },
-      /thrower was invoked/,
-      'should invoke the plugin'
-    )
-
-    // Clean.
-    ParseLatin.prototype.tokenizeWordPlugins = null
-  })
-
-  await t.test('should add a plugin on an instance', function () {
-    const parser = new ParseLatin()
-    let wasInvoked = false
-
-    function first() {
-      wasInvoked = true
-    }
-
-    function thrower() {
-      assert.equal(wasInvoked, true, 'should invoke the plugin (#1)')
-
-      throw new Error('instance thrower was invoked')
-    }
-
-    parser.useFirst('tokenizeWord', thrower)
-
-    assert.equal(
-      parser.tokenizeWordPlugins[0],
-      thrower,
-      'should add the plugin (#1)'
-    )
-
-    parser.useFirst('tokenizeWord', first)
-
-    assert.equal(
-      parser.tokenizeWordPlugins[0],
-      first,
-      'should add the plugin (#2)'
-    )
-
-    assert.throws(
-      function () {
-        parser.parse('Alfred.')
-      },
-      /instance thrower was invoked/,
-      'should invoke the plugin (#2)'
-    )
-
-    assert.equal(wasInvoked, true, 'should invoke the plugin (#3)')
-
-    ParseLatin.prototype.tokenizeWordPlugins = null
-  })
-})
-
-test('ParseLatin#tokenizeText()', function () {
-  assert.equal(
-    latin.tokenizeText().type,
-    'TextNode',
-    'should return a text node'
-  )
-
-  assert.equal(
-    latin.tokenizeText('alfred').value,
-    'alfred',
-    'should return a node with its value property set to the given value'
-  )
-
-  assert.equal(latin.tokenizeText().value, '', 'should support undefined (#1)')
-
-  assert.equal(
-    latin.tokenizeText(undefined).value,
-    '',
-    'should support `undefined` (#2)'
-  )
-
-  assert.equal(latin.tokenizeText(null).value, '', 'should support `null`')
-
-  assert.ok(
-    !('children' in latin.tokenizeText()),
-    'should not patch `children`'
-  )
-})
-
-test('ParseLatin#tokenizeSource()', function () {
-  assert.equal(
-    latin.tokenizeSource().type,
-    'SourceNode',
-    'should return a source node'
-  )
-
-  assert.equal(
-    latin.tokenizeSource('alfred').value,
-    'alfred',
-    'should return a node with its value property set to the given value'
-  )
-
-  assert.equal(
-    latin.tokenizeSource().value,
-    '',
-    'should support undefined (#1)'
-  )
-
-  assert.equal(
-    latin.tokenizeSource(undefined).value,
-    '',
-    'should support `undefined` (#2)'
-  )
-
-  assert.equal(latin.tokenizeSource(null).value, '', 'should support `null`')
-
-  assert.ok(
-    !('children' in latin.tokenizeSource()),
-    'should not patch `children`'
-  )
-})
-
-test('ParseLatin#tokenizeSymbol()', function () {
-  assert.equal(
-    latin.tokenizeSymbol().type,
-    'SymbolNode',
-    'should return a source node'
-  )
-
-  assert.equal(
-    latin.tokenizeSymbol('alfred').value,
-    'alfred',
-    'should return a node with its value property set to the given value'
-  )
-
-  assert.equal(
-    latin.tokenizeSymbol().value,
-    '',
-    'should support undefined (#1)'
-  )
-
-  assert.equal(
-    latin.tokenizeSymbol(undefined).value,
-    '',
-    'should support `undefined` (#2)'
-  )
-
-  assert.equal(latin.tokenizeSymbol(null).value, '', 'should support `null`')
-
-  assert.ok(
-    !('children' in latin.tokenizeSymbol()),
-    'should not patch `children`'
-  )
-})
-
-test('ParseLatin#tokenizeWhiteSpace()', function () {
-  assert.equal(
-    latin.tokenizeWhiteSpace().type,
-    'WhiteSpaceNode',
-    'should return a source node'
-  )
-
-  assert.equal(
-    latin.tokenizeWhiteSpace('alfred').value,
-    'alfred',
-    'should return a node with its value property set to the given value'
-  )
-
-  assert.equal(
-    latin.tokenizeWhiteSpace().value,
-    '',
-    'should support undefined (#1)'
-  )
-
-  assert.equal(
-    latin.tokenizeWhiteSpace(undefined).value,
-    '',
-    'should support `undefined` (#2)'
-  )
-
-  assert.equal(
-    latin.tokenizeWhiteSpace(null).value,
-    '',
-    'should support `null`'
-  )
-
-  assert.ok(
-    !('children' in latin.tokenizeWhiteSpace()),
-    'should not patch `children`'
-  )
-})
-
-test('ParseLatin#tokenizePunctuation()', function () {
-  assert.equal(
-    latin.tokenizePunctuation().type,
-    'PunctuationNode',
-    'should return a source node'
-  )
-
-  assert.equal(
-    latin.tokenizePunctuation('alfred').value,
-    'alfred',
-    'should return a node with its value property set to the given value'
-  )
-
-  assert.equal(
-    latin.tokenizePunctuation().value,
-    '',
-    'should support undefined (#1)'
-  )
-
-  assert.equal(
-    latin.tokenizePunctuation(undefined).value,
-    '',
-    'should support `undefined` (#2)'
-  )
-
-  assert.equal(
-    latin.tokenizePunctuation(null).value,
-    '',
-    'should support `null`'
-  )
-
-  assert.ok(
-    !('children' in latin.tokenizePunctuation()),
-    'should not patch `children`'
-  )
-})
-
-test('ParseLatin#tokenizeWord()', function () {
-  assert.equal(
-    latin.tokenizeWord().type,
-    'WordNode',
-    'should return a source node'
-  )
-
-  assert.deepEqual(
-    loose(latin.tokenizeWord('foo').children),
-    [{type: 'TextNode', value: 'foo'}],
-    'should set `children`'
-  )
-
-  assert.deepEqual(
-    loose(latin.tokenizeWord().children),
-    [{type: 'TextNode', value: ''}],
-    'should support undefined (#1)'
-  )
-
-  assert.deepEqual(
-    loose(latin.tokenizeWord(undefined).children),
-    [{type: 'TextNode', value: ''}],
-    'should support `undefined` (#2)'
-  )
-
-  assert.deepEqual(
-    loose(latin.tokenizeWord(null).children),
-    [{type: 'TextNode', value: ''}],
-    'should support `null`'
-  )
-
-  assert.ok(!('value' in latin.tokenizeWord()), 'should not patch `value`')
-})
-
-test('Root: Given two paragraphs', function () {
+test('Root: Given two paragraphs', async function () {
   // Modified first paragraph, split in two, from:
   // <https://en.wikipedia.org/wiki/Paragraph>
-  describeFixture(
+  await describeFixture(
     'two-paragraphs',
     [
       'A paragraph (from the Greek paragraphos, “to write beside” or ',
@@ -435,16 +75,16 @@ test('Root: Given two paragraphs - extra whitespace', function () {
   ) // Two paragraphs and one whitespace node.
 })
 
-test('A whitespace only document', function () {
-  describeFixture('white-space-only', '\n\n')
+test('A whitespace only document', async function () {
+  await describeFixture('white-space-only', '\n\n')
 })
 
 test('Root: Without a value', function () {
   // No fixture test because this fails in NLCST-test (which it should though).
   assert.deepEqual(
-    loose(latin.parse()),
+    latin.parse(),
     {type: 'RootNode', children: []},
-    'should return an empty RootNode when invoked without value'
+    'should return an empty RootNode when called without value'
   )
 })
 
@@ -453,210 +93,41 @@ test('Root: Given a String object', function () {
 
   /* eslint-disable no-new-wrappers, unicorn/new-for-builtins */
   assert.deepEqual(
-    loose(latin.parse(new String(source))),
-    loose(latin.parse(source)),
+    // @ts-expect-error
+    latin.parse(new String(source)),
+    latin.parse(source),
     'should tokenize the toString representation of the given object when the given object is an instance of String'
   )
   /* eslint-enable no-new-wrappers, unicorn/new-for-builtins */
 })
 
-test('Root: Given an array', function () {
-  assert.deepEqual(
-    loose(latin.parse([])),
-    {type: 'RootNode', children: []},
-    'should work when empty'
-  )
-
-  assert.deepEqual(
-    loose(latin.parse([{type: 'SymbolNode', value: '&'}])),
-    {
-      type: 'RootNode',
-      children: [
-        {
-          type: 'ParagraphNode',
-          children: [
-            {
-              type: 'SentenceNode',
-              children: [
-                {
-                  type: 'SymbolNode',
-                  value: '&'
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    'should work when given tokens'
-  )
-
-  assert.deepEqual(
-    loose(
-      latin.parse([
-        {
-          type: 'WordNode',
-          children: [{type: 'TextNode', value: 'hoot'}]
-        },
-        {
-          type: 'WordNode',
-          children: [{type: 'TextNode', value: 's'}]
-        }
-      ])
-    ),
-    {
-      type: 'RootNode',
-      children: [
-        {
-          type: 'ParagraphNode',
-          children: [
-            {
-              type: 'SentenceNode',
-              children: [
-                {
-                  type: 'WordNode',
-                  children: [
-                    {type: 'TextNode', value: 'hoot'},
-                    {type: 'TextNode', value: 's'}
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    'should merge adjacent words'
-  )
-
-  assert.deepEqual(
-    loose(
-      latin.parse([
-        {
-          type: 'WordNode',
-          children: [
-            {
-              type: 'TextNode',
-              value: 'hoot',
-              position: {
-                start: {line: 1, column: 5, offset: 4},
-                end: {line: 1, column: 9, offset: 8}
-              }
-            }
-          ],
-          position: {
-            start: {line: 1, column: 5, offset: 4},
-            end: {line: 1, column: 9, offset: 8}
-          }
-        },
-        {
-          type: 'WordNode',
-          children: [
-            {
-              type: 'TextNode',
-              value: 's',
-              position: {
-                start: {line: 1, column: 11, offset: 10},
-                end: {line: 1, column: 12, offset: 11}
-              }
-            }
-          ],
-          position: {
-            start: {line: 1, column: 11, offset: 10},
-            end: {line: 1, column: 12, offset: 11}
-          }
-        }
-      ])
-    ),
-    {
-      type: 'RootNode',
-      children: [
-        {
-          type: 'ParagraphNode',
-          children: [
-            {
-              type: 'SentenceNode',
-              children: [
-                {
-                  type: 'WordNode',
-                  children: [
-                    {
-                      type: 'TextNode',
-                      value: 'hoot',
-                      position: {
-                        start: {line: 1, column: 5, offset: 4},
-                        end: {line: 1, column: 9, offset: 8}
-                      }
-                    },
-                    {
-                      type: 'TextNode',
-                      value: 's',
-                      position: {
-                        start: {line: 1, column: 11, offset: 10},
-                        end: {line: 1, column: 12, offset: 11}
-                      }
-                    }
-                  ],
-                  position: {
-                    start: {line: 1, column: 5, offset: 4},
-                    end: {line: 1, column: 12, offset: 11}
-                  }
-                }
-              ],
-              position: {
-                start: {line: 1, column: 5, offset: 4},
-                end: {line: 1, column: 12, offset: 11}
-              }
-            }
-          ],
-          position: {
-            start: {line: 1, column: 5, offset: 4},
-            end: {line: 1, column: 12, offset: 11}
-          }
-        }
-      ],
-      position: {
-        start: {line: 1, column: 5, offset: 4},
-        end: {line: 1, column: 12, offset: 11}
-      }
-    },
-    'should patch positions'
-  )
-})
-
-test('Root: Given any other value', function () {
-  assert.throws(function () {
-    latin.parse({})
-  }, 'should throw when the object is neither null, undefined, string, nor String object')
-})
-
 test('Paragraph: Without a value', function () {
   assert.deepEqual(
-    loose(latin.tokenizeParagraph()),
+    latin.tokenizeParagraph(),
     {type: 'ParagraphNode', children: []},
-    'should return an empty ParagraphNode when invoked without value'
+    'should return an empty ParagraphNode when called without value'
   )
 })
 
 test('Sentence: Without a value', function () {
   assert.deepEqual(
-    loose(latin.tokenizeSentence()),
+    latin.tokenizeSentence(),
     {type: 'SentenceNode', children: []},
-    'should return an empty SentenceNode when invoked without value'
+    'should return an empty SentenceNode when called without value'
   )
 })
 
 test('Digit-letter combinations in words', async function (t) {
-  await t.test('should treat digit-letter as a word', function () {
+  await t.test('should treat digit-letter as a word', async function () {
     // Source: <https://en.wikipedia.org/wiki/IPhone_5S>
-    describeFixture(
+    await describeFixture(
       'digit-letter-combination',
       'iPhone 5S is a high-end smartphone developed by Apple.'
     )
   })
 
-  await t.test('should treat letter-digit as a word', function () {
-    describeFixture(
+  await t.test('should treat letter-digit as a word', async function () {
+    await describeFixture(
       'letter-digit-combination',
       'Galaxy S3 is a high-end smartphone developed by Samsung.'
     )
@@ -670,8 +141,8 @@ test('Latin exceptions', async function (t) {
   ).split('|')) {
     await t.test(
       'should not treat `' + abbreviation + '.` as a terminal marker',
-      function () {
-        describeFixture(
+      async function () {
+        await describeFixture(
           'latin-exception-' + abbreviation.toLowerCase(),
           'Gibberish something ' + abbreviation + '. Gobbledygook.'
         )
@@ -686,8 +157,8 @@ test('Alphabetic exceptions', async function (t) {
   )) {
     await t.test(
       'should not treat `' + letter + '.` as a terminal marker',
-      function () {
-        describeFixture(
+      async function () {
+        await describeFixture(
           'alphabetic-exception-' + letter.toLowerCase(),
           'Gibberish something ' + letter + '. Gobbledygook.'
         )
@@ -700,8 +171,8 @@ test('Numerical exceptions', async function (t) {
   for (const number of '0|1|2|3|4|5|6|7|8|9|11|111'.split('|')) {
     await t.test(
       'should not treat `' + number + '.` as a terminal marker',
-      function () {
-        describeFixture(
+      async function () {
+        await describeFixture(
           'numerical-exception-' + number.toLowerCase(),
           'Gibberish something ' + number + '. Gobbledygook.'
         )
@@ -713,10 +184,10 @@ test('Numerical exceptions', async function (t) {
 test('Initialisms', async function (t) {
   await t.test(
     'should not treat full-stops in initialisms as a terminal marker',
-    function () {
+    async function () {
       // Source:
       // <https://en.wikipedia.org/wiki/Natural_language#Constructed_languages_and_international_auxiliary_languages>
-      describeFixture(
+      await describeFixture(
         'initialism-exception',
         'Esperanto was designed by L.L. Zamenhof from languages'
       )
@@ -728,9 +199,9 @@ test('Lower-case letters', async function (t) {
   await t.test(
     'should not treat full-stops followed by a lower-case letter ' +
       'as terminal marker',
-    function () {
+    async function () {
       // Source: <https://en.wikipedia.org/wiki/Park_Ave.>
-      describeFixture(
+      await describeFixture(
         'lower-case-exception',
         'Park Ave. was an indie pop band which started in ' +
           'January 1996 in Nebraska (Omaha).'
@@ -742,9 +213,9 @@ test('Lower-case letters', async function (t) {
 test('Domain names', async function (t) {
   await t.test(
     'should not treat full-stops preceding a word as terminal marker',
-    function () {
+    async function () {
       // Source: <https://en.wikipedia.org/wiki/.com>
-      describeFixture(
+      await describeFixture(
         'domain-name-exception',
         'However, eventually the distinction ' +
           'was lost when .com, .org and .net were ' +
@@ -758,9 +229,9 @@ test('Inside quotes', async function (t) {
   await t.test(
     'should treat closing quotes after full-stops as part of ' +
       'the previous sentence',
-    function () {
+    async function () {
       // Source: the web.
-      describeFixture(
+      await describeFixture(
         'full-stop-followed-by-closing-quote',
         '“However,” says my Grade 8 ' +
           'teacher, “the period goes inside ' +
@@ -775,9 +246,9 @@ test('Inside parens', async function (t) {
   await t.test(
     'should treat closing parens after full-stops as part of ' +
       'the previous sentence',
-    function () {
+    async function () {
       // Source: the web.
-      describeFixture(
+      await describeFixture(
         'full-stop-followed-by-closing-parenthesis',
         '“However,” says my Grade 8 ' +
           'teacher, (the period goes inside ' +
@@ -791,9 +262,9 @@ test('Inside parens', async function (t) {
 test('Before comma', async function (t) {
   await t.test(
     "should not treat full-stops before comma's as terminal markers",
-    function () {
+    async function () {
       // Source: part of the wikipedia license note.
-      describeFixture(
+      await describeFixture(
         'full-stop-followed-by-comma',
         'Wikipedia® is a registered trademark ' +
           'of the Wikimedia Foundation, Inc., a ' +
@@ -806,14 +277,14 @@ test('Before comma', async function (t) {
 test('Before digit', async function (t) {
   await t.test(
     'should not treat full-stops before digits as terminal markers',
-    function () {
+    async function () {
       // Source: part of the wikipedia license note.
-      describeFixture('full-stop-followed-by-digit', 'Of .5 percent.')
+      await describeFixture('full-stop-followed-by-digit', 'Of .5 percent.')
     }
   )
 
-  await t.test('should not fail on digit only sentences', function () {
-    describeFixture('digit-only-sentence', '123456')
+  await t.test('should not fail on digit only sentences', async function () {
+    await describeFixture('digit-only-sentence', '123456')
   })
 })
 
@@ -821,19 +292,22 @@ test('Ellipsis at sentence-start', async function (t) {
   await t.test(
     'should not treat multiple full-stops at the start of a sentence' +
       'as terminal markers',
-    function () {
-      describeFixture(
+    async function () {
+      await describeFixture(
         'ellipsis-sentence-start-spaces-padded',
         '. . . to be continued.'
       )
 
       // This, perhaps correctly, doesn’t work yet: the last full-stop is
       // classified as part of the first word.
-      // describeFixture('ellipsis-sentence-start-spaces', '. . .to be continued.')
+      // await describeFixture('ellipsis-sentence-start-spaces', '. . .to be continued.')
 
-      describeFixture('ellipsis-sentence-start', '...to be continued.')
+      await describeFixture('ellipsis-sentence-start', '...to be continued.')
 
-      describeFixture('ellipsis-sentence-start-unicode', '…to be continued.')
+      await describeFixture(
+        'ellipsis-sentence-start-unicode',
+        '…to be continued.'
+      )
     }
   )
 })
@@ -842,24 +316,27 @@ test('Ellipsis at sentence-end', async function (t) {
   await t.test(
     'should not treat multiple full-stops at the end of a sentence ' +
       'as terminal markers',
-    function () {
-      describeFixture(
+    async function () {
+      await describeFixture(
         'ellipsis-sentence-end-spaces-padded',
         'To be continued . . .'
       )
 
-      describeFixture('ellipsis-sentence-end-spaces', 'To be continued. . .')
+      await describeFixture(
+        'ellipsis-sentence-end-spaces',
+        'To be continued. . .'
+      )
 
-      describeFixture('ellipsis-sentence-end', 'To be continued...')
+      await describeFixture('ellipsis-sentence-end', 'To be continued...')
 
-      describeFixture('ellipsis-sentence-end-unicode', 'To be continued…')
+      await describeFixture('ellipsis-sentence-end-unicode', 'To be continued…')
     }
   )
 })
 
 test('Line endings', function () {
   assert.deepEqual(
-    loose(removePosition(latin.parse('alpha\rbravo'), true)),
+    removePosition(latin.parse('alpha\rbravo'), true),
     {
       type: 'RootNode',
       children: [
@@ -888,7 +365,7 @@ test('Line endings', function () {
   )
 
   assert.deepEqual(
-    loose(removePosition(latin.parse('alpha\nbravo'), true)),
+    removePosition(latin.parse('alpha\nbravo'), true),
     {
       type: 'RootNode',
       children: [
@@ -917,7 +394,7 @@ test('Line endings', function () {
   )
 
   assert.deepEqual(
-    loose(removePosition(latin.parse('alpha\r\nbravo'), true)),
+    removePosition(latin.parse('alpha\r\nbravo'), true),
     {
       type: 'RootNode',
       children: [
@@ -946,7 +423,7 @@ test('Line endings', function () {
   )
 
   assert.deepEqual(
-    loose(removePosition(latin.parse('alpha \r\n\tbravo'), true)),
+    removePosition(latin.parse('alpha \r\n\tbravo'), true),
     {
       type: 'RootNode',
       children: [
@@ -975,7 +452,7 @@ test('Line endings', function () {
   )
 
   assert.deepEqual(
-    loose(removePosition(latin.parse('alpha\r \t\nbravo'), true)),
+    removePosition(latin.parse('alpha\r \t\nbravo'), true),
     {
       type: 'RootNode',
       children: [
@@ -1014,7 +491,7 @@ test('Line endings', function () {
   )
 
   assert.deepEqual(
-    loose(removePosition(latin.parse('alpha \r \t\rbravo'), true)),
+    removePosition(latin.parse('alpha \r \t\rbravo'), true),
     {
       type: 'RootNode',
       children: [
@@ -1053,7 +530,7 @@ test('Line endings', function () {
   )
 
   assert.deepEqual(
-    loose(removePosition(latin.parse('alpha\r\rbravo'), true)),
+    removePosition(latin.parse('alpha\r\rbravo'), true),
     {
       type: 'RootNode',
       children: [
@@ -1095,20 +572,20 @@ test('Line endings', function () {
 test('Initial trailing white-space', async function (t) {
   await t.test(
     'should move trailing white-space up to the highest possible level',
-    function () {
-      describeFixture(
+    async function () {
+      await describeFixture(
         'trailing-white-space-initial-sentence',
         '\nA sentence.',
         'tokenizeSentence'
       )
 
-      describeFixture(
+      await describeFixture(
         'trailing-white-space-initial-paragraph',
         '\nA sentence.',
         'tokenizeParagraph'
       )
 
-      describeFixture('trailing-white-space-initial', '\nA sentence.')
+      await describeFixture('trailing-white-space-initial', '\nA sentence.')
     }
   )
 })
@@ -1116,20 +593,20 @@ test('Initial trailing white-space', async function (t) {
 test('Final trailing white-space', async function (t) {
   await t.test(
     'should move trailing white-space up to the highest possible level',
-    function () {
-      describeFixture(
+    async function () {
+      await describeFixture(
         'trailing-white-space-final-sentence',
         'A sentence. ',
         'tokenizeSentence'
       )
 
-      describeFixture(
+      await describeFixture(
         'trailing-white-space-final-paragraph',
         'A sentence. ',
         'tokenizeParagraph'
       )
 
-      describeFixture('trailing-white-space-final', 'A sentence. ')
+      await describeFixture('trailing-white-space-final', 'A sentence. ')
     }
   )
 })
@@ -1137,19 +614,22 @@ test('Final trailing white-space', async function (t) {
 test('Implicit terminal marker', async function (t) {
   await t.test(
     'should close a sentence without a terminal marker',
-    function () {
-      describeFixture('implicit-sentence-end', 'One sentence. Two sentences')
+    async function () {
+      await describeFixture(
+        'implicit-sentence-end',
+        'One sentence. Two sentences'
+      )
     }
   )
 })
 
 test('Non-alphabetic sentences', async function (t) {
-  await t.test('should accept non-alphabetic sentences', function () {
-    describeFixture('non-alphabetic-sentence', '\uD83D\uDC38.')
+  await t.test('should accept non-alphabetic sentences', async function () {
+    await describeFixture('non-alphabetic-sentence', '\uD83D\uDC38.')
   })
 })
 
-test('White space characters', function () {
+test('White space characters', async function () {
   const sentenceStart = 'A'
   const sentenceEnd = 'house.'
   for (const character of [
@@ -1180,23 +660,33 @@ test('White space characters', function () {
     '\u3000' // IDEOGRAPHIC SPACE
   ]) {
     assert.deepEqual(
-      loose(
-        latinNoPosition.parse(sentenceStart + character + sentenceEnd)
-          .children[0].children[0]
+      removePosition(
+        latin.parse(sentenceStart + character + sentenceEnd),
+        true
       ),
       {
-        type: 'SentenceNode',
+        type: 'RootNode',
         children: [
           {
-            type: 'WordNode',
-            children: [{type: 'TextNode', value: 'A'}]
-          },
-          {type: 'WhiteSpaceNode', value: character},
-          {
-            type: 'WordNode',
-            children: [{type: 'TextNode', value: 'house'}]
-          },
-          {type: 'PunctuationNode', value: '.'}
+            type: 'ParagraphNode',
+            children: [
+              {
+                type: 'SentenceNode',
+                children: [
+                  {
+                    type: 'WordNode',
+                    children: [{type: 'TextNode', value: 'A'}]
+                  },
+                  {type: 'WhiteSpaceNode', value: character},
+                  {
+                    type: 'WordNode',
+                    children: [{type: 'TextNode', value: 'house'}]
+                  },
+                  {type: 'PunctuationNode', value: '.'}
+                ]
+              }
+            ]
+          }
         ]
       },
       'should treat `' + character + '` as white-space'
@@ -1205,24 +695,33 @@ test('White space characters', function () {
 })
 
 test('Astral-plane surrogate pairs', async function (t) {
-  await t.test('should classify \uD83D\uDCA9 as a punctuation', function () {
-    // Note the pile of poo, in ECMAScript 5 written using a surrogate pair.
-    describeFixture(
-      'astral-plane-surrogate-pair',
-      'The unicode character \uD83D\uDCA9 is pile of poo.'
-    )
-  })
+  await t.test(
+    'should classify \uD83D\uDCA9 as a punctuation',
+    async function () {
+      // Note the pile of poo, in ECMAScript 5 written using a surrogate pair.
+      await describeFixture(
+        'astral-plane-surrogate-pair',
+        'The unicode character \uD83D\uDCA9 is pile of poo.'
+      )
+    }
+  )
 })
 
 test('Combining marks and double combining marks', async function (t) {
-  await t.test('should classify `A\u030Angstro\u0308m` as a word', function () {
-    describeFixture('combining-marks', 'A\u030Angstro\u0308m.')
-  })
+  await t.test(
+    'should classify `A\u030Angstro\u0308m` as a word',
+    async function () {
+      await describeFixture('combining-marks', 'A\u030Angstro\u0308m.')
+    }
+  )
 
-  await t.test('should classify 0\uFE0F\u20E3 as a word', function () {
+  await t.test('should classify 0\uFE0F\u20E3 as a word', async function () {
     // Note the DIGIT ZERO, VARIATION SELECTOR-16, and COMBINING ENCLOSING
     // KEYCAP, together, form a :zero: emoji.
-    describeFixture('combining-marks-double', 'He scored 0\uFE0F\u20E3 points.')
+    await describeFixture(
+      'combining-marks-double',
+      'He scored 0\uFE0F\u20E3 points.'
+    )
   })
 })
 
@@ -1342,28 +841,31 @@ test('Combining diacritical marks', function () {
     '\u036F' // LATIN SMALL LETTER X (U+036F)
   ]) {
     assert.deepEqual(
-      loose(
-        latinNoPosition.parse('This a' + diacritic + ' house.').children[0]
-          .children[0]
-      ),
+      removePosition(latin.parse('This a' + diacritic + ' house.'), true)
+        .children[0],
       {
-        type: 'SentenceNode',
+        type: 'ParagraphNode',
         children: [
           {
-            type: 'WordNode',
-            children: [{type: 'TextNode', value: 'This'}]
-          },
-          {type: 'WhiteSpaceNode', value: ' '},
-          {
-            type: 'WordNode',
-            children: [{type: 'TextNode', value: 'a' + diacritic}]
-          },
-          {type: 'WhiteSpaceNode', value: ' '},
-          {
-            type: 'WordNode',
-            children: [{type: 'TextNode', value: 'house'}]
-          },
-          {type: 'PunctuationNode', value: '.'}
+            type: 'SentenceNode',
+            children: [
+              {
+                type: 'WordNode',
+                children: [{type: 'TextNode', value: 'This'}]
+              },
+              {type: 'WhiteSpaceNode', value: ' '},
+              {
+                type: 'WordNode',
+                children: [{type: 'TextNode', value: 'a' + diacritic}]
+              },
+              {type: 'WhiteSpaceNode', value: ' '},
+              {
+                type: 'WordNode',
+                children: [{type: 'TextNode', value: 'house'}]
+              },
+              {type: 'PunctuationNode', value: '.'}
+            ]
+          }
         ]
       },
       'should treat \u25CC' + diacritic + ' as a word'
@@ -1374,14 +876,17 @@ test('Combining diacritical marks', function () {
 test('Tie characters in words', async function (t) {
   // From wikipedia’s list:
   // <https://en.wikipedia.org/wiki/Tie_(typography)>
-  await t.test('Combinding Double Breve: \u25CC\u035D\u25CC', function () {
-    describeFixture('combining-double-breve', 'Such as the o\u035Do.')
-  })
+  await t.test(
+    'Combinding Double Breve: \u25CC\u035D\u25CC',
+    async function () {
+      await describeFixture('combining-double-breve', 'Such as the o\u035Do.')
+    }
+  )
 
   await t.test(
     'Combinding Double Inverted Breve: \u25CC\u0361\u25CC',
-    function () {
-      describeFixture(
+    async function () {
+      await describeFixture(
         'combining-double-inverted-breve',
         'Such as the /k\u0361p/.'
       )
@@ -1390,21 +895,27 @@ test('Tie characters in words', async function (t) {
 
   await t.test(
     'Combinding Double Breve Below: \u25CC\u035C\u25CC',
-    function () {
-      describeFixture('combining-double-breve-below', 'Such as the /k\u035Cp/.')
+    async function () {
+      await describeFixture(
+        'combining-double-breve-below',
+        'Such as the /k\u035Cp/.'
+      )
     }
   )
 
-  await t.test('Undertie: \u203F', function () {
-    describeFixture('combining-tie-under', 'The undertie /vuz\u203Fave/')
+  await t.test('Undertie: \u203F', async function () {
+    await describeFixture('combining-tie-under', 'The undertie /vuz\u203Fave/')
   })
 
-  await t.test('Character Tie: \u2040', function () {
-    describeFixture('combining-tie-character', 'The character tie: s\u2040t.')
+  await t.test('Character Tie: \u2040', async function () {
+    await describeFixture(
+      'combining-tie-character',
+      'The character tie: s\u2040t.'
+    )
   })
 
-  await t.test('Inverted Undertie: \u2040', function () {
-    describeFixture(
+  await t.test('Inverted Undertie: \u2040', async function () {
+    await describeFixture(
       'combining-tie-under-inverted',
       'The inverted undertie: o\u2054o.'
     )
@@ -1412,30 +923,33 @@ test('Tie characters in words', async function (t) {
 })
 
 test('Intelectual property marks', async function (t) {
-  await t.test('Copyright symbol: \u00A9', function () {
-    describeFixture('intelectual-copyright-symbol', '\u00A9 John Smith.')
+  await t.test('Copyright symbol: \u00A9', async function () {
+    await describeFixture('intelectual-copyright-symbol', '\u00A9 John Smith.')
   })
 
-  await t.test('Sound Recording Copyright symbol: \u00A9', function () {
-    describeFixture(
+  await t.test('Sound Recording Copyright symbol: \u00A9', async function () {
+    await describeFixture(
       'intelectual-sound-recording-copyright-symbol',
       'Designated by \u2117, the sound recording copyright symbol'
     )
   })
 
-  await t.test('Registered Trademark symbol: \u00AE', function () {
-    describeFixture(
+  await t.test('Registered Trademark symbol: \u00AE', async function () {
+    await describeFixture(
       'intelectual-registered-trademark-symbol',
       'Wikipedia\u00AE is a registered trademark.'
     )
   })
 
-  await t.test('Service Mark: \u00AE', function () {
-    describeFixture('intelectual-service-mark', 'ABC Law\u2120 legal services.')
+  await t.test('Service Mark: \u00AE', async function () {
+    await describeFixture(
+      'intelectual-service-mark',
+      'ABC Law\u2120 legal services.'
+    )
   })
 
-  await t.test('Trademark: \u00AE', function () {
-    describeFixture(
+  await t.test('Trademark: \u00AE', async function () {
+    await describeFixture(
       'intelectual-trademark',
       'Mytrademark\u2122 is a trademark.'
     )
@@ -1444,37 +958,43 @@ test('Intelectual property marks', async function (t) {
 
 test('Single and double Grapheme Clusters', async function (t) {
   // Modified from: <https://mathiasbynens.be/notes/javascript-unicode>
-  await t.test('should classify `\u0BA8\u0BBF` as a word', function () {
-    describeFixture(
+  await t.test('should classify `\u0BA8\u0BBF` as a word', async function () {
+    await describeFixture(
       'grapheme-clusters',
       'Grapheme clusters such as \u0BA8\u0BBF and such.'
     )
   })
 
-  await t.test('should classify `\u1101\u1161\u11A8` as a word', function () {
-    describeFixture(
-      'grapheme-clusters-double',
-      'Hangul made of conjoining Jamo such as \u1101\u1161\u11A8 and such.'
-    )
-  })
+  await t.test(
+    'should classify `\u1101\u1161\u11A8` as a word',
+    async function () {
+      await describeFixture(
+        'grapheme-clusters-double',
+        'Hangul made of conjoining Jamo such as \u1101\u1161\u11A8 and such.'
+      )
+    }
+  )
 })
 
 test('Initial word punctuation', async function (t) {
-  await t.test('should merge an ampersand preceding a word', function () {
-    describeFixture('word-initial-ampersand', 'This, that, &c.')
+  await t.test('should merge an ampersand preceding a word', async function () {
+    await describeFixture('word-initial-ampersand', 'This, that, &c.')
   })
 })
 
 test('Final word punctuation', async function (t) {
   await t.test(
     'should merge a non-terminal full stop following a word',
-    function () {
-      describeFixture('word-final-full-stop', 'Burnside St. in April of 1959.')
+    async function () {
+      await describeFixture(
+        'word-final-full-stop',
+        'Burnside St. in April of 1959.'
+      )
     }
   )
 
-  await t.test('should merge a dash following a word', function () {
-    describeFixture(
+  await t.test('should merge a dash following a word', async function () {
+    await describeFixture(
       'word-final-dash',
       'Nineteenth- and twentieth-century writers.'
     )
@@ -1482,56 +1002,71 @@ test('Final word punctuation', async function (t) {
 })
 
 test('Inner-word punctuation', async function (t) {
-  await t.test('should merge a slash in a word', function () {
-    describeFixture('word-inner-slash', 'N/A or n/a is a common abbreviation.')
+  await t.test('should merge a slash in a word', async function () {
+    await describeFixture(
+      'word-inner-slash',
+      'N/A or n/a is a common abbreviation.'
+    )
   })
 
-  await t.test('should merge a slash trailing to a word', function () {
-    describeFixture(
+  await t.test('should merge a slash trailing to a word', async function () {
+    await describeFixture(
       'word-inner-slash-no-next',
       'W/ or w/o are common abbreviations.'
     )
   })
 
-  await t.test('should merge small words around slashes', function () {
-    describeFixture(
+  await t.test('should merge small words around slashes', async function () {
+    await describeFixture(
       'word-inner-slash-short',
       'km/h is a dutch abbreviation, just like t/m.'
     )
   })
 
-  await t.test('should not merge larger words around slashes', function () {
-    describeFixture(
-      'word-inner-slash-long',
-      'This and/or that are not abbreviations.'
-    )
+  await t.test(
+    'should not merge larger words around slashes',
+    async function () {
+      await describeFixture(
+        'word-inner-slash-long',
+        'This and/or that are not abbreviations.'
+      )
+    }
+  )
+
+  await t.test('should merge an ampersand in a word', async function () {
+    await describeFixture('word-inner-ampersand', 'AT&Ts R&D and such.')
   })
 
-  await t.test('should merge an ampersand in a word', function () {
-    describeFixture('word-inner-ampersand', 'AT&Ts R&D and such.')
-  })
-
-  await t.test('should merge an underscore in a word', function () {
-    describeFixture(
+  await t.test('should merge an underscore in a word', async function () {
+    await describeFixture(
       'word-inner-underscore',
       'Some file_name.json. Another sentence.'
     )
   })
 
-  await t.test('should merge an at-sign in a word', function () {
-    describeFixture('word-inner-at', 'Some name@example.com. Another sentence.')
+  await t.test('should merge an at-sign in a word', async function () {
+    await describeFixture(
+      'word-inner-at',
+      'Some name@example.com. Another sentence.'
+    )
   })
 
-  await t.test('should merge a full-stop in a word', function () {
-    describeFixture('word-inner-full-stop', 'You will need to arrive by 14.30.')
+  await t.test('should merge a full-stop in a word', async function () {
+    await describeFixture(
+      'word-inner-full-stop',
+      'You will need to arrive by 14.30.'
+    )
   })
 
-  await t.test('should merge a colon in a word', function () {
-    describeFixture('word-inner-colon', 'You will need to arrive by 14:30.')
+  await t.test('should merge a colon in a word', async function () {
+    await describeFixture(
+      'word-inner-colon',
+      'You will need to arrive by 14:30.'
+    )
   })
 
-  await t.test('should merge URL-symbols, like `?` and `=`', function () {
-    describeFixture(
+  await t.test('should merge URL-symbols, like `?` and `=`', async function () {
+    await describeFixture(
       'word-inner-url',
       'Like http://example.com/?foo=1&bar=2. Another sentence.'
     )
@@ -1539,38 +1074,41 @@ test('Inner-word punctuation', async function (t) {
 })
 
 test('Terminal markers', async function (t) {
-  await t.test('should break sentences at a full-stop', function () {
-    describeFixture(
+  await t.test('should break sentences at a full-stop', async function () {
+    await describeFixture(
       'terminal-marker-full-stop',
       'A sentence. Another sentence.'
     )
   })
 
-  await t.test('should break sentences at a question mark', function () {
-    describeFixture(
+  await t.test('should break sentences at a question mark', async function () {
+    await describeFixture(
       'terminal-marker-question-mark',
       'Is it good in form? style? meaning? Yes.'
     )
   })
 
-  await t.test('should break sentences at an exclamation mark', function () {
-    describeFixture(
-      'terminal-marker-exclamation-mark',
-      '“No!” he yelled. “Buy it now!” ' +
-        'They have some really(!) low-priced ' +
-        'rugs on sale this week.'
-    )
-  })
+  await t.test(
+    'should break sentences at an exclamation mark',
+    async function () {
+      await describeFixture(
+        'terminal-marker-exclamation-mark',
+        '“No!” he yelled. “Buy it now!” ' +
+          'They have some really(!) low-priced ' +
+          'rugs on sale this week.'
+      )
+    }
+  )
 
-  await t.test('should break sentences at an interrobang', function () {
-    describeFixture(
+  await t.test('should break sentences at an interrobang', async function () {
+    await describeFixture(
       'terminal-marker-interrobang',
       'Say what\u203D She\u2019s pregnant?! Realy!? Wow.'
     )
   })
 
-  await t.test('should break sentences at an ellipsis', function () {
-    describeFixture(
+  await t.test('should break sentences at an ellipsis', async function () {
+    await describeFixture(
       'terminal-marker-ellipsis',
       'This is rather straightforward... ' +
         'Most of the time\u2026 She said that ' +
@@ -1581,8 +1119,8 @@ test('Terminal markers', async function (t) {
 
   await t.test(
     'should NOT break terminal markers followed by a comma',
-    function () {
-      describeFixture(
+    async function () {
+      await describeFixture(
         'terminal-marker-comma',
         '"Oh no!", she screamed, "\u2026don\'t do it!" Another sentence.'
       )
@@ -1591,30 +1129,36 @@ test('Terminal markers', async function (t) {
 
   await t.test(
     'should NOT break terminal markers followed by a semicolon',
-    function () {
-      describeFixture(
+    async function () {
+      await describeFixture(
         'terminal-marker-semicolon',
         '"Oh no!"; she screamed; "\u2026don\'t do it!" Another sentence.'
       )
     }
   )
 
-  await t.test('should break sentences at two or more new lines', function () {
-    describeFixture(
-      'terminal-marker-new-line',
-      'A sentence.\n' +
-        '\n' +
-        'This is an implicit sentence\n' +
-        '\n' +
-        'Another sentence.\n'
-    )
+  await t.test(
+    'should break sentences at two or more new lines',
+    async function () {
+      await describeFixture(
+        'terminal-marker-new-line',
+        'A sentence.\n' +
+          '\n' +
+          'This is an implicit sentence\n' +
+          '\n' +
+          'Another sentence.\n'
+      )
 
-    describeFixture('terminal-marker-new-line-multiple', 'Aha\n\noho\n\nuhu.\n')
-  })
+      await describeFixture(
+        'terminal-marker-new-line-multiple',
+        'Aha\n\noho\n\nuhu.\n'
+      )
+    }
+  )
 
   await t.test(
     'should break sentences at two or more new lines, permissive of whitespace',
-    function () {
+    async function () {
       const tree = latin.parse(
         'A sentence.\n' +
           '\n' +
@@ -1632,23 +1176,29 @@ test('Terminal markers', async function (t) {
 })
 
 test('Abbreviations: Initialisms', async function (t) {
-  await t.test('should merge full-stops in preceding initialisms', function () {
-    describeFixture('initialism', 'Something C.I.A. something.')
-  })
-
   await t.test(
-    'should NOT merge full-stops in preceding normal words',
-    function () {
-      describeFixture('initialism-like', 'Self-contained.')
+    'should merge full-stops in preceding initialisms',
+    async function () {
+      await describeFixture('initialism', 'Something C.I.A. something.')
     }
   )
 
-  await t.test('should merge pluralized single letters', function () {
-    describeFixture('initialism-letter-plural', "What about A's and B\u2019s?")
+  await t.test(
+    'should NOT merge full-stops in preceding normal words',
+    async function () {
+      await describeFixture('initialism-like', 'Self-contained.')
+    }
+  )
+
+  await t.test('should merge pluralized single letters', async function () {
+    await describeFixture(
+      'initialism-letter-plural',
+      "What about A's and B\u2019s?"
+    )
   })
 
-  await t.test('should merge pluralized initialisms', function () {
-    describeFixture(
+  await t.test('should merge pluralized initialisms', async function () {
+    await describeFixture(
       'initialism-plural',
       "What about C.D.'s, C.D.s, or CDs? " +
         'SOS\u2019s or SOSes? ' +
@@ -1656,47 +1206,47 @@ test('Abbreviations: Initialisms', async function (t) {
     )
   })
 
-  await t.test('should NOT merge multi-character “initialisms”', function () {
-    describeFixture(
-      'initialism-like-multi-character',
-      'Lets meet this Friday at 16.00.'
-    )
-  })
+  await t.test(
+    'should NOT merge multi-character “initialisms”',
+    async function () {
+      await describeFixture(
+        'initialism-like-multi-character',
+        'Lets meet this Friday at 16.00.'
+      )
+    }
+  )
 
-  await t.test('should NOT merge digits-only “initialisms”', function () {
-    describeFixture(
+  await t.test('should NOT merge digits-only “initialisms”', async function () {
+    await describeFixture(
       'initialism-like-digits',
       'Version 0.1.2. Another sentence.'
     )
   })
 
-  await t.test('should merge initialisms with other words', function () {
-    describeFixture('initialism-in-words', 'In the pre-C.I.A. era.')
+  await t.test('should merge initialisms with other words', async function () {
+    await describeFixture('initialism-in-words', 'In the pre-C.I.A. era.')
   })
 })
 
-// Utility to test if a given document is both a valid node, and matches a
-// fixture.
-function describeFixture(name, doc, method) {
-  const nlcstA = latin[method || 'parse'](doc)
-  const nlcstB = latinNoPosition[method || 'parse'](doc)
+/**
+ * Utility to test if a given document is both a valid node, and matches a
+ * fixture.
+ *
+ * @param {string} name
+ * @param {string} doc
+ * @param {'parse'|'tokenizeRoot'|'tokenizeParagraph'|'tokenizeSentence'} [method='parse']
+ * @returns {Promise<void>}
+ */
+async function describeFixture(name, doc, method = 'parse') {
+  const nlcstA = latin[method](doc)
+  /** @type {Root|Content} */
   const fixture = JSON.parse(
-    fs.readFileSync(path.join('test', 'fixture', name + '.json'))
+    String(await fs.readFile(path.join('test', 'fixture', name + '.json')))
   )
 
   nlcstTest(nlcstA)
-  nlcstTest(nlcstB)
 
-  assert.deepEqual(loose(nlcstA), loose(fixture), 'should match w/ position')
-  assert.deepEqual(
-    loose(nlcstB),
-    removePosition(fixture, true),
-    'should match w/o position'
-  )
-}
-
-function loose(value) {
-  return JSON.parse(JSON.stringify(value))
+  assert.deepEqual(nlcstA, fixture, 'should match')
 }
 
 /* eslint-enable no-await-in-loop */
