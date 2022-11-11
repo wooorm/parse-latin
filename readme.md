@@ -4,7 +4,6 @@
 [![Coverage][coverage-badge]][coverage]
 [![Downloads][downloads-badge]][downloads]
 [![Size][size-badge]][size]
-[![Chat][chat-badge]][chat]
 
 A natural language parser, for Latin-script languages, that produces [nlcst][].
 
@@ -196,10 +195,6 @@ This package is safe.
 [size-badge]: https://img.shields.io/bundlephobia/minzip/parse-latin.svg
 
 [size]: https://bundlephobia.com/result?p=parse-latin
-
-[chat-badge]: https://img.shields.io/badge/join%20the%20community-on%20spectrum-7b16ff.svg
-
-[chat]: https://spectrum.chat/unified/retext
 
 [npm]: https://docs.npmjs.com/cli/install
 
