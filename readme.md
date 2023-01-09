@@ -50,7 +50,7 @@ and such.
 ## Install
 
 This package is [ESM only][esm].
-In Node.js (version 14.14+, 16.0+), install with [npm][]:
+In Node.js (version 14.14+ and 16.0+), install with [npm][]:
 
 ```sh
 npm install parse-latin
@@ -111,12 +111,12 @@ Create a new parser.
 
 Turn natural language into a syntax tree.
 
-##### Parameters
+###### Parameters
 
 *   `value` (`string`, optional)
     — value to parse
 
-##### Returns
+###### Returns
 
 Tree ([`RootNode`][root]).
 
