@@ -11,13 +11,18 @@ import {assert as nlcstTest} from 'nlcst-test'
 import {VFile} from 'vfile'
 import {removePosition} from 'unist-util-remove-position'
 import {ParseLatin} from '../index.js'
+import * as mod from '../index.js'
 
 /* eslint-disable no-await-in-loop */
 
 const latin = new ParseLatin()
 
 test('ParseLatin', function () {
-  assert.equal(typeof ParseLatin, 'function', 'should be a `function`')
+  assert.deepEqual(
+    Object.keys(mod).sort(),
+    ['ParseLatin'],
+    'should expose the public api'
+  )
 
   assert.ok(new ParseLatin() instanceof ParseLatin, 'should instantiate')
 
