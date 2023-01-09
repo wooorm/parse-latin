@@ -113,13 +113,12 @@ Turn natural language into a syntax tree.
 
 ##### Parameters
 
-###### `value`
-
-Value to parse (`string`).
+*   `value` (`string`, optional)
+    — value to parse
 
 ##### Returns
 
-[`RootNode`][root].
+Tree ([`RootNode`][root]).
 
 ## Algorithm
 

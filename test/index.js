@@ -1234,12 +1234,12 @@ test('Abbreviations: Initialisms', async function (t) {
  *
  * @param {string} name
  * @param {string} doc
- * @param {'parse'|'tokenizeRoot'|'tokenizeParagraph'|'tokenizeSentence'} [method='parse']
+ * @param {'parse' | 'tokenizeRoot' | 'tokenizeParagraph' | 'tokenizeSentence'} [method='parse']
  * @returns {Promise<void>}
  */
 async function describeFixture(name, doc, method = 'parse') {
   const nlcstA = latin[method](doc)
-  /** @type {Root|Content} */
+  /** @type {Root | Content} */
   const fixture = JSON.parse(
     String(await fs.readFile(path.join('test', 'fixture', name + '.json')))
   )

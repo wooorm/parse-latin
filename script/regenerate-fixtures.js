@@ -20,9 +20,9 @@ let index = -1
 /* eslint-disable no-await-in-loop */
 while (++index < applicable.length) {
   const doc = String(await fs.readFile(path.join(root, applicable[index])))
-  /** @type {Root|Paragraph|Sentence} */
+  /** @type {Root | Paragraph | Sentence} */
   const tree = JSON.parse(doc)
-  const name = /** @type {'Root'|'Paragraph'|'Sentence'} */ (
+  const name = /** @type {'Root' | 'Paragraph' | 'Sentence'} */ (
     tree.type.slice(0, tree.type.indexOf('Node'))
   )
   const nlcst = latin[`tokenize${name}`](toString(tree))
