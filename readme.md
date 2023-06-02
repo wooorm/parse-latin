@@ -18,9 +18,9 @@ Natural language parser, for Latin-script languages, that produces [nlcst][].
 *   [Algorithm](#algorithm)
 *   [Types](#types)
 *   [Compatibility](#compatibility)
+*   [Security](#security)
 *   [Related](#related)
 *   [Contribute](#contribute)
-*   [Security](#security)
 *   [License](#license)
 
 ## What is this?
@@ -190,9 +190,9 @@ See [How to Contribute to Open Source][contribute].
 
 [downloads]: https://www.npmjs.com/package/parse-latin
 
-[size-badge]: https://img.shields.io/bundlephobia/minzip/parse-latin.svg
+[size-badge]: https://img.shields.io/badge/dynamic/json?label=minzipped%20size&query=$.size.compressedSize&url=https://deno.bundlejs.com/?q=parse-latin
 
-[size]: https://bundlephobia.com/result?p=parse-latin
+[size]: https://bundlejs.com/?q=parse-latin
 
 [npm]: https://docs.npmjs.com/cli/install
 
