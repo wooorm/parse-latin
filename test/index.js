@@ -81,25 +81,12 @@ test('A whitespace only document', async function () {
 })
 
 test('Root: Without a value', function () {
-  // No fixture test because this fails in NLCST-test (which it should though).
+  // No fixture test because this fails in `nlcst-test` (which it should though).
   assert.deepEqual(
     latin.parse(),
     {type: 'RootNode', children: []},
     'should return an empty RootNode when called without value'
   )
-})
-
-test('Root: Given a String object', function () {
-  const source = 'Test.'
-
-  /* eslint-disable no-new-wrappers, unicorn/new-for-builtins */
-  assert.deepEqual(
-    // @ts-expect-error
-    latin.parse(new String(source)),
-    latin.parse(source),
-    'should tokenize the toString representation of the given object when the given object is an instance of String'
-  )
-  /* eslint-enable no-new-wrappers, unicorn/new-for-builtins */
 })
 
 test('Paragraph: Without a value', function () {
