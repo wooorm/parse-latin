@@ -14,14 +14,12 @@ import {ParseLatin} from '../index.js'
 
 const latin = new ParseLatin()
 
-test('ParseLatin', function () {
-  test('core', async () => {
-    assert.deepEqual(
-      Object.keys(await import('../index.js')).sort(),
-      ['ParseLatin'],
-      'should expose the public api'
-    )
-  })
+test('ParseLatin', async function () {
+  assert.deepEqual(
+    Object.keys(await import('../index.js')).sort(),
+    ['ParseLatin'],
+    'should expose the public api'
+  )
 
   assert.deepEqual(
     new ParseLatin('Alpha bravo charlie').parse(),
