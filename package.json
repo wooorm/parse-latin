@@ -41,7 +41,7 @@
   "devDependencies": {
     "@types/node": "^20.0.0",
     "@types/regenerate": "^1.0.0",
-    "@unicode/unicode-13.0.0": "^1.0.0",
+    "@unicode/unicode-15.0.0": "^1.0.0",
     "c8": "^7.0.0",
     "is-hidden": "^2.0.0",
     "nlcst-test": "^3.0.0",
