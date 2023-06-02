@@ -5,7 +5,7 @@
 [![Downloads][downloads-badge]][downloads]
 [![Size][size-badge]][size]
 
-A natural language parser, for Latin-script languages, that produces [nlcst][].
+Natural language parser, for Latin-script languages, that produces [nlcst][].
 
 ## Contents
 
@@ -43,14 +43,13 @@ this project does a good job at tokenizing it.
 For English and Dutch, you can instead use [`parse-english`][parse-english] and
 [`parse-dutch`][parse-dutch].
 
-You can somewhat use this for Latin-like scripts, such as Cyrillic
-(“Добро пожаловать!”), Georgian (“როგორა ხარ?”), Armenian (“Շատ հաճելի է”),
-and such.
+You can somewhat use this for Latin-like scripts, such as Cyrillic (“привет”),
+Georgian (“გამარჯობა”), Armenian (“Բարեւ”), and such.
 
 ## Install
 
 This package is [ESM only][esm].
-In Node.js (version 14.14+ and 16.0+), install with [npm][]:
+In Node.js (version 16+), install with [npm][]:
 
 ```sh
 npm install parse-latin
@@ -73,8 +72,8 @@ In browsers with [`esm.sh`][esmsh]:
 ## Use
 
 ```js
-import {inspect} from 'unist-util-inspect'
 import {ParseLatin} from 'parse-latin'
+import {inspect} from 'unist-util-inspect'
 
 const tree = new ParseLatin().parse('A simple sentence.')
 
@@ -100,7 +99,7 @@ RootNode[1] (1:1-1:19, 0-18)
 
 ## API
 
-This package exports the identifier `ParseLatin`.
+This package exports the identifier [`ParseLatin`][api-parse-latin].
 There is no default export.
 
 ### `ParseLatin()`
@@ -154,8 +153,12 @@ It exports no additional types.
 ## Compatibility
 
 This package is at least compatible with all maintained versions of Node.js.
-As of now, that is Node.js 14.14+ and 16.0+.
+As of now, that is Node.js 16.0+.
 It also works in Deno and modern browsers.
+
+## Security
+
+This package is safe.
 
 ## Related
 
@@ -168,10 +171,6 @@ It also works in Deno and modern browsers.
 
 Yes please!
 See [How to Contribute to Open Source][contribute].
-
-## Security
-
-This package is safe.
 
 ## License
 
@@ -220,3 +219,5 @@ This package is safe.
 [parse-english]: https://github.com/wooorm/parse-english
 
 [parse-dutch]: https://github.com/wooorm/parse-dutch
+
+[api-parse-latin]: #parselatin
