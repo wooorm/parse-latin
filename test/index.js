@@ -11,16 +11,17 @@ import {assert as nlcstTest} from 'nlcst-test'
 import {removePosition} from 'unist-util-remove-position'
 import {VFile} from 'vfile'
 import {ParseLatin} from '../index.js'
-import * as mod from '../index.js'
 
 const latin = new ParseLatin()
 
 test('ParseLatin', function () {
-  assert.deepEqual(
-    Object.keys(mod).sort(),
-    ['ParseLatin'],
-    'should expose the public api'
-  )
+  test('core', async () => {
+    assert.deepEqual(
+      Object.keys(await import('../index.js')).sort(),
+      ['ParseLatin'],
+      'should expose the public api'
+    )
+  })
 
   assert.deepEqual(
     new ParseLatin('Alpha bravo charlie').parse(),
