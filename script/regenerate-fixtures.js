@@ -1,35 +1,32 @@
 /**
- * @typedef {import('nlcst').Root} Root
  * @typedef {import('nlcst').Paragraph} Paragraph
+ * @typedef {import('nlcst').Root} Root
  * @typedef {import('nlcst').Sentence} Sentence
  */
 
 import fs from 'node:fs/promises'
-import path from 'node:path'
-import {toString} from 'nlcst-to-string'
 import {isHidden} from 'is-hidden'
+import {toString} from 'nlcst-to-string'
 import {ParseLatin} from '../index.js'
 
-const root = path.join('test', 'fixture')
-const latin = new ParseLatin()
+const root = new URL('../test/fixture/', import.meta.url)
+const english = new ParseLatin()
 
 const files = await fs.readdir(root)
-const applicable = files.filter((d) => !isHidden(d))
+const applicable = files.filter(function (d) {
+  return !isHidden(d)
+})
 let index = -1
 
-/* eslint-disable no-await-in-loop */
 while (++index < applicable.length) {
-  const doc = String(await fs.readFile(path.join(root, applicable[index])))
-  /** @type {Root | Paragraph | Sentence} */
+  const url = new URL(applicable[index], root)
+  const doc = String(await fs.readFile(url))
+  /** @type {Paragraph | Root | Sentence} */
   const tree = JSON.parse(doc)
-  const name = /** @type {'Root' | 'Paragraph' | 'Sentence'} */ (
+  const name = /** @type {'Paragraph' | 'Root' | 'Sentence'} */ (
     tree.type.slice(0, tree.type.indexOf('Node'))
   )
-  const nlcst = latin[`tokenize${name}`](toString(tree))
+  const nlcst = english[`tokenize${name}`](toString(tree))
 
-  await fs.writeFile(
-    path.join(root, applicable[index]),
-    JSON.stringify(nlcst, null, 2) + '\n'
-  )
+  await fs.writeFile(url, JSON.stringify(nlcst, undefined, 2) + '\n')
 }
-/* eslint-enable no-await-in-loop */

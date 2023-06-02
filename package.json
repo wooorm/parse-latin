@@ -87,6 +87,17 @@
     "rules": {
       "max-depth": "off",
       "no-misleading-character-class": "off"
-    }
+    },
+    "overrides": [
+      {
+        "files": [
+          "script/**/*.js",
+          "test/**/*.js"
+        ],
+        "rules": {
+          "no-await-in-loop": "off"
+        }
+      }
+    ]
   }
 }

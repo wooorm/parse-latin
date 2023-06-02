@@ -8,12 +8,10 @@ import fs from 'node:fs/promises'
 import path from 'node:path'
 import test from 'node:test'
 import {assert as nlcstTest} from 'nlcst-test'
-import {VFile} from 'vfile'
 import {removePosition} from 'unist-util-remove-position'
+import {VFile} from 'vfile'
 import {ParseLatin} from '../index.js'
 import * as mod from '../index.js'
-
-/* eslint-disable no-await-in-loop */
 
 const latin = new ParseLatin()
 
@@ -23,8 +21,6 @@ test('ParseLatin', function () {
     ['ParseLatin'],
     'should expose the public api'
   )
-
-  assert.ok(new ParseLatin() instanceof ParseLatin, 'should instantiate')
 
   assert.deepEqual(
     new ParseLatin('Alpha bravo charlie').parse(),
@@ -1239,7 +1235,7 @@ test('Abbreviations: Initialisms', async function (t) {
  *
  * @param {string} name
  * @param {string} doc
- * @param {'parse' | 'tokenizeRoot' | 'tokenizeParagraph' | 'tokenizeSentence'} [method='parse']
+ * @param {'parse' | 'tokenizeParagraph' | 'tokenizeRoot' | 'tokenizeSentence'} [method='parse']
  * @returns {Promise<void>}
  */
 async function describeFixture(name, doc, method = 'parse') {
@@ -1253,5 +1249,3 @@ async function describeFixture(name, doc, method = 'parse') {
 
   assert.deepEqual(nlcstA, fixture, 'should match')
 }
-
-/* eslint-enable no-await-in-loop */
