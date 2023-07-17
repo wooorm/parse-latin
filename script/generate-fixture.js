@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises'
 import process from 'node:process'
-import {ParseLatin} from '../index.js'
+import {ParseLatin} from 'parse-latin'
 
 const parser = new ParseLatin()
 

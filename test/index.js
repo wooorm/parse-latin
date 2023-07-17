@@ -6,15 +6,15 @@ import assert from 'node:assert/strict'
 import fs from 'node:fs/promises'
 import test from 'node:test'
 import {assert as nlcstTest} from 'nlcst-test'
+import {ParseLatin} from 'parse-latin'
 import {removePosition} from 'unist-util-remove-position'
 import {VFile} from 'vfile'
-import {ParseLatin} from '../index.js'
 
 const latin = new ParseLatin()
 
 test('ParseLatin', async function (t) {
   await t.test('should expose the public api', async function () {
-    assert.deepEqual(Object.keys(await import('../index.js')).sort(), [
+    assert.deepEqual(Object.keys(await import('parse-latin')).sort(), [
       'ParseLatin'
     ])
   })

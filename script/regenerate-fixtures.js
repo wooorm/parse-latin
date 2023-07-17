@@ -7,7 +7,7 @@
 import fs from 'node:fs/promises'
 import {isHidden} from 'is-hidden'
 import {toString} from 'nlcst-to-string'
-import {ParseLatin} from '../index.js'
+import {ParseLatin} from 'parse-latin'
 
 const root = new URL('../test/fixture/', import.meta.url)
 const english = new ParseLatin()
