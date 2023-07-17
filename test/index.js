@@ -4,7 +4,6 @@
 
 import assert from 'node:assert/strict'
 import fs from 'node:fs/promises'
-import path from 'node:path'
 import test from 'node:test'
 import {assert as nlcstTest} from 'nlcst-test'
 import {removePosition} from 'unist-util-remove-position'
@@ -13,27 +12,29 @@ import {ParseLatin} from '../index.js'
 
 const latin = new ParseLatin()
 
-test('ParseLatin', async function () {
-  assert.deepEqual(
-    Object.keys(await import('../index.js')).sort(),
-    ['ParseLatin'],
-    'should expose the public api'
-  )
+test('ParseLatin', async function (t) {
+  await t.test('should expose the public api', async function () {
+    assert.deepEqual(Object.keys(await import('../index.js')).sort(), [
+      'ParseLatin'
+    ])
+  })
 
-  assert.deepEqual(
-    new ParseLatin('Alpha bravo charlie').parse(),
-    latin.parse('Alpha bravo charlie'),
-    'should accept a string'
-  )
+  await t.test('should accept a string', async function () {
+    assert.deepEqual(
+      new ParseLatin('Alpha bravo charlie').parse(),
+      latin.parse('Alpha bravo charlie')
+    )
+  })
 
-  assert.deepEqual(
-    new ParseLatin(
-      'Alpha bravo charlie',
-      new VFile('Alpha bravo charlie')
-    ).parse(),
-    latin.parse('Alpha bravo charlie'),
-    'should accept a vfile'
-  )
+  await t.test('should accept a vfile', async function () {
+    assert.deepEqual(
+      new ParseLatin(
+        'Alpha bravo charlie',
+        new VFile('Alpha bravo charlie')
+      ).parse(),
+      latin.parse('Alpha bravo charlie')
+    )
+  })
 })
 
 test('Root: Given two paragraphs', async function () {
@@ -67,39 +68,44 @@ test('Root: Given two paragraphs - extra whitespace', function () {
       'to organize longer prose.'
     ].join('')
   )
-  assert.equal(
-    tree.children.length,
-    3,
-    'should be resilient to whitespace before or after a newline'
-  ) // Two paragraphs and one whitespace node.
+  assert.equal(tree.children.length, 3) // Two paragraphs and one whitespace node.
 })
 
 test('A whitespace only document', async function () {
   await describeFixture('white-space-only', '\n\n')
 })
 
-test('Root: Without a value', function () {
-  // No fixture test because this fails in `nlcst-test` (which it should though).
-  assert.deepEqual(
-    latin.parse(),
-    {type: 'RootNode', children: []},
-    'should return an empty RootNode when called without value'
+test('Root: Without a value', async function (t) {
+  await t.test(
+    'should return an empty RootNode when called without value',
+    async function () {
+      // No fixture test because this fails in `nlcst-test` (which it should though).
+      assert.deepEqual(latin.parse(), {type: 'RootNode', children: []})
+    }
   )
 })
 
-test('Paragraph: Without a value', function () {
-  assert.deepEqual(
-    latin.tokenizeParagraph(),
-    {type: 'ParagraphNode', children: []},
-    'should return an empty ParagraphNode when called without value'
+test('Paragraph: Without a value', async function (t) {
+  await t.test(
+    'should return an empty ParagraphNode when called without value',
+    async function () {
+      assert.deepEqual(latin.tokenizeParagraph(), {
+        type: 'ParagraphNode',
+        children: []
+      })
+    }
   )
 })
 
-test('Sentence: Without a value', function () {
-  assert.deepEqual(
-    latin.tokenizeSentence(),
-    {type: 'SentenceNode', children: []},
-    'should return an empty SentenceNode when called without value'
+test('Sentence: Without a value', async function (t) {
+  await t.test(
+    'should return an empty SentenceNode when called without value',
+    async function () {
+      assert.deepEqual(latin.tokenizeSentence(), {
+        type: 'SentenceNode',
+        children: []
+      })
+    }
   )
 })
 
@@ -320,252 +326,259 @@ test('Ellipsis at sentence-end', async function (t) {
   )
 })
 
-test('Line endings', function () {
-  let tree = latin.parse('alpha\rbravo')
-  removePosition(tree, {force: true})
-  assert.deepEqual(
-    tree,
-    {
-      type: 'RootNode',
-      children: [
-        {
-          type: 'ParagraphNode',
-          children: [
-            {
-              type: 'SentenceNode',
-              children: [
-                {
-                  type: 'WordNode',
-                  children: [{type: 'TextNode', value: 'alpha'}]
-                },
-                {type: 'WhiteSpaceNode', value: '\r'},
-                {
-                  type: 'WordNode',
-                  children: [{type: 'TextNode', value: 'bravo'}]
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    'should support a CR line ending as whitespace'
+test('Line endings', async function (t) {
+  await t.test(
+    'should support a CR line ending as whitespace',
+    async function () {
+      const tree = latin.parse('alpha\rbravo')
+      removePosition(tree, {force: true})
+      assert.deepEqual(tree, {
+        type: 'RootNode',
+        children: [
+          {
+            type: 'ParagraphNode',
+            children: [
+              {
+                type: 'SentenceNode',
+                children: [
+                  {
+                    type: 'WordNode',
+                    children: [{type: 'TextNode', value: 'alpha'}]
+                  },
+                  {type: 'WhiteSpaceNode', value: '\r'},
+                  {
+                    type: 'WordNode',
+                    children: [{type: 'TextNode', value: 'bravo'}]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      })
+    }
   )
 
-  tree = latin.parse('alpha\nbravo')
-  removePosition(tree, {force: true})
-  assert.deepEqual(
-    tree,
-    {
-      type: 'RootNode',
-      children: [
-        {
-          type: 'ParagraphNode',
-          children: [
-            {
-              type: 'SentenceNode',
-              children: [
-                {
-                  type: 'WordNode',
-                  children: [{type: 'TextNode', value: 'alpha'}]
-                },
-                {type: 'WhiteSpaceNode', value: '\n'},
-                {
-                  type: 'WordNode',
-                  children: [{type: 'TextNode', value: 'bravo'}]
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    'should support an LF line ending as whitespace'
+  await t.test(
+    'should support an LF line ending as whitespace',
+    async function () {
+      const tree = latin.parse('alpha\nbravo')
+      removePosition(tree, {force: true})
+      assert.deepEqual(tree, {
+        type: 'RootNode',
+        children: [
+          {
+            type: 'ParagraphNode',
+            children: [
+              {
+                type: 'SentenceNode',
+                children: [
+                  {
+                    type: 'WordNode',
+                    children: [{type: 'TextNode', value: 'alpha'}]
+                  },
+                  {type: 'WhiteSpaceNode', value: '\n'},
+                  {
+                    type: 'WordNode',
+                    children: [{type: 'TextNode', value: 'bravo'}]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      })
+    }
   )
 
-  tree = latin.parse('alpha\r\nbravo')
-  removePosition(tree, {force: true})
-  assert.deepEqual(
-    tree,
-    {
-      type: 'RootNode',
-      children: [
-        {
-          type: 'ParagraphNode',
-          children: [
-            {
-              type: 'SentenceNode',
-              children: [
-                {
-                  type: 'WordNode',
-                  children: [{type: 'TextNode', value: 'alpha'}]
-                },
-                {type: 'WhiteSpaceNode', value: '\r\n'},
-                {
-                  type: 'WordNode',
-                  children: [{type: 'TextNode', value: 'bravo'}]
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    'should support a CR+LF line ending as whitespace'
+  await t.test(
+    'should support a CR+LF line ending as whitespace',
+    async function () {
+      const tree = latin.parse('alpha\r\nbravo')
+      removePosition(tree, {force: true})
+      assert.deepEqual(tree, {
+        type: 'RootNode',
+        children: [
+          {
+            type: 'ParagraphNode',
+            children: [
+              {
+                type: 'SentenceNode',
+                children: [
+                  {
+                    type: 'WordNode',
+                    children: [{type: 'TextNode', value: 'alpha'}]
+                  },
+                  {type: 'WhiteSpaceNode', value: '\r\n'},
+                  {
+                    type: 'WordNode',
+                    children: [{type: 'TextNode', value: 'bravo'}]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      })
+    }
   )
 
-  tree = latin.parse('alpha \r\n\tbravo')
-  removePosition(tree, {force: true})
-  assert.deepEqual(
-    tree,
-    {
-      type: 'RootNode',
-      children: [
-        {
-          type: 'ParagraphNode',
-          children: [
-            {
-              type: 'SentenceNode',
-              children: [
-                {
-                  type: 'WordNode',
-                  children: [{type: 'TextNode', value: 'alpha'}]
-                },
-                {type: 'WhiteSpaceNode', value: ' \r\n\t'},
-                {
-                  type: 'WordNode',
-                  children: [{type: 'TextNode', value: 'bravo'}]
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    'should support a padded CR+LF line ending as whitespace'
+  await t.test(
+    'should support a padded CR+LF line ending as whitespace',
+    async function () {
+      const tree = latin.parse('alpha \r\n\tbravo')
+      removePosition(tree, {force: true})
+      assert.deepEqual(tree, {
+        type: 'RootNode',
+        children: [
+          {
+            type: 'ParagraphNode',
+            children: [
+              {
+                type: 'SentenceNode',
+                children: [
+                  {
+                    type: 'WordNode',
+                    children: [{type: 'TextNode', value: 'alpha'}]
+                  },
+                  {type: 'WhiteSpaceNode', value: ' \r\n\t'},
+                  {
+                    type: 'WordNode',
+                    children: [{type: 'TextNode', value: 'bravo'}]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      })
+    }
   )
 
-  tree = latin.parse('alpha\r \t\nbravo')
-  removePosition(tree, {force: true})
-  assert.deepEqual(
-    tree,
-    {
-      type: 'RootNode',
-      children: [
-        {
-          type: 'ParagraphNode',
-          children: [
-            {
-              type: 'SentenceNode',
-              children: [
-                {
-                  type: 'WordNode',
-                  children: [{type: 'TextNode', value: 'alpha'}]
-                }
-              ]
-            }
-          ]
-        },
-        {type: 'WhiteSpaceNode', value: '\r \t\n'},
-        {
-          type: 'ParagraphNode',
-          children: [
-            {
-              type: 'SentenceNode',
-              children: [
-                {
-                  type: 'WordNode',
-                  children: [{type: 'TextNode', value: 'bravo'}]
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    'should support CR, whitespace, and then an LF, as a break between paragraphs'
+  await t.test(
+    'should support CR, whitespace, and then an LF, as a break between paragraphs',
+    async function () {
+      const tree = latin.parse('alpha\r \t\nbravo')
+      removePosition(tree, {force: true})
+      assert.deepEqual(tree, {
+        type: 'RootNode',
+        children: [
+          {
+            type: 'ParagraphNode',
+            children: [
+              {
+                type: 'SentenceNode',
+                children: [
+                  {
+                    type: 'WordNode',
+                    children: [{type: 'TextNode', value: 'alpha'}]
+                  }
+                ]
+              }
+            ]
+          },
+          {type: 'WhiteSpaceNode', value: '\r \t\n'},
+          {
+            type: 'ParagraphNode',
+            children: [
+              {
+                type: 'SentenceNode',
+                children: [
+                  {
+                    type: 'WordNode',
+                    children: [{type: 'TextNode', value: 'bravo'}]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      })
+    }
   )
 
-  tree = latin.parse('alpha \r \t\rbravo')
-  removePosition(tree, {force: true})
-  assert.deepEqual(
-    tree,
-    {
-      type: 'RootNode',
-      children: [
-        {
-          type: 'ParagraphNode',
-          children: [
-            {
-              type: 'SentenceNode',
-              children: [
-                {
-                  type: 'WordNode',
-                  children: [{type: 'TextNode', value: 'alpha'}]
-                }
-              ]
-            }
-          ]
-        },
-        {type: 'WhiteSpaceNode', value: ' \r \t\r'},
-        {
-          type: 'ParagraphNode',
-          children: [
-            {
-              type: 'SentenceNode',
-              children: [
-                {
-                  type: 'WordNode',
-                  children: [{type: 'TextNode', value: 'bravo'}]
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    'should support two CRs with whitespace as a break between paragraphs'
+  await t.test(
+    'should support two CRs with whitespace as a break between paragraphs',
+    async function () {
+      const tree = latin.parse('alpha \r \t\rbravo')
+      removePosition(tree, {force: true})
+      assert.deepEqual(tree, {
+        type: 'RootNode',
+        children: [
+          {
+            type: 'ParagraphNode',
+            children: [
+              {
+                type: 'SentenceNode',
+                children: [
+                  {
+                    type: 'WordNode',
+                    children: [{type: 'TextNode', value: 'alpha'}]
+                  }
+                ]
+              }
+            ]
+          },
+          {type: 'WhiteSpaceNode', value: ' \r \t\r'},
+          {
+            type: 'ParagraphNode',
+            children: [
+              {
+                type: 'SentenceNode',
+                children: [
+                  {
+                    type: 'WordNode',
+                    children: [{type: 'TextNode', value: 'bravo'}]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      })
+    }
   )
 
-  tree = latin.parse('alpha\r\rbravo')
-  removePosition(tree, {force: true})
-  assert.deepEqual(
-    tree,
-    {
-      type: 'RootNode',
-      children: [
-        {
-          type: 'ParagraphNode',
-          children: [
-            {
-              type: 'SentenceNode',
-              children: [
-                {
-                  type: 'WordNode',
-                  children: [{type: 'TextNode', value: 'alpha'}]
-                }
-              ]
-            }
-          ]
-        },
-        {type: 'WhiteSpaceNode', value: '\r\r'},
-        {
-          type: 'ParagraphNode',
-          children: [
-            {
-              type: 'SentenceNode',
-              children: [
-                {
-                  type: 'WordNode',
-                  children: [{type: 'TextNode', value: 'bravo'}]
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    'should support two CRs as a break between paragraphs'
+  await t.test(
+    'should support two CRs as a break between paragraphs',
+    async function () {
+      const tree = latin.parse('alpha\r\rbravo')
+      removePosition(tree, {force: true})
+      assert.deepEqual(tree, {
+        type: 'RootNode',
+        children: [
+          {
+            type: 'ParagraphNode',
+            children: [
+              {
+                type: 'SentenceNode',
+                children: [
+                  {
+                    type: 'WordNode',
+                    children: [{type: 'TextNode', value: 'alpha'}]
+                  }
+                ]
+              }
+            ]
+          },
+          {type: 'WhiteSpaceNode', value: '\r\r'},
+          {
+            type: 'ParagraphNode',
+            children: [
+              {
+                type: 'SentenceNode',
+                children: [
+                  {
+                    type: 'WordNode',
+                    children: [{type: 'TextNode', value: 'bravo'}]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      })
+    }
   )
 })
 
@@ -629,10 +642,8 @@ test('Non-alphabetic sentences', async function (t) {
   })
 })
 
-test('White space characters', async function () {
-  const sentenceStart = 'A'
-  const sentenceEnd = 'house.'
-  for (const character of [
+test('White space characters', async function (t) {
+  const list = [
     '\u0009', // CHARACTER TABULATION
     '\u000A', // LINE FEED (LF)
     '\u000B', // LINE TABULATION
@@ -658,37 +669,42 @@ test('White space characters', async function () {
     '\u202F', // NARROW NO-BREAK SPACE
     '\u205F', // MEDIUM MATHEMATICAL SPACE
     '\u3000' // IDEOGRAPHIC SPACE
-  ]) {
-    const tree = latin.parse(sentenceStart + character + sentenceEnd)
-    removePosition(tree, {force: true})
-    assert.deepEqual(
-      tree,
-      {
-        type: 'RootNode',
-        children: [
-          {
-            type: 'ParagraphNode',
-            children: [
-              {
-                type: 'SentenceNode',
-                children: [
-                  {
-                    type: 'WordNode',
-                    children: [{type: 'TextNode', value: 'A'}]
-                  },
-                  {type: 'WhiteSpaceNode', value: character},
-                  {
-                    type: 'WordNode',
-                    children: [{type: 'TextNode', value: 'house'}]
-                  },
-                  {type: 'PunctuationNode', value: '.'}
-                ]
-              }
-            ]
-          }
-        ]
-      },
-      'should treat `' + character + '` as white-space'
+  ]
+  const sentenceStart = 'A'
+  const sentenceEnd = 'house.'
+
+  for (const character of list) {
+    await t.test(
+      'should treat `' + character + '` as white-space',
+      async function () {
+        const tree = latin.parse(sentenceStart + character + sentenceEnd)
+        removePosition(tree, {force: true})
+        assert.deepEqual(tree, {
+          type: 'RootNode',
+          children: [
+            {
+              type: 'ParagraphNode',
+              children: [
+                {
+                  type: 'SentenceNode',
+                  children: [
+                    {
+                      type: 'WordNode',
+                      children: [{type: 'TextNode', value: 'A'}]
+                    },
+                    {type: 'WhiteSpaceNode', value: character},
+                    {
+                      type: 'WordNode',
+                      children: [{type: 'TextNode', value: 'house'}]
+                    },
+                    {type: 'PunctuationNode', value: '.'}
+                  ]
+                }
+              ]
+            }
+          ]
+        })
+      }
     )
   }
 })
@@ -724,8 +740,8 @@ test('Combining marks and double combining marks', async function (t) {
   })
 })
 
-test('Combining diacritical marks', function () {
-  for (const diacritic of [
+test('Combining diacritical marks', async function (t) {
+  const list = [
     '\u0300', // GRAVE ACCENT (U+0300)
     '\u0301', // ACUTE ACCENT (U+0301)
     '\u0302', // CIRCUMFLEX ACCENT (U+0302)
@@ -838,37 +854,40 @@ test('Combining diacritical marks', function () {
     '\u036D', // LATIN SMALL LETTER T (U+036D)
     '\u036E', // LATIN SMALL LETTER V (U+036E)
     '\u036F' // LATIN SMALL LETTER X (U+036F)
-  ]) {
-    const tree = latin.parse('This a' + diacritic + ' house.')
-    removePosition(tree, {force: true})
-    assert.deepEqual(
-      tree.children[0],
-      {
-        type: 'ParagraphNode',
-        children: [
-          {
-            type: 'SentenceNode',
-            children: [
-              {
-                type: 'WordNode',
-                children: [{type: 'TextNode', value: 'This'}]
-              },
-              {type: 'WhiteSpaceNode', value: ' '},
-              {
-                type: 'WordNode',
-                children: [{type: 'TextNode', value: 'a' + diacritic}]
-              },
-              {type: 'WhiteSpaceNode', value: ' '},
-              {
-                type: 'WordNode',
-                children: [{type: 'TextNode', value: 'house'}]
-              },
-              {type: 'PunctuationNode', value: '.'}
-            ]
-          }
-        ]
-      },
-      'should treat \u25CC' + diacritic + ' as a word'
+  ]
+
+  for (const diacritic of list) {
+    await t.test(
+      'should treat \u25CC' + diacritic + ' as a word',
+      async function () {
+        const tree = latin.parse('This a' + diacritic + ' house.')
+        removePosition(tree, {force: true})
+        assert.deepEqual(tree.children[0], {
+          type: 'ParagraphNode',
+          children: [
+            {
+              type: 'SentenceNode',
+              children: [
+                {
+                  type: 'WordNode',
+                  children: [{type: 'TextNode', value: 'This'}]
+                },
+                {type: 'WhiteSpaceNode', value: ' '},
+                {
+                  type: 'WordNode',
+                  children: [{type: 'TextNode', value: 'a' + diacritic}]
+                },
+                {type: 'WhiteSpaceNode', value: ' '},
+                {
+                  type: 'WordNode',
+                  children: [{type: 'TextNode', value: 'house'}]
+                },
+                {type: 'PunctuationNode', value: '.'}
+              ]
+            }
+          ]
+        })
+      }
     )
   }
 })
@@ -1239,12 +1258,11 @@ test('Abbreviations: Initialisms', async function (t) {
  */
 async function describeFixture(name, doc, method = 'parse') {
   const nlcstA = latin[method](doc)
+  const url = new URL('fixture/' + name + '.json', import.meta.url)
   /** @type {Nodes} */
-  const fixture = JSON.parse(
-    String(await fs.readFile(path.join('test', 'fixture', name + '.json')))
-  )
+  const fixture = JSON.parse(String(await fs.readFile(url)))
 
   nlcstTest(nlcstA)
 
-  assert.deepEqual(nlcstA, fixture, 'should match')
+  assert.deepEqual(nlcstA, fixture)
 }
