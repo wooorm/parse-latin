@@ -156,8 +156,8 @@ Projects maintained by me are compatible with maintained versions of Node.js.
 
 When I cut a new major release, I drop support for unmaintained versions of
 Node.
-This means I try to keep the current release line, `parse-latin@^6`, compatible
-with Node.js 12.
+This means I try to keep the current release line, `parse-latin@^7`, compatible
+with Node.js 16.
 
 ## Security
 
