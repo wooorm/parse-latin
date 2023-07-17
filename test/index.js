@@ -1,6 +1,5 @@
 /**
- * @typedef {import('nlcst').Content} Content
- * @typedef {import('nlcst').Root} Root
+ * @typedef {import('nlcst').Nodes} Nodes
  */
 
 import assert from 'node:assert/strict'
@@ -322,8 +321,10 @@ test('Ellipsis at sentence-end', async function (t) {
 })
 
 test('Line endings', function () {
+  let tree = latin.parse('alpha\rbravo')
+  removePosition(tree, {force: true})
   assert.deepEqual(
-    removePosition(latin.parse('alpha\rbravo'), true),
+    tree,
     {
       type: 'RootNode',
       children: [
@@ -351,8 +352,10 @@ test('Line endings', function () {
     'should support a CR line ending as whitespace'
   )
 
+  tree = latin.parse('alpha\nbravo')
+  removePosition(tree, {force: true})
   assert.deepEqual(
-    removePosition(latin.parse('alpha\nbravo'), true),
+    tree,
     {
       type: 'RootNode',
       children: [
@@ -380,8 +383,10 @@ test('Line endings', function () {
     'should support an LF line ending as whitespace'
   )
 
+  tree = latin.parse('alpha\r\nbravo')
+  removePosition(tree, {force: true})
   assert.deepEqual(
-    removePosition(latin.parse('alpha\r\nbravo'), true),
+    tree,
     {
       type: 'RootNode',
       children: [
@@ -409,8 +414,10 @@ test('Line endings', function () {
     'should support a CR+LF line ending as whitespace'
   )
 
+  tree = latin.parse('alpha \r\n\tbravo')
+  removePosition(tree, {force: true})
   assert.deepEqual(
-    removePosition(latin.parse('alpha \r\n\tbravo'), true),
+    tree,
     {
       type: 'RootNode',
       children: [
@@ -438,8 +445,10 @@ test('Line endings', function () {
     'should support a padded CR+LF line ending as whitespace'
   )
 
+  tree = latin.parse('alpha\r \t\nbravo')
+  removePosition(tree, {force: true})
   assert.deepEqual(
-    removePosition(latin.parse('alpha\r \t\nbravo'), true),
+    tree,
     {
       type: 'RootNode',
       children: [
@@ -477,8 +486,10 @@ test('Line endings', function () {
     'should support CR, whitespace, and then an LF, as a break between paragraphs'
   )
 
+  tree = latin.parse('alpha \r \t\rbravo')
+  removePosition(tree, {force: true})
   assert.deepEqual(
-    removePosition(latin.parse('alpha \r \t\rbravo'), true),
+    tree,
     {
       type: 'RootNode',
       children: [
@@ -516,8 +527,10 @@ test('Line endings', function () {
     'should support two CRs with whitespace as a break between paragraphs'
   )
 
+  tree = latin.parse('alpha\r\rbravo')
+  removePosition(tree, {force: true})
   assert.deepEqual(
-    removePosition(latin.parse('alpha\r\rbravo'), true),
+    tree,
     {
       type: 'RootNode',
       children: [
@@ -646,11 +659,10 @@ test('White space characters', async function () {
     '\u205F', // MEDIUM MATHEMATICAL SPACE
     '\u3000' // IDEOGRAPHIC SPACE
   ]) {
+    const tree = latin.parse(sentenceStart + character + sentenceEnd)
+    removePosition(tree, {force: true})
     assert.deepEqual(
-      removePosition(
-        latin.parse(sentenceStart + character + sentenceEnd),
-        true
-      ),
+      tree,
       {
         type: 'RootNode',
         children: [
@@ -827,9 +839,10 @@ test('Combining diacritical marks', function () {
     '\u036E', // LATIN SMALL LETTER V (U+036E)
     '\u036F' // LATIN SMALL LETTER X (U+036F)
   ]) {
+    const tree = latin.parse('This a' + diacritic + ' house.')
+    removePosition(tree, {force: true})
     assert.deepEqual(
-      removePosition(latin.parse('This a' + diacritic + ' house.'), true)
-        .children[0],
+      tree.children[0],
       {
         type: 'ParagraphNode',
         children: [
@@ -1226,7 +1239,7 @@ test('Abbreviations: Initialisms', async function (t) {
  */
 async function describeFixture(name, doc, method = 'parse') {
   const nlcstA = latin[method](doc)
-  /** @type {Content | Root} */
+  /** @type {Nodes} */
   const fixture = JSON.parse(
     String(await fs.readFile(path.join('test', 'fixture', name + '.json')))
   )
