@@ -58,14 +58,14 @@ npm install parse-latin
 In Deno with [`esm.sh`][esmsh]:
 
 ```js
-import {ParseLatin} from 'https://esm.sh/parse-latin@6'
+import {ParseLatin} from 'https://esm.sh/parse-latin@7'
 ```
 
 In browsers with [`esm.sh`][esmsh]:
 
 ```html
 <script type="module">
-  import {ParseLatin} from 'https://esm.sh/parse-latin@6?bundle'
+  import {ParseLatin} from 'https://esm.sh/parse-latin@7?bundle'
 </script>
 ```
 
